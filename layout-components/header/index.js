@@ -1,7 +1,14 @@
-function Header() {
+import NavItem from "../NavItem"
+
+function Header(props) {
   return (
     <>
-      <div>Header</div>
+      <nav>
+        <ul>
+          <NavItem href="/home" label="Home" />
+          <NavItem href="/pupils" label="Pupils" />
+        </ul>
+      </nav>
     </>
   )
 }
