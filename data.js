@@ -49,7 +49,7 @@ const capabilities = [
   "I can choose a book to read",
   "I can select books from a choice of fiction and non-fiction",
 ]
-const subjects = ["English Reading", "Computing", "PSHE", "Art", "Maths"]
+const subjects = ["English Reading", "Computing", "PSHE", "Art", "Maths","Film","Geography","Music","PE","French","CDT","Introduction to Analytics"]
 const stages = ["PS1", "PS2", "PS3", "PS4"]
 
 function getRandom(arr) {
