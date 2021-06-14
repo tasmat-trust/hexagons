@@ -1,9 +1,10 @@
 import useSWR from "swr"
-
+import Grid from '@material-ui/core/Grid';
 
 import Divider from '@material-ui/core/Divider';
-import PupilName from "../../components/pupil/PupilName"
+import PupilCard from "../../components/pupil/PupilCard"
 import { Typography } from "@material-ui/core";
+
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
@@ -17,11 +18,13 @@ export default function Index() {
     <>
       <Typography variant="h2">Pupils</Typography>
       <Divider />
-      <ul>
+      <Grid container spacing={3}>
         {data.map((p, i) => (
-          <PupilName key={i} pupil={p} />
+          <Grid item xs={4}>
+            <PupilCard key={i} pupil={p} />
+          </Grid>
         ))}
-      </ul>
+      </Grid>
     </>
   )
 }

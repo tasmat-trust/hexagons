@@ -1,6 +1,12 @@
 import { useRouter } from "next/router"
 import useSWR from "swr"
-import PupilCard from "../../components/pupil/PupilCard"
+import PupilCard from "../../components/Pupil/PupilCard"
+import Breadcrumbs from '@material-ui/core/Breadcrumbs'
+import Link from '@material-ui/core/Link'
+import { Typography } from "@material-ui/core"
+
+import HexagonTile from '../../components/HexagonTile'
+
 
 const fetcher = async (url) => {
   const res = await fetch(url)
@@ -21,10 +27,29 @@ export default function Pupil() {
 
   if (error) return <div>{error.message}</div>
   if (!data) return <div>Loading...</div>
+  
+  const pupil = data
+
+
 
   return (
     <>
-      <PupilCard pupil={data}/>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link color="inherit" href="/">
+          Home
+          </Link>
+        <Link color="inherit" href="/pupils">
+          Pupils
+          </Link>
+        <Typography>
+          {pupil.name}
+        </Typography>
+      </Breadcrumbs>
+
+      {pupil.subjects.map(subject => <HexagonTile subject={subject} />)}
+
+
+      <PupilCard pupil={pupil} />
     </>
   )
 }

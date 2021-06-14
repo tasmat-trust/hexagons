@@ -11,6 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+
 import { Paper } from "@material-ui/core";
 const drawerWidth = 240;
 
@@ -120,6 +121,7 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+
         <Paper>
           <Box component="section" m={1}>
             {children}

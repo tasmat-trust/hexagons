@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 
-import MainNavItems from "../components-layout/Navigation/MainNavItems"
-import ResponsiveDrawer from "../components-mui/ResponsiveDrawer"
-import Header from "../components-layout/Header"
+import MainNavItems from "../components/layout/Navigation/MainNavItems"
+import ResponsiveDrawer from "../components/mui/ResponsiveDrawer"
+import Header from "../components/layout/Header"
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from "@material-ui/core/styles"
