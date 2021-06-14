@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import useSWR from "swr"
-import PupilCard from "../../components/Pupil/PupilCard"
+import PupilCard from "../../components/pupil/PupilCard"
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import { Typography } from "@material-ui/core"
