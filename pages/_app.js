@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 
+import { Provider } from 'next-auth/client'
+
 import MainNavItems from "../components/layout/navigation/MainNavItems"
 import ResponsiveDrawer from "../components/mui/ResponsiveDrawer"
 import Header from "../components/layout/Header"
@@ -20,6 +22,7 @@ const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin()],
 });
 
+
 function MyApp({ Component, pageProps }) {
 
   React.useEffect(() => {
@@ -33,21 +36,23 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <StylesProvider jss={jss}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <SkipNavLink />
-          <Header></Header>
-          <SkipNavContent />
-          <ResponsiveDrawer MainNavItems={MainNavItems}>
-            <Component {...pageProps} />
-          </ResponsiveDrawer>
-        </StylesProvider>
-      </ThemeProvider>
+      <Provider session={pageProps.session}>
+        <Head>
+          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={theme}>
+          <StylesProvider jss={jss}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <SkipNavLink />
+            <Header></Header>
+            <SkipNavContent />
+            <ResponsiveDrawer MainNavItems={MainNavItems}>
+              <Component {...pageProps} />
+            </ResponsiveDrawer>
+          </StylesProvider>
+        </ThemeProvider>
+      </Provider>
     </>
   )
 }
@@ -59,3 +64,5 @@ MyApp.propTypes = {
 };
 
 export default MyApp
+
+
