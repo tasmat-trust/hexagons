@@ -1,11 +1,8 @@
 import Head from 'next/head'
-import { signIn, signOut, useSession, getSession } from 'next-auth/client'
-import axios from 'axios'
+import { signIn, signOut, getSession, useSession } from 'next-auth/client'
 
 export default function Home(initialData) {
   const [session, loading] = useSession()
-  console.log('local session:')
-  console.log(session)
   return (
     <div className='container'>
       <Head>
@@ -38,13 +35,15 @@ export default function Home(initialData) {
 export async function getServerSideProps(ctx) {
   const session = await getSession(ctx);
   if (session) {
-    ctx.res.writeHead(302, { Location: '/dashboard' })
+    ctx.res.writeHead(302, { Location: '/pupils' })
     ctx.res.end()
     return {}
   }
 
   return {
-    props: {}
+    props: {
+      session: session
+    }
   }
 
 }

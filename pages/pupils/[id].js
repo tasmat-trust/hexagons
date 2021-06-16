@@ -6,6 +6,7 @@ import Link from "@material-ui/core/Link"
 import { Typography } from "@material-ui/core"
 
 import HexagonTiles from "../../components/HexagonTiles"
+import checkSession from '../../components/auth/CheckSession'
 
 const fetcher = async (url) => {
   const res = await fetch(url)
@@ -46,4 +47,8 @@ export default function Pupil() {
       <PupilCard pupil={pupil} />
     </>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  return await checkSession(ctx)
 }

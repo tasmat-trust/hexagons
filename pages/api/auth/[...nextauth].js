@@ -2,6 +2,8 @@ import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import axios from 'axios'
 
+// https://www.gyanblog.com/javascript/next-js-strapi-authentication-credentials-jwt-next-auth/#understanding-getserversideprops
+
 const options = {
     providers: [
         Providers.Credentials({

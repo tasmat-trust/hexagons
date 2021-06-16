@@ -1,7 +1,7 @@
 import useSWR from "swr"
 import Grid from '@material-ui/core/Grid';
 
-import Divider from '@material-ui/core/Divider';
+import checkSession from '../../components/auth/CheckSession'
 import PupilCard from "../../components/pupil/PupilCard"
 import { Typography } from "@material-ui/core";
 
@@ -26,4 +26,8 @@ export default function Index() {
       </Grid>
     </>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  return await checkSession(ctx)
 }

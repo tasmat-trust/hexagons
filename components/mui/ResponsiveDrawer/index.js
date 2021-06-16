@@ -5,12 +5,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
+import { useSession, signIn, signOut } from 'next-auth/client'
 
 import { Paper } from "@material-ui/core";
 const drawerWidth = 240;
@@ -24,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
     },
+  },
+  title: {
+    flexGrow: 1,
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
@@ -50,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ResponsiveDrawer(props) {
   const { window, children, MainNavItems } = props;
+  const [session, loading] = useSession()
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -84,9 +89,18 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h3" noWrap className={classes.title}>
             Hexagons
           </Typography>
+
+          {!session && <>
+            <Button color="inherit" onClick={() => signIn()}>Login</Button>
+        
+          </>}
+          {session && <>
+            <Button color="inherit" onClick={() => signOut()}>Logout</Button>
+          </>}
+
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -123,11 +137,11 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-         
-         
-            {children}
-          
-       
+
+
+        {children}
+
+
       </main>
     </div>
   );
