@@ -16,8 +16,7 @@ export default function Index() {
 
   return (
     <>
-      <Typography variant="h2">Pupils</Typography>
-      <Divider />
+      <Typography variant="h1" gutterBottom={true}>Pupils</Typography>
       <Grid container spacing={3}>
         {data.map((p, i) => (
           <Grid item xs={4}>

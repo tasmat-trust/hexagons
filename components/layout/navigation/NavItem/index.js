@@ -1,4 +1,5 @@
 import Link from "next/link"
+import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useRouter } from "next/router"
@@ -9,9 +10,15 @@ function NavItem({ label, href, Icon }) {
 
     <li className={`NavItem ${router.asPath.includes(href) ? "active" : ""
       }`}>
-      <ListItem button key={label}>
+      <ListItem
+        button={true}
+        component={'a'}
+        href={href}
+        selected={router.asPath.includes(href)}
+        key={label}
+      >
         <ListItemIcon><Icon /></ListItemIcon>
-        <Link href={href}>{label}</Link>
+        <ListItemText>{label}</ListItemText>
       </ListItem>
     </li>
 

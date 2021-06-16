@@ -1,22 +1,34 @@
 import React from 'react';
+import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+import Card from '@material-ui/core/Card'; 
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-
-import PupilName from './PupilName'
-
 import Link from "next/link"
 import { Slider } from "@reach/slider"
-import "@reach/slider/styles.css"
-import { ListItem } from '@material-ui/core';
+import "@reach/slider/styles.css" 
+import { Typography } from "@material-ui/core"
 
-
+import { cyan } from '@material-ui/core/colors';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+  },
+  groupUl: {
+    listStyle: 'none',
+    padding: '0',
+    margin: '0'
+  },
+  groupLi: {
+    listStyle: 'none',
+    display: 'inline',
+    marginRight: '0.5em',
+    '&:last-child::after': {
+      content: "''"
+    },
+    '&::after': {
+      content: "'|'",
+      paddingLeft: '0.5em',
+    }
   },
   bullet: {
     display: 'inline-block',
@@ -31,35 +43,43 @@ const useStyles = makeStyles({
   },
 });
 
+// Uses styled components to customise Reach Slider component
+// https://reach.tech/styling/
+const StyledSlider = styled(Slider)`
+  [data-reach-slider-range] {
+    background: ${cyan['A400']}
+  }
+  [data-reach-slider-handle] {
+    background: ${cyan['A500']}
+  }
+  `
+
+
 export default function PupilCard({ pupil }) {
-  const classes = useStyles();
+  const styles = useStyles();
+
+
   return (
-    <Card className={classes.root}>
+    <Card className={styles.root}>
       <CardContent>
-
-        <PupilName pupil={pupil} typographyVariant="h5" />
-
-        <ul>
+        <Typography component='h2' variant='h4'>
+          <Link href="/pupils/[id]-RANDOM" as={`/pupils/${pupil.id}-RANDOM`}>
+            <a>{pupil.name}</a>
+          </Link>
+        </Typography>
+        <ul className={styles.groupUl}>
           {pupil.groups.map((group) => (
-            <li>{group}</li>
+            <li className={styles.groupLi}>{group}</li>
           ))}
         </ul>
         {pupil.subjects.map((subject) => (
           <>
-            <h3>{subject.name}</h3>
-            <Slider disabled={true} value={subject.percent} min={0} max={100} />
+            <Typography component="h3" variant="h6">{subject.name}</Typography>
+            <StyledSlider disabled={true} value={subject.percent} min={0} max={100} />
           </>
         ))}
       </CardContent>
-      <CardActions>
-        <ListItem button key={pupil.name}>
-          <Link href="/pupils/[id]" as={`/pupils/${pupil.id}`}>
-            <>
-              View {pupil.name}'s profile
-            </>
-          </Link>
-        </ListItem>
-      </CardActions>
+     
     </Card >
   )
 }

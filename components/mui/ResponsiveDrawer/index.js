@@ -61,6 +61,7 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
+
       <Divider />
       <MainNavItems />
       <Divider />
@@ -122,11 +123,11 @@ function ResponsiveDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-        <Paper>
-          <Box component="section" m={1}>
+         
+         
             {children}
-          </Box>
-        </Paper>
+          
+       
       </main>
     </div>
   );
