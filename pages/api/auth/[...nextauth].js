@@ -4,6 +4,30 @@ import axios from 'axios'
 
 // https://www.gyanblog.com/javascript/next-js-strapi-authentication-credentials-jwt-next-auth/#understanding-getserversideprops
 
+// data on line 26:
+
+// {
+//     jwt: 'xxx',
+//     user: {
+//       id: 3,
+//       username: 'natalie',
+//       email: 'ns....org.uk',
+//       provider: 'local',
+//       confirmed: true,
+//       blocked: false,
+//       role: {
+//         id: 1,
+//         name: 'Authenticated',
+//         description: 'Default role given to authenticated user.',
+//         type: 'authenticated'
+//       },
+//       created_at: '2021-06-16T15:20:59.834Z',
+//       updated_at: '2021-06-16T15:20:59.842Z'
+//     }
+//   }
+
+
+
 const options = {
     providers: [
         Providers.Credentials({
@@ -19,9 +43,11 @@ const options = {
                         password: credentials.password
                     });
                     if (data) {
+                         
                         const user = {
                             id: data.user.id,
-                            name: 'ali',
+                            role: data.user.role.name,
+                            name: data.user.role.name,
                             email: data.user.email,
                             jwt: data.jwt
                         }

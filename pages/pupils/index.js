@@ -8,9 +8,8 @@ import { Typography } from "@material-ui/core";
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
-export default function Index() {
+export default function Index(initialProps) {
   const { data, error } = useSWR("/api/pupils", fetcher)
-
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
@@ -29,5 +28,5 @@ export default function Index() {
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx)
+  return await checkSession(ctx, 'Authenticated')
 }

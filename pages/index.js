@@ -6,7 +6,7 @@ export default function Home(initialData) {
   return (
     <div className='container'>
       <Head>
-        <title>Create Next App</title>
+        <title>Hexagons</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/style.css" />
       </Head>
@@ -23,10 +23,6 @@ export default function Home(initialData) {
           <button onClick={() => signOut()}>Sign out</button>
         </>}
       </div>
-
-
-
-
 
     </div>
   )

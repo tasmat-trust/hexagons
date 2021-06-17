@@ -12,5 +12,5 @@ export default function Index() {
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx)
+  return await checkSession(ctx, 'Authenticated')
 }

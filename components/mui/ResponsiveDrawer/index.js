@@ -68,7 +68,7 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
 
       <Divider />
-      <MainNavItems />
+      <MainNavItems session={props.session} />
       <Divider />
     </div>
   );

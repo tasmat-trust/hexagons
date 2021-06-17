@@ -8,15 +8,7 @@ import { Typography } from "@material-ui/core"
 import HexagonTiles from "../../components/HexagonTiles"
 import checkSession from '../../components/auth/CheckSession'
 
-const fetcher = async (url) => {
-  const res = await fetch(url)
-  const data = await res.json()
-
-  if (res.status !== 200) {
-    throw new Error(data.message)
-  }
-  return data
-}
+import { fetcher } from '../../utils';
 
 export default function Pupil() {
   const { query } = useRouter()
@@ -50,5 +42,5 @@ export default function Pupil() {
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx)
+  return await checkSession(ctx, 'Authenticated')
 }

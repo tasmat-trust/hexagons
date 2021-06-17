@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }) {
             <SkipNavLink />
             <Header></Header>
             <SkipNavContent />
-            <ResponsiveDrawer MainNavItems={MainNavItems}>
+            <ResponsiveDrawer session={pageProps.session} MainNavItems={MainNavItems}>
               <Component {...pageProps} />
             </ResponsiveDrawer>
           </StylesProvider>
