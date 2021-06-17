@@ -10,12 +10,13 @@ import axios from 'axios'
 //     jwt: 'xxx',
 //     user: {
 //       id: 3,
+//       organizations: [xxx, xxx],
 //       username: 'natalie',
 //       email: 'ns....org.uk',
 //       provider: 'local',
 //       confirmed: true,
 //       blocked: false,
-//       role: {
+//       role: { 
 //         id: 1,
 //         name: 'Authenticated',
 //         description: 'Default role given to authenticated user.',
@@ -43,12 +44,13 @@ const options = {
                         password: credentials.password
                     });
                     if (data) {
-                         
+                        // TODO refine this - why only name, email, and img coming through?
+                        // How do I add stuff to session object?
                         const user = {
                             id: data.user.id,
-                            role: data.user.role.name,
                             name: data.user.role.name,
                             email: data.user.email,
+                            image: data.user.organizations,
                             jwt: data.jwt
                         }
                         return user ? user : data;

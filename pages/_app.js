@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { Provider } from 'next-auth/client'
 
 import MainNavItems from "../components/layout/navigation/MainNavItems"
+import OrgPicker from "../components/layout/navigation/OrgPicker"
 import ResponsiveDrawer from "../components/mui/ResponsiveDrawer"
 import Header from "../components/layout/Header"
 
@@ -47,7 +48,7 @@ function MyApp({ Component, pageProps }) {
             <SkipNavLink />
             <Header></Header>
             <SkipNavContent />
-            <ResponsiveDrawer session={pageProps.session} MainNavItems={MainNavItems}>
+            <ResponsiveDrawer {...pageProps} MainNavItems={MainNavItems} OrgPicker={OrgPicker}>
               <Component {...pageProps} />
             </ResponsiveDrawer>
           </StylesProvider>

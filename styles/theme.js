@@ -44,12 +44,12 @@ const theme = createMuiTheme({
     }
   },
   palette: {
-    primary: {
-      main: pink['500'],
-    },
-    secondary: {
-      main: cyan.A400,
-    },
+    // primary: {
+    //   main: pink['500'],
+    // },
+    // secondary: {
+    //   main: cyan.A400,
+    // },
     error: {
       main: red.A400,
     },

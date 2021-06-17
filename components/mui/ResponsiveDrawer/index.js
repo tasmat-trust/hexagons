@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useSession, signIn, signOut } from 'next-auth/client'
 
-import { Paper } from "@material-ui/core";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResponsiveDrawer(props) {
-  const { window, children, MainNavItems } = props;
+  const { window, children, MainNavItems, OrgPicker } = props;
   const [session, loading] = useSession()
   const classes = useStyles();
   const theme = useTheme();
@@ -64,9 +64,8 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div>
-      <div className={classes.toolbar} />
-
+    <div className={classes.toolbar}> 
+      <OrgPicker session={props.session} />
       <Divider />
       <MainNavItems session={props.session} />
       <Divider />
