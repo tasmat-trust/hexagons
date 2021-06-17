@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
 
 function OrgPicker({ session }) {
 
+  if (!session) return ''
+  if (!session.user) return ''
 
   const classes = useStyles()
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
