@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useSession, signIn, signOut } from 'next-auth/client'
 
@@ -50,10 +51,22 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  navBoxes: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    minHeight: '100vh'
+  },
+  topBox: {
+    flexGrow: 1
+  },
+  settingsTitle: {
+    padding: `${theme.spacing(1)}px 0 0 ${theme.spacing(2)}px`
+  }
 }));
 
 function ResponsiveDrawer(props) {
-  const { window, children, MainNavItems, OrgPicker } = props;
+  const { window, children, MainNavItems, SettingNavItems, OrgPicker } = props;
   const [session, loading] = useSession()
   const classes = useStyles();
   const theme = useTheme();
@@ -64,11 +77,16 @@ function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div className={classes.toolbar}> 
-      <OrgPicker session={props.session} />
-      <Divider />
-      <MainNavItems session={props.session} />
-      <Divider />
+    <div className={classes.toolbar}>
+
+      <Box className={classes.navBoxes}>
+        <OrgPicker session={props.session} />
+        <Box className={classes.topBox}>
+          <Divider />
+          <MainNavItems session={props.session} />
+        </Box>
+        <SettingNavItems session={props.session} />
+      </Box>
     </div>
   );
 
@@ -94,7 +112,7 @@ function ResponsiveDrawer(props) {
 
           {!session && <>
             <Button color="inherit" onClick={() => signIn()}>Login</Button>
-        
+
           </>}
           {session && <>
             <Button color="inherit" onClick={() => signOut()}>Logout</Button>

@@ -46,6 +46,7 @@ const options = {
                     if (data) {
                         // TODO refine this - why only name, email, and img coming through?
                         // How do I add stuff to session object?
+                        console.log(data.user)
                         const user = {
                             id: data.user.id,
                             name: data.user.role.name,

@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { Provider } from 'next-auth/client'
 
 import MainNavItems from "../components/layout/navigation/MainNavItems"
+import SettingNavItems from "../components/layout/navigation/SettingNavItems"
 import OrgPicker from "../components/layout/navigation/OrgPicker"
 import ResponsiveDrawer from "../components/mui/ResponsiveDrawer"
 import Header from "../components/layout/Header"
@@ -18,6 +19,10 @@ import theme from "../styles/theme"
 
 import { SkipNavLink, SkipNavContent } from "@reach/skip-nav"
 import "@reach/skip-nav/styles.css"
+
+
+import { SWRConfig } from 'swr'
+
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin()],
@@ -35,6 +40,23 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
+
+  const fetcher = async (url, opts) => {
+    const headers = {
+      headers: {
+        'Authorization': `Bearer ${pageProps.session.jwt}`,
+        ...opts
+      }
+    }
+    const res = await fetch(url, headers)
+    const data = await res.json()
+    if (res.status !== 200) {
+      throw new Error(data.message)
+    }
+    return data
+  }
+
+
   return (
     <>
       <Provider session={pageProps.session}>
@@ -48,8 +70,10 @@ function MyApp({ Component, pageProps }) {
             <SkipNavLink />
             <Header></Header>
             <SkipNavContent />
-            <ResponsiveDrawer {...pageProps} MainNavItems={MainNavItems} OrgPicker={OrgPicker}>
-              <Component {...pageProps} />
+            <ResponsiveDrawer {...pageProps} MainNavItems={MainNavItems} SettingNavItems={SettingNavItems} OrgPicker={OrgPicker}>
+              <SWRConfig {...pageProps} value={{ refreshInterval: 3000, fetcher: fetcher }}>
+                <Component {...pageProps} />
+              </SWRConfig>
             </ResponsiveDrawer>
           </StylesProvider>
         </ThemeProvider>
