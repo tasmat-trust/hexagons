@@ -1,4 +1,4 @@
-import checkSession from '../../components/auth/CheckSession' 
+// Material UI
 import Alert from '@material-ui/lab/Alert';
 import { Paper } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
@@ -6,20 +6,22 @@ import Box from '@material-ui/core/Box'
 import { Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { Typography, Card } from "@material-ui/core";
-import useSWR from "swr"
 
-import useAdminPage from '../../styles/useAdminPage';
+// Authentication
+import checkSession from '../../components/auth/CheckSession'
 
+// Data fetching
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
+import DataFetcher from '../../components/data-fetching/DataFetcher'
+import { gql } from 'graphql-request'
 
+// Design
+import useAdminPage from '../../styles/useAdminPage';
 
 
 export default function Index() {
-  const classes = useAdminPage()
 
-  const { data, error } = useSWR(`${apiUrl}/organizations`)
-  if (error) return <Typography>There has been an error</Typography>
-  if (!data) return <Typography>Loading</Typography>
+  const classes = useAdminPage()
 
   return (
     <>
@@ -43,19 +45,35 @@ export default function Index() {
                 </Button>
               </Box>
               <Grid container spacing={2}>
-                {data.map((school, i) => (
-                  <Grid item xs={12} md={6} key={`school-${i}`}>
-                    <Card className={classes.schoolCard}>
-                      <img
-                        className={classes.schoolCard_img}
-                        alt="School logo"
-                        height="120"
-                        src={`${apiUrl}${school.logo.url}`}
-                      />
-                      <Typography variant="h4" gutterBottom={true}>{school.name}</Typography>
-                    </Card>
-                  </Grid>
-                ))}
+                <DataFetcher query={gql`
+                  {
+                    organizations {
+                      name, 
+                      logo {
+                          url
+                        }
+                      }
+                    }
+                  `}>
+                  {(data) => (
+                    <>
+                      {data.organizations.map((school, i) => (
+                        <Grid item xs={12} md={6} key={`school-${i}`}>
+                          <Card className={classes.schoolCard}>
+                            <img
+                              className={classes.schoolCard_img}
+                              alt="School logo"
+                              height="120"
+                              src={`${apiUrl}${school.logo.url}`}
+                            />
+                            <Typography variant="h4" gutterBottom={true}>{school.name}</Typography>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </>
+                  )
+                  }
+                </DataFetcher>
               </Grid>
             </Paper>
           </Grid>

@@ -26,6 +26,17 @@ const useAdminPage = makeStyles((theme) => ({
     },
     schoolCard_img: {
       padding: theme.spacing(1)
+    },
+    ul: {
+      padding: 0,
+      width: '100%',
+      margin: theme.spacing(1)
+    },
+    listItem: {
+      listStyle: 'none',
+      display: 'block',
+      width: '100%',
+      padding: 0,
     }
   }));
 

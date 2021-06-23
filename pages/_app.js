@@ -20,7 +20,8 @@ import theme from "../styles/theme"
 import { SkipNavLink, SkipNavContent } from "@reach/skip-nav"
 import "@reach/skip-nav/styles.css"
 
-
+// Data fetching
+import { request, GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
 
 
@@ -40,19 +41,16 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
+  const headers = pageProps.session ? {
+    headers: {
+      'Authorization': `Bearer ${pageProps.session.jwt}`
+    }
+  } : {}
 
-  const fetcher = async (url, opts) => {
-    const headers = {
-      headers: {
-        'Authorization': `Bearer ${pageProps.session.jwt}`,
-        ...opts
-      }
-    }
-    const res = await fetch(url, headers)
-    const data = await res.json()
-    if (res.status !== 200) {
-      throw new Error(data.message)
-    }
+  const graphqlClient = new GraphQLClient(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, headers)
+
+  const fetcher = async (query, variables) => {
+    const data = await graphqlClient.request(query, variables)
     return data
   }
 
@@ -71,7 +69,10 @@ function MyApp({ Component, pageProps }) {
             <Header></Header>
             <SkipNavContent />
             <ResponsiveDrawer {...pageProps} MainNavItems={MainNavItems} SettingNavItems={SettingNavItems} OrgPicker={OrgPicker}>
-              <SWRConfig {...pageProps} value={{ refreshInterval: 3000, fetcher: fetcher }}>
+              <SWRConfig {...pageProps} value={{
+                refreshInterval: 100000,
+                fetcher: fetcher
+              }}>
                 <Component {...pageProps} />
               </SWRConfig>
             </ResponsiveDrawer>
