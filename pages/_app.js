@@ -21,7 +21,7 @@ import { SkipNavLink, SkipNavContent } from "@reach/skip-nav"
 import "@reach/skip-nav/styles.css"
 
 // Data fetching
-import { request, GraphQLClient } from 'graphql-request'
+import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
 
 
@@ -73,7 +73,7 @@ function MyApp({ Component, pageProps }) {
                 refreshInterval: 100000,
                 fetcher: fetcher
               }}>
-                <Component {...pageProps} />
+                <Component {...pageProps} gqlClient={graphqlClient} />
               </SWRConfig>
             </ResponsiveDrawer>
           </StylesProvider>
