@@ -3,9 +3,6 @@ import Providers from 'next-auth/providers'
 import axios from 'axios'
 
 // https://www.gyanblog.com/javascript/next-js-strapi-authentication-credentials-jwt-next-auth/#understanding-getserversideprops
-
-// data on line 26:
-
 // {
 //     jwt: 'xxx',
 //     user: {
@@ -46,15 +43,19 @@ const options = {
                     if (data) {
                         // TODO refine this - why only name, email, and img coming through?
                         // How do I add stuff to session object?
-                        console.log(data.user)
+                        // Answer: like the id: { .... } item at the top.
                         const user = {
+                            // id: {
+                            //     id: data.user.id,
+                            //     some: 'body'
+                            // },
                             id: data.user.id,
                             name: data.user.role.name,
                             email: data.user.email,
                             image: data.user.organizations,
                             jwt: data.jwt
                         }
-                        return user ? user : data;
+                        return user;
                     }
                     else {
                         return null;

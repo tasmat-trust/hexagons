@@ -9,6 +9,10 @@ const fetcher = async (url) => {
     return data
 }
 
+const getOrgIdFromSession = (session) => {
+    return session.user.image.length > 0 ? session.user.image[0].id : 1
+}
+
 export {
-    fetcher
+    fetcher, getOrgIdFromSession
 }

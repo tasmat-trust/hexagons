@@ -54,7 +54,6 @@ function MyApp({ Component, pageProps }) {
     return data
   }
 
-
   return (
     <>
       <Provider session={pageProps.session}>
@@ -70,7 +69,7 @@ function MyApp({ Component, pageProps }) {
             <SkipNavContent />
             <ResponsiveDrawer {...pageProps} MainNavItems={MainNavItems} SettingNavItems={SettingNavItems} OrgPicker={OrgPicker}>
               <SWRConfig {...pageProps} value={{
-                refreshInterval: 100000,
+                refreshInterval: 0,
                 fetcher: fetcher
               }}>
                 <Component {...pageProps} gqlClient={graphqlClient} />

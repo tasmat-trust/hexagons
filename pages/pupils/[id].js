@@ -42,5 +42,5 @@ export default function Pupil() {
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Authenticated')
+  return await checkSession(ctx, 'Teacher')
 }

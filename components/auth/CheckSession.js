@@ -4,7 +4,7 @@ export default async function checkSession(ctx, role) {
 
 
   function isAuthorized(userRole, requiredRole) {
-    if (userRole === 'Super Admin') {
+    if (userRole === 'Senior Leader') {
       return true
     }
 
@@ -33,7 +33,7 @@ export default async function checkSession(ctx, role) {
     return redirectWithMessage('You need to be logged in.')
   }
 
-  const requiredRole = role ? role : 'Authenticated'; // All will have role, just in case set to logged in users only
+  const requiredRole = role ? role : 'Teacher'; // All will have role, just in case set to logged in users only
   const userRole = session && session.user.name ? session.user.name : 'Public'
 
 

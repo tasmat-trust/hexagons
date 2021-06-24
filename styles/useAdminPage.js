@@ -30,13 +30,28 @@ const useAdminPage = makeStyles((theme) => ({
     ul: {
       padding: 0,
       width: '100%',
-      margin: theme.spacing(1)
+      margin: 0,
+      display: 'block'
     },
     listItem: {
       listStyle: 'none',
       display: 'block',
       width: '100%',
       padding: 0,
+    },
+    groupBox: {
+      padding: 0,
+      display: 'flex',
+      marginBottom: theme.spacing(1)
+    },
+    groupBox_link: {
+      display: 'block',
+      width: '100%',
+      padding: theme.spacing(2)
+    },
+    groupBox_title: {
+      lineHeight: 1,
+      margin: 0,
     }
   }));
 

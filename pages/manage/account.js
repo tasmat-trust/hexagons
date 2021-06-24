@@ -5,12 +5,12 @@ export default function Index() {
  
   return (
     <>
-      <Typography variant="h1" gutterBottom={true}>Profile</Typography>
+      <Typography variant="h1" gutterBottom={true}>Account</Typography>
       <Typography variant="p">Coming soon</Typography>
     </>
   )
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Authenticated')
+  return await checkSession(ctx, 'Teacher')
 }

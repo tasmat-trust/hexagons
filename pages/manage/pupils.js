@@ -1,16 +1,20 @@
 import checkSession from '../../components/auth/CheckSession'
 import { Typography } from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
-import { Paper } from '@material-ui/core'
+import { Paper, Link } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box'
-import { Button } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import { DataGrid } from '@material-ui/data-grid'
 
+import { useState } from 'react';
+
+import GroupsList from '../../components/groups/GroupsList';
+
+// Design
 import useAdminPage from '../../styles/useAdminPage';
 
-import { useState } from 'react';
+// Utils
+import { getOrgIdFromSession } from '../../utils';
 
 // Forms
 import AddNew from '../../components/forms/AddNew'
@@ -20,18 +24,23 @@ import DataFetcher from '../../components/data-fetching/DataFetcher'
 import DialogButton from '../../components/mui/DialogButton'
 import { gql } from 'graphql-request'
 
+// Queries
+import { allGroups } from '../../queries/Groups'
+
 export default function Pupils({ session, gqlClient }) {
 
   if (!session) return ''
   if (!session.user) return ''
   if (!session.user.image) return ''
   const classes = useAdminPage()
-  const orgId = session.user.image.length > 0 ? session.user.image[0].id : 1
+  const orgId = getOrgIdFromSession(session)
 
   const [mutatePupil, setMutatePupil] = useState()
   const [mutateGroup, setMutateGroup] = useState()
 
-  async function updatePupil(formData) {
+  const [addToGroupButtonVisible, setAddToGroupButtonVisible] = useState(false)
+
+  async function createPupil(formData) {
     const query = gql`
         mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!]) {
             createPupil(input: {
@@ -107,6 +116,27 @@ export default function Pupils({ session, gqlClient }) {
             <Paper variant="outlined" className={classes.paper}>
               <Box className={classes.box}>
                 <Typography variant="h4" component="h2" className={classes.title}>Manage pupils</Typography>
+
+                {addToGroupButtonVisible && (
+                  <DialogButton
+                    className={classes.button}
+                    label="Assign groups"
+                    text="Assign selected pupils to groups."
+                    model="pupil">
+                    <DataFetcher
+                      query={gql`query getGroups($orgId: Int!) {  
+                groups (where: {organization: $orgId}) { 
+                  name id slug
+                }
+              }`}
+                      variables={{ orgId: orgId }}>
+                      {(data) => (<></>)}
+                    </DataFetcher>
+                  </DialogButton>
+                )}
+
+
+
                 <DialogButton
                   className={classes.button}
                   label="New pupil"
@@ -119,7 +149,7 @@ export default function Pupils({ session, gqlClient }) {
                 }
               }`}
                     variables={{ orgId: orgId }}>
-                    {(data) => <AddNew updateModel={updatePupil} model="pupil" selectItems={data.groups} />}
+                    {(data) => <AddNew updateModel={createPupil} model="pupil" selectItems={data.groups} />}
                   </DataFetcher>
                 </DialogButton>
               </Box>
@@ -146,7 +176,20 @@ export default function Pupils({ session, gqlClient }) {
 
                     return (
                       <div style={{ height: 800, width: '100%' }}>
-                        <DataGrid rows={data.pupils} columns={columns} checkboxSelection />
+                        <DataGrid
+                          rows={data.pupils}
+                          columns={columns}
+                          checkboxSelection
+                          onSelectionModelChange={(newSelection) => {
+                            //setSelectionModel(newSelection.selectionModel);
+                            if (newSelection.selectionModel.length > 0) {
+                              setAddToGroupButtonVisible(true)
+                            } else {
+                              setAddToGroupButtonVisible(false)
+                            }
+                            console.log(newSelection)
+                          }}
+                        />
                       </div>
                     )
                   }}
@@ -168,20 +211,10 @@ export default function Pupils({ session, gqlClient }) {
               </Box>
               <DataFetcher
                 setMutate={setMutateGroup}
-                query={gql`query getGroups($orgId: Int!) {  
-                groups (where: {organization: $orgId}) { 
-                  name
-                }
-              }`}
+                query={allGroups}
                 variables={{ orgId: orgId }}>
                 {(data) => (
-                  <ul>
-                    {data.groups.map((group, i) => (
-                      <li key={`group-${i}`}>
-                        <Typography variant="h4" gutterBottom={true}>{group.name}</Typography>
-                      </li>
-                    ))}
-                  </ul>
+                  <GroupsList groups={data.groups} />
                 )}
               </DataFetcher>
 
@@ -196,5 +229,5 @@ export default function Pupils({ session, gqlClient }) {
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Super Admin')
+  return await checkSession(ctx, 'Senior Leader')
 }
