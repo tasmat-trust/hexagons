@@ -107,7 +107,7 @@ export default function Pupils({ session, gqlClient }) {
 
     <>
       <Paper elevation={2}>
-        <Alert severity="info">This is an <b>Org Admin</b> page. It is only visible to Senior Leaders.</Alert>
+        <Alert severity="info" data-test-id="notification">This is an <b>Org Admin</b> page. It is only visible to Senior Leaders.</Alert>
       </Paper>
       <div className={classes.root}>
         <Grid container spacing={3}>
@@ -119,6 +119,7 @@ export default function Pupils({ session, gqlClient }) {
 
                 {addToGroupButtonVisible && (
                   <DialogButton
+                    data-test-id="add-to-group"
                     className={classes.button}
                     label="Assign groups"
                     text="Assign selected pupils to groups."
@@ -139,6 +140,7 @@ export default function Pupils({ session, gqlClient }) {
 
                 <DialogButton
                   className={classes.button}
+                  data-test-id="new-pupil"
                   label="New pupil"
                   text="Add a new pupil and assign them to groups. You can always add groups later."
                   model="pupil">
@@ -203,6 +205,7 @@ export default function Pupils({ session, gqlClient }) {
                 <DialogButton
                   className={classes.button}
                   label="New group"
+                  data-test-id="new-group"
                   text="Create a new group. Pupils can then be assigned to groups."
                   model="group">
                   <AddNew updateModel={updateGroup} model="group" />
