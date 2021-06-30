@@ -17,12 +17,18 @@ const options = {
             password: credentials.password
           });
           if (data) {
+            console.log(data.user.organizations[0].logo.formats.small)
+            const img = data.user.organizations[0].logo.formats.small
             const user = {
               email: data.user.email,
               userId: data.user.id,
               org: data.user.organizations[0].name,
               orgId: data.user.organizations[0].id,
-              logo: data.user.organizations[0].logo.formats.small.url,
+              logo: {
+                url: img.url,
+                width: img.width,
+                height: img.height
+              },
               jwt: data.jwt,
               username: data.user.username,
               some: 'thing',
@@ -89,5 +95,5 @@ const options = {
     },
   }
 }
-const NA = (req, res) => NextAuth(req, res, options)
-export default NA
+
+export default (req, res) => NextAuth(req, res, options)

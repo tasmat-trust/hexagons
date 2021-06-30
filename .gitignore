@@ -32,3 +32,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# test metadata
+cypress/videos
+cypress/videos/*

@@ -51,7 +51,6 @@ export default function Index({ session, gqlClient }) {
       orgId: [orgId],
       groupId: formData.groups
     }
-    console.log(variables)
     try {
       const data = await gqlClient.request(query, variables)
       if (data) console.log('success', data)

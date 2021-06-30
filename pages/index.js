@@ -6,7 +6,7 @@ export default function Home(initialData) {
   return (
     <div className='container'>
       <Head>
-        <title>Hexagons</title> 
+        <title>Hexagons</title>
       </Head>
 
       <h1>Hexagons</h1>

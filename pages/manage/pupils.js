@@ -39,7 +39,7 @@ export default function Pupils({ session, gqlClient }) {
   const [addToGroupButtonVisible, setAddToGroupButtonVisible] = useState(false)
 
   if (!session) return ''
-  
+
   async function createPupil(formData) {
     const query = gql`
         mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!]) {
@@ -187,7 +187,6 @@ export default function Pupils({ session, gqlClient }) {
                             } else {
                               setAddToGroupButtonVisible(false)
                             }
-                            console.log(newSelection)
                           }}
                         />
                       </div>

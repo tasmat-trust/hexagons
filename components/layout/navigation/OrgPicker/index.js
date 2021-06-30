@@ -1,13 +1,12 @@
-import { Box, Image } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-
+import Image from 'next/image'
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
   },
-  logo: {
-    maxWidth: '80%',
-    padding: theme.spacing(2)
+  imgContainer: {
+    padding: theme.spacing(3)
   }
 }))
 
@@ -20,12 +19,19 @@ function OrgPicker({ session }) {
 
   let img, alt
   if (session.logo) {
-    img = session.logo
+    img = session.logo.url
     alt = session.org
   }
   if (img) return (
     <Box className={classes.root}>
-      <Image className={classes.logo} src={`${apiUrl}${img}`} alt={`${alt}'s Logo`} />
+      <Box className={classes.imgContainer}>
+        <Image
+          className={classes.logo}
+          width={session.logo.width}
+          height={session.logo.height}
+          src={`${apiUrl}${img}`}
+          alt={`${alt}'s Logo`} />
+      </Box>
     </Box>
   )
   return ''
