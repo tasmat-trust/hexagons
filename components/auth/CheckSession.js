@@ -34,7 +34,7 @@ export default async function checkSession(ctx, role) {
   }
 
   const requiredRole = role ? role : 'Teacher'; // All will have role, just in case set to logged in users only
-  const userRole = session && session.user.name ? session.user.name : 'Public'
+  const userRole = session && session.role ? session.role : 'Public'
 
 
   if (!isAuthorized(userRole, requiredRole)) {

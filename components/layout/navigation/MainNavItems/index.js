@@ -1,12 +1,11 @@
 import List from '@material-ui/core/List';
 import PeopleIcon from '@material-ui/icons/People';
 import SubjectIcon from '@material-ui/icons/Subject';
-import LooksIcon from '@material-ui/icons/Looks'; 
+import LooksIcon from '@material-ui/icons/Looks';
 import NavItem from "../NavItem"
 
 
-function MainNavItems({session}) {
-  const user = session ? session.user ? session.user : false : false
+function MainNavItems() {
   return (
     <List>
       <NavItem href="/groups" label="Groups" Icon={PeopleIcon} />

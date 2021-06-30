@@ -14,19 +14,18 @@ const useStyles = makeStyles((theme) => ({
 function OrgPicker({ session }) {
 
   if (!session) return ''
-  if (!session.user) return ''
 
   const classes = useStyles()
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
   let img, alt
-  if (session.user.image.length > 0) {
-    img = session.user.image[0].logo.url
-    alt = session.user.image[0].name
+  if (session.logo) {
+    img = session.logo
+    alt = session.org
   }
   if (img) return (
     <Box className={classes.root}>
-      <img className={classes.logo}  src={`${apiUrl}${img}`} alt={`${alt}'s Logo`} />
+      <img className={classes.logo} src={`${apiUrl}${img}`} alt={`${alt}'s Logo`} />
     </Box>
   )
   return ''

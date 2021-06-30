@@ -5,7 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:open": "cypress open",
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^7.0.6",
+    "cypress": "^7.6.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",

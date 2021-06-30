@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
     const data = await graphqlClient.request(query, variables)
     return data
   }
-
+  console.log(pageProps.session)
   return (
     <>
       <Provider session={pageProps.session}>

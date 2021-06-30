@@ -30,8 +30,6 @@ import { allGroups } from '../../queries/Groups'
 export default function Pupils({ session, gqlClient }) {
 
   if (!session) return ''
-  if (!session.user) return ''
-  if (!session.user.image) return ''
   const classes = useAdminPage()
   const orgId = getOrgIdFromSession(session)
 

@@ -27,7 +27,7 @@ export default function Index({ session }) {
               <Box className={classes.box}>
                 <Typography variant="h4" component="h2" className={classes.title}>My groups</Typography>
               </Box>
-              <DataFetcher query={myGroups} variables={{ teacherId: session.id }}>
+              <DataFetcher query={myGroups} variables={{ teacherId: session.userId }}>
                   {(data) => <GroupsList groups={data.groups} />}
                 </DataFetcher>
             </Paper>

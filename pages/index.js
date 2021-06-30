@@ -19,7 +19,7 @@ export default function Home(initialData) {
           <button onClick={() => signIn()}>Sign in</button>
         </>}
         {session && <>
-          Signed in as {session.user.email} <br />
+          Signed in as {session.email} <br />
           <button onClick={() => signOut()}>Sign out</button>
         </>}
       </div>
