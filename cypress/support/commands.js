@@ -12,6 +12,8 @@
 // -- This is a parent command --
 Cypress.Commands.add('login', (role) => {
 
+  cy.clearCookies()
+
   const cookieName = Cypress.env('COOKIE_NAME')
   const teacherJWT = Cypress.env('TEACHER_JWT')
   const seniorLeaderJWT = Cypress.env('SENIOR_LEADER_JWT')

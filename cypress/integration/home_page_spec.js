@@ -1,7 +1,10 @@
 describe('The Home Page', () => {
-  
-  it('successfully loads', () => {
-    cy.visit('/')
 
+  beforeEach(() => {
+    cy.clearCookies()
+    cy.visit('/')
+  })  
+  it('shows a login button', () => {
+    cy.get('[data-test-id=login-button]').should('be.visible')
   })
 })

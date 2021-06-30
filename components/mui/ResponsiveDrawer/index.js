@@ -111,11 +111,11 @@ function ResponsiveDrawer(props) {
           </Typography>
 
           {!session && <>
-            <Button color="inherit" onClick={() => signIn()}>Login</Button>
+            <Button data-test-id="login-button" color="inherit" onClick={() => signIn()}>Login</Button>
 
           </>}
           {session && <>
-            <Button color="inherit" onClick={() => signOut()}>Logout</Button>
+            <Button data-test-id="logout-button" color="inherit" onClick={() => signOut()}>Logout</Button>
           </>}
 
         </Toolbar>
