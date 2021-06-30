@@ -10,17 +10,19 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-    cy.visit('/')
-    /* ==== Generated with Cypress Studio ==== */
-    cy.get('.container > div > button').click();
-    cy.get('#input-email-for-credentials-provider').clear();
-    cy.get('#input-email-for-credentials-provider').type('teacher@tasmat.org.uk');
-    cy.get('#input-password-for-credentials-provider').clear();
-    cy.get('#input-password-for-credentials-provider').type('Gardenparty7');
-    cy.get('button').click();
-    /* ==== End Cypress Studio ==== */
+Cypress.Commands.add('login', (role) => {
 
+  const cookieName = Cypress.env('COOKIE_NAME')
+  const teacherJWT = Cypress.env('TEACHER_JWT')
+  const seniorLeaderJWT = Cypress.env('SENIOR_LEADER_JWT')
+
+  if (role === 'Teacher') {
+    cy.setCookie(cookieName, teacherJWT)
+  }
+
+  if (role === 'Senior Leader') {
+    cy.setCookie(cookieName, seniorLeaderJWT)
+  }
 })
 //
 //

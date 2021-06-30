@@ -9,7 +9,7 @@ export default function DataFetcher({ query, children, variables, setMutate }) {
 
     useEffect(() => {
         if (mutate && setMutate) setMutate({ mutate: mutate })
-    }, [mutate])
+    }, [mutate, setMutate])
 
     if (error) return <Typography>There has been an error fetching the data</Typography>
     if (!data) return <Typography>Loading</Typography>

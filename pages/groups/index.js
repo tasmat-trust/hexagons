@@ -9,7 +9,7 @@ import GroupsList from '../../components/groups/GroupsList';
 // Utils
 import { getOrgIdFromSession } from '../../utils';
 
-import { allGroups, myGroups} from '../../queries/Groups'
+import { allGroups, myGroups } from '../../queries/Groups'
 
 
 export default function Index({ session }) {
@@ -25,11 +25,11 @@ export default function Index({ session }) {
           <Grid item xs={12} md={6}>
             <Paper variant="outlined" className={classes.paper}>
               <Box className={classes.box}>
-                <Typography variant="h4" component="h2" className={classes.title}>My groups</Typography>
+                <Typography data-test-id="title" variant="h4" component="h2" className={classes.title}>My groups</Typography>
               </Box>
               <DataFetcher query={myGroups} variables={{ teacherId: session.userId }}>
-                  {(data) => <GroupsList groups={data.groups} />}
-                </DataFetcher>
+                {(data) => <GroupsList groups={data.groups} />}
+              </DataFetcher>
             </Paper>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -38,8 +38,8 @@ export default function Index({ session }) {
                 <Typography variant="h4" component="h2" className={classes.title}>All groups</Typography>
               </Box>
               <DataFetcher query={allGroups} variables={{ orgId: orgId }}>
-                  {(data) => <GroupsList groups={data.groups} />}
-                </DataFetcher>
+                {(data) => <GroupsList groups={data.groups} />}
+              </DataFetcher>
             </Paper>
           </Grid>
         </Grid>

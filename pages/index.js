@@ -6,9 +6,7 @@ export default function Home(initialData) {
   return (
     <div className='container'>
       <Head>
-        <title>Hexagons</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="/style.css" />
+        <title>Hexagons</title> 
       </Head>
 
       <h1>Hexagons</h1>

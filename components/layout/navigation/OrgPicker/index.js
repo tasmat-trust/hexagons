@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core'
+import { Box, Image } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
 
 function OrgPicker({ session }) {
 
-  if (!session) return ''
-
   const classes = useStyles()
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
+
+  if (!session) return ''
 
   let img, alt
   if (session.logo) {
@@ -25,7 +25,7 @@ function OrgPicker({ session }) {
   }
   if (img) return (
     <Box className={classes.root}>
-      <img className={classes.logo} src={`${apiUrl}${img}`} alt={`${alt}'s Logo`} />
+      <Image className={classes.logo} src={`${apiUrl}${img}`} alt={`${alt}'s Logo`} />
     </Box>
   )
   return ''

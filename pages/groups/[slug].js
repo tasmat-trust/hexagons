@@ -70,10 +70,10 @@ export default function Group({ session }) {
                   if (data.pupils.length === 0) return <p>No pupils found.</p>
                   return (
                     <>
-                      <p>Pupils</p> 
+                      <p>Pupils</p>
                       <Grid container spacing={3}>
                         {data.pupils.map((p, i) => (
-                          <Grid item xs={4}>
+                          <Grid key={`pupil-${i}`} item xs={4}>
                             <PupilCard key={i} pupil={p} />
                           </Grid>
                         ))}

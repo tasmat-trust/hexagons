@@ -18,7 +18,7 @@ export default function Index(initialProps) {
       <Typography variant="h1" gutterBottom={true}>Pupils</Typography>
       <Grid container spacing={3}>
         {data.map((p, i) => (
-          <Grid item xs={4}>
+          <Grid key={`pupil-${i}`} item xs={4}>
             <PupilCard key={i} pupil={p} />
           </Grid>
         ))}

@@ -29,7 +29,7 @@ import { allGroups } from '../../queries/Groups'
 
 export default function Pupils({ session, gqlClient }) {
 
-  if (!session) return ''
+  
   const classes = useAdminPage()
   const orgId = getOrgIdFromSession(session)
 
@@ -38,6 +38,8 @@ export default function Pupils({ session, gqlClient }) {
 
   const [addToGroupButtonVisible, setAddToGroupButtonVisible] = useState(false)
 
+  if (!session) return ''
+  
   async function createPupil(formData) {
     const query = gql`
         mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!]) {
@@ -113,7 +115,7 @@ export default function Pupils({ session, gqlClient }) {
           <Grid item xs={12} md={7}>
             <Paper variant="outlined" className={classes.paper}>
               <Box className={classes.box}>
-                <Typography variant="h4" component="h2" className={classes.title}>Manage pupils</Typography>
+                <Typography variant="h4" component="h2" className={classes.title} data-test-id="title">Manage pupils</Typography>
 
                 {addToGroupButtonVisible && (
                   <DialogButton

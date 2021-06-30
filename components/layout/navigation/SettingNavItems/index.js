@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 function SettingNavItems({ session }) {
-  if (!session) return ''
-  const classes = useStyles()
 
+  const classes = useStyles()
+  if (!session) return ''
   if (session.role === 'Public') return ''
 
   if (session.role != 'Public') return (

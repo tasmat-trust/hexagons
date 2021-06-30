@@ -1,6 +1,6 @@
 // Material UI
 import Alert from '@material-ui/lab/Alert';
-import { Paper } from '@material-ui/core'
+import { Paper, Image } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box'
 import { Button } from '@material-ui/core';
@@ -60,7 +60,7 @@ export default function Index() {
                       {data.organizations.map((school, i) => (
                         <Grid item xs={12} md={6} key={`school-${i}`}>
                           <Card className={classes.schoolCard}>
-                            <img
+                            <Image
                               className={classes.schoolCard_img}
                               alt="School logo"
                               height="120"

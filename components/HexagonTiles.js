@@ -78,7 +78,7 @@ export default function HexagonTiles({ subjects }) {
     <div className={styles.row}>
       {subjects.map((subject, i) => {
         return (
-          <HexagonTile subject={subject} />
+          <HexagonTile key={`tile-${i}`} subject={subject} />
         )
       })}
     </div>

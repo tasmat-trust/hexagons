@@ -6,12 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint": "next lint --dir components --dir cypress --dir pages --dir queries --dir styles",
     "test:open": "cypress open",
-    "test": "cypress run"
+    "test": "cypress run",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@testing-library/cypress": "^7.0.6",
-    "cypress": "^7.6.0"
+    "cypress": "^7.6.0",
+    "eslint": "^7.29.0",
+    "eslint-config-next": "^11.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
@@ -25,12 +33,15 @@
     "graphql": "^15.5.1",
     "graphql-request": "^3.4.0",
     "jss-plugin-template": "^10.6.0",
-    "next": "10.2.3",
+    "next": "11.0.0",
     "next-auth": "^3.24.1",
     "pg": "^8.6.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "styled-components": "^5.3.0",
     "swr": "^0.5.6"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }

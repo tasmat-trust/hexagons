@@ -2,30 +2,6 @@ import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import axios from 'axios'
 
-// https://www.gyanblog.com/javascript/next-js-strapi-authentication-credentials-jwt-next-auth/#understanding-getserversideprops
-// {
-//     jwt: 'xxx',
-//     user: {
-//       id: 3,
-//       organizations: [xxx, xxx],
-//       username: 'natalie',
-//       email: 'ns....org.uk',
-//       provider: 'local',
-//       confirmed: true,
-//       blocked: false,
-//       role: { 
-//         id: 1,
-//         name: 'Authenticated',
-//         description: 'Default role given to authenticated user.',
-//         type: 'authenticated'
-//       },
-//       created_at: '2021-06-16T15:20:59.834Z',
-//       updated_at: '2021-06-16T15:20:59.842Z'
-//     }
-//   }
-
-
-
 const options = {
   providers: [
     Providers.Credentials({
@@ -41,20 +17,6 @@ const options = {
             password: credentials.password
           });
           if (data) {
-            // TODO refine this - why only name, email, and img coming through?
-            // How do I add stuff to session object?
-            // Answer: like the id: { .... } item at the top.
-            // const user = {
-            //     // id: {
-            //     //     id: data.user.id,
-            //     //     some: 'body'
-            //     // },
-            //     id: data.user.id,
-            //     name: data.user.role.name,
-            //     email: data.user.email,
-            //     image: data.user.organizations,
-            //     jwt: data.jwt
-            // }
             const user = {
               email: data.user.email,
               userId: data.user.id,
@@ -83,7 +45,6 @@ const options = {
 
   callbacks: {
     // Getting the JWT token from API response
-
     async signIn(user, account, profile) {
       const isAllowedToSignIn = true
       if (isAllowedToSignIn) {
@@ -95,8 +56,6 @@ const options = {
         // return '/unauthorized'
       }
     },
-
-
 
     jwt: async (token, user, account) => {
       const isSignIn = user ? true : false;
@@ -130,5 +89,5 @@ const options = {
     },
   }
 }
-
-export default (req, res) => NextAuth(req, res, options)
+const NA = (req, res) => NextAuth(req, res, options)
+export default NA
