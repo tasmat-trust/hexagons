@@ -36,3 +36,6 @@ yarn-error.log*
 # test metadata
 cypress/videos
 cypress/videos/*
+
+# Linting
+.eslintcache
