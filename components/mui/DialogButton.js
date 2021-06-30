@@ -10,11 +10,12 @@ import AddIcon from '@material-ui/icons/Add';
 import { Button } from '@material-ui/core';
 
 
-export default function DialogButton({ className, label, text, children }) {
+export default function DialogButton(props) {
 
 
   const [open, setOpen] = useState(false);
 
+  const { className, label, text, children } = props
   const handleOpen = () => {
     setOpen(true);
   };
@@ -27,6 +28,7 @@ export default function DialogButton({ className, label, text, children }) {
     <>
 
       <Button
+        {...props}
         variant="contained"
         color="secondary"
         className={className}
@@ -40,9 +42,9 @@ export default function DialogButton({ className, label, text, children }) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        
+
         <DialogContent>
-        <Typography gutterBottom={true} id="form-dialog-title" variant="h2" component="h4">{label}</Typography>
+          <Typography gutterBottom={true} id="form-dialog-title" variant="h2" component="h4">{label}</Typography>
           <DialogContentText>
             {text}
           </DialogContentText>
