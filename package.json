@@ -9,6 +9,7 @@
     "lint": "next lint --dir components --dir cypress --dir pages --dir queries --dir styles",
     "test:open": "cypress open",
     "test": "nyc cypress run && codecov",
+    "test:basic": "cypress run",
     "prepare": "husky install"
   },
   "devDependencies": {
