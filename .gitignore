@@ -39,3 +39,6 @@ cypress/videos/*
 
 # Linting
 .eslintcache
+
+# Code coverage
+.nyc_output/
