@@ -35,7 +35,8 @@ describe('Manage Pupils Page', () => {
 
   it('Lets SLT create new groups', () => {
 
-
+    cy.get('[data-test-id=new-group]').should('be.visible')
+    cy.get('h3').should('include.text', 'Class 2')
     cy.get('[data-test-id=new-group]').click();
     cy.get('#name').clear();
     cy.get('#name').type('New group');
