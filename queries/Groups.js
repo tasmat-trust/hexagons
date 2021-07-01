@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
 
 const createGroupQuery = gql`
-mutation createGroup($name: String!, $orgId: ID!) {
+mutation createNewGroup($name: String!, $orgId: ID!) {
     createGroup(input: {
       data:{
         name:$name,

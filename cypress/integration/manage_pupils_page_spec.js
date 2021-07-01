@@ -17,6 +17,7 @@ describe('Manage Pupils Page', () => {
     },
       (req) => {
         aliasQuery(req, 'getGroups')
+        aliasQuery(req, 'createNewGroup')
         if (hasOperationName(req, 'getGroups')) {
           req.reply(staticResponse)
         }
@@ -48,11 +49,11 @@ describe('Manage Pupils Page', () => {
       url: 'http://localhost:1337/graphql'
     },
       (req) => {
-        if (hasOperationName(req, 'createGroup')) {
-          req.alias = 'groupCreated'
+        if (hasOperationName(req, 'createNewGroup')) {
+          req.alias = 'gqlcreateNewGroupQuery'
         }
       }
     )
-    cy.wait('@groupCreated').its('request.url').should('include', '/graphql')
+    cy.wait('@gqlcreateNewGroupQuery').its('request.url').should('include', '/graphql')
   })
 })
