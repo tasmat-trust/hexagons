@@ -22,52 +22,66 @@ import AddNew from '../../components/forms/AddNew'
 // Data updating/fetching
 import DataFetcher from '../../components/data-fetching/DataFetcher'
 import DialogButton from '../../components/mui/DialogButton'
-import { gql } from 'graphql-request'
 
 // Queries
-import { allGroups } from '../../queries/Groups'
+import { createGroupQuery, allGroups, getGroupsByOrg } from '../../queries/Groups'
+import { createPupilQuery, getPupilsWithGroups, updatePupilGroups } from '../../queries/Pupils'
+import AssignTo from '../../components/forms/AssignTo';
 
 export default function Pupils({ session, gqlClient }) {
 
-  
+
   const classes = useAdminPage()
   const orgId = getOrgIdFromSession(session)
 
   const [mutatePupil, setMutatePupil] = useState()
   const [mutateGroup, setMutateGroup] = useState()
+  const [selectedPupils, setSelectedPupils] = useState([])
+  const [allPupils, setAllPupils] = useState([])
 
   const [addToGroupButtonVisible, setAddToGroupButtonVisible] = useState(false)
 
   if (!session) return ''
 
+  function handleAssignToGroups(formData) {
+    console.log(formData)
+    selectedPupils.map(pupilId => {
+      const currentPupil = allPupils.filter(pupil => pupil.id === pupilId)[0]      
+      const newPupil = {
+        id: currentPupil.id
+      }  
+      if (formData.shouldOverwrite === false) {
+        const existingGroupIds = currentPupil.groups.map(group => group.id)
+        newPupil.groups = formData.groups.concat(existingGroupIds)
+      } else {
+        newPupil.groups = formData.groups
+      }       
+      assignToGroups(newPupil)   
+      return newPupil
+    })    
+  }
+
+  async function assignToGroups(pupil) {
+    const variables = {
+      pupilId: pupil.id,
+      groupIds: pupil.groups
+    }
+    try {
+      const data = await gqlClient.request(updatePupilGroups, variables)
+      if (data) mutatePupil.mutate()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   async function createPupil(formData) {
-    const query = gql`
-        mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!]) {
-            createPupil(input: {
-              data:{
-                name:$name,
-                groups:$groupId,
-                organization:$orgId
-                }
-              }) {
-              pupil {
-                name
-                groups {
-                  name
-                }
-                organization {
-                  name
-                }
-              }
-            }      
-        }`
     const variables = {
       name: formData.name,
       orgId: orgId,
       groupId: formData.groups
     }
     try {
-      const data = await gqlClient.request(query, variables)
+      const data = await gqlClient.request(createPupilQuery, variables)
       if (data) mutatePupil.mutate()
     } catch (e) {
       console.error(e)
@@ -75,28 +89,13 @@ export default function Pupils({ session, gqlClient }) {
   }
 
   async function updateGroup(formData) {
-    const query = gql`
-    mutation createGroup($name: String!, $orgId: ID!) {
-        createGroup(input: {
-          data:{
-            name:$name,
-            organization:$orgId
-            }
-          }) {
-          group {
-            name
-            organization {
-              name
-            }
-          }
-        }      
-    }`
+    const query = createGroupQuery
     const variables = {
       name: formData.name,
       orgId: orgId
     }
     try {
-      const data = await gqlClient.request(query, variables)
+      const data = await gqlClient.request(createGroupQuery, variables)
       if (data) mutateGroup.mutate()
     } catch (e) {
       console.error(e)
@@ -125,13 +124,9 @@ export default function Pupils({ session, gqlClient }) {
                     text="Assign selected pupils to groups."
                     model="pupil">
                     <DataFetcher
-                      query={gql`query getGroups($orgId: Int!) {  
-                groups (where: {organization: $orgId}) { 
-                  name id slug
-                }
-              }`}
+                      query={getGroupsByOrg}
                       variables={{ orgId: orgId }}>
-                      {(data) => (<></>)}
+                      {(data) => (<AssignTo updateModel={handleAssignToGroups} model="groups" selectItems={data.groups} />)}
                     </DataFetcher>
                   </DialogButton>
                 )}
@@ -145,11 +140,7 @@ export default function Pupils({ session, gqlClient }) {
                   text="Add a new pupil and assign them to groups. You can always add groups later."
                   model="pupil">
                   <DataFetcher
-                    query={gql`query getGroups($orgId: Int!) {  
-                groups (where: {organization: $orgId}) { 
-                  name id
-                }
-              }`}
+                    query={getGroupsByOrg}
                     variables={{ orgId: orgId }}>
                     {(data) => <AddNew updateModel={createPupil} model="pupil" selectItems={data.groups} />}
                   </DataFetcher>
@@ -157,11 +148,12 @@ export default function Pupils({ session, gqlClient }) {
               </Box>
               <Grid container spacing={2}>
                 <DataFetcher
-                  query={gql`{pupils { id, name, groups {name, id} }}`}
+                  query={getPupilsWithGroups}
                   setMutate={setMutatePupil}
                 >
                   {(data) => {
                     // https://material-ui.com/api/data-grid/data-grid/
+                    setAllPupils(data.pupils)
                     const columns = [
                       { field: 'name', headerName: 'Pupil', width: 130 },
                       {
@@ -183,7 +175,7 @@ export default function Pupils({ session, gqlClient }) {
                           columns={columns}
                           checkboxSelection
                           onSelectionModelChange={(newSelection) => {
-                            //setSelectionModel(newSelection.selectionModel);
+                            setSelectedPupils(newSelection.selectionModel)
                             if (newSelection.selectionModel.length > 0) {
                               setAddToGroupButtonVisible(true)
                             } else {

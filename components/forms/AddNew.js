@@ -13,10 +13,16 @@ export default function AddNew({ updateModel, model, nameFieldName, includeEmail
 
   function handleForm(event) {
     event.preventDefault()
-    let formData = {
-      name: event.target['name'].value,
-      username: event.target['username'].value,
-      email: event.target['email'].value
+    let formData = {}
+
+    if (event.target['email']) {
+      formData.email = event.target['email'].value
+    }
+    if (event.target['username']) {
+      formData.username = event.target['username'].value
+    }
+    if (event.target['name']) {
+      formData.name = event.target['name'].value
     }
     if (selectItems) {
       const groups = event.target['select-multiple-chip'].value.split(',');
