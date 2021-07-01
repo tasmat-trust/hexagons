@@ -1,6 +1,8 @@
 # Hexagons
 
-[![Hexagons Client](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/pueiyd&style=for-the-badge&logo=cypress)](https://dashboard.cypress.io/projects/pueiyd/runs)
+[![Hexagons Client](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/pueiyd&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/pueiyd/runs)
+
+[![codecov](https://codecov.io/gh/aliblackwell/hexagons/branch/main/graph/badge.svg?token=EVAO1I6V6B)](https://codecov.io/gh/aliblackwell/hexagons)
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
