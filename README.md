@@ -4,32 +4,26 @@
 
 [![codecov](https://codecov.io/gh/aliblackwell/hexagons/branch/main/graph/badge.svg?token=EVAO1I6V6B)](https://codecov.io/gh/aliblackwell/hexagons)
 
+Hexagons is an assessment system for tracking small steps of academic progress and personal development and is designed for pupils with Special Educational Needs and Disabilities (SEND). It is being developed for and with [Torfield and Saxon Mount Academy Trust (TASMAT)](http://torfield-saxonmount.com/).
+
+## Technical information
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+It uses [Cypress.js](https://www.cypress.io/) for tests and [Codecov.io](https://about.codecov.io/) to measure test coverage.
+
+[MaterialUI](https://material-ui.com/) provides many standard interface components, with [ReachUI](https://reach.tech/) providing accessible components such as search boxes and the skip to content link.
+
 ## Getting Started
 
-First, run the development server:
+Clone down this repository and run `npm install`.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Clone down the backend repository, following the instructions there to setup a local PostgreSQL database and get Strapi up-and-running.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Rename `.env.default` to `env.local`.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Run `npm run dev` and the project will run.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Custom scripts
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Please browse [./package.json](package.json) scripts to learn how to run tests and lint the project; however, a Continuous Integration pipeline (see [./.github/workflows/main.yml](.github/workflows/main.yml)) runs tests automatically on every push to the `main` branch, and a husky pre-commit hook will lint all staged files before committing.
