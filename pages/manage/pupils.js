@@ -122,7 +122,7 @@ export default function Pupils({ session, gqlClient }) {
                     className={classes.button}
                     label="Assign groups"
                     text="Assign selected pupils to groups."
-                    model="pupil">
+                    model="assign-groups">
                     <DataFetcher
                       query={getGroupsByOrg}
                       variables={{ orgId: orgId }}>

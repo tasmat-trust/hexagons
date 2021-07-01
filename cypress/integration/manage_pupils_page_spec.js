@@ -36,12 +36,12 @@ describe('Manage Pupils Page', () => {
   it('Lets SLT create new groups', () => {
 
 
-    cy.get('.MuiGrid-grid-md-5 > .makeStyles-paper-37 > .MuiBox-root > .MuiButtonBase-root > .MuiButton-label').click();
+    cy.get('[data-test-id=new-group]').click();
     cy.get('#name').clear();
     cy.get('#name').type('New group');
-    cy.get('#new-group > :nth-child(2) > .MuiButtonBase-root > .MuiButton-label').click();
-    cy.get('.MuiDialogActions-root > .MuiButtonBase-root > .MuiButton-label').click();
-    
+    cy.get('[data-test-id=add-new-group]').click();
+    cy.get('[data-test-id=close-group-popup]').click();
+
     cy.intercept({
       method: 'POST',
       url: 'http://localhost:1337/graphql'

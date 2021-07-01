@@ -62,7 +62,7 @@ export default function AddNew({ updateModel, model, nameFieldName, includeEmail
       )}
       {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
       <FormControl margin="normal">
-        <Button fullWidth type="submit" variant="contained" color="primary">
+        <Button data-test-id={`add-new-${model}`} fullWidth type="submit" variant="contained" color="primary">
           Add new {model}
         </Button>
       </FormControl>
