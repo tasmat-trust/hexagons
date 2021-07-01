@@ -55,4 +55,19 @@ describe('Manage Pupils Page', () => {
     )
     cy.wait('@gqlcreateNewGroupQuery').its('request.url').should('include', '/graphql')
   })
+
+
+
+  it('Lets SLT create new pupils', () => {
+    /* ==== Generated with Cypress Studio ==== */
+    cy.get('.MuiGrid-grid-md-7 > .MuiPaper-root > .MuiBox-root > .MuiButtonBase-root > .MuiButton-label').click();
+    cy.get('#name').clear();
+    cy.get('#name').type('Amadeus Foley');
+    cy.get('body').click();
+    cy.get('.Mui-focusVisible').click();
+    cy.get('[data-value="43"]').click();
+    cy.get(':nth-child(3) > .MuiButtonBase-root > .MuiButton-label').click();
+    cy.get('.MuiDialogActions-root > .MuiButtonBase-root').click();
+    /* ==== End Cypress Studio ==== */
+  })
 })
