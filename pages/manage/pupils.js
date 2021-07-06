@@ -38,7 +38,8 @@ export default function Pupils({ session, gqlClient }) {
   const [mutateGroup, setMutateGroup] = useState()
   const [selectedPupils, setSelectedPupils] = useState([])
   const [allPupils, setAllPupils] = useState([])
-
+  const [counter, setCounter] = useState(0)
+ 
   const [addToGroupButtonVisible, setAddToGroupButtonVisible] = useState(false)
 
   if (!session) return ''
@@ -124,6 +125,7 @@ export default function Pupils({ session, gqlClient }) {
                     text="Assign selected pupils to groups."
                     model="assign-groups">
                     <DataFetcher
+                      counter={counter}
                       query={getGroupsByOrg}
                       variables={{ orgId: orgId }}>
                       {(data) => (<AssignTo updateModel={handleAssignToGroups} model="groups" selectItems={data.groups} />)}
@@ -140,6 +142,7 @@ export default function Pupils({ session, gqlClient }) {
                   text="Add a new pupil and assign them to groups. You can always add groups later."
                   model="pupil">
                   <DataFetcher
+                    counter={counter}
                     query={getGroupsByOrg}
                     variables={{ orgId: orgId }}>
                     {(data) => <AddNew updateModel={createPupil} model="pupil" selectItems={data.groups} />}
@@ -148,6 +151,7 @@ export default function Pupils({ session, gqlClient }) {
               </Box>
               <Grid container spacing={2}>
                 <DataFetcher
+                  counter={counter}
                   query={getPupilsWithGroups}
                   setMutate={setMutatePupil}
                 >
@@ -204,11 +208,12 @@ export default function Pupils({ session, gqlClient }) {
                 </DialogButton>
               </Box>
               <DataFetcher
+                counter={counter}
                 setMutate={setMutateGroup}
                 query={allGroups}
                 variables={{ orgId: orgId }}>
                 {(data) => (
-                  <GroupsList groups={data.groups} />
+                  <GroupsList setCounter={setCounter} groups={data.groups} />
                 )}
               </DataFetcher>
 

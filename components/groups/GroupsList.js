@@ -3,9 +3,11 @@ import { Paper, Link, Typography } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
 
 
-export default function GroupsList({ groups }) {
+export default function GroupsList({ groups  }) {
 
   const classes = useAdminPage()
+
+
 
   return (
     <ul className={classes.ul}>

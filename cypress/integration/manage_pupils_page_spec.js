@@ -10,11 +10,7 @@ describe('Manage Pupils Page', () => {
     let groupResponse = {
       body: { "data": { "groups": [{ "name": "Class 2", "slug": "class-2", "id": "42" }, { "name": "Class 3", "slug": "class-3", "id": "43" }, { "name": "Class 4", "slug": "class-4", "id": "44" }] } }
     }
-
     let pupilResponse = { body: { "data": { "pupils": [{ "id": "72", "name": "Dave Eggers", "groups": [{ "name": "Class 2", "id": "42" }] }, { "id": "73", "name": "Darren Jones", "groups": [{ "name": "Class 5", "id": "45" }, { "name": "Class 6", "id": "46" }] }, { "id": "74", "name": "Jenny Potterr", "groups": [{ "name": "Class 2", "id": "42" }] }, { "id": "75", "name": "Amadeus Foley", "groups": [{ "name": "Class 2", "id": "42" }, { "name": "Class 3", "id": "43" }] }, { "id": "69", "name": "Peter Smith", "groups": [{ "name": "Class 2", "id": "42" }] }, { "id": "70", "name": "Jenny Roebottom", "groups": [{ "name": "Class 2", "id": "42" }, { "name": "SEND", "id": "47" }] }, { "id": "71", "name": "Amelia Smith", "groups": [{ "name": "Class 2", "id": "42" }] }] } } }
-
-
-
 
     cy.intercept({
       method: 'POST',
