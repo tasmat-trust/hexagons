@@ -2,14 +2,15 @@ import { Grid, Paper, Box, Typography } from '@material-ui/core';
 
 import checkSession from '../../components/auth/CheckSession'
 
-import DataFetcher from "../../components/data-fetching/DataFetcher";
+
 import useAdminPage from "../../styles/useAdminPage";
 
+import TeachersGrid from '../../components/layout/data-tables/TeacherGrid'
 
 import DialogButton from '../../components/mui/DialogButton'
-import AddNew from '../../components/forms/AddNew';
 
-import { DataGrid } from '@material-ui/data-grid'
+import { AddNewGroup } from '../../components/forms/AddNew';
+
 // Utils
 import { getOrgIdFromSession } from '../../utils';
 
@@ -19,8 +20,8 @@ import { allGroups } from '../../queries/Groups'
 import { gql } from 'graphql-request';
 
 
-export default function Index({ session, gqlClient }) {
-
+export default function Index(props) {
+  const { session, gqlClient } = props
   const classes = useAdminPage()
 
   const orgId = getOrgIdFromSession(session)
@@ -72,53 +73,24 @@ export default function Index({ session, gqlClient }) {
                   label="New user"
                   text="Add a new teacher and assign them groups and roles. You can always assign groups/roles later."
                   model="user">
-                  <DataFetcher
-                    query={allGroups}
-                    variables={{ orgId: orgId }}>
-                    {(data) => (
-                      <AddNew
-                        updateModel={createTeacher}
-                        nameFieldName={'username'}
-                        includeEmail={true}
-                        model="user"
-                        selectItems={data.groups}
-                      />
-                    )}
-                  </DataFetcher>
+
+                  <AddNewGroup
+                    {...props}
+                    session={session}
+                    updateModel={createTeacher}
+                    nameFieldName={'username'}
+                    includeEmail={true}
+                    model="user"
+                    query={allGroups} 
+                    variables={{ orgId: orgId }}               
+                  />
+
+ 
                 </DialogButton>
               </Box>
 
-              <DataFetcher query={allTeachers} variables={{ orgId: orgId }}>
-                {(data) => {
-                  const teachers = data.users
-                  // https://material-ui.com/api/data-grid/data-grid/
-                  const columns = [
-                    { field: 'username', headerName: 'Teacher', width: 130 },
-                    { field: 'email', headerName: 'Email', width: 220 },
-                    { field: 'role', headerName: 'Role', width: 130, valueGetter: params => params.row.role.name },
-                    {
-                      field: 'groups',
-                      headerName: 'Groups',
-                      width: 200,
-                      sortable: false,
-                      valueGetter: (params) => {
-                        return params.row.groups && params.row.groups.map((group) => `${group.name}`)
-                      }
-
-                    },
-                  ];
-
-                  return (
-                    <div style={{ height: 800, width: '100%' }}>
-                      <DataGrid
-                        rows={teachers}
-                        columns={columns}
-                        checkboxSelection
-                      />
-                    </div>
-                  )
-                }}
-              </DataFetcher>
+              <TeachersGrid query={allTeachers} variables={{ orgId: orgId }}></TeachersGrid>
+ 
             </Paper>
           </Grid>
         </Grid>

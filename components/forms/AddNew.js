@@ -3,9 +3,18 @@ import FormControl from '@material-ui/core/FormControl';
 
 import MultipleSelect from "./MultipleSelect";
 import { useState } from "react";
+import useSWR from "swr"
+
+// Utils
+import { getOrgIdFromSession } from '../../utils';
 
 
-export default function AddNew({ updateModel, model, nameFieldName, includeEmail, selectItems }) {
+import { Typography } from "@material-ui/core";
+
+
+import { session } from "next-auth/client";
+
+function AddNew({ updateModel, model, nameFieldName, includeEmail, selectItems }) {
 
   const [selectValue, setSelectValue] = useState([]);
   const [nameValue, setNameValue] = useState('');
@@ -28,7 +37,7 @@ export default function AddNew({ updateModel, model, nameFieldName, includeEmail
       const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
-    updateModel(formData)
+    //updateModel(formData)
     resetForm()
   }
 
@@ -68,4 +77,19 @@ export default function AddNew({ updateModel, model, nameFieldName, includeEmail
       </FormControl>
     </form>
   )
+}
+
+function AddNewGroup(props) {
+  const { query, variables } = props
+  const { data, error } = useSWR([query, variables])
+  if (error) return <Typography>There has been an error fetching the data</Typography>
+  if (!data) return <Typography>Loading</Typography>
+  if (data[Object.keys(data)[0]].length === 0) return <Typography>No records found.</Typography>
+  return (
+    <AddNew {...props} selectItems={data.groups} />
+  )
+}
+
+export {
+  AddNewGroup
 }

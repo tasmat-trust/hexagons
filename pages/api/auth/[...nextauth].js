@@ -17,7 +17,6 @@ const options = {
             password: credentials.password
           });
           if (data) {
-            console.log(data.user.organizations[0].logo.formats.small)
             const img = data.user.organizations[0].logo.formats.small
             const user = {
               email: data.user.email,

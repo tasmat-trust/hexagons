@@ -44,7 +44,6 @@ export default function Pupils({ session, gqlClient }) {
   if (!session) return ''
 
   function handleAssignToGroups(formData) {
-    console.log(formData)
     selectedPupils.map(pupilId => {
       const currentPupil = allPupils.filter(pupil => pupil.id === pupilId)[0]      
       const newPupil = {
