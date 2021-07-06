@@ -1,102 +1,58 @@
 import { Grid, Paper, Box, Typography } from '@material-ui/core';
 
 import checkSession from '../../components/auth/CheckSession'
-
-
 import useAdminPage from "../../styles/useAdminPage";
-
-import TeachersGrid from '../../components/layout/data-tables/TeacherGrid'
-
 import DialogButton from '../../components/mui/DialogButton'
-
 import { AddNewGroup } from '../../components/forms/AddNew';
+import ManageUsers from '../../components/users/ManageUsers'
 
+
+import GroupsList from '../../components/groups/GroupsList'
 // Utils
 import { getOrgIdFromSession } from '../../utils';
-
-import { allTeachers } from '../../queries/Teachers'
-import { allGroups } from '../../queries/Groups'
-
-import { gql } from 'graphql-request';
-
+import { useState } from 'react';
 
 export default function Index(props) {
-  const { session, gqlClient } = props
+
   const classes = useAdminPage()
-
-  const orgId = getOrgIdFromSession(session)
-
-  async function createTeacher(formData) {
-    const query = gql`
-        mutation createUser($username: String!, $email: String!, $role: ID!, $orgId: [ID!], $groupId: [ID!]) {
-            createUser(input: {
-              data:{
-                username: $username,
-                email: $email,
-                role: $role,
-                groups:$groupId,
-                organizations:$orgId
-                }
-              }) {
-              user {
-                role {
-                  id
-                }
-              }
-            }
-        }`
-    const variables = {
-      role: "1",
-      username: formData.username,
-      email: formData.email,
-      orgId: [orgId],
-      groupId: formData.groups
-    }
-    try {
-      const data = await gqlClient.request(query, variables)
-      if (data) console.log('success', data)
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  const orgId = getOrgIdFromSession(props.session)
+  const [mutateGroup, setMutateGroup] = useState()
 
   return (
     <>
       <div className={classes.root}>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid item md={8} xs={12}>
+            <Paper variant="outlined" className={classes.paper}>
+              <ManageUsers {...props} />
+            </Paper>
+          </Grid>
+          <Grid item md={4} xs={12}>
             <Paper variant="outlined" className={classes.paper}>
               <Box className={classes.box}>
-                <Typography variant="h4" component="h2" className={classes.title}>All users</Typography>
+                <Typography variant="h4" component="h2" className={classes.title}>Groups</Typography>
                 <DialogButton
                   className={classes.button}
-                  label="New user"
-                  text="Add a new teacher and assign them groups and roles. You can always assign groups/roles later."
-                  model="user">
-
+                  label="New group"
+                  data-test-id="new-group"
+                  text="Create a new group. Teachers can then be assigned to groups."
+                  model="group">
                   <AddNewGroup
                     {...props}
-                    session={session}
-                    updateModel={createTeacher}
-                    nameFieldName={'username'}
-                    includeEmail={true}
-                    model="user"
-                    query={allGroups} 
-                    variables={{ orgId: orgId }}               
+                    setSharedState={mutateGroup}
+                    variables={{ orgId: orgId }}
                   />
-
- 
                 </DialogButton>
               </Box>
-
-              <TeachersGrid query={allTeachers} variables={{ orgId: orgId }}></TeachersGrid>
- 
+              <GroupsList
+                {...props}
+                setSharedState={setMutateGroup}
+                variables={{ orgId: orgId }}
+              />
             </Paper>
           </Grid>
         </Grid>
       </div>
-
-
     </>
   )
 }

@@ -3,24 +3,23 @@ import FormControl from '@material-ui/core/FormControl';
 
 import MultipleSelect from "./MultipleSelect";
 import { useState } from "react";
-import useSWR from "swr"
 
-// Utils
-import { getOrgIdFromSession } from '../../utils';
 
+import useSharedState from "../data-fetching/useSharedState";
+
+import { allGroups } from '../../queries/Groups'
+import createTeacher from '../../handlers/createTeacher'
+import createGroup from '../../handlers/createGroup'
 
 import { Typography } from "@material-ui/core";
 
-
-import { session } from "next-auth/client";
-
-function AddNew({ updateModel, model, nameFieldName, includeEmail, selectItems }) {
-
+function AddNew(props) {
+  const { updateHandler, modelName, setSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
   const [selectValue, setSelectValue] = useState([]);
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
 
-  function handleForm(event) {
+  async function handleForm(event) {
     event.preventDefault()
     let formData = {}
 
@@ -37,7 +36,7 @@ function AddNew({ updateModel, model, nameFieldName, includeEmail, selectItems }
       const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
-    //updateModel(formData)
+    await updateHandler(formData, gqlClient, props.session.orgId, setSharedState)
     resetForm()
   }
 
@@ -48,7 +47,7 @@ function AddNew({ updateModel, model, nameFieldName, includeEmail, selectItems }
   }
 
   return (
-    <form id={`new-${model}`} onSubmit={handleForm}>
+    <form id={`new-${modelName}`} onSubmit={handleForm}>
       <FormControl fullWidth required margin="normal">
         <TextField
           id={nameFieldName ? nameFieldName : 'name'}
@@ -71,25 +70,42 @@ function AddNew({ updateModel, model, nameFieldName, includeEmail, selectItems }
       )}
       {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
       <FormControl margin="normal">
-        <Button data-test-id={`add-new-${model}`} fullWidth type="submit" variant="contained" color="primary">
-          Add new {model}
+        <Button data-test-id={`add-new-${modelName}`} fullWidth type="submit" variant="contained" color="primary">
+          Add new {modelName}
         </Button>
       </FormControl>
     </form>
   )
 }
 
-function AddNewGroup(props) {
-  const { query, variables } = props
-  const { data, error } = useSWR([query, variables])
-  if (error) return <Typography>There has been an error fetching the data</Typography>
-  if (!data) return <Typography>Loading</Typography>
-  if (data[Object.keys(data)[0]].length === 0) return <Typography>No records found.</Typography>
+function AddNewGroup(props) { 
   return (
-    <AddNew {...props} selectItems={data.groups} />
+    <AddNew
+      {...props}
+      updateHandler={createGroup}
+      modelName={"group"}
+      nameFieldName={'name'}
+    />
+  )
+}
+
+function AddNewTeacherWithGroups(props) {
+  const { variables } = props
+  const [state, setState, error] = useSharedState([allGroups, variables])
+  if (error) return <Typography>Error loading</Typography>
+  if (!state) return <Typography>Loading</Typography>
+  return (
+    <AddNew
+      {...props}
+      modelName="user"
+      updateHandler={createTeacher} 
+      nameFieldName={'username'}
+      includeEmail={true}
+      selectItems={state.groups} />
   )
 }
 
 export {
+  AddNewTeacherWithGroups,
   AddNewGroup
 }
