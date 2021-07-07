@@ -27,7 +27,7 @@ function SettingNavItems({ session }) {
       <List>
         {session.role === 'Senior Leader' && <NavItem href="/manage/org" label="Manage organisation" Icon={DashboardIcon} />}
         {session.role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Manage Teachers" Icon={SchoolIcon} />}
-        {session.role === 'Senior Leader' && <NavItem href="/manage/pupils" label="Manage Pupils" Icon={PeopleIcon} />}
+        {session.role === 'Teacher' && <NavItem href="/manage/pupils" label="Manage Pupils" Icon={PeopleIcon} />}
         <NavItem href="/manage/me" label="My account" Icon={PersonIcon} />
       </List>
     </Box>

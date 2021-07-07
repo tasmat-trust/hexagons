@@ -13,28 +13,31 @@ function ManageUsersHeader(props) {
   return (
     <>
       <Box className={classes.box}>
-        <Typography variant="h4" component="h2" className={classes.title}>All {userType}s</Typography>
+        <Typography variant="h4" component="h2" className={classes.title} data-test-id="title">All {userType}s</Typography>
 
         {multiAddVisible && userType === 'teacher' && (
           <DialogButton
+            data-test-id="assign-roles"
             className={classes.button}
             label="Assign role"
             text={`Assign roles to ${userType}s`}
             model="group">
- 
+
           </DialogButton>
         )}
 
         {multiAddVisible && (
           <DialogButton
+            data-test-id="assign-groups"
             className={classes.button}
             label="Assign groups"
             text={`Assign ${userType}s to groups`}
             model="group">
-    
+
           </DialogButton>
         )}
         <DialogButton
+          data-test-id={`new-${userType}`}
           className={classes.button}
           label={`New ${userType}`}
           text={`Add a new ${userType} and assign them groups. You can always assign groups later.`}
@@ -49,10 +52,9 @@ function ManageUsersHeader(props) {
   )
 }
 
-
 const ManageUsersBody = memo(function ManageUsersBody(props) {
   const { orgId } = props
-  
+
   return (
     <UsersGrid {...props} variables={{ orgId: orgId }}></UsersGrid>
   )
@@ -62,7 +64,7 @@ function ManageUsers(props) {
   const orgId = getOrgIdFromSession(props.session)
   const classes = useAdminPage()
   const [multiAddVisible, setMultiAddVisible] = useState(false)
-  const [ mutateUsers, setMutateUsers ] = useState()
+  const [mutateUsers, setMutateUsers] = useState()
   return (
     <Paper variant="outlined" className={classes.paper}>
       <ManageUsersHeader

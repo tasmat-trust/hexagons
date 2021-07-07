@@ -11,8 +11,9 @@ import useAdminPage from "../../styles/useAdminPage";
 import { getOrgIdFromSession } from '../../utils';
 
 export default function ManageGroups(props) {
+  const { session, userType } = props
   const classes = useAdminPage()
-  const orgId = getOrgIdFromSession(props.session)
+  const orgId = getOrgIdFromSession(session)
   const [mutateGroup, setMutateGroup] = useState()
   return (
     <Paper variant="outlined" className={classes.paper}>
@@ -22,7 +23,7 @@ export default function ManageGroups(props) {
           className={classes.button}
           label="New group"
           data-test-id="new-group"
-          text="Create a new group. Teachers can then be assigned to groups."
+          text={`Create a new group - ${userType}s can then be assigned to groups.`}
           model="group">
           <AddNewGroup
             {...props}

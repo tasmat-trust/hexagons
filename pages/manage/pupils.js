@@ -1,4 +1,5 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 import checkSession from '../../components/auth/CheckSession'
 import useAdminPage from "../../styles/useAdminPage";
@@ -11,13 +12,16 @@ export default function Index(props) {
 
   return (
     <>
+      <Paper elevation={2}>
+        <Alert severity="info" data-test-id="notification">This is a <b>Teacher</b> page. It is only visible to Teachers and Senior Leaders</Alert>
+      </Paper>
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item md={8} xs={12}>
             <ManageUsers userType="pupil" {...props} />
           </Grid>
           <Grid item md={4} xs={12}>
-            <ManageGroups {...props} />
+            <ManageGroups userType="pupil" {...props} />
           </Grid>
         </Grid>
       </div>
@@ -26,5 +30,5 @@ export default function Index(props) {
 }
 
 export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Senior Leader')
+  return await checkSession(ctx, 'Teacher')
 }

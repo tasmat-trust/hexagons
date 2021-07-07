@@ -12,9 +12,7 @@ import { allGroups } from '../../queries/Groups'
 import createPupil from '../../handlers/createPupil'
 import createTeacher from '../../handlers/createTeacher'
 import createGroup from '../../handlers/createGroup'
-
-import { Typography } from "@material-ui/core";
-
+ 
 function AddNew(props) {
   const { updateHandler, modelName, triggerSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
   const [selectValue, setSelectValue] = useState([]);
@@ -96,7 +94,7 @@ function AddNewUserWithGroups(props) {
   const { variables, userType } = props
   const [state, setState, error] = useSharedState([allGroups, variables])
   const gotNonResponse = handleNonResponses(state, error)
-  if (gotNonResponse) return gotNonResponse
+  const groups = gotNonResponse ? [] : state.groups
   return (
     <>
       {userType === 'teacher' && <AddNew
@@ -105,13 +103,13 @@ function AddNewUserWithGroups(props) {
         updateHandler={createTeacher}
         nameFieldName={'username'}
         includeEmail={true}
-        selectItems={state.groups} />}
+        selectItems={groups} />}
       {userType === 'pupil' && <AddNew
         {...props}
         modelName="pupil"
         updateHandler={createPupil}
         nameFieldName={'name'}
-        selectItems={state.groups} />}
+        selectItems={groups} />}
     </>
   )
 }

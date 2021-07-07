@@ -2,15 +2,15 @@ import { InputLabel, Select, Input } from "@material-ui/core"
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
- 
+
 
 // Design
 import useFormStyles from '../../styles/useFormStyles';
 import { useTheme } from '@material-ui/core/styles';
 
-export default function MultipleSelect({selectItems, selectValue, setSelectValue, itemsLabel}) {
+export default function MultipleSelect({ selectItems, selectValue, setSelectValue, itemsLabel }) {
 
- 
+
   function getStyles(name, selectValue, theme) {
     return {
       fontWeight:
@@ -37,13 +37,13 @@ export default function MultipleSelect({selectItems, selectValue, setSelectValue
 
   return (
     <FormControl
-      required
       fullWidth
       margin="normal"
       className={classes.formControl}
     >
       <InputLabel id="demo-mutiple-chip-label">{itemsLabel}</InputLabel>
       <Select
+        data-test-id="multi-select"
         labelId="demo-mutiple-chip-label"
         id="demo-mutiple-chip"
         multiple
