@@ -14,7 +14,7 @@ import createTeacher from '../../handlers/createTeacher'
 import createGroup from '../../handlers/createGroup'
  
 function AddNew(props) {
-  const { updateHandler, modelName, triggerSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
+  const { updateHandler, modelname, triggerSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
   const [selectValue, setSelectValue] = useState([]);
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -47,7 +47,7 @@ function AddNew(props) {
   }
 
   return (
-    <form id={`new-${modelName}`} onSubmit={handleForm}>
+    <form id={`new-${modelname}`} onSubmit={handleForm}>
       <FormControl fullWidth required margin="normal">
         <TextField
           id={nameFieldName ? nameFieldName : 'name'}
@@ -70,8 +70,8 @@ function AddNew(props) {
       )}
       {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
       <FormControl margin="normal">
-        <Button data-test-id={`add-new-${modelName}`} fullWidth type="submit" variant="contained" color="primary">
-          Add new {modelName}
+        <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="primary">
+          Add new {modelname}
         </Button>
       </FormControl>
     </form>
@@ -83,7 +83,7 @@ function AddNewGroup(props) {
     <AddNew
       {...props}
       updateHandler={createGroup}
-      modelName={"group"}
+      modelname={"group"}
       nameFieldName={'name'}
     />
   )
@@ -99,14 +99,14 @@ function AddNewUserWithGroups(props) {
     <>
       {userType === 'teacher' && <AddNew
         {...props}
-        modelName="user"
+        modelname="user"
         updateHandler={createTeacher}
         nameFieldName={'username'}
         includeEmail={true}
         selectItems={groups} />}
       {userType === 'pupil' && <AddNew
         {...props}
-        modelName="pupil"
+        modelname="pupil"
         updateHandler={createPupil}
         nameFieldName={'name'}
         selectItems={groups} />}

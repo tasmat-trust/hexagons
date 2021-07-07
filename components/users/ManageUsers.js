@@ -1,5 +1,6 @@
 import DialogButton from "../mui/DialogButton"
 import { AddNewUserWithGroups } from '../forms/AddNew'
+import { AssignGroupsToPupil } from '../forms/AssignTo'
 import UsersGrid from "../layout/data-tables/UsersGrid"
 import { Box, Typography, Paper } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
@@ -21,7 +22,7 @@ function ManageUsersHeader(props) {
             className={classes.button}
             label="Assign role"
             text={`Assign roles to ${userType}s`}
-            model="group">
+            modelname="group">
 
           </DialogButton>
         )}
@@ -32,8 +33,11 @@ function ManageUsersHeader(props) {
             className={classes.button}
             label="Assign groups"
             text={`Assign ${userType}s to groups`}
-            model="group">
-
+            modelname="group">
+            <AssignGroupsToPupil
+              {...props}
+              modelname="group"
+              variables={{ orgId: orgId }} />
           </DialogButton>
         )}
         <DialogButton
@@ -41,9 +45,10 @@ function ManageUsersHeader(props) {
           className={classes.button}
           label={`New ${userType}`}
           text={`Add a new ${userType} and assign them groups. You can always assign groups later.`}
-          model={userType === 'teacher' ? 'user' : 'pupil'}>
+          modelname={userType === 'teacher' ? 'user' : 'pupil'}>
           <AddNewUserWithGroups
             {...props}
+            modelname={userType === 'teacher' ? 'user' : 'pupil'}
             variables={{ orgId: orgId }}
           />
         </DialogButton>
@@ -65,18 +70,24 @@ function ManageUsers(props) {
   const classes = useAdminPage()
   const [multiAddVisible, setMultiAddVisible] = useState(false)
   const [mutateUsers, setMutateUsers] = useState()
+  const [selectedUsers, setSelectedUsers] = useState([])
+  const [allUsers, setAllUsers] = useState([])
   return (
     <Paper variant="outlined" className={classes.paper}>
       <ManageUsersHeader
         {...props}
         orgId={orgId}
         classes={classes}
+        allUsers={allUsers}
+        selectedUsers={selectedUsers}
         triggerSharedState={mutateUsers}
         multiAddVisible={multiAddVisible}
       />
       <ManageUsersBody
         {...props}
         orgId={orgId}
+        setAllUsers={setAllUsers}
+        setSelectedUsers={setSelectedUsers}
         setSharedState={setMutateUsers}
         showMultiAdd={setMultiAddVisible}
       />

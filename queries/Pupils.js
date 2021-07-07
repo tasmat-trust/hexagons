@@ -24,10 +24,10 @@ const createPupilQuery = gql`
 const allPupilsWithGroups = gql`query getPupilsWithGroups($orgId: ID!){pupils (where: {organization: $orgId}){  id, name, groups {name, id}} }`
 
 const updatePupilGroups = gql`
-mutation updatePupil($pupilId: ID!, $groupIds: [ID!]) {
+mutation updatePupil($userId: ID!, $groupIds: [ID!]) {
   updatePupil(
     input: {
-      where: {id: $pupilId},
+      where: {id: $userId},
       data: { groups: $groupIds}
     }
   ) {

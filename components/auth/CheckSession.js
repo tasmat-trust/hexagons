@@ -4,6 +4,7 @@ export default async function checkSession(ctx, role) {
 
 
   function isAuthorized(userRole, requiredRole) {
+
     if (userRole === 'Senior Leader') {
       return true
     }

@@ -6,6 +6,11 @@ Cypress.Commands.add('assertManageUserPageVisible', () => {
   cy.get('[data-test-id=new-group]').should('be.visible')
 })
 
+Cypress.Commands.add('selectMultipleUsers', () => {
+  cy.get('[data-id="109"]').click()
+  cy.get('[data-id="110"]').click()
+})
+
 Cypress.Commands.add('createGroup', () => {
 
   cy.get('[data-test-id=new-group]').should('be.visible')
@@ -18,6 +23,7 @@ Cypress.Commands.add('createGroup', () => {
 })
 
 Cypress.Commands.add('createPupilWithoutGroups', () => {
+  cy.get('[data-test-id=new-pupil]').should('be.visible')
   cy.get('[data-test-id=new-pupil]').click();
   cy.get('#name').clear();
   cy.get('#name').type('Amadeus Foley');

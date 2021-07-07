@@ -121,11 +121,11 @@ export default function Pupils({ session, gqlClient }) {
                     className={classes.button}
                     label="Assign groups"
                     text="Assign selected pupils to groups."
-                    model="assign-groups">
+                    modelname="assign-groups">
                     <DataFetcher
                       query={getGroupsByOrg}
                       variables={{ orgId: orgId }}>
-                      {(data) => (<AssignTo updateModel={handleAssignToGroups} model="groups" selectItems={data.groups} />)}
+                      {(data) => (<AssignTo updateModel={handleAssignToGroups} modelname="groups" selectItems={data.groups} />)}
                     </DataFetcher>
                   </DialogButton>
                 )}
@@ -137,11 +137,11 @@ export default function Pupils({ session, gqlClient }) {
                   data-test-id="new-pupil"
                   label="New pupil"
                   text="Add a new pupil and assign them to groups. You can always add groups later."
-                  model="pupil">
+                  modelname="pupil">
                   <DataFetcher
                     query={getGroupsByOrg}
                     variables={{ orgId: orgId }}>
-                    {(data) => <AddNew updateModel={createPupil} model="pupil" selectItems={data.groups} />}
+                    {(data) => <AddNew updateModel={createPupil} modelname="pupil" selectItems={data.groups} />}
                   </DataFetcher>
                 </DialogButton>
               </Box>
@@ -198,8 +198,8 @@ export default function Pupils({ session, gqlClient }) {
                   label="New group"
                   data-test-id="new-group"
                   text="Create a new group. Pupils can then be assigned to groups."
-                  model="group">
-                  <AddNew updateModel={updateGroup} model="group" />
+                  modelname="group">
+                  <AddNew updateModel={updateGroup} modelname="group" />
                 </DialogButton>
               </Box>
               <DataFetcher

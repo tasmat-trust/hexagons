@@ -24,7 +24,7 @@ export default function ManageGroups(props) {
           label="New group"
           data-test-id="new-group"
           text={`Create a new group - ${userType}s can then be assigned to groups.`}
-          model="group">
+          modelname="group">
           <AddNewGroup
             {...props}
             triggerSharedState={mutateGroup}

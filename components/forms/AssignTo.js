@@ -3,9 +3,14 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import MultipleSelect from "./MultipleSelect";
 import { useState } from "react";
+import useSharedState from "../data-fetching/useSharedState";
+import handleNonResponses from "../data-fetching/handleNonResponses";
+import { allGroups } from "../../queries/Groups";
+import { updatePupilGroups } from "../../queries/Pupils"
 
 
-export default function AssignTo({ selectItems, updateModel, model }) {
+
+function AssignTo({ selectItems, updateModel, modelname }) {
 
   const [selectValue, setSelectValue] = useState([]);
   const [shouldOverwrite, setShouldOverwrite] = useState(false)
@@ -29,7 +34,7 @@ export default function AssignTo({ selectItems, updateModel, model }) {
   }
 
   return (
-    <form id={`assign-to-${model}`} onSubmit={handleForm}>
+    <form id={`assign-to-${modelname}`} onSubmit={handleForm}>
       {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
       <FormControl margin="normal">
         <FormControlLabel margin="normal"
@@ -38,10 +43,57 @@ export default function AssignTo({ selectItems, updateModel, model }) {
         />
       </FormControl>
       <FormControl margin="normal">
-        <Button fullWidth type="submit" variant="contained" color="primary">
-          Assign {model}
+        <Button data-test-id={`assign-to-${modelname}`} fullWidth type="submit" variant="contained" color="primary">
+          Assign {modelname}
         </Button>
       </FormControl>
     </form>
   )
+}
+
+function AssignGroupsToPupil(props) {
+
+  const { variables, gqlClient, selectedUsers, allUsers, triggerSharedState } = props
+  function handleAssignToGroups(formData) {
+    selectedUsers.map(userId => {
+      const currentUser = allUsers.filter(user => user.id === userId)[0]
+      const newUser = {
+        id: currentUser.id
+      }
+      if (formData.shouldOverwrite === false) {
+        const existingGroupIds = currentUser.groups.map(group => group.id)
+        newUser.groups = formData.groups.concat(existingGroupIds)
+      } else {
+        newUser.groups = formData.groups
+      }
+
+      assignToGroups(newUser)
+      return newUser
+    })
+  }
+
+  async function assignToGroups(user) {
+    const variables = {
+      userId: user.id,
+      groupIds: user.groups
+    }
+    try {
+      const data = await gqlClient.request(updatePupilGroups, variables)
+      if (data) triggerSharedState.update()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+
+  const [state, setState, error] = useSharedState([allGroups, variables])
+  const gotNonResponse = handleNonResponses(state, error)
+  const groups = gotNonResponse ? [] : state.groups
+  return (
+    <AssignTo {...props} selectItems={groups} updateModel={handleAssignToGroups} />
+  )
+}
+
+export {
+  AssignGroupsToPupil
 }

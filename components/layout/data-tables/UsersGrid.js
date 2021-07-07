@@ -7,7 +7,7 @@ import useSharedState from "../../data-fetching/useSharedState"
 import handleNonResponses from "../../data-fetching/handleNonResponses"
 import { useEffect } from "react"
 
-export default function UsersGrid({ variables, showMultiAdd, userType, setSharedState }) {
+export default function UsersGrid({ variables, showMultiAdd, userType, setSharedState, setSelectedUsers, setAllUsers }) {
 
   const query = userType === 'teacher' ? allTeachers : allPupilsWithGroups
 
@@ -15,9 +15,14 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
 
   useEffect(() => { // Set page-wide pupil/teacher state
     if (setState && setSharedState) setSharedState({ update: setState })
-  }, [setSharedState])
+  }, [setSharedState, setState])
 
-
+  useEffect(() => {
+    if (state) {
+      const users = userType === 'teacher' ? state.users : state.pupils
+      setAllUsers && setAllUsers(users)
+    }
+  }, [state, userType, setAllUsers])
   const gotNonResponse = handleNonResponses(state, error)
   if (gotNonResponse) return gotNonResponse
 
@@ -49,6 +54,7 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
         columns={columns}
         checkboxSelection
         onSelectionModelChange={(newSelection) => {
+          setSelectedUsers(newSelection.selectionModel)
           if (newSelection.selectionModel.length > 0) {
             showMultiAdd(true)
           } else {

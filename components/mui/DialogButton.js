@@ -14,7 +14,7 @@ export default function DialogButton(props) {
 
 
   const [open, setOpen] = useState(false);
-  const { className, label, text, children, model } = props
+  const { className, label, text, children, modelname } = props
   const handleOpen = () => {
     setOpen(true);
   };
@@ -50,7 +50,7 @@ export default function DialogButton(props) {
           {children}
         </DialogContent>
         <DialogActions>
-          <Button data-test-id={`close-${model}-popup`} onClick={handleClose} color="primary">
+          <Button data-test-id={`close-${modelname}-popup`} onClick={handleClose} color="primary">
             Close
           </Button>
         </DialogActions>
