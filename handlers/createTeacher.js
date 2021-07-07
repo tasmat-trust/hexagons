@@ -1,7 +1,6 @@
 import { createTeacherQuery } from '../queries/Teachers'
 
-async function createTeacher(formData, gqlClient, orgId, setSharedState) {
-  console.log(formData)
+async function createTeacher(formData, gqlClient, orgId, triggerSharedState) {
   const variables = {
     role: "1",
     username: formData.username,
@@ -13,7 +12,7 @@ async function createTeacher(formData, gqlClient, orgId, setSharedState) {
     const data = await gqlClient.request(createTeacherQuery, variables)
     if (data) {
       console.log(data)
-      setSharedState.update()
+      triggerSharedState.update()
     }
   } catch (e) {
     console.error(e)

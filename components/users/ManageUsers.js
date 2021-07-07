@@ -1,25 +1,25 @@
 import DialogButton from "../mui/DialogButton"
-import { AddNewTeacherWithGroups } from '../forms/AddNew'
-import TeachersGrid from "../layout/data-tables/TeachersGrid"
-import { Box, Typography } from "@material-ui/core"
+import { AddNewUserWithGroups } from '../forms/AddNew'
+import UsersGrid from "../layout/data-tables/UsersGrid"
+import { Box, Typography, Paper } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
 import { getOrgIdFromSession } from '../../utils';
 import { useState, memo } from "react"
 
 function ManageUsersHeader(props) {
 
-  const { classes, orgId, multiAddVisible } = props
+  const { classes, orgId, multiAddVisible, userType } = props
 
   return (
     <>
       <Box className={classes.box}>
-        <Typography variant="h4" component="h2" className={classes.title}>All users</Typography>
+        <Typography variant="h4" component="h2" className={classes.title}>All {userType}s</Typography>
 
-        {multiAddVisible && (
+        {multiAddVisible && userType === 'teacher' && (
           <DialogButton
             className={classes.button}
             label="Assign role"
-            text="Assign roles to teachers"
+            text={`Assign roles to ${userType}s`}
             model="group">
  
           </DialogButton>
@@ -29,17 +29,17 @@ function ManageUsersHeader(props) {
           <DialogButton
             className={classes.button}
             label="Assign groups"
-            text="Assign teachers to groups"
+            text={`Assign ${userType}s to groups`}
             model="group">
     
           </DialogButton>
         )}
         <DialogButton
           className={classes.button}
-          label="New user"
-          text="Add a new teacher and assign them groups and roles. You can always assign groups/roles later."
-          model="user">
-          <AddNewTeacherWithGroups
+          label={`New ${userType}`}
+          text={`Add a new ${userType} and assign them groups. You can always assign groups later.`}
+          model={userType === 'teacher' ? 'user' : 'pupil'}>
+          <AddNewUserWithGroups
             {...props}
             variables={{ orgId: orgId }}
           />
@@ -51,9 +51,10 @@ function ManageUsersHeader(props) {
 
 
 const ManageUsersBody = memo(function ManageUsersBody(props) {
-  const { orgId, showMultiAdd } = props
+  const { orgId } = props
+  
   return (
-    <TeachersGrid variables={{ orgId: orgId }} showMultiAdd={showMultiAdd}></TeachersGrid>
+    <UsersGrid {...props} variables={{ orgId: orgId }}></UsersGrid>
   )
 })
 
@@ -61,20 +62,23 @@ function ManageUsers(props) {
   const orgId = getOrgIdFromSession(props.session)
   const classes = useAdminPage()
   const [multiAddVisible, setMultiAddVisible] = useState(false)
+  const [ mutateUsers, setMutateUsers ] = useState()
   return (
-    <>
+    <Paper variant="outlined" className={classes.paper}>
       <ManageUsersHeader
         {...props}
         orgId={orgId}
         classes={classes}
+        triggerSharedState={mutateUsers}
         multiAddVisible={multiAddVisible}
       />
       <ManageUsersBody
         {...props}
         orgId={orgId}
+        setSharedState={setMutateUsers}
         showMultiAdd={setMultiAddVisible}
       />
-    </>
+    </Paper>
   )
 }
 

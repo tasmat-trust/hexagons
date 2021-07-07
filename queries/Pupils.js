@@ -21,9 +21,7 @@ const createPupilQuery = gql`
     }      
   }`
 
-const getPupilsWithGroups = gql`{pupils { id, name, groups {name, id} }}`
-
-const getPupilsWithGroupsQuery = gql`query getPupilsWithGroups($orgId: ID!){pupils (where: {organization: $orgId}){  id, name, groups {name, id}} }`
+const allPupilsWithGroups = gql`query getPupilsWithGroups($orgId: ID!){pupils (where: {organization: $orgId}){  id, name, groups {name, id}} }`
 
 const updatePupilGroups = gql`
 mutation updatePupil($pupilId: ID!, $groupIds: [ID!]) {
@@ -45,6 +43,6 @@ mutation updatePupil($pupilId: ID!, $groupIds: [ID!]) {
 
 export {
   createPupilQuery,
-  getPupilsWithGroups,
+  allPupilsWithGroups,
   updatePupilGroups
 }

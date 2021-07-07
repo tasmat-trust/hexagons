@@ -16,15 +16,43 @@ const allTeachers = gql`query getTeachers($orgId: Int!) {
     }
   }`
 
-const createTeacherQuery = gql`mutation createUser($username: String!, $email: String!) {
+
+const createTeacherQuery = gql`
+mutation createNewTeacher($username: String!, $email: String!,) {
     createUser(input: {
       data:{
-        username: $username,
+        username:$username,
         email: $email
         }
       }) {
       user {
-        username email
+        username
+        email
+      }
+    }      
+}`
+
+
+const createTQuery = gql`mutation createUser($username: String!, $email: String!, $role: ID!, $orgId: [ID!], $groupId: [ID!]) {
+    createUser(input: {
+      data:{
+        username: $username,
+        email: $email,
+        role: $role,
+        groups:$groupId,
+        organizations:$orgId
+        }
+      }) {
+      user {
+        organizations {
+          id
+        }
+        groups {
+          id
+        }
+        role {
+          id
+        }
       }
     }
 }`

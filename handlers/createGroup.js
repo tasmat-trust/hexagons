@@ -1,7 +1,7 @@
 import { createGroupQuery } from '../queries/Groups'
 
 
-async function createGroup(formData, gqlClient, orgId, setSharedState) {
+async function createGroup(formData, gqlClient, orgId, triggerSharedState) {
 
   const variables = {
     name: formData.name,
@@ -10,7 +10,7 @@ async function createGroup(formData, gqlClient, orgId, setSharedState) {
   try {
     const data = await gqlClient.request(createGroupQuery, variables)
     if (data) {
-      setSharedState.update()
+      triggerSharedState.update()
     }
   } catch (e) {
     console.error(e)

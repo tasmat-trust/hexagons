@@ -6,15 +6,17 @@ import { useState } from "react";
 
 
 import useSharedState from "../data-fetching/useSharedState";
-
+import handleNonResponses from "../data-fetching/handleNonResponses"
 import { allGroups } from '../../queries/Groups'
+
+import createPupil from '../../handlers/createPupil'
 import createTeacher from '../../handlers/createTeacher'
 import createGroup from '../../handlers/createGroup'
 
 import { Typography } from "@material-ui/core";
 
 function AddNew(props) {
-  const { updateHandler, modelName, setSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
+  const { updateHandler, modelName, triggerSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
   const [selectValue, setSelectValue] = useState([]);
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -36,7 +38,7 @@ function AddNew(props) {
       const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
-    await updateHandler(formData, gqlClient, props.session.orgId, setSharedState)
+    await updateHandler(formData, gqlClient, props.session.orgId, triggerSharedState)
     resetForm()
   }
 
@@ -78,7 +80,7 @@ function AddNew(props) {
   )
 }
 
-function AddNewGroup(props) { 
+function AddNewGroup(props) {
   return (
     <AddNew
       {...props}
@@ -89,23 +91,32 @@ function AddNewGroup(props) {
   )
 }
 
-function AddNewTeacherWithGroups(props) {
-  const { variables } = props
+
+function AddNewUserWithGroups(props) {
+  const { variables, userType } = props
   const [state, setState, error] = useSharedState([allGroups, variables])
-  if (error) return <Typography>Error loading</Typography>
-  if (!state) return <Typography>Loading</Typography>
+  const gotNonResponse = handleNonResponses(state, error)
+  if (gotNonResponse) return gotNonResponse
   return (
-    <AddNew
-      {...props}
-      modelName="user"
-      updateHandler={createTeacher} 
-      nameFieldName={'username'}
-      includeEmail={true}
-      selectItems={state.groups} />
+    <>
+      {userType === 'teacher' && <AddNew
+        {...props}
+        modelName="user"
+        updateHandler={createTeacher}
+        nameFieldName={'username'}
+        includeEmail={true}
+        selectItems={state.groups} />}
+      {userType === 'pupil' && <AddNew
+        {...props}
+        modelName="pupil"
+        updateHandler={createPupil}
+        nameFieldName={'name'}
+        selectItems={state.groups} />}
+    </>
   )
 }
 
 export {
-  AddNewTeacherWithGroups,
+  AddNewUserWithGroups,
   AddNewGroup
 }
