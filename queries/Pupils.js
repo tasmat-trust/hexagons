@@ -41,7 +41,17 @@ mutation updatePupil($userId: ID!, $groupIds: [ID!]) {
 }
 `
 
+
+const getPupilsByGroup = gql`query getPupils($groupId: ID!) {  
+  pupils (where: {groups: $groupId}) { 
+    name id, groups {
+      name
+    }
+  }
+}`
+
 export {
+  getPupilsByGroup,
   createPupilQuery,
   allPupilsWithGroups,
   updatePupilGroups

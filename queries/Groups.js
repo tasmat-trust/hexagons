@@ -17,6 +17,12 @@ mutation createNewGroup($name: String!, $orgId: ID!) {
     }      
 }`
 
+const getSingleGroup = gql`query getGroup($orgId: Int!, $slug: String!) {  
+  groups (where: {organization: $orgId, slug: $slug}) { 
+    name id
+  }
+}`
+
 // Get all groups with name and slug
 const allGroups = gql`query getGroups($orgId: Int!) {  
     groups (where: {organization: $orgId}) { 
@@ -30,6 +36,7 @@ const myGroups = gql`query getGroups($teacherId: ID!) {
   }
 }`
 
+// duplicate of allGroups TODO
 const getGroupsByOrg = gql`query getGroups($orgId: Int!) {  
   groups (where: {organization: $orgId}) { 
     name id slug
@@ -37,6 +44,7 @@ const getGroupsByOrg = gql`query getGroups($orgId: Int!) {
 }`
 
 export {
+  getSingleGroup,
   createGroupQuery,
   allGroups,
   myGroups,

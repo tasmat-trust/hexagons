@@ -1,14 +1,17 @@
 import { Paper, Link, Typography } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
 import { useEffect } from "react"
-import { allGroups } from "../../queries/Groups"
+import { allGroups, myGroups } from "../../queries/Groups"
 import useSharedState from "../data-fetching/useSharedState"
 import handleNonResponses from '../data-fetching/handleNonResponses'
 
 export default function GroupsList(props) {
-  const { variables, setSharedState } = props
+  const { variables, setSharedState, getMyGroups } = props
+
+  let query = getMyGroups ? myGroups : allGroups
+
   const classes = useAdminPage()
-  const [state, setState, error] = useSharedState([allGroups, variables])
+  const [state, setState, error] = useSharedState([query, variables])
 
   useEffect(() => {
     if (setState && setSharedState) setSharedState({ update: setState })
@@ -17,7 +20,7 @@ export default function GroupsList(props) {
 
   const gotNonResponse = handleNonResponses(state, error)
   if (gotNonResponse) return gotNonResponse
-  
+
 
   return (
     <ul className={classes.ul}>
