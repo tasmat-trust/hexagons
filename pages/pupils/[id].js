@@ -36,7 +36,7 @@ export default function Pupil() {
 
       <HexagonTiles subjects={pupil.subjects} />
 
-      <PupilCard pupil={pupil} />
+      {/* <PupilCard pupil={pupil} /> */}
     </>
   )
 }

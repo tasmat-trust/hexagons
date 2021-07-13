@@ -14,6 +14,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { create } from 'jss';
 import { ThemeProvider, StylesProvider, jssPreset } from "@material-ui/core/styles"
+import useGlobalStyles from '../styles/useGlobalStyles';
 import templatePlugin from 'jss-plugin-template'
 import theme from "../styles/theme"
 
@@ -23,11 +24,17 @@ import "@reach/skip-nav/styles.css"
 // Data fetching
 import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
-
+ 
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin()],
 });
+
+
+function ThemeProviderWithGlobalStyles({ children }) {
+  useGlobalStyles()
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+}
 
 
 function MyApp({ Component, pageProps }) {
@@ -59,7 +66,7 @@ function MyApp({ Component, pageProps }) {
         <Head>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         </Head>
-        <ThemeProvider theme={theme}>
+        <ThemeProviderWithGlobalStyles theme={theme}>
           <StylesProvider jss={jss}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
@@ -75,7 +82,7 @@ function MyApp({ Component, pageProps }) {
               </SWRConfig>
             </ResponsiveDrawer>
           </StylesProvider>
-        </ThemeProvider>
+        </ThemeProviderWithGlobalStyles>
       </Provider>
     </>
   )

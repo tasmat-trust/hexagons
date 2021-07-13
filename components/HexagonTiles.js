@@ -4,115 +4,74 @@ export default function HexagonTiles({ subjects }) {
   // https://github.com/web-tiki/responsive-grid-of-hexagons/blob/css-grid/index.html
   const stringStyles = makeStyles((theme) => ({
     // https://cssinjs.org/jss-plugin-template/?v=v10.7.1
-    hexGrid: `
+    wrapper: `
+      font-size: 14px;
+    `,
+    main: `
       display: flex;
-      flex-wrap: wrap;
-      width: 90%;
-      margin: 0 auto;
-      overflow: hidden;
-      font-family: 'Raleway', sans-serif;
-      font-size: 15px;
-      list-style-type: none;
+      --s: 16rem; /* size */
+      --r: 0.75; /* ratio */
+      /* clip-path */
+      --h: 0.25;
+      --v: 0.5;
+      --hc: calc(clamp(0,var(--h), 0.5) * var(--s));
+      --vc: calc(clamp(0,var(--v), 0.5) * var(--s) * var(--r));
+      /*margin */
+      --mv: 4px; /* vertical */
+      --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 8px);
+      --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
+    `,
+    container: `
+      position: relative;
+      width: 110vw;
+      margin-left: -6vw; 
+      font-size: 0;
+      //padding-bottom: calc(var(--s) *var(--r) + var(--mv));
+      min-width: calc(var(--s)  * 3);
+      // margin-left: -6rem
     `,
     hex: `
+      width: var(--s);
+      margin: var(--mv) var(--mh);
+      height: calc(var(--s) *var(--r));
+      display: inline-block;
+      font-size: initial;
+      clip-path: polygon(var(--hc) 0, calc(100% - var(--hc)) 0, 100% var(--vc), 100% calc(100% - var(--vc)), calc(100% - var(--hc)) 100%,var(--hc) 100%, 0 calc(100% - var(--vc)), 0 var(--vc));
+      background: ${theme.palette.info.light};
+      margin-bottom: calc(var(--mv) - var(--vc));
+      
+    `,
+    hexIn: ` 
       position: relative;
-      visibility:hidden;
-      outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
     `,
-    hexIn: `
+    hexContent: ` 
       position: absolute;
-      width:96%;
-      padding-bottom: 110.851%; /* =  width / sin(60) */
-      margin:0 2%;
-      overflow: hidden;
-      visibility: hidden;
-      outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
-      -webkit-transform: rotate3d(0,0,1,-60deg) skewY(30deg);
-          -ms-transform: rotate3d(0,0,1,-60deg) skewY(30deg);
-              transform: rotate3d(0,0,1,-60deg) skewY(30deg);
-    `,
-    hexContent: `
-      background: ${theme.palette.secondary.light};
-      display:block;
+      text-align: center;
       width: 100%;
       height: 100%;
-      text-align: center;
-      color: #fff;
-      overflow: hidden;
-      -webkit-transform: skewY(-30deg) rotate3d(0,0,1,60deg);
-          -ms-transform: skewY(-30deg) rotate3d(0,0,1,60deg);
-              transform: skewY(-30deg) rotate3d(0,0,1,60deg);
-    `,
-    heading: `
-      font-size: 1.4em;
-    `,
-    percentage: `
-      background: ${theme.palette.primary.light};
-      border-radius: 100%;
-      padding: 0.5em;
-    `,
+      float: left;
+    `
   }))
 
   const makeJssStyles = makeStyles((theme) => ({
-    hexGrid: {
-      ["@media (min-width:1201px)"]: {  /* <- 5-4  hexagons per row */
-        paddingBottom: "4.4%"
-      }, 
-      ["@media (max-width: 1200px) and (min-width:901px)"]: {  /* <- 4-3  hexagons per row */
-        paddingBottom: "5.5%"
-      },
-      ["@media (max-width: 900px) and (min-width:601px)"]: {  /* <- 3-2  hexagons per row */
-        paddingBottom: "7.4%"
-      },
-      ["@media (max-width: 600px) "]: { /* <- 2-1  hexagons per row */
-        paddingBottom: "11.2%"
-      }
-    },
     hex: {
-      ["@media (min-width:1201px)"]: { /* <- 5-4  hexagons per row */
-        width: "20%", /* = 100 / 5 */
-        '&:nth-child(9n+6)': {
-          marginLeft: "10%",  /* = width of .hex / 2  to indent even rows */
-        }
+      '&:hover': {
+        background: theme.palette.info.dark,
+      }
+    },
+    container: {
+      [theme.breakpoints.down('xs')]: {
+        marginLeft: '-20vw',
       },
-      ["@media (max-width: 1200px) and (min-width:901px)"]: { /* <- 4-3  hexagons per row */
-        width: "25%",  /* = 100 / 4 */
-        '&:nth-child(7n+5)': { /* first hexagon of even rows */
-          marginLeft: "12.5%",  /* = width of .hex / 2  to indent even rows */
-        }
-      },
-      ["@media (max-width: 900px) and (min-width:601px)"]: { /* <- 3-2  hexagons per row */
-        width: "33.333%", /* = 100 / 3 */
-        '&:nth-child(5n+4)': {/* first hexagon of even rows */
-          marginLeft: '16.666%', /* = width of .hex / 2  to indent even rows */
-        }
-      },
-      ["@media (max-width: 600px)"]: { /* <- 2-1  hexagons per row */
-        width: "50%", /* = 100 / 2 */
-        '&:nth-child(3n+3)': {/* every third hexagon */
-          marginLeft: '25%', /* = width of .hex / 2  to indent even rows */
-        }
-      },
-      '&::after': {
+      '&::before': {
         content: "''",
-        display: "block",
-        paddingBottom: "86.602%",  /* =  100 / tan(60) * 1.5 */
-      }
-    },
-    hexIn: {
-      '& *': {
-        position: "absolute",
-        visibility: "visible",
-        outline: "1px solid transparent" /* fix for jagged edges in FF on hover transition */
-      }
-    },
-    hexContent: {
-      '& *': {
-        "-webkit-transform": "translate3d(0,- 100 %, 0)",
-        "-ms-transform": "translate3d(0, -100 %, 0)",
-        "transform": "translate3d(0, -100 %, 0)"
+        width: "calc(var(--s)/2 + var(--mh))",
+        float: "left",
+        height: "200vh",
+        "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
       }
     }
+
   }));
 
   const styles = stringStyles()
@@ -123,25 +82,29 @@ export default function HexagonTiles({ subjects }) {
     const isComplete = subject.percent > 85 ? true : ''
 
     return (
-      <li className={`${styles.hex} ${jssStyles.hex}`}>
-        <div className={`${styles.hexIn} ${jssStyles.hexIn} ${isComplete && styles.HexagonTile__complete}`}>
-          <div className={`${styles.hexContent} ${jssStyles.hexContent}`}>
+      <div className={`${styles.hex} ${jssStyles.hex}`}>
+        <div className={`${styles.hexIn} ${isComplete && styles.HexagonTile__complete}`}>
+          <div className={`${styles.hexContent}`}>
             <h2 className={styles.heading}>{subject.name}</h2>
             <p>{subject.stage}</p>
             <span className={styles.percentage}>{subject.percent}</span>
           </div>
         </div>
-      </li>
+      </div>
     )
   }
 
   return (
-    <ul className={`${styles.hexGrid}  ${jssStyles.hexGrid}`}>
-      {subjects.map((subject, i) => {
-        return (
-          <HexagonTile key={`tile-${i}`} subject={subject} />
-        )
-      })}
-    </ul>
+    <div className={styles.wrapper}>
+      <div className={styles.main}>
+        <div className={`${styles.container}  ${jssStyles.container}`}>
+          {subjects.map((subject, i) => {
+            return (
+              <HexagonTile key={`tile-${i}`} subject={subject} />
+            )
+          })}
+        </div>
+      </div>
+    </div>
   )
 }
