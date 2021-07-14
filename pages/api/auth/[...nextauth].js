@@ -17,13 +17,30 @@ const options = {
             password: credentials.password
           });
           if (data) {
-            const img = data.user.organizations[0].logo.formats.small
+            let img = {
+              url: '',
+              width: 100,
+              height: 100,
+            }
+            let org = data.user.organizations[0]
+            if (org) {
+              if (org.logo.formats.small) {
+                img = org.logo.formats.small
+              }
+            } else {
+              org = {
+                name: 'Unknown organisation',
+                school_type: 'Unknown school type',
+                id: '0123456789'
+              }
+            }
+
             const user = {
               email: data.user.email,
               userId: data.user.id,
-              org: data.user.organizations[0].name,
-              school_type: data.user.organizations[0].school_type,
-              orgId: data.user.organizations[0].id,
+              org: org.name,
+              school_type: org.school_type,
+              orgId: org.id,
               logo: {
                 url: img.url,
                 width: img.width,
@@ -31,14 +48,14 @@ const options = {
               },
               jwt: data.jwt,
               username: data.user.username,
-              some: 'thing',
               role: data.user.role.name
             }
             return user;
           }
         } catch (e) {
           // Redirecting to the login page with error message          in the URL
-          // throw new Error(errorMessage + '&email=' + credentials.email)
+          //throw new Error(errorMessage + '&email=' + credentials.email)
+          console.log(e)
           return null;
         }
       }
