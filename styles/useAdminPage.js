@@ -10,8 +10,12 @@ const useAdminPage = makeStyles((theme) => ({
       padding: theme.spacing(2),
       color: theme.palette.text.secondary,
     },
+    paperAlert: {
+      marginBottom: theme.spacing(3)
+    },
     box: {
       display: 'flex',
+      width: '100%',
       marginBottom: theme.spacing(3)
     },
     button: {

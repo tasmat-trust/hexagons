@@ -22,6 +22,7 @@ const options = {
               email: data.user.email,
               userId: data.user.id,
               org: data.user.organizations[0].name,
+              school_type: data.user.organizations[0].school_type,
               orgId: data.user.organizations[0].id,
               logo: {
                 url: img.url,
@@ -69,6 +70,7 @@ const options = {
         token.id = user.id;
         token.role = user.role
         token.org = user.org
+        token.school_type = user.school_type
         token.orgId = user.orgId
         token.logo = user.logo
         token.userId = user.userId
@@ -87,6 +89,7 @@ const options = {
       session.userId = token.userId;
       session.role = token.role;
       session.org = token.org;
+      session.school_type = token.school_type
       session.orgId = token.orgId;
       session.username = token.username;
       session.logo = token.logo;

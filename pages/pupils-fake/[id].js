@@ -5,7 +5,7 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs"
 import Link from "@material-ui/core/Link"
 import { Typography } from "@material-ui/core"
 
-import HexagonTiles from "../../components/HexagonTiles"
+import SubjectTiles from "../../components/subjects/SubjectTiles"
 import checkSession from '../../components/auth/CheckSession'
 
 import { fetcher } from '../../utils';
@@ -34,7 +34,7 @@ export default function Pupil() {
         <Typography>{pupil.name}</Typography>
       </Breadcrumbs>
 
-      <HexagonTiles subjects={pupil.subjects} />
+      <SubjectTiles subjects={pupil.subjects} />
 
       {/* <PupilCard pupil={pupil} /> */}
     </>

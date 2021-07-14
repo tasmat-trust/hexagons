@@ -24,7 +24,8 @@ import "@reach/skip-nav/styles.css"
 // Data fetching
 import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
- 
+
+import { useState } from 'react';
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin()],
@@ -38,6 +39,8 @@ function ThemeProviderWithGlobalStyles({ children }) {
 
 
 function MyApp({ Component, pageProps }) {
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -73,12 +76,12 @@ function MyApp({ Component, pageProps }) {
             <SkipNavLink />
             <Header></Header>
             <SkipNavContent />
-            <ResponsiveDrawer {...pageProps} MainNavItems={MainNavItems} SettingNavItems={SettingNavItems} OrgPicker={OrgPicker}>
+            <ResponsiveDrawer {...pageProps} menuOpen={menuOpen} setMenuOpen={setMenuOpen} MainNavItems={MainNavItems} SettingNavItems={SettingNavItems} OrgPicker={OrgPicker}>
               <SWRConfig {...pageProps} value={{
                 refreshInterval: 0,
                 fetcher: fetcher
               }}>
-                <Component {...pageProps} gqlClient={graphqlClient} />
+                <Component {...pageProps} menuOpen={menuOpen} setMenuOpen={setMenuOpen} gqlClient={graphqlClient} />
               </SWRConfig>
             </ResponsiveDrawer>
           </StylesProvider>

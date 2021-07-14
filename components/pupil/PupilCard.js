@@ -55,15 +55,21 @@ const StyledSlider = styled(Slider)`
   `
 
 
-export default function PupilCard({ pupil }) {
+export default function PupilCard(props) {
+  const {pupil} = props
+  const onwardHref = props.onwardHref ? props.onwardHref : `/pupils/${pupil.id}`
   const styles = useStyles();
+
 
 
   return (
     <Card className={styles.root}>
       <CardContent>
         <Typography component='h2' variant='h4'>
-          <Link href="/pupils/[id]-RANDOM" as={`/pupils/${pupil.id}`}>
+          {/* <Link href="/pupils/[id]-RANDOM" as={`/pupils/${pupil.id}`}>
+            <a>{pupil.name}</a>
+          </Link> */}
+          <Link href={onwardHref} >
             <a>{pupil.name}</a>
           </Link>
         </Typography>

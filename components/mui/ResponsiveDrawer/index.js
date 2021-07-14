@@ -55,7 +55,7 @@ function ResponsiveDrawer(props) {
   const [session] = useSession()
   const classes = useStyles();
   const theme = useTheme();
-  const [menuOpen, setMenuOpen] = React.useState(false);
+  const { menuOpen, setMenuOpen} = props
 
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);

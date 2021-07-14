@@ -7,6 +7,25 @@ const allSubjects = gql`query{
   }
 }`
 
+const getSingleSubjectBySlug = gql`query getSubject($slug: String!) {  
+  subjects (where: { slug: $slug}) { 
+     id name
+  }
+}`
+
+
+const getModule = gql`query getModule($level: String!, $subjectId: ID!) {  
+  modules (where: {subject: $subjectId, level: $level}) { 
+    order, 
+    capabilities {
+      text
+    }
+  }
+}`
+
+
 export {
-  allSubjects
+  getSingleSubjectBySlug,
+  allSubjects,
+  getModule
 }

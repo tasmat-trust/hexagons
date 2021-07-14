@@ -5,6 +5,8 @@ import checkSession from '../../components/auth/CheckSession'
 import useAdminPage from "../../styles/useAdminPage";
 import ManageUsers from '../../components/users/ManageUsers'
 import ManageGroups from '../../components/groups/ManageGroups'
+import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs';
+import RoleInfoBanner from '../../components/layout/RoleInfoBanner';
 
 export default function Index(props) {
 
@@ -12,9 +14,8 @@ export default function Index(props) {
 
   return (
     <>
-      <Paper elevation={2}>
-        <Alert severity="info" data-test-id="notification">This is a <b>Teacher</b> page. It is only visible to Teachers and Senior Leaders</Alert>
-      </Paper>
+      <RoleInfoBanner role="Teacher" />
+      <BreadCrumbs {...props} firstLabel="Pupils" />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item md={8} xs={12}>

@@ -3,7 +3,10 @@ import Alert from '@material-ui/lab/Alert';
 
 import checkSession from '../../../components/auth/CheckSession'
 import useAdminPage from "../../../styles/useAdminPage";
-import ManageSubjects from '../../../components/manage/ManageSubjects'
+import ManageSubjects from '../../../components/manage/ManageSubjects';
+import BreadCrumbs from '../../../components/layout/navigation/Breadcrumbs';
+
+import RoleInfoBanner from '../../../components/layout/RoleInfoBanner';
 
 export default function Index(props) {
 
@@ -11,13 +14,12 @@ export default function Index(props) {
 
   return (
     <>
-      <Paper elevation={2}>
-        <Alert severity="info" data-test-id="notification">This is an <b>SLT</b> page. It is only visible to Senior Leaders</Alert>
-      </Paper>
+      <RoleInfoBanner role="Senior Leader" />
+      <BreadCrumbs {...props} firstLabel="Subjects" />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item md={12} xs={12}>
-            <ManageSubjects classes={classes} variables={{}} {...props} />
+            <ManageSubjects classes={classes} {...props} />
           </Grid>
         </Grid>
       </div>

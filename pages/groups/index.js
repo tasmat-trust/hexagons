@@ -9,6 +9,8 @@ import GroupsList from '../../components/groups/GroupsList';
 // Utils
 import { getOrgIdFromSession } from '../../utils';
 
+import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs';
+
 
 export default function Index(props) {
 
@@ -20,6 +22,7 @@ export default function Index(props) {
 
   return (
     <>
+      <BreadCrumbs {...props} firstLabel="Groups" />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
