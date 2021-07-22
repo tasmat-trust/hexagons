@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import BreadCrumbs from "../../../components/layout/navigation/Breadcrumbs";
 
 import { getOrgIdFromSession } from '../../../utils';
-import checkSession from '../../../components/auth/CheckSession'
+import checkSession from '../../../components/auth/checkSession'
 import RoleInfoBanner from '../../../components/layout/RoleInfoBanner'
 import { useState } from "react";
 import ManageCapabilities from "../../../components/manage/ManageCapabilities";
