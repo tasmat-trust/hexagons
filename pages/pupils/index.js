@@ -1,7 +1,9 @@
 import useSWR from "swr"
 import Grid from '@material-ui/core/Grid';
 
-import checkSession from '../../components/auth/CheckSession'
+import { withSession } from '../../middlewares/session'
+import { checkIronSession } from '../../components/auth/checkIronSession'
+
 import PupilCard from "../../components/pupil/PupilCard"
 import { Typography } from "@material-ui/core";
 import BreadCrumbs from "../../components/layout/navigation/Breadcrumbs";
@@ -28,6 +30,6 @@ export default function Index(props) {
   )
 }
 
-export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Teacher')
-}
+export const getServerSideProps = withSession((ctx) => {
+  return checkIronSession(ctx, 'Teacher')
+})

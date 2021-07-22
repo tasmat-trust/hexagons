@@ -1,43 +1,30 @@
-import Head from 'next/head'
-import { signIn, signOut, getSession, useSession } from 'next-auth/client'
+import { Button } from '@material-ui/core';
+import Head from 'next/head';
 
-export default function Home(initialData) {
-  const [session, loading] = useSession()
+import { withSession, useLoginLogout } from '../middlewares/session';
+import allowPublicSession from '../components/auth/allowPublicSession';
+
+export default function Home(props) {
+  const { login } = useLoginLogout(props)
+  console.log(props)
   return (
-    <div className='container'>
+    <div className="container">
       <Head>
         <title>Hexagons</title>
       </Head>
 
-      <h1>Hexagons</h1>
-
-      <div>
-        {!session && <>
-          Not signed in <br />
-          <button onClick={() => signIn()}>Sign in</button>
-        </>}
-        {session && <>
-          Signed in as {session.email} <br />
-          <button onClick={() => signOut()}>Sign out</button>
-        </>}
-      </div>
-
+      {props.user && <h1>Hello, {props.user.username}</h1>}
+      {!props.user && (
+        <>
+          <h1>Welcome to Hexagons.</h1>
+          <Button onClick={() => login()}>Login</Button>
+        </>
+      )}
     </div>
-  )
+  );
 }
 
-export async function getServerSideProps(ctx) {
-  const session = await getSession(ctx);
-  if (session) {
-    ctx.res.writeHead(302, { Location: '/pupils' })
-    ctx.res.end()
-    return {}
-  }
+export const getServerSideProps = withSession((ctx) => {
+  return allowPublicSession(ctx)
+})
 
-  return {
-    props: {
-      session: session
-    }
-  }
-
-}

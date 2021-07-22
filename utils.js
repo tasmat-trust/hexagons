@@ -9,8 +9,8 @@ const fetcher = async (url) => {
     return data
 }
 
-const getOrgIdFromSession = (session) => {
-    return session.orgId
+const getOrgIdFromSession = (user) => {
+    return user.organizations[0].id
 }
 
 export {

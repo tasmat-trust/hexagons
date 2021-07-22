@@ -66,7 +66,7 @@ const ManageUsersBody = memo(function ManageUsersBody(props) {
 })
 
 function ManageUsers(props) {
-  const orgId = getOrgIdFromSession(props.session)
+  const orgId = getOrgIdFromSession(props.user)
   const classes = useAdminPage()
   const [multiAddVisible, setMultiAddVisible] = useState(false)
   const [mutateUsers, setMutateUsers] = useState()

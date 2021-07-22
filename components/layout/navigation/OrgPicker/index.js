@@ -10,25 +10,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function OrgPicker({ session }) {
+function OrgPicker({ user }) {
 
   const classes = useStyles()
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
-  if (!session) return ''
+  if (!user) return ''
 
   let img, alt
-  if (session.logo) {
-    img = session.logo.url
-    alt = session.org
+  if (user && user.organizations.length) {
+    img = user.organizations[0].logo.url
+    alt = user.organizations[0].name
   }
   if (img) return (
     <Box className={classes.root}>
       <Box className={classes.imgContainer}>
         <Image
           className={classes.logo}
-          width={session.logo.width}
-          height={session.logo.height}
+          width={user.organizations[0].logo.width}
+          height={user.organizations[0].logo.height}
           src={`${apiUrl}${img}`}
           alt={`${alt}'s Logo`} />
       </Box>

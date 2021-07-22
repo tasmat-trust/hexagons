@@ -11,9 +11,9 @@ import useAdminPage from "../../styles/useAdminPage";
 import { getOrgIdFromSession } from '../../utils';
 
 export default function ManageGroups(props) {
-  const { session, userType } = props
+  const { user, userType } = props
   const classes = useAdminPage()
-  const orgId = getOrgIdFromSession(session)
+  const orgId = getOrgIdFromSession(user)
   const [mutateGroup, setMutateGroup] = useState()
   return (
     <Paper variant="outlined" className={classes.paper}>

@@ -1,4 +1,6 @@
-import checkSession from '../../components/auth/CheckSession'
+import { withSession } from '../../middlewares/session'
+import { checkIronSession } from '../../components/auth/checkIronSession'
+
 import { Typography } from "@material-ui/core";
 
 export default function Index() {
@@ -11,6 +13,7 @@ export default function Index() {
   )
 }
 
-export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Teacher')
-}
+
+export const getServerSideProps = withSession((ctx) => {
+  return checkIronSession(ctx, 'Teacher')
+})

@@ -4,16 +4,18 @@ import PupilsByGroup from "../../components/groups/PupilsByGroup";
 // Utils
 import { getOrgIdFromSession } from '../../utils';
 
+import { withSession } from '../../middlewares/session'
+import { checkIronSession } from '../../components/auth/checkIronSession'
 
-import checkSession from '../../components/auth/CheckSession'
 import { useState } from "react"
 import BreadCrumbs from "../../components/layout/navigation/Breadcrumbs";
 
 
-export default function Group(props) {
-  const { session } = props
+export default function Group({ user }) {
   const { query } = useRouter()
-  const orgId = getOrgIdFromSession(session)
+
+  const orgId = getOrgIdFromSession(user)
+
   const [groupName, setGroupName] = useState(null)
   return (
     <>
@@ -22,7 +24,6 @@ export default function Group(props) {
     </>
   )
 }
-
-export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Teacher')
-}
+export const getServerSideProps = withSession((ctx) => {
+  return checkIronSession(ctx, 'Teacher')
+})

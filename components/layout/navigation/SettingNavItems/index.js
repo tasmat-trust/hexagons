@@ -14,20 +14,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function SettingNavItems({ session }) {
+function SettingNavItems({ user }) {
 
   const classes = useStyles()
-  if (!session) return ''
-  if (session.role === 'Public') return ''
-
-  if (session.role != 'Public') return (
+  if (!user) return ''
+  const role = user.role.name ? user.role.name : 'Public'
+  if (user.role === 'Public') return ''
+  if (role != 'Public') return (
     <Box>
       <Divider />
       <Typography variant='h6' className={classes.settingsTitle}>Manage</Typography>
       <List>
-        {session.role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
-        {session.role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
-        {session.role != 'Public' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
+        
+        {role === 'Senior Leader' && <NavItem href="/manage/org" label="Organisation" Icon={DashboardIcon} />}
+        {role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
+        {role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
+        {role != 'Public' && <NavItem href="/manage/pupils" label="Manage Pupils" Icon={PeopleIcon} />}
         <NavItem href="/manage/me" label="My account" Icon={PersonIcon} />
       </List>
     </Box>

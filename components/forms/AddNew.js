@@ -12,12 +12,15 @@ import { allGroups } from '../../queries/Groups'
 import createPupil from '../../handlers/createPupil'
 import createTeacher from '../../handlers/createTeacher'
 import createGroup from '../../handlers/createGroup'
+import { getOrgIdFromSession } from "../../utils";
  
 function AddNew(props) {
   const { updateHandler, modelname, triggerSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
   const [selectValue, setSelectValue] = useState([]);
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
+
+  const orgId = getOrgIdFromSession(props.user)
 
   async function handleForm(event) {
     event.preventDefault()
@@ -36,7 +39,7 @@ function AddNew(props) {
       const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
-    await updateHandler(formData, gqlClient, props.session.orgId, triggerSharedState)
+    await updateHandler(formData, gqlClient, orgId, triggerSharedState)
     resetForm()
   }
 

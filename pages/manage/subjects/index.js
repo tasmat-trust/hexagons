@@ -1,7 +1,9 @@
 import { Grid, Paper } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
-import checkSession from '../../../components/auth/CheckSession'
+import { withSession } from '../../../middlewares/session'
+import { checkIronSession } from '../../../components/auth/checkIronSession'
+
 import useAdminPage from "../../../styles/useAdminPage";
 import ManageSubjects from '../../../components/manage/ManageSubjects';
 import BreadCrumbs from '../../../components/layout/navigation/Breadcrumbs';
@@ -27,6 +29,6 @@ export default function Index(props) {
   )
 }
 
-export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Senior Leader')
-}
+export const getServerSideProps = withSession((ctx) => {
+  return checkIronSession(ctx, 'Senior Leader')
+})

@@ -1,8 +1,8 @@
 import { Grid, Paper, Box, Typography } from '@material-ui/core';
 
-import checkSession from '../../components/auth/CheckSession'
+import { withSession } from '../../middlewares/session'
+import { checkIronSession } from '../../components/auth/checkIronSession'
 
-import DataFetcher from "../../components/data-fetching/DataFetcher";
 import useAdminPage from "../../styles/useAdminPage";
 import GroupsList from '../../components/groups/GroupsList';
 
@@ -14,11 +14,11 @@ import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs';
 
 export default function Index(props) {
 
-  const { session } = props;
+  const { user } = props;
 
   const classes = useAdminPage()
 
-  const orgId = getOrgIdFromSession(session)
+  const orgId = getOrgIdFromSession(user)
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function Index(props) {
                 <Typography data-test-id="title" variant="h4" component="h2" className={classes.title}>My groups</Typography>
               </Box>
 
-              <GroupsList {...props} getMyGroups={true} variables={{ teacherId: session.userId }} />
+              <GroupsList {...props} getMyGroups={true} variables={{ teacherId: user.id }} />
 
             </Paper>
           </Grid>
@@ -57,6 +57,6 @@ export default function Index(props) {
   )
 }
 
-export async function getServerSideProps(ctx) {
-  return await checkSession(ctx, 'Teacher')
-}
+export const getServerSideProps = withSession((ctx) => {
+  return checkIronSession(ctx, 'Teacher')
+})

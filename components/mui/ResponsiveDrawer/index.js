@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useSession, signIn, signOut } from 'next-auth/client'
+import { useLoginLogout } from '../../../middlewares/session'
 
 
 const drawerWidth = 240;
@@ -51,11 +51,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResponsiveDrawer(props) {
-  const { window, children, MainNavItems, SettingNavItems, OrgPicker } = props;
-  const [session] = useSession()
+  const { window, children, MainNavItems, SettingNavItems, OrgPicker, user } = props;
   const classes = useStyles();
   const theme = useTheme();
   const { menuOpen, setMenuOpen} = props
+  const {login, logout} = useLoginLogout(props) 
 
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
@@ -65,12 +65,12 @@ function ResponsiveDrawer(props) {
     <div className={classes.toolbar}>
 
       <Box className={classes.navBoxes}>
-        <OrgPicker session={props.session} />
+        <OrgPicker user={props.user} />
         <Box className={classes.topBox}>
           <Divider />
-          <MainNavItems session={props.session} />
+          <MainNavItems user={props.user} />
         </Box>
-        <SettingNavItems session={props.session} />
+        <SettingNavItems user={props.user} />
       </Box>
     </div>
   );
@@ -95,12 +95,12 @@ function ResponsiveDrawer(props) {
             Hexagons
           </Typography>
 
-          {!session && <>
-            <Button data-test-id="login-button" color="inherit" onClick={() => signIn()}>Login</Button>
+          {!user && <>
+            <Button data-test-id="login-button" color="inherit" onClick={() => login()}>Login</Button>
 
           </>}
-          {session && <>
-            <Button data-test-id="logout-button" color="inherit" onClick={() => signOut()}>Logout</Button>
+          {user && <>
+            <Button data-test-id="logout-button" color="inherit" onClick={() => logout()}>Logout</Button>
           </>}
 
         </Toolbar>
