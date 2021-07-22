@@ -26,7 +26,7 @@ const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     setLoading('Logging you in');
-    setError(null)
+    setError(null);
 
     const body = {
       email: event.currentTarget.email.value,
@@ -39,16 +39,34 @@ const LoginPage = () => {
         router.push('/');
       })
       .catch((error) => {
-        console.log(error)
-        const errorMessage = error.response.data.message
-          ? error.response.data.message[0].messages
-            ? error.response.data.message[0].messages[0].id
-            : null
-          : null;
-        if (!errorMessage) {
-          setError('An unknown error occurred, please check and try again.');
+        console.log(error);
+        if (error.response) {
+          if (error.response.data) {
+            if (error.response.data.message) {
+              const errorMessage = error.response.data.message
+                ? error.response.data.message[0].messages
+                  ? error.response.data.message[0].messages[0].id
+                  : null
+                : null;
+              if (!errorMessage) {
+                setError('An unknown error occurred, please check and try again.');
+              }
+              setError(error.response.data.message[0].messages[0].message);
+            } else {
+              console.log(error.response.data);
+              console.log('No error.response.data.message');
+              setError('No error.response.data.message');
+            }
+          } else {
+            console.log(error.response);
+            console.log('No error.response.data');
+            setError('No error.response.data');
+          }
+        } else {
+          console.log(error);
+          console.log('No error.response');
+          setError('No error.response');
         }
-        setError(error.response.data.message[0].messages[0].message);
         setLoading(false);
       });
   };
