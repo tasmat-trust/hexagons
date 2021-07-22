@@ -1,5 +1,4 @@
 
-import { Typography } from "@material-ui/core"
 import { DataGrid } from '@material-ui/data-grid'
 import { allTeachers } from '../../../queries/Teachers'
 import { allPupilsWithGroups } from '../../../queries/Pupils'
@@ -54,8 +53,9 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
         columns={columns}
         checkboxSelection
         onSelectionModelChange={(newSelection) => {
-          setSelectedUsers(newSelection.selectionModel)
-          if (newSelection.selectionModel.length > 0) {
+          console.log(newSelection)
+          setSelectedUsers(newSelection)
+          if (newSelection.length > 0) {
             showMultiAdd(true)
           } else {
             showMultiAdd(false)

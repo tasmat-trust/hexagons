@@ -24,7 +24,7 @@ export function useLoginLogout(props) {
     axios.post('/api/logout').then(() => {
       
       router.push('/login');
-      setTimeout(() => props.setLoading(false), 1000)
+      setTimeout(() => props.setLoading(false), 2000)
     });
   }
   function login() {
