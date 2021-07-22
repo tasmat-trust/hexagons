@@ -6,7 +6,7 @@ import { Typography } from "@material-ui/core"
 
 import SubjectTiles from "../../components/subjects/SubjectTiles"
 import { withSession } from '../../middlewares/session'
-import { checkSession } from '../../components/auth/checkSession'
+import checkSession from '../../components/auth/checkSession'
 
 
 export default function Pupil() {

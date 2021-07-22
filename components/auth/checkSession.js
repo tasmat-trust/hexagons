@@ -1,4 +1,4 @@
-export function checkIronSession(ctx, role) {
+export default function checkSession(ctx, role) {
   const { req } = ctx;
   const user = req.session.get('user') || null;
   function isAuthorized(userRole, requiredRole) {

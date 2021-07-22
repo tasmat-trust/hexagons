@@ -5,7 +5,7 @@ import PupilsByGroup from '../../components/groups/PupilsByGroup';
 import { getOrgIdFromSession } from '../../utils';
 
 import { withSession } from '../../middlewares/session';
-import { checkSession } from '../../components/auth/checkSession';
+import checkSession from '../../components/auth/checkSession';
 
 import { useState } from 'react';
 import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs';

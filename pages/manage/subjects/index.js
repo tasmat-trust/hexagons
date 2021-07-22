@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 
 import { withSession } from '../../../middlewares/session'
-import { checkSession } from '../../../components/auth/checkSession'
+import checkSession from '../../../components/auth/checkSession'
 
 import useAdminPage from "../../../styles/useAdminPage";
 import ManageSubjects from '../../../components/manage/ManageSubjects';

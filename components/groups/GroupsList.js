@@ -15,7 +15,7 @@ export default function GroupsList(props) {
 
   useEffect(() => {
     if (setState && setSharedState) setSharedState({ update: setState })
-  }, [setSharedState])
+  }, [setSharedState, setState])
 
 
   const gotNonResponse = handleNonResponses(state, error)

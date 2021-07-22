@@ -2,7 +2,7 @@ import useSWR from "swr"
 import Grid from '@material-ui/core/Grid';
 
 import { withSession } from '../../middlewares/session'
-import { checkSession } from '../../components/auth/checkSession'
+import checkSession from '../../components/auth/checkSession'
 
 import PupilCard from "../../components/pupil/PupilCard"
 import { Typography } from "@material-ui/core";
