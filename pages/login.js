@@ -36,10 +36,10 @@ const LoginPage = () => {
     axios
       .post('/api/login', body)
       .then((user) => {
-        console.log(user);
         router.push('/');
       })
-      .catch((error, resp) => {
+      .catch((error) => {
+        console.log(error)
         const errorMessage = error.response.data.message
           ? error.response.data.message[0].messages
             ? error.response.data.message[0].messages[0].id
