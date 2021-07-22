@@ -6,7 +6,7 @@ import { Typography } from "@material-ui/core"
 
 import SubjectTiles from "../../components/subjects/SubjectTiles"
 import { withSession } from '../../middlewares/session'
-import { checkIronSession } from '../../components/auth/checkIronSession'
+import { checkSession } from '../../components/auth/checkSession'
 
 
 export default function Pupil() {
@@ -33,5 +33,5 @@ export default function Pupil() {
 }
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkIronSession(ctx, 'Teacher')
+  return checkSession(ctx, 'Teacher')
 })

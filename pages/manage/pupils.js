@@ -2,7 +2,7 @@ import { Grid, Paper } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { withSession } from '../../middlewares/session'
-import { checkIronSession } from '../../components/auth/checkIronSession'
+import { checkSession } from '../../components/auth/checkSession'
 
 import useAdminPage from "../../styles/useAdminPage";
 
@@ -35,5 +35,5 @@ export default function Index(props) {
 
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkIronSession(ctx, 'Teacher')
+  return checkSession(ctx, 'Teacher')
 })
