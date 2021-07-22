@@ -24,8 +24,6 @@ import '@reach/skip-nav/styles.css';
 import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
 
-import { useState } from 'react';
-
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin()],
 });
