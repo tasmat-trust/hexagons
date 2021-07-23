@@ -111,7 +111,7 @@ const RegistrationForm = (props) => {
               name="org"
             >
               <option aria-label="None" value="" />
-              {props.orgs.map((org) => <option value={org.id}>{org.name}</option>)}
+              {props.orgs.map((org,i) => <option key={`option-${i}`}value={org.id}>{org.name}</option>)}
             </Select>
           </FormControl>
           <FormControl variant="standard" fullWidth className={classes.input}>
