@@ -3,7 +3,6 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 import SchoolIcon from '@material-ui/icons/School';
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NavItem from "../NavItem"
 
@@ -26,11 +25,9 @@ function SettingNavItems({ user }) {
       <Divider />
       <Typography variant='h6' className={classes.settingsTitle}>Manage</Typography>
       <List>
-        
-        {role === 'Senior Leader' && <NavItem href="/manage/org" label="Organisation" Icon={AccountBalanceIcon} />}
         {role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
         {role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
-        {role != 'Public' && <NavItem href="/manage/pupils" label="Manage Pupils" Icon={PeopleIcon} />}
+        {role != 'Public' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
         <NavItem href="/manage/me" label="My account" Icon={PersonIcon} />
       </List>
     </Box>

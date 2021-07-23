@@ -18,17 +18,17 @@ function OrgPicker({ user }) {
   if (!user) return ''
 
   let img, alt
-  if (user && user.organizations.length) {
-    img = user.organizations[0].logo.url
-    alt = user.organizations[0].name
+  if (user && user.organization) {
+    img = user.organization.logo.url
+    alt = user.organization.name
   }
   if (img) return (
     <Box className={classes.root}>
       <Box className={classes.imgContainer}>
         <Image
           className={classes.logo}
-          width={user.organizations[0].logo.width}
-          height={user.organizations[0].logo.height}
+          width={user.organization.logo.width}
+          height={user.organization.logo.height}
           src={`${apiUrl}${img}`}
           alt={`${alt}'s Logo`} />
       </Box>

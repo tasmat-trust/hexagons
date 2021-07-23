@@ -3,8 +3,8 @@ import checkSession from '../../components/auth/checkSession'
 
 import { Typography } from "@material-ui/core";
 
-export default function Index() {
- 
+export default function Me(props) {
+  console.log(props.user)
   return (
     <>
       <Typography variant="h1" gutterBottom={true}>Account</Typography>

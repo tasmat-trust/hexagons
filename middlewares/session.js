@@ -6,7 +6,7 @@ const sessionConfig = {
   password: process.env.SECRET_COOKIE_PASSWORD || 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   cookieName: 'next-session',
   cookieOptions: {
-    secure: false,
+    secure: process.env.NODE_ENV === "production",
   },
 };
 

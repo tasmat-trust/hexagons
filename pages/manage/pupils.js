@@ -1,5 +1,4 @@
-import { Grid, Paper } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { Grid } from '@material-ui/core'
 
 import { withSession } from '../../middlewares/session'
 import checkSession from '../../components/auth/checkSession'

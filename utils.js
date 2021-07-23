@@ -10,7 +10,7 @@ const fetcher = async (url) => {
 }
 
 const getOrgIdFromSession = (user) => {
-    return user.organizations[0].id
+    return user.organization.id
 }
 
 export {

@@ -2,9 +2,9 @@ import { gql } from 'graphql-request'
 
 // Get all users with roles and groups
 const allTeachers = gql`query getTeachers($orgId: Int!) {  
-    users (where: {organizations: $orgId}) { 
+    users (where: {organization: $orgId}) { 
       username email id 
-      organizations {
+      organization {
           name
       }
       role {
@@ -17,7 +17,7 @@ const allTeachers = gql`query getTeachers($orgId: Int!) {
   }`
 
 
-const createTeacherQuery = gql`
+const createTQuery = gql`
 mutation createNewTeacher($username: String!, $email: String!,) {
     createUser(input: {
       data:{
@@ -33,29 +33,7 @@ mutation createNewTeacher($username: String!, $email: String!,) {
 }`
 
 
-const createTQuery = gql`mutation createUser($username: String!, $email: String!, $role: ID!, $orgId: [ID!], $groupId: [ID!]) {
-    createUser(input: {
-      data:{
-        username: $username,
-        email: $email,
-        role: $role,
-        groups:$groupId,
-        organizations:$orgId
-        }
-      }) {
-      user {
-        organizations {
-          id
-        }
-        groups {
-          id
-        }
-        role {
-          id
-        }
-      }
-    }
-}`
+const createTeacherQuery = gql`mutation createUser($username: String!, $email: String!, $role: ID!, $orgId: ID!, $groupId: [ID!]) {createUser(input: {  data:{    username: $username,    email: $email, role: $role, groups:$groupId, organization:$orgId }  }) {  user { organization {id } groups {   id } role {   id }  }}}`
 
 
 export {
