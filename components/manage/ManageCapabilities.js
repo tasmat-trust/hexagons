@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import useSharedState from "../data-fetching/useSharedState"
 import handleNonResponses from "../data-fetching/handleNonResponses"
-import { getModule, getSingleSubjectBySlug } from '../../queries/Subjects'
+import { getModules, getSingleSubjectBySlug } from '../../queries/Subjects'
 import StagePicker from "../subjects/StagePicker"
 import Capabilities from "../subjects/Capabilities"
 import { useState } from "react"
@@ -10,7 +10,7 @@ function SubjectGetter(WrappedComponent) {
   return function SubjectGetter(props) {
     const { session, variables, setSubjectName } = props
     const [subjectData, setSubjectData, error] = useSharedState([getSingleSubjectBySlug, variables])
-    const gotNonResponse = handleNonResponses(subjectData)
+    const gotNonResponse = handleNonResponses(subjectData, error)
 
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function SubjectGetter(WrappedComponent) {
     if (gotNonResponse) return gotNonResponse
     const subjectId = subjectData.subjects[0].id
     return (
-      <WrappedComponent {...props} variables={{ level: session.school_type, subjectId: subjectId }} />
+      <WrappedComponent {...props} subjectId={subjectId} variables={{ level: session.school_type, subjectId: subjectId }} />
     )
   }
 }
@@ -31,14 +31,23 @@ function SubjectGetter(WrappedComponent) {
 
 function ManageCapabilities(props) {
   const { variables } = props
-  const [modulesData, setModulesData, error] = useSharedState([getModule, variables])
-  const gotNonResponse = handleNonResponses(modulesData)  
+  const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
+  const gotNonResponse = handleNonResponses(modulesData)
+  console.log(modulesData)
   const [currentStage, setCurrentStage] = useState(null)
-  if (gotNonResponse) return gotNonResponse
+
+  useEffect(() => {
+    if (modulesData) {
+      setCurrentStage(modulesData.modules[0])
+    }
+  }, [modulesData])
+
+  //if (gotNonResponse) return gotNonResponse
   return (
     <>
-      <StagePicker {...props} stages={modulesData.modules} setCurrentStage={setCurrentStage} />
-      <Capabilities currentStage={currentStage} />
+      {modulesData && <StagePicker {...props} stages={modulesData.modules} setCurrentStage={setCurrentStage} />}
+      <Capabilities {...props} setModulesData={setModulesData} currentStage={currentStage} setCurrentStage={setCurrentStage} />
+
     </>
   )
 
