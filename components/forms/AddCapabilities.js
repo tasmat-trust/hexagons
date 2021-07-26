@@ -1,6 +1,6 @@
 import { TextField, Button } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
-import createModule from '../../handlers/createModule'
+import createModule from '../forms/handlers/createModule'
 import { MenuItem, Select, InputLabel } from "@material-ui/core";
 import { useState } from "react";
 

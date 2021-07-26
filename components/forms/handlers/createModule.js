@@ -1,4 +1,4 @@
-import { createModuleQuery, createCapabilityQuery } from '../queries/Subjects'
+import { createModuleQuery, createCapabilityQuery } from '../../../queries/Subjects'
 
 async function createCapability(formData, gqlClient, triggerSharedState) {
 

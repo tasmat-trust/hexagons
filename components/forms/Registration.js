@@ -7,10 +7,11 @@ import Select from '@material-ui/core/Select';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
 
-import PasswordField from 'material-ui-password-field';
-import { Paper, Button, FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
+import { Paper, Button, FormControl, InputLabel, Input, FormHelperText, TextField } from '@material-ui/core';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
+import handleApiLoginErrors from './handlers/handleApiLoginErrors';
+import handleCredentialErrors from './handlers/handleCredentialErrors';
 
 const RegistrationForm = (props) => {
   const router = useRouter();
@@ -19,135 +20,131 @@ const RegistrationForm = (props) => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  // Controlled elements (do all):
-  const [org, setOrg] = useState(null)
+  const [fieldError, setFieldError] = useState(null)
 
-  function handleChange() {
-    if (error) {
-      setError(null);
-    }
-  }
+  // Controlled elements:
+  const [orgValue, setOrgValue] = useState(null)
+  const [emailValue, setEmailValue] = useState(null)
+  const [passwordValue, setPasswordValue] = useState(null)
+  const [usernameValue, setUsernameValue] = useState(null)
 
 
   function handleChangeSelect(event) {
     const org = event.target.value
-    setOrg(org)
+    setOrgValue(org)
+    setFieldError(null)
+  }
+
+  const clearErrors = () => {
+    setError(null)
+    setFieldError(null)
   }
 
   const onSubmit = (event) => {
     event.preventDefault();
+
+    if (!orgValue) {
+      setError('Please choose your school.')
+      setFieldError('org')
+      return
+    }
+
+    if (!username) {
+      setError('Please enter your name.')
+      setFieldError('username')
+      return true
+    }
+ 
+    const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
+    if (gotErrs) {
+      return 
+    }
+    const body = {
+      username: usernameValue,
+      email: emailValue,
+      password: passwordValue,
+      organization: orgValue,
+    };
+
     setLoading('Registering your account');
     setError(null);
 
-    const body = {
-      username: event.currentTarget.username.value,
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value,
-      organization: org,
-    };
-
     axios
       .post('/api/register', body)
-      .then((user) => {
-        router.push('/');
+      .then(() => {
+        setSuccess(true)
+        setLoading(false)
       })
       .catch((error) => {
-        if (error.response) {
-          if (error.response.data) {
-            if (error.response.data.message) {
-              if (error.response.data.statusCode === 401) {
-                setSuccess('Please check your email');
-                setLoading(false);
-                setError(null);
-                return;
-              }
-
-              const errorMessage = error.response.data.message
-                ? error.response.data.message[0].messages
-                  ? error.response.data.message[0].messages[0].id
-                  : null
-                : null;
-              if (!errorMessage) {
-                setError('An unknown error occurred, please check and try again.');
-              }
-              setError(error.response.data.message[0].messages[0].message);
-            } else {
-              console.log(error.response.data);
-              console.log('No error.response.data.message');
-              setError('No error.response.data.message');
-            }
-          } else {
-            console.log(error.response);
-            console.log('No error.response.data');
-            setError('No error.response.data');
-          }
-        } else {
-          console.log(error);
-          console.log('No error.response');
-          setError('No error.response');
-        }
-        setLoading(false);
+        handleApiLoginErrors(error, setError, setLoading)
       });
   };
   return (
     <Paper elevation={1} square className={classes.paper}>
       <h1>Create Hexagons Account</h1>
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && <Alert className={classes.input} severity="error">{error}</Alert>}
       {loading && <Loading message={loading} />}
       {success && (
         <>
-          Your account has been created and we have emailed you a link. Please click this link to
-          activate your account.
+          Your account has been created and we have emailed you an activation link. Please check your email.
         </>
       )}
       {!loading && !success && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>
-          <FormControl fullWidth className={classes.input}>
+          <FormControl variant="filled" fullWidth className={classes.input}>
             <InputLabel htmlFor="age-native-simple">School</InputLabel>
             <Select
               native
-              value={org}
-              onChange={handleChangeSelect}
+              error={fieldError === 'org'}
+              value={orgValue}
+              onBlur={clearErrors}
+              onChange={(event) => {
+                handleChangeSelect(event)
+                setError(null)
+              }}
               name="org"
             >
               <option aria-label="None" value="" />
-              {props.orgs.map((org,i) => <option key={`option-${i}`}value={org.id}>{org.name}</option>)}
+              {props.orgs.map((org, i) => <option key={`option-${i}`} value={org.id}>{org.name}</option>)}
             </Select>
           </FormControl>
-          <FormControl variant="standard" fullWidth className={classes.input}>
-            <InputLabel htmlFor="email">Name</InputLabel>
-            <Input
-              id="username"
-              aria-describedby="my-helper-text"
-              name="username"
-              placeholder="Your name"
-              onChange={() => handleChange()}
-            />
-            <FormHelperText id="my-helper-text">Your first name and last name</FormHelperText>
-          </FormControl>
-          <FormControl variant="standard" fullWidth className={classes.input}>
-            <InputLabel htmlFor="email">Email address</InputLabel>
-            <Input
-              id="email"
-              aria-describedby="my-helper-text"
-              name="email"
-              placeholder="name@tasmat.org.uk"
-              onChange={() => handleChange()}
-            />
-            <FormHelperText id="my-helper-text">Your tasmat email address</FormHelperText>
-          </FormControl>
-          <FormControl variant="standard" fullWidth className={classes.input}>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <PasswordField
-              name="password"
-              aria-describedby="my-password-text"
-              hintText="At least 8 characters"
-              floatingLabelText="Enter your password"
-              errorText="Your password is too short"
-              onChange={() => handleChange()}
-            />
-            <FormHelperText id="my-password-text">Your unique Hexagons password</FormHelperText>
-          </FormControl>
+
+          <TextField
+            error={fieldError === 'username'}
+            className={classes.input}
+            value={usernameValue}
+            fullWidth
+            id="username"
+            label="Fullname"
+            variant="filled"
+            onChange={(ev) => {
+              clearErrors()
+              setUsernameValue(ev.target.value)
+            }} />
+
+          <TextField
+            error={fieldError === 'email'}
+            className={classes.input}
+            value={emailValue}
+            fullWidth id="email"
+            label="Email"
+            variant="filled"
+            onChange={(ev) => {
+              clearErrors()
+              setEmailValue(ev.target.value)
+            }} />
+
+          <TextField
+            error={fieldError === 'password'}
+            className={classes.input}
+            value={passwordValue}
+            fullWidth id="password"
+            label="Password"
+            variant="filled"
+            onChange={(ev) => {
+              clearErrors()
+              setPasswordValue(ev.target.value)
+            }} />
 
           <FormControl margin="normal">
             <Button

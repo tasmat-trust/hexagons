@@ -1,4 +1,4 @@
-import { createGroupQuery } from '../queries/Groups'
+import { createGroupQuery } from '../../../queries/Groups'
 
 
 async function createGroup(formData, gqlClient, orgId, triggerSharedState) {

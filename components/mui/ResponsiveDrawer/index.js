@@ -54,8 +54,8 @@ function ResponsiveDrawer(props) {
   const { window, children, MainNavItems, SettingNavItems, OrgPicker, user } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const { menuOpen, setMenuOpen} = props
-  const {login, logout} = useLoginLogout(props) 
+  const { menuOpen, setMenuOpen } = props
+  const { login, logout } = useLoginLogout(props)
 
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
@@ -82,15 +82,17 @@ function ResponsiveDrawer(props) {
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
+          {user && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography variant="h3" noWrap className={classes.title}>
             Hexagons
           </Typography>

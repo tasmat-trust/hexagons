@@ -1,4 +1,4 @@
-import { createPupilQuery } from '../queries/Pupils'
+import { createPupilQuery } from '../../../queries/Pupils'
 
 
 async function createPupil(formData, gqlClient, orgId, triggerSharedState) {

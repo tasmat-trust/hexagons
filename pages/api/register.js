@@ -25,8 +25,8 @@ export default nc()
         });
 
       if (!user.confirmed) {
-        return res.status(401).json({
-          statusCode: 401,
+        return res.status(200).json({
+          statusCode: 200,
           message: 'User not confirmed'
         });
       }
@@ -35,11 +35,10 @@ export default nc()
       await req.session.save();
       res.json(user);
     } catch (error) {
-      console.log(error);
-      // const { response: fetchResponse } = error;
-      // if (fetchResponse) {
-      //   return res.status(fetchResponse?.status || 500).json(error.response?.data);
-      // }
+      const { response: fetchResponse } = error;
+      if (fetchResponse) {
+        return res.status(fetchResponse?.status || 500).json(error.response?.data);
+      }
       res.status(505).json(error);
     }
   });

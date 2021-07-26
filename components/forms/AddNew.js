@@ -9,9 +9,9 @@ import useSharedState from "../data-fetching/useSharedState";
 import handleNonResponses from "../data-fetching/handleNonResponses"
 import { allGroups } from '../../queries/Groups'
 
-import createPupil from '../../handlers/createPupil'
-import createTeacher from '../../handlers/createTeacher'
-import createGroup from '../../handlers/createGroup'
+import createPupil from '../forms/handlers/createPupil'
+import createTeacher from '../forms/handlers/createTeacher'
+import createGroup from '../forms/handlers/createGroup'
 import { getOrgIdFromSession } from "../../utils";
  
 function AddNew(props) {

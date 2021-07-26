@@ -6,26 +6,37 @@ import Alert from '@material-ui/lab/Alert';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
 
-import PasswordField from 'material-ui-password-field';
-import { Paper, Button, FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
+import { Paper, Button, FormControl, TextField } from '@material-ui/core';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
 
+import handleApiLoginErrors from './handlers/handleApiLoginErrors';
+import handleCredentialErrors from './handlers/handleCredentialErrors';
+
 const LoginForm = (props) => {
-  const {title, subtitle} = props
+  const { title, subtitle } = props
   const router = useRouter();
   const classes = useLoginLogoutPages();
   const [error, setError] = useState(null);
+  const [fieldError, setFieldError] = useState(null)
   const [loading, setLoading] = useState(null);
 
-  function handleChange() {
-    if (error) {
-      setError(null);
-    }
+  const [emailValue, setEmailValue] = useState(null)
+  const [passwordValue, setPasswordValue] = useState(null)
+
+  const clearErrors = () => {
+    setError(null)
+    setFieldError(null)
   }
 
   const onSubmit = (event) => {
     event.preventDefault();
+    console.log(emailValue)
+
+    const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
+    if (gotErrs) {
+      return
+    }
     setLoading('Logging you in');
     setError(null);
 
@@ -40,68 +51,44 @@ const LoginForm = (props) => {
         router.push('/');
       })
       .catch((error) => {
-        console.log(error);
-        if (error.response) {
-          if (error.response.data) {
-            if (error.response.data.message) {
-              const errorMessage = error.response.data.message
-                ? error.response.data.message[0].messages
-                  ? error.response.data.message[0].messages[0].id
-                  : null
-                : null;
-              if (!errorMessage) {
-                setError('An unknown error occurred, please check and try again.');
-              }
-              setError(error.response.data.message[0].messages[0].message);
-            } else {
-              console.log(error.response.data);
-              console.log('No error.response.data.message');
-              setError('No error.response.data.message');
-            }
-          } else {
-            console.log(error.response);
-            console.log('No error.response.data');
-            setError('No error.response.data');
-          }
-        } else {
-          console.log(error);
-          console.log('No error.response');
-          setError('No error.response');
-        }
-        setLoading(false);
+        handleApiLoginErrors(error, setError, setLoading)
       });
   };
   return (
     <Paper elevation={1} square className={classes.paper}>
       <h1>{title}</h1>
       {subtitle && <h2>{subtitle}</h2>}
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && <Alert className={classes.input} severity="error">{error}</Alert>}
       {loading && <Loading message={loading} />}
       {!loading && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>
-          <FormControl variant="contained" fullWidth className={classes.input}>
-            <InputLabel htmlFor="email">Email address</InputLabel>
-            <Input
-              id="email"
-              aria-describedby="my-helper-text"
-              name="email"
-              placeholder="name@tasmat.org.uk"
-              onChange={() => handleChange()}
-            />
-            <FormHelperText id="my-helper-text">Your tasmat email address</FormHelperText>
-          </FormControl>
-          <FormControl variant="contained" fullWidth className={classes.input}>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <PasswordField
-              name="password"
-              aria-describedby="my-password-text"
-              hintText="At least 8 characters"
-              floatingLabelText="Enter your password"
-              errorText="Your password is too short"
-              onChange={() => handleChange()}
-            />
-            <FormHelperText id="my-password-text">Your unique Hexagons password</FormHelperText>
-          </FormControl>
+
+
+          <TextField
+            className={classes.input}
+            value={emailValue}
+            fullWidth
+            error={fieldError === 'email'}
+            id="email"
+            label="Email"
+            variant="filled"
+            onChange={(ev) => {
+              clearErrors()
+              setEmailValue(ev.target.value)
+            }} />
+
+          <TextField
+            className={classes.input}
+            value={passwordValue}
+            fullWidth
+            error={fieldError === 'password'}
+            id="password"
+            label="Password"
+            variant="filled"
+            onChange={(ev) => {
+              clearErrors()
+              setPasswordValue(ev.target.value)
+            }} />
 
           <FormControl margin="normal">
             <Button

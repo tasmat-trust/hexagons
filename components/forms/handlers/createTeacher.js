@@ -1,4 +1,4 @@
-import { createTeacherQuery } from '../queries/Teachers'
+import { createTeacherQuery } from '../../../queries/Teachers'
 
 async function createTeacher(formData, gqlClient, orgId, triggerSharedState, setError) {
   const variables = {
