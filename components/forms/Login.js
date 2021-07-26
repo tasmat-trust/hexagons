@@ -6,7 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
 
-import { Paper, Button, FormControl, TextField } from '@material-ui/core';
+import { Button, FormControl, TextField } from '@material-ui/core';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
 
@@ -30,9 +30,7 @@ const LoginForm = (props) => {
   }
 
   const onSubmit = (event) => {
-    event.preventDefault();
-    console.log(emailValue)
-
+    event.preventDefault(); 
     const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
     if (gotErrs) {
       return
@@ -55,9 +53,7 @@ const LoginForm = (props) => {
       });
   };
   return (
-    <Paper elevation={1} square className={classes.paper}>
-      <h1>{title}</h1>
-      {subtitle && <h2>{subtitle}</h2>}
+    <>
       {error && <Alert className={classes.input} severity="error">{error}</Alert>}
       {loading && <Loading message={loading} />}
       {!loading && (
@@ -103,7 +99,8 @@ const LoginForm = (props) => {
           </FormControl>
         </form>
       )}
-    </Paper>
+    </>
+
   );
 };
 

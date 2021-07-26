@@ -9,7 +9,16 @@ const useLoginLogoutPages = makeStyles((theme) => ({
     input: {
       marginBottom: theme.spacing(2)
     },
+    secondaryAction: {
+      marginTop: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.grey[600]
+    },
     paper: {
+      "@media(max-width:600px)": {
+        padding: theme.spacing(2),
+        width: 'auto'
+      },
       padding: theme.spacing(5),
       width: '25rem',
       margin: '0 auto',

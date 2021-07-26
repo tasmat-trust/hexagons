@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
 
-import { Paper, Button, FormControl, InputLabel, Input, FormHelperText, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, TextField } from '@material-ui/core';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
 import handleApiLoginErrors from './handlers/handleApiLoginErrors';
@@ -54,10 +54,10 @@ const RegistrationForm = (props) => {
       setFieldError('username')
       return true
     }
- 
+
     const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
     if (gotErrs) {
-      return 
+      return
     }
     const body = {
       username: usernameValue,
@@ -80,8 +80,7 @@ const RegistrationForm = (props) => {
       });
   };
   return (
-    <Paper elevation={1} square className={classes.paper}>
-      <h1>Create Hexagons Account</h1>
+    <>
       {error && <Alert className={classes.input} severity="error">{error}</Alert>}
       {loading && <Loading message={loading} />}
       {success && (
@@ -159,7 +158,7 @@ const RegistrationForm = (props) => {
           </FormControl>
         </form>
       )}
-    </Paper>
+    </>
   );
 };
 
