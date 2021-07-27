@@ -8,10 +8,9 @@ import { useState } from "react"
 
 function SubjectGetter(WrappedComponent) {
   return function SubjectGetter(props) {
-    const { session, variables, setSubjectName } = props
+    const { user, variables, setSubjectName } = props
     const [subjectData, setSubjectData, error] = useSharedState([getSingleSubjectBySlug, variables])
     const gotNonResponse = handleNonResponses(subjectData, error)
-
 
     useEffect(() => {
       if (subjectData) {
@@ -23,7 +22,7 @@ function SubjectGetter(WrappedComponent) {
     if (gotNonResponse) return gotNonResponse
     const subjectId = subjectData.subjects[0].id
     return (
-      <WrappedComponent {...props} subjectId={subjectId} variables={{ level: session.school_type, subjectId: subjectId }} />
+      <WrappedComponent {...props} subjectId={subjectId} variables={{ level: user.organization.school_type, subjectId: subjectId }} />
     )
   }
 }
@@ -33,7 +32,6 @@ function ManageCapabilities(props) {
   const { variables } = props
   const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
   const gotNonResponse = handleNonResponses(modulesData)
-  console.log(modulesData)
   const [currentStage, setCurrentStage] = useState(null)
 
   useEffect(() => {

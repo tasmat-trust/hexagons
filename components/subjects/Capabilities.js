@@ -5,7 +5,6 @@ export default function Capabilities(props) {
   const { currentStage } = props
   return (
     <>
-      <AddCapabilities {...props} />
       {currentStage && <CapabilityTiles tiles={currentStage.capabilities} />}
     </>
   )

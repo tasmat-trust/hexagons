@@ -25,9 +25,9 @@ const getModule = gql`query getModule($level: ENUM_MODULE_LEVEL!, $order: Int!, 
 
 const getModules = gql`query getModules($level: ENUM_MODULE_LEVEL!, $subjectId: ID!) {  
   modules (where: {subject: $subjectId, level: $level}) { 
-    order, 
+    order id, 
     capabilities {
-      text
+      text id
     }
   }
 }`
@@ -42,7 +42,7 @@ mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!) {
         }
       }) {
       module {
-        level order
+        level order id
         subject {
           name id
         }
@@ -68,9 +68,36 @@ mutation createCapability($text: String!, $order: Int!, $module: ID!) {
     }      
 }`
 
+const deleteCapabilityQuery = gql`
+mutation DeleteCapability($id: ID!) {
+  deleteCapability(input: {
+    where: {
+      id: $id
+    }
+  }) {
+    capability {
+      id
+    }
+  }
+}`
+
+const deleteModuleQuery = gql`
+mutation DeleteModule($id: ID!) {
+  deleteModule(input: {
+    where: {
+      id: $id
+    }
+  }) {
+    module {
+      id
+    }
+  }
+}`
 
 export {
+  deleteCapabilityQuery,
   createCapabilityQuery,
+  deleteModuleQuery,
   createModuleQuery,
   getSingleSubjectBySlug,
   allSubjects,

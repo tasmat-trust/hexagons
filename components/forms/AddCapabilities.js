@@ -43,8 +43,8 @@ export default function AddCapabilities(props) {
   }
 
   function resetForm() {
-    //setOrderValue('')   
-    //setCapabilitiesValue('')
+    setOrderValue('')   
+    setCapabilitiesValue('')
     //setLevelValue('')
   }
 

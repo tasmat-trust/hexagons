@@ -6,8 +6,9 @@ async function createCapability(formData, gqlClient, triggerSharedState) {
     try {
       const data = await gqlClient.request(createModuleQuery, createModuleVariables)
       if (data) {
-        triggerSharedState()
-        return 'success'
+
+        if (triggerSharedState) triggerSharedState()
+        return data.createModule.module.id // Return module ID for capabilities
       }
     } catch (e) {
       console.error(e)
@@ -15,13 +16,13 @@ async function createCapability(formData, gqlClient, triggerSharedState) {
     }
   }
 
-  async function createCapability(capability,i) {
+  async function createCapability(capability, i, moduleId) {
 
 
     const createCapabilityVariables = {
       text: capability,
       order: i,
-      module: 19
+      module: moduleId
     }
 
     try {
@@ -35,19 +36,20 @@ async function createCapability(formData, gqlClient, triggerSharedState) {
     }
   }
 
+  let moduleId;
   if (formData.order && formData.level) {
     const createModuleVariables = {
       subject: formData.subjectId,
       order: parseInt(formData.order),
       level: formData.level
     }
-    const createModuleResponse = await createModule(createModuleVariables)
-    console.log(createModuleResponse)
+    moduleId = await createModule(createModuleVariables)
   }
 
   const capabilitiesList = formData.capabilities.split('\n')
-  const createdCapabilities = capabilitiesList.map(async (capability, i) => await createCapability(capability,i))
-  const resolvedCapabilities = await Promise.all(createdCapabilities)
+  const createdCapabilities = capabilitiesList.map(async (capability, i) => await createCapability(capability, i, moduleId))
+  await Promise.all(createdCapabilities)
+  triggerSharedState()
 }
 
 

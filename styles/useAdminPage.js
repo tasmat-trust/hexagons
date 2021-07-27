@@ -11,7 +11,8 @@ const useAdminPage = makeStyles((theme) => ({
       color: theme.palette.text.secondary,
     },
     paperAlert: {
-      marginBottom: theme.spacing(3)
+      marginBottom: theme.spacing(3),
+      width: '100%'
     },
     box: {
       display: 'flex',
