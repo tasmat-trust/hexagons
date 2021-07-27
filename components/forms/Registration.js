@@ -23,10 +23,10 @@ const RegistrationForm = (props) => {
   const [fieldError, setFieldError] = useState(null)
 
   // Controlled elements:
-  const [orgValue, setOrgValue] = useState(null)
-  const [emailValue, setEmailValue] = useState(null)
-  const [passwordValue, setPasswordValue] = useState(null)
-  const [usernameValue, setUsernameValue] = useState(null)
+  const [orgValue, setOrgValue] = useState('')
+  const [emailValue, setEmailValue] = useState('')
+  const [passwordValue, setPasswordValue] = useState('')
+  const [usernameValue, setUsernameValue] = useState('')
 
 
   function handleChangeSelect(event) {
@@ -79,6 +79,7 @@ const RegistrationForm = (props) => {
         handleApiLoginErrors(error, setError, setLoading)
       });
   };
+  
   return (
     <>
       {error && <Alert className={classes.input} severity="error">{error}</Alert>}

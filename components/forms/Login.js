@@ -21,8 +21,8 @@ const LoginForm = (props) => {
   const [fieldError, setFieldError] = useState(null)
   const [loading, setLoading] = useState(null);
 
-  const [emailValue, setEmailValue] = useState(null)
-  const [passwordValue, setPasswordValue] = useState(null)
+  const [emailValue, setEmailValue] = useState('')
+  const [passwordValue, setPasswordValue] = useState('')
 
   const clearErrors = () => {
     setError(null)
