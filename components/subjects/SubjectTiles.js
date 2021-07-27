@@ -1,7 +1,7 @@
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid'
 import Link from 'next/link'
 
-export default function SubjectTiles({ subjects }) {
+export default function SubjectTiles({ subjects, onwardHref }) {
 
   const styles = stringStyles()
   const pseudoStyles = jssStyles()
@@ -9,15 +9,15 @@ export default function SubjectTiles({ subjects }) {
   function SubjectTile({ subject }) {
 
     const isComplete = subject.percent > 85 ? true : ''
-
+    console.log(subject.slug)
     return (
       <div className={`${styles.hex}`}>
         <div className={`${styles.hexIn} ${isComplete && styles.HexagonTile__complete}`}>
-          <Link href={`/manage/subjects/${subject.slug}`}>
-            <a className={`${styles.hexLink}`} href={`/manage/subjects/${subject.slug}`}>
+          {subject.slug && (<Link href={`${onwardHref}/${subject.slug}`}>
+            <a className={`${styles.hexLink}`} href={onwardHref}>
               {subject.name}
             </a>
-          </Link>
+          </Link>)}
         </div>
       </div>
     )

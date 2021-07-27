@@ -4,7 +4,7 @@ import { withSession } from '../../../middlewares/session'
 import checkSession from '../../../components/auth/checkSession'
 
 import useAdminPage from "../../../styles/useAdminPage";
-import ManageSubjects from '../../../components/manage/ManageSubjects';
+import Subjects from '../../../components/subjects/Subjects';
 import BreadCrumbs from '../../../components/layout/navigation/Breadcrumbs';
 
 import RoleInfoBanner from '../../../components/layout/RoleInfoBanner';
@@ -20,7 +20,7 @@ export default function Index(props) {
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item md={12} xs={12}>
-            <ManageSubjects classes={classes} {...props} />
+            <Subjects classes={classes} {...props} onwardHref={"/manage/subjects"} />
           </Grid>
         </Grid>
       </div>

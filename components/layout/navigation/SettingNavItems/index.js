@@ -27,7 +27,7 @@ function SettingNavItems({ user }) {
       <List>
         {role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
         {role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
-        {role != 'Public' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
+        {role === 'Senior Leader' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
         <NavItem href="/manage/me" label="My account" Icon={PersonIcon} />
       </List>
     </Box>
