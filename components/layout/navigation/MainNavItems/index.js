@@ -5,8 +5,7 @@ import LooksIcon from '@material-ui/icons/Looks';
 import NavItem from "../NavItem"
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
 
-function MainNavItems({ user }) {
-  const role = user.role.name ? user.role.name : 'Public'
+function MainNavItems() { 
   return (
     <List>
       <NavItem href="/groups" label="Groups" Icon={PeopleIcon} />
