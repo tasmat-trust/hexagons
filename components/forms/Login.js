@@ -54,14 +54,14 @@ const LoginForm = (props) => {
   };
   return (
     <>
-      {error && <Alert data-test-id="error" className={classes.input} severity="error">{error}</Alert>}
+      {error && <Alert data-test-id="error" className={classes.spaced} severity="error">{error}</Alert>}
       {loading && <Loading message={loading} />}
       {!loading && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>
 
 
           <TextField
-            className={classes.input}
+            className={classes.spaced}
             value={emailValue}
             fullWidth
             error={fieldError === 'email'}
@@ -74,7 +74,7 @@ const LoginForm = (props) => {
             }} />
 
           <TextField
-            className={classes.input}
+            className={classes.spaced}
             value={passwordValue}
             fullWidth
             error={fieldError === 'password'}

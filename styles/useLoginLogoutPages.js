@@ -9,6 +9,9 @@ const useLoginLogoutPages = makeStyles((theme) => ({
     input: {
       marginBottom: theme.spacing(2)
     },
+    spaced: {
+      marginBottom: theme.spacing(2)
+    },
     secondaryAction: {
       marginTop: theme.spacing(2),
       textAlign: 'center',
