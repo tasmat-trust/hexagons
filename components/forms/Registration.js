@@ -49,16 +49,42 @@ const RegistrationForm = (props) => {
       return
     }
 
-    if (!username) {
+    if (!usernameValue) {
       setError('Please enter your name.')
       setFieldError('username')
-      return true
+      return
     }
 
     const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
+
     if (gotErrs) {
       return
     }
+
+    if (passwordValue.toLowerCase() !== passwordValue) {
+      setError('Password must be lowercase')
+      setFieldError('password')
+      return
+    }
+
+    if (passwordValue.length < 16) {
+      setError('Password must be longer than sixteen characters')
+      setFieldError('password')
+      return
+    }
+
+    let forbiddenCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "$", "!","%","@", "*", "^", "-", "+", "-", "~", ";", ":", ",", "<", ">", "/", "`", "£", "|", "#"]
+    const gotForbidden = forbiddenCharacters.map((char) => {
+      console.log(char)
+      if (passwordValue.includes(char)) {
+        setError('Password must not contain special characters or numbers')
+        setFieldError('password')
+        return false
+      }
+    })
+    if (gotForbidden.includes(false)) return false
+
+
     const body = {
       username: usernameValue,
       email: emailValue,
@@ -79,11 +105,11 @@ const RegistrationForm = (props) => {
         handleApiLoginErrors(error, setError, setLoading)
       });
   };
-  
+
   return (
     <>
-      {error && <Alert className={classes.input} severity="error">{error}</Alert>}
-      {loading && <Loading message={loading} />}
+      {error && <Alert data-test-id="error" className={classes.input} severity="error">{error}</Alert>}
+      {loading && <Loading data-test-id="loading" message={loading} />}
       {success && (
         <>
           Your account has been created and we have emailed you an activation link. Please check your email.
@@ -94,6 +120,7 @@ const RegistrationForm = (props) => {
           <FormControl variant="filled" fullWidth className={classes.input}>
             <InputLabel htmlFor="age-native-simple">School</InputLabel>
             <Select
+              data-test-id='select-school'
               native
               error={fieldError === 'org'}
               value={orgValue}
@@ -104,8 +131,8 @@ const RegistrationForm = (props) => {
               }}
               name="org"
             >
-              <option aria-label="None" value="" />
-              {props.orgs.map((org, i) => <option key={`option-${i}`} value={org.id}>{org.name}</option>)}
+              <option aria-label="None" value="" data-test-id="blank" />
+              {props.orgs.map((org, i) => <option data-test-id={`option-${i}`} key={`option-${i}`} value={org.id}>{org.name}</option>)}
             </Select>
           </FormControl>
 
@@ -129,6 +156,7 @@ const RegistrationForm = (props) => {
             fullWidth id="email"
             label="Email"
             variant="filled"
+            helperText="Must be an email address ending in tasmat.org.uk"
             onChange={(ev) => {
               clearErrors()
               setEmailValue(ev.target.value)
@@ -140,6 +168,7 @@ const RegistrationForm = (props) => {
             value={passwordValue}
             fullWidth id="password"
             label="Password"
+            helperText="Please choose four random words as your password and ensure it is lowercase and doesn't include any special characters or numbers"
             variant="filled"
             onChange={(ev) => {
               clearErrors()
@@ -148,7 +177,7 @@ const RegistrationForm = (props) => {
 
           <FormControl margin="normal">
             <Button
-              data-test-id={`login`}
+              data-test-id={`register`}
               fullWidth
               type="submit"
               variant="contained"
