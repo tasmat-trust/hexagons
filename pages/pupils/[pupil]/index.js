@@ -13,13 +13,13 @@ import { getPupilById } from '../../../queries/Pupils';
 import useStateOnce from '../../../components/data-fetching/useStateOnce';
 import handleNonResponses from '../../../components/data-fetching/handleNonResponses';
 
-import WithPupil from '../../../components/pupil/WithPupil'
+import {WithQueryVariables} from '../../../components/pupil/WithPupil'
 
 
 
 function Index(props) {
   const classes = useAdminPage()
-  const [pupilsData, error] = useStateOnce([getPupilById, props.variables])
+  const [pupilsData, error] = useStateOnce([getPupilById, props.pupilVariables])
   const gotNonResponse = handleNonResponses(pupilsData, error)
   if (gotNonResponse) return gotNonResponse
   const pupil = pupilsData.pupils[0]
@@ -38,7 +38,7 @@ function Index(props) {
   )
 }
 
-export default WithPupil(Index)
+export default WithQueryVariables(Index)
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher')

@@ -9,7 +9,7 @@ const allSubjects = gql`query{
 
 const getSingleSubjectBySlug = gql`query getSubject($slug: String!) {  
   subjects (where: { slug: $slug}) { 
-     id name
+     id name slug
   }
 }`
 
@@ -31,6 +31,8 @@ const getModules = gql`query getModules($level: ENUM_MODULE_LEVEL!, $subjectId: 
     }
   }
 }`
+
+
 
 const createModuleQuery = gql`
 mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!) {

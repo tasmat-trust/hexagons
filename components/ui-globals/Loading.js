@@ -35,34 +35,34 @@ const useStyles = makeStyles({
   },
   span: {
     position: 'absolute',
-    width: '4px',
+    width: '2px',
     height: '0%',
     background: '#053146',
     zIndex: '9999999'
   },
   h1: {
     left: "0",
-    animation: "$load1 7.2s ease infinite"
+    animation: "$load1 1.8s ease 0.6s infinite"
   },
   h2: {
     right: "0",
-    animation: "$load2 7.2s ease .6s infinite"
+    animation: "$load2 1.8s ease 0.3s infinite"
   },
   h3: {
     right: "0",
-    animation: "$load3 7.2s ease 1.2s infinite"
+    animation: "$load3 1.8s ease 0.6s infinite"
   },
   h4: {
     right: "0",
-    animation: "$load4 7.2s ease 1.8s infinite"
+    animation: "$load4 1.8s ease 0.6s infinite"
   },
   h5: {
     left: "0",
-    animation: "$load5 7.2s ease 2.4s infinite"
+    animation: "$load5 1.8s ease 0.3s infinite"
   },
   h6: {
     left: "0",
-    animation: "$load6 7.2s ease 3s infinite"
+    animation: "$load6 1.8s ease 0.3s infinite"
   },
   "@keyframes load1": {
     "0%": {

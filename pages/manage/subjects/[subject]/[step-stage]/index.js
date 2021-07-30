@@ -14,8 +14,8 @@ export default function Stage(props) {
 
       <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/manage/subjects" secondLabel={query.subject} secondHref={`/manage/subjects/${query.subject}`} thirdLabel={query['step-stage']} />
 
-      <StagesTabs {...props} shouldShowStepStageInBreadcrumb={true} variables={{ slug: query.subject }} setBreadcrumbLabel={setStageName} stepOrStage={query['step-stage']}/>
-
+      <StagesTabs {...props} isAdmin={true} shouldShowStepStageInBreadcrumb={true} variables={{ slug: query.subject }} setBreadcrumbLabel={setStageName} stepOrStage={query['step-stage']}/>
+ 
     </>
   )
 }

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Tabs, Tab } from '@material-ui/core'
 import { Typography, Box } from '@material-ui/core'
-import Capabilities from '../subjects/Capabilities'
+import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
 import { DeleteCapabilities, DeleteStage } from '../forms/DeleteModule'
 
@@ -34,7 +34,7 @@ function TabPanel(props) {
 function StagesTabs(WrappedComponent) {
   return function StagesTabs(props) {
     const { query } = useRouter()
-    const { user, variables, setBreadcrumbLabel, shouldShowStepStageInBreadcrumb, stepOrStage } = props
+    const { variables, setBreadcrumbLabel, shouldShowStepStageInBreadcrumb, stepOrStage } = props
     const [subjectData, error] = useStateOnce([getSingleSubjectBySlug, variables])
     const gotNonResponse = handleNonResponses(subjectData, error)
     const stage = query.stage
@@ -63,23 +63,44 @@ function a11yProps(index) {
   };
 }
 
+function WithModules(WrappedComponent) {
+  return function WithModules(props) {
+    const { variables , isAdmin} = props
+    const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
+    let modules = []
+    if (modulesData) {
+      modules = modulesData.modules
+    }
+    return (
+      <>
+        {modules.length > 0 && !isAdmin && <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
+        {isAdmin &&  <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
+      </>
+    )
+  }
+}
+
 function StagesNav(props) {
 
-  const { variables, user, stepOrStage, subjectName, setBreadcrumbLabel } = props
-  const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
-  const gotNonResponse = handleNonResponses(modulesData)
+  const { modules, stepOrStage, isAdmin, currentLevel,setModulesData } = props
 
+  useEffect(() => {
+    if (modules) {
+      const activeModule = modules.map((module, i) => module.order === currentLevel)
+      const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
+      setValue(startingIndex)
+    }
+  }, modules)
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  //if (gotNonResponse) return gotNonResponse
   return (
     <>
-      <AddCapabilities setModulesData={setModulesData} {...props} />
-      
+      {isAdmin && <AddCapabilities setModulesData={setModulesData} {...props} />}
+
       <Tabs
         value={value}
         onChange={handleChange}
@@ -89,7 +110,7 @@ function StagesNav(props) {
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
-        {modulesData && modulesData.modules.map((module, i) => (
+        {modules.map((module, i) => (
           <Tab
             key={`link-${i}`}
             label={`${stepOrStage === 'steps' ? 'Step' : 'Stage'} ${module.order}`}
@@ -97,16 +118,16 @@ function StagesNav(props) {
         ))}
       </Tabs>
 
-      {modulesData && modulesData.modules.map((module, i) => (
+      {modules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={value} index={i}>
-          <DeleteCapabilities setModulesData={setModulesData} {...props} currentStage={module}/>
-          <DeleteStage setModulesData={setModulesData} {...props} currentStage={module}/>
-          <Capabilities {...props} currentStage={module} />
-          
+          {isAdmin && <DeleteCapabilities setModulesData={setModulesData} {...props} currentStage={module} />}
+          {isAdmin && <DeleteStage setModulesData={setModulesData} {...props} currentStage={module} />}
+          <CapabilityTiles {...props} currentStage={module} tiles={module.capabilities} />
+
         </TabPanel>
       ))}
     </>
   )
 }
 
-export default StagesTabs(StagesNav)
+export default StagesTabs(WithModules(StagesNav))

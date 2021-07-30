@@ -1,5 +1,4 @@
-import CapabilityTiles from '../subjects/CapabilityTiles'
-import AddCapabilities from '../forms/AddCapabilities'
+import CapabilityTiles from '../subjects/CapabilityTiles' 
 
 export default function Capabilities(props) {
   const { currentStage } = props

@@ -1,9 +1,9 @@
 import { Typography } from "@material-ui/core"
 import Loading from '../ui-globals/Loading'
 
-export default function handleNonResponses(state, error) {
+export default function handleNonResponses(state, error, errorMessage) {
   if (error) return <Typography>Error loading</Typography>
   if (!state) return <Loading message="Loading data" />
-  if (state[Object.keys(state)[0]].length === 0) return <Typography>No records found.</Typography>
+  if (state[Object.keys(state)[0]].length === 0) return <Typography>{errorMessage ? errorMessage : 'No records found'}</Typography>
   return false
 }

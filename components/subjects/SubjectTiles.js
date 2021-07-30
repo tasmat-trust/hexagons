@@ -9,7 +9,6 @@ export default function SubjectTiles({ subjects, onwardHref }) {
   function SubjectTile({ subject }) {
 
     const isComplete = subject.percent > 85 ? true : ''
-    console.log(subject.slug)
     return (
       <div className={`${styles.hex}`}>
         <div className={`${styles.hexIn} ${isComplete && styles.HexagonTile__complete}`}>

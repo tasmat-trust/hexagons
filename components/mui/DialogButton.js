@@ -7,14 +7,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
-import { Button } from '@material-ui/core';
+import { Button, ButtonBase } from '@material-ui/core';
 
 
 export default function DialogButton(props) {
 
 
   const [open, setOpen] = useState(false);
-  const { className, label, text, children, modelname } = props
+  const { className, label, content, text, children, modelname, isHexagon, bubbleHandleClose } = props
   const handleOpen = () => {
     setOpen(true);
   };
@@ -23,11 +23,12 @@ export default function DialogButton(props) {
     setOpen(false);
   };
 
+  bubbleHandleClose && bubbleHandleClose(handleClose)
+
   return (
     <>
 
-      <Button
-        {...props}
+      {!isHexagon && <Button
         variant="contained"
         color="secondary"
         className={className}
@@ -35,7 +36,13 @@ export default function DialogButton(props) {
         onClick={handleOpen}
       >
         {label}
-      </Button>
+      </Button>}
+      {isHexagon && <ButtonBase        
+        className={className}
+        onClick={handleOpen}
+      >
+        {content}
+      </ButtonBase>}
       <Dialog
         open={open}
         onClose={handleClose}

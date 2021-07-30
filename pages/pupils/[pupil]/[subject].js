@@ -1,21 +1,27 @@
 import checkSession from "../../../components/auth/checkSession"
 import { withSession } from "../../../middlewares/session"
-import WithPupil from '../../../components/pupil/WithPupil'
+import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../../../components/pupil/WithPupil'
+
 import BreadCrumbs from "../../../components/layout/navigation/Breadcrumbs"
-import { getPupilById } from "../../../queries/Pupils"
-import useStateOnce from "../../../components/data-fetching/useStateOnce"
-import handleNonResponses from "../../../components/data-fetching/handleNonResponses"
+
+import SetPupilSubjectLevel from '../../../components/pupil/SetPupilSubjectLevel';
+import StagesTabs from "../../../components/navigation/StagesTabs";
 
 function Subject(props) {
-
-  const [pupilsData, error] = useStateOnce([getPupilById, props.variables])
-  const gotNonResponse = handleNonResponses(pupilsData, error)
-  if (gotNonResponse) return gotNonResponse
-  const pupil = pupilsData.pupils[0]
+  const { pupil, subject, level } = props
   return (
     <>
-      <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={`${pupil.name}`} />
-      <h1>Hello</h1>
+      <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={`${pupil.name}`} secondHref={`/pupils/${pupil.id}`} thirdLabel={subject.name} />
+
+      {level && <StagesTabs
+        stepOrStage='steps'
+        currentLevel={level.module.order}
+        isAdmin={false}
+        isBaseline={true}
+        variables={{ slug: subject.slug }}
+        {...props} />}
+
+      {!level && <SetPupilSubjectLevel stepOrStage='steps' pupil={pupil} subject={subject} {...props} />}
     </>
   )
 }
@@ -24,4 +30,4 @@ export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher')
 })
 
-export default WithPupil(Subject)
+export default WithQueryVariables(WithPupilData(WithSubjectData(WithCurrentLevel(Subject))))

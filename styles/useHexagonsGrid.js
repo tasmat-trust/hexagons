@@ -37,7 +37,15 @@ const stringStyles = makeStyles((theme) => ({
     clip-path: polygon(var(--hc) 0, calc(100% - var(--hc)) 0, 100% var(--vc), 100% calc(100% - var(--vc)), calc(100% - var(--hc)) 100%,var(--hc) 100%, 0 calc(100% - var(--vc)), 0 var(--vc));
     background: ${theme.palette.info.light};
     margin-bottom: calc(var(--mv) - var(--vc));
-    
+  `,
+  hex_incomplete: `
+
+  `,
+  hex_complete: `
+    background: ${theme.palette.success.light};
+  `,
+  hex_target: `
+    background: ${theme.palette.warning.light};
   `,
   hexIn: ` 
     position: relative;
@@ -65,6 +73,11 @@ const stringStyles = makeStyles((theme) => ({
     width: 100%;
     height: 100%;
     float: left;
+  `,
+  button: `
+    width: 100%;
+    height: 100%;
+    font-size: inherit;
   `,
   hexContent_inner: `
     width: 70%;
