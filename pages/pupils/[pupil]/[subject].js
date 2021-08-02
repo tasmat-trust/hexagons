@@ -15,13 +15,15 @@ function Subject(props) {
 
       {level && <StagesTabs
         stepOrStage='steps'
-        currentLevel={level.module.order}
-        isAdmin={false}
-        isBaseline={true}
+        isAdmin={false}        
         variables={{ slug: subject.slug }}
         {...props} />}
 
-      {!level && <SetPupilSubjectLevel stepOrStage='steps' pupil={pupil} subject={subject} {...props} />}
+      {!level && <SetPupilSubjectLevel 
+      stepOrStage='steps' 
+      pupil={pupil} 
+      subject={subject}
+       {...props} />}
     </>
   )
 }

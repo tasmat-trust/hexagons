@@ -3,6 +3,7 @@ import DialogButton from '../mui/DialogButton'
 import { Button } from '@material-ui/core'
 import { useState } from 'react'
 import createCompetency from '../forms/handlers/createCompetency'
+import LevelStatus from '../pupil/LevelStatus'
 import createLevel from '../forms/handlers/createLevel'
 function Content({ tile, styles }) {
   return (
@@ -15,8 +16,7 @@ function Content({ tile, styles }) {
 
 function CapabilityTile(props) {
   const styles = stringStyles()
-  const pseudoStyles = jssStyles()
-  const { tile, competency, setCompetencies, gqlClient } = props
+  const { tile, competency, setCompetencies, gqlClient, currentLevel, setPassedUpCompetencies } = props
   const [isComplete, setIsComplete] = useState(false)
   const [isTarget, setIsTarget] = useState(false)
   const [isIncomplete, setIsIncomplete] = useState(false)
@@ -33,6 +33,7 @@ function CapabilityTile(props) {
     }
 
     const competencyVars = {
+      subjectId: props.subject.id,
       pupilId: props.pupil.id,
       status: status,
       adaptation: '',
@@ -51,23 +52,17 @@ function CapabilityTile(props) {
     }
 
     const refreshCompetencyVars = {
-      pupilId: props.pupil.id
+      pupilId: props.pupil.id,
+      subjectId: props.subject.id
     }
 
-    if (props.level) {
-      competencyVars.levelId = props.level.id
-      refreshCompetencyVars.levelId = props.level.id
-    } else {
-      const levelVars = {
-        moduleId: props.currentStage.id,
-        subjectId: props.subject.id,
-        pupilId: props.pupil.id
-      }
-      const levelId = await createLevel(gqlClient, levelVars)
-      competencyVars.levelId = levelId
-      refreshCompetencyVars.levelId = levelId
+    if (currentLevel) {
+      competencyVars.levelId = currentLevel.id
+      refreshCompetencyVars.levelId = currentLevel.id
     }
-    createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
+
+
+    createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies, setPassedUpCompetencies)
     handleCloseDialog && handleCloseDialog()
   }
 
@@ -91,32 +86,31 @@ function CapabilityTile(props) {
 }
 
 
-export default function CapabilityTiles({level, tiles, ...other}) {
+export default function CapabilityTiles (props) {
+  const { level, tiles, gotActiveLevel, competencies, module } = props
   const styles = stringStyles()
   const pseudoStyles = jssStyles()
 
-  let initialCompetencies = level && level.competencies ? level.competencies : null
-  const [competencies, setCompetencies] = useState(initialCompetencies)
-
-
+  const [currentLevel, setCurrentLevel] = useState(level)
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.main}>
-        <div className={`${styles.container}  ${pseudoStyles.container}`}>
-          {tiles.map((tile, i) => {
-            let competency = null
-            if (level) {
-              const gotC = competencies.map((competency) => parseInt(tile.id) === competency.capability_fk ? competency : null)
-              const capabilities = gotC.filter((competency) => competency !== null)
-              competency = capabilities[0]
-            }
+    <>
+      {gotActiveLevel && <LevelStatus currentLevel={currentLevel} {...props} />}
+      <div className={styles.wrapper}>
+        <div className={styles.main}>
+          <div className={`${styles.container}  ${pseudoStyles.container}`}>
+            {tiles.map((tile, i) => {
+              const gotC = competencies && competencies.map((competency) => parseInt(tile.id) === competency.capability_fk ? competency : null)
+              const capabilities = gotC && gotC.filter((competency) => competency !== null)
+              const competency = capabilities ? capabilities[0] : null
+          
 
-            return (
-              <CapabilityTile {...other} key={`tile-${i}`} tile={tile} competency={competency} setCompetencies={setCompetencies} />
-            )
-          })}
+              return (
+                <CapabilityTile {...props} currentLevel={currentLevel} key={`tile-${i}`} tile={tile} competency={competency}  />
+              )
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

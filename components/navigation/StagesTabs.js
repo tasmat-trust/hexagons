@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getModules, getSingleSubjectBySlug } from '../../queries/Subjects'
+import { getCompetencies } from '../../queries/Pupils'
 import useSharedState from "../data-fetching/useSharedState"
 import useStateOnce from '../data-fetching/useStateOnce'
 import handleNonResponses from "../data-fetching/handleNonResponses"
@@ -65,7 +66,7 @@ function a11yProps(index) {
 
 function WithModules(WrappedComponent) {
   return function WithModules(props) {
-    const { variables , isAdmin} = props
+    const { variables, isAdmin, pupil, subject } = props
     const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
     let modules = []
     if (modulesData) {
@@ -73,28 +74,67 @@ function WithModules(WrappedComponent) {
     }
     return (
       <>
-        {modules.length > 0 && !isAdmin && <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
-        {isAdmin &&  <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
+        {modules.length > 0 && !isAdmin && <WrappedComponent 
+        competenciesVars={{pupilId: pupil.id, subjectId: subject.id}}
+        setModulesData={setModulesData} 
+        modules={modules} 
+        {...props} />}
+        {isAdmin && <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
+      </>
+    )
+  }
+}
+
+function WithCompetencies(WrappedComponent) {
+  return function WithCompetencies(props) {
+    const {competenciesVars, isAdmin} = props
+    const [competenciesData, setCompetenciesData, error] = useSharedState([getCompetencies, competenciesVars])
+    let competencies = []
+    if (competenciesData) {
+      competencies = competenciesData.competencies
+    }
+    return (
+      <>
+ 
+        {!isAdmin && <WrappedComponent setCompetenciesData={setCompetenciesData} competenciesData={competencies} {...props} />}
+
+        {isAdmin && <WrappedComponent {...props} />}
       </>
     )
   }
 }
 
 function StagesNav(props) {
-
-  const { modules, stepOrStage, isAdmin, currentLevel,setModulesData } = props
+  const { modules, stepOrStage, isAdmin, level, setModulesData, competenciesData } = props
+  const [gotActiveLevel, setGotActiveLevel] = useState(false)
+  const [value, setValue] = useState(0);
+  const [competencies, setCompetencies] = useState(competenciesData)
+  const [passedUpCompetencies, setPassedUpCompetencies] = useState(competencies)
 
   useEffect(() => {
-    if (modules) {
-      const activeModule = modules.map((module, i) => module.order === currentLevel)
+    if (competenciesData) {
+      setCompetencies(competenciesData)
+    }
+  }, [competenciesData])
+
+  useEffect(() => {
+    if (modules && level) {
+      const activeModule = modules.map((module, i) => module.order === level.module.order)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
       setValue(startingIndex)
+      setGotActiveLevel(true)
+      setCompetencies(level.competencies)
     }
-  }, modules)
-  const [value, setValue] = useState(0);
+  }, [modules, level])
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    // if (!isAdmin) {
+    //   if (competencies && competencies.toString() !== passedUpCompetencies.toString()) {
+    //     setCompetencies(passedUpCompetencies)
+    //   }
+    // }
   };
 
   return (
@@ -122,7 +162,8 @@ function StagesNav(props) {
         <TabPanel key={`panel-${i}`} value={value} index={i}>
           {isAdmin && <DeleteCapabilities setModulesData={setModulesData} {...props} currentStage={module} />}
           {isAdmin && <DeleteStage setModulesData={setModulesData} {...props} currentStage={module} />}
-          <CapabilityTiles {...props} currentStage={module} tiles={module.capabilities} />
+
+          <CapabilityTiles {...props} setPassedUpCompetencies={setPassedUpCompetencies} gotActiveLevel={gotActiveLevel} currentStage={module} tiles={module.capabilities} competencies={competencies} setCompetencies={setCompetencies} />
 
         </TabPanel>
       ))}
@@ -130,4 +171,4 @@ function StagesNav(props) {
   )
 }
 
-export default StagesTabs(WithModules(StagesNav))
+export default StagesTabs(WithModules(WithCompetencies(StagesNav)))

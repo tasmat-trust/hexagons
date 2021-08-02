@@ -1,11 +1,14 @@
 import { createCompetencyQuery, getCompetencies, getCompetency, updateCompetencyQuery } from '../../../queries/Pupils'
 
-async function updateCompetencies(gqlClient, variables, setCompetencies) {
+async function updateCompetencies(gqlClient, variables, setCompetencies, setPassedUpCompetencies) {
+  console.log(setCompetencies)
+  console.log(setPassedUpCompetencies)
   try {
     const data = await gqlClient.request(getCompetencies, variables)
     if (data) {
       console.log(data)
       setCompetencies(data.competencies)
+      setPassedUpCompetencies(data.competencies)
     }
   } catch (e) {
     //setError(e)
@@ -13,7 +16,7 @@ async function updateCompetencies(gqlClient, variables, setCompetencies) {
   }
 }
 
-async function createCompetency(gqlClient, variables, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies, setError) {
+async function createCompetency(gqlClient, variables, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies, setPassedUpCompetencies, setError) {
   let existingCompetencyId = null;
   try {
     const data = await gqlClient.request(getCompetency, checkCompetencyVars)
@@ -34,18 +37,19 @@ async function createCompetency(gqlClient, variables, checkCompetencyVars, refre
       const data = await gqlClient.request(updateCompetencyQuery, variables)
       if (data) {
         console.log(data)
-        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
+        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies, setPassedUpCompetencies)
       }
     } catch (e) {
       //setError(e)
       console.error(e)
     }
   } else {
+    console.log('not got existing')
     try {
       const data = await gqlClient.request(createCompetencyQuery, variables)
       if (data) {
         console.log(data)
-        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
+        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies, setPassedUpCompetencies)
       }
     } catch (e) {
       //setError(e)

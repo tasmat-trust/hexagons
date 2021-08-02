@@ -59,7 +59,7 @@ function WithCurrentLevel(WrappedComponent) {
       currentLevel = levelsData.levels[0] // TODO calculate earliest level from module order
     }  
     return (
-      <WrappedComponent {...props} level={currentLevel} refreshLevels={mutateLevelsData} />
+      <WrappedComponent {...props} level={currentLevel} />
     )
   }
 }
