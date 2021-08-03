@@ -25,7 +25,7 @@ const getModule = gql`query getModule($level: ENUM_MODULE_LEVEL!, $order: Int!, 
 
 const getModules = gql`query getModules($level: ENUM_MODULE_LEVEL!, $subjectId: ID!) {  
   modules (where: {subject: $subjectId, level: $level}) { 
-    order id, 
+    order id level, 
     capabilities {
       text id
     }

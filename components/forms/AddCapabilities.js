@@ -22,7 +22,7 @@ export default function AddCapabilities(props) {
       formData.order = orderValue
     }
     if (levelValue) {
-      let level = levelValue === 'Step' ? 'primary' : 'secondary'
+      let level = levelValue === 'Step' ? 'step' : 'stage'
       console.log(level)
       formData.level = level
     }

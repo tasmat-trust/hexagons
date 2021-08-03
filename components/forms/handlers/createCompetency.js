@@ -1,14 +1,10 @@
 import { createCompetencyQuery, getCompetencies, getCompetency, updateCompetencyQuery } from '../../../queries/Pupils'
 
-async function updateCompetencies(gqlClient, variables, setCompetencies, setPassedUpCompetencies) {
-  console.log(setCompetencies)
-  console.log(setPassedUpCompetencies)
+async function updateCompetencies(gqlClient, variables, setCompetencies) {
   try {
     const data = await gqlClient.request(getCompetencies, variables)
     if (data) {
-      console.log(data)
       setCompetencies(data.competencies)
-      setPassedUpCompetencies(data.competencies)
     }
   } catch (e) {
     //setError(e)
@@ -16,7 +12,7 @@ async function updateCompetencies(gqlClient, variables, setCompetencies, setPass
   }
 }
 
-async function createCompetency(gqlClient, variables, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies, setPassedUpCompetencies, setError) {
+async function createCompetency(gqlClient, variables, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies, setError) {
   let existingCompetencyId = null;
   try {
     const data = await gqlClient.request(getCompetency, checkCompetencyVars)
@@ -36,8 +32,7 @@ async function createCompetency(gqlClient, variables, checkCompetencyVars, refre
       variables.id = existingCompetencyId
       const data = await gqlClient.request(updateCompetencyQuery, variables)
       if (data) {
-        console.log(data)
-        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies, setPassedUpCompetencies)
+        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
       }
     } catch (e) {
       //setError(e)
@@ -48,8 +43,7 @@ async function createCompetency(gqlClient, variables, checkCompetencyVars, refre
     try {
       const data = await gqlClient.request(createCompetencyQuery, variables)
       if (data) {
-        console.log(data)
-        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies, setPassedUpCompetencies)
+        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
       }
     } catch (e) {
       //setError(e)

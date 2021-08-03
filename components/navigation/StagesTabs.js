@@ -1,16 +1,17 @@
 import Link from 'next/link'
-import { getModules, getSingleSubjectBySlug } from '../../queries/Subjects'
-import { getCompetencies } from '../../queries/Pupils'
+import { getSingleSubjectBySlug } from '../../queries/Subjects'
 import useSharedState from "../data-fetching/useSharedState"
 import useStateOnce from '../data-fetching/useStateOnce'
 import handleNonResponses from "../data-fetching/handleNonResponses"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Tabs, Tab } from '@material-ui/core'
+import { Tabs, Tab, Fade } from '@material-ui/core'
 import { Typography, Box } from '@material-ui/core'
 import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
 import { DeleteCapabilities, DeleteStage } from '../forms/DeleteModule'
+import LevelStatus from '../pupil/LevelStatus'
+import { WithModules, WithCompetencies } from '../pupil/WithPupil'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,9 +51,11 @@ function StagesTabs(WrappedComponent) {
     if (gotNonResponse) return gotNonResponse
     const subjectId = subjectData.subjects[0].id
     const subjectName = subjectData.subjects[0].name
-    const level = stepOrStage === 'steps' ? 'primary' : 'secondary'
+    const stepStage = stepOrStage === 'steps' ? 'step' : 'stage'
     return (
-      <WrappedComponent {...props} subjectId={subjectId} subjectName={subjectName} variables={{ level: level, subjectId: subjectId }} />
+      <>
+        <WrappedComponent {...props} subjectId={subjectId} subjectName={subjectName} variables={{ level: stepStage, subjectId: subjectId }} />
+      </>
     )
   }
 }
@@ -64,85 +67,47 @@ function a11yProps(index) {
   };
 }
 
-function WithModules(WrappedComponent) {
-  return function WithModules(props) {
-    const { variables, isAdmin, pupil, subject } = props
-    const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
-    let modules = []
-    if (modulesData) {
-      modules = modulesData.modules
-    }
-    return (
-      <>
-        {modules.length > 0 && !isAdmin && <WrappedComponent 
-        competenciesVars={{pupilId: pupil.id, subjectId: subject.id}}
-        setModulesData={setModulesData} 
-        modules={modules} 
-        {...props} />}
-        {isAdmin && <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
-      </>
-    )
-  }
-}
 
-function WithCompetencies(WrappedComponent) {
-  return function WithCompetencies(props) {
-    const {competenciesVars, isAdmin} = props
-    const [competenciesData, setCompetenciesData, error] = useSharedState([getCompetencies, competenciesVars])
-    let competencies = []
-    if (competenciesData) {
-      competencies = competenciesData.competencies
-    }
-    return (
-      <>
- 
-        {!isAdmin && <WrappedComponent setCompetenciesData={setCompetenciesData} competenciesData={competencies} {...props} />}
-
-        {isAdmin && <WrappedComponent {...props} />}
-      </>
-    )
-  }
-}
 
 function StagesNav(props) {
-  const { modules, stepOrStage, isAdmin, level, setModulesData, competenciesData } = props
-  const [gotActiveLevel, setGotActiveLevel] = useState(false)
-  const [value, setValue] = useState(0);
+  const { modules, stepOrStage, isAdmin, startingLevel, setModulesData, competenciesData, pupil, subject } = props
+  const [tabValue, setTabValue] = useState(0);
   const [competencies, setCompetencies] = useState(competenciesData)
-  const [passedUpCompetencies, setPassedUpCompetencies] = useState(competencies)
+  const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
+  const [currentLevel, setCurrentLevel] = useState(null)  // object - the current level, if any
 
-  useEffect(() => {
+
+  useEffect(() => { // Set the overlays to appear once loaded
     if (competenciesData) {
       setCompetencies(competenciesData)
     }
   }, [competenciesData])
 
   useEffect(() => {
-    if (modules && level) {
-      const activeModule = modules.map((module, i) => module.order === level.module.order)
+    if (modules && startingLevel) {
+      const activeModule = modules.map((module, i) => module.order === startingLevel.module.order)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
-      setValue(startingIndex)
-      setGotActiveLevel(true)
-      setCompetencies(level.competencies)
+      setTabValue(startingIndex)
+      //setCompetencies(level.competencies)
     }
-  }, [modules, level])
+  }, [modules, startingLevel])
 
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    // if (!isAdmin) {
-    //   if (competencies && competencies.toString() !== passedUpCompetencies.toString()) {
-    //     setCompetencies(passedUpCompetencies)
-    //   }
-    // }
+    setTabValue(newValue);
+    setGotCurrentLevel(false)
+    setCurrentLevel(null)
   };
+
+
+
 
   return (
     <>
       {isAdmin && <AddCapabilities setModulesData={setModulesData} {...props} />}
 
       <Tabs
-        value={value}
+        value={tabValue}
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
@@ -159,11 +124,29 @@ function StagesNav(props) {
       </Tabs>
 
       {modules.map((module, i) => (
-        <TabPanel key={`panel-${i}`} value={value} index={i}>
+        <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
+
           {isAdmin && <DeleteCapabilities setModulesData={setModulesData} {...props} currentStage={module} />}
           {isAdmin && <DeleteStage setModulesData={setModulesData} {...props} currentStage={module} />}
 
-          <CapabilityTiles {...props} setPassedUpCompetencies={setPassedUpCompetencies} gotActiveLevel={gotActiveLevel} currentStage={module} tiles={module.capabilities} competencies={competencies} setCompetencies={setCompetencies} />
+          {!isAdmin && <LevelStatus
+            currentLevel={currentLevel}
+            setCurrentLevel={setCurrentLevel}
+            setGotCurrentLevel={setGotCurrentLevel}
+            currentModule={module}
+            getLevelVars={{ pupilId: pupil.id, subjectId: subject.id, moduleId: module.id }}
+            {...props} />}
+
+          <CapabilityTiles
+            {...props}
+            currentLevel={currentLevel}
+            setCurrentLevel={setCurrentLevel}
+            setGotCurrentLevel={setGotCurrentLevel}
+            gotCurrentLevel={gotCurrentLevel}
+            currentModule={module}
+            tiles={module.capabilities}
+            competencies={competencies}
+            setCompetencies={setCompetencies} />
 
         </TabPanel>
       ))}

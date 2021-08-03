@@ -1,10 +1,9 @@
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid'
-import DialogButton from '../mui/DialogButton'
-import { Button } from '@material-ui/core'
-import { useState } from 'react'
+import { Box, ButtonBase } from '@material-ui/core'
+import { useState, useEffect } from 'react'
 import createCompetency from '../forms/handlers/createCompetency'
-import LevelStatus from '../pupil/LevelStatus'
 import createLevel from '../forms/handlers/createLevel'
+
 function Content({ tile, styles }) {
   return (
     <div className={`${styles.hexContent_inner}`}>
@@ -16,20 +15,64 @@ function Content({ tile, styles }) {
 
 function CapabilityTile(props) {
   const styles = stringStyles()
-  const { tile, competency, setCompetencies, gqlClient, currentLevel, setPassedUpCompetencies } = props
+  const { tile, isAdmin, competency, setCompetencies, gqlClient, currentModule, gotCurrentLevel, setGotCurrentLevel, subject, pupil, setCurrentLevel, currentLevel } = props
+
+
+
   const [isComplete, setIsComplete] = useState(false)
   const [isTarget, setIsTarget] = useState(false)
   const [isIncomplete, setIsIncomplete] = useState(false)
-  let handleCloseDialog;
+  const [competencyStatus, setCompetencyStatus] = useState(null)
 
-  async function handleStatus(status) {
 
+  useEffect(() => {
+    let initialIsIncomplete = !competency
+    const initialIsComplete = competency && competency.status === 'complete'
+    const initialIsTarget = competency && competency.status === 'target'
+    initialIsIncomplete = competency && competency.status === 'incomplete'
+    setIsComplete(initialIsComplete)
+    setIsTarget(initialIsTarget)
+    setIsIncomplete(initialIsIncomplete)
+    // competency && competency.status && setCompetencyStatus(competency.status)
+  }, [competency])
+
+
+  async function handleStatus() {
+
+    let levelHere;
+    console.log(gotCurrentLevel, currentLevel)
+    if (!gotCurrentLevel) {
+      const variables = {
+        status: 'incomplete',
+        subjectId: subject.id,
+        pupilId: pupil.id,
+        moduleId: currentModule.id
+      }
+      const level = await createLevel(gqlClient, variables)
+      levelHere = level
+      console.log(levelHere)
+      setGotCurrentLevel(true)
+      setCurrentLevel(levelHere)
+    } else {
+      levelHere = currentLevel
+    }
+
+    console.log(levelHere)
+
+    let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete'
+    // setCompetencyStatus(status) // Optimistic update
     if (status === 'complete') {
       setIsComplete(true)
+      setIsTarget(false)
+      setIsIncomplete(false)
     } else if (status === 'incomplete') {
       setIsIncomplete(true)
+      setIsComplete(false)
+      setIsTarget(false)
     } else if (status === 'target') {
       setIsTarget(true)
+      setIsIncomplete(false)
+      setIsComplete(false)
     }
 
     const competencyVars = {
@@ -56,61 +99,55 @@ function CapabilityTile(props) {
       subjectId: props.subject.id
     }
 
-    if (currentLevel) {
-      competencyVars.levelId = currentLevel.id
-      refreshCompetencyVars.levelId = currentLevel.id
+    if (levelHere) {
+      competencyVars.levelId = levelHere.id
+      refreshCompetencyVars.levelId = levelHere.id
     }
 
 
-    createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies, setPassedUpCompetencies)
-    handleCloseDialog && handleCloseDialog()
+    createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
+
   }
 
-  function bubbleHandleClose(handleClose) {
-    handleCloseDialog = handleClose
-  }
+
+
   return (
     <div className={`${styles.hex} ${competency && `${styles[`hex_${competency.status}`]}`}`}>
       <div className={`${styles.hexIn}`}>
         <div className={`${styles.hexContent}`}>
-          <DialogButton bubbleHandleClose={bubbleHandleClose} isHexagon={true} className={styles.button} content={<Content tile={tile} styles={styles} />}>
-            <p>{tile.text}</p>
-            <Button variant='contained' color='primary' onClick={() => handleStatus('complete')}>Complete</Button>
-            <Button variant='contained' color='secondary' onClick={() => handleStatus('target')}>Target</Button>
-            <Button variant='contained' onClick={() => handleStatus('incomplete')}>Incomplete</Button>
-          </DialogButton>
+          {isAdmin && <Content tile={tile} styles={styles} />}
+          {!isAdmin && (
+            <ButtonBase className={styles.button} onClick={() => handleStatus()}>
+              <Content tile={tile} styles={styles} />
+            </ButtonBase>
+          )}
         </div>
       </div>
     </div>
   )
 }
 
-
-export default function CapabilityTiles (props) {
-  const { level, tiles, gotActiveLevel, competencies, module } = props
+export default function CapabilityTiles(props) {
+  const { tiles, competencies, module } = props
   const styles = stringStyles()
   const pseudoStyles = jssStyles()
 
-  const [currentLevel, setCurrentLevel] = useState(level)
   return (
     <>
-      {gotActiveLevel && <LevelStatus currentLevel={currentLevel} {...props} />}
-      <div className={styles.wrapper}>
+      <Box style={props.style} className={styles.wrapper}>
         <div className={styles.main}>
           <div className={`${styles.container}  ${pseudoStyles.container}`}>
             {tiles.map((tile, i) => {
               const gotC = competencies && competencies.map((competency) => parseInt(tile.id) === competency.capability_fk ? competency : null)
               const capabilities = gotC && gotC.filter((competency) => competency !== null)
               const competency = capabilities ? capabilities[0] : null
-          
-
               return (
-                <CapabilityTile {...props} currentLevel={currentLevel} key={`tile-${i}`} tile={tile} competency={competency}  />
+                <CapabilityTile {...props}  key={`tile-${i}`} tile={tile} competency={competency} />
               )
             })}
           </div>
         </div>
-      </div>
+      </Box>
     </>
   )
 }
