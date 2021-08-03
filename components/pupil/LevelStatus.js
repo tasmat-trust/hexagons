@@ -3,10 +3,9 @@ import createLevel from '../forms/handlers/createLevel'
 import updateLevel from '../forms/handlers/updateLevel'
 import { getLevel } from "../../queries/Pupils"
 import { useEffect, useState, useCallback } from "react"
-import useSharedState from "../data-fetching/useSharedState"
+import useStateOnce from "../data-fetching/useStateOnce"
 
-import { makeStyles } from "@material-ui/core"
-import Loading from "../ui-globals/Loading"
+import { makeStyles } from "@material-ui/core" 
 import { memo } from "react"
 
 const useStyles = makeStyles({
@@ -44,36 +43,33 @@ function LevelBox(props) {
 
 function WithLevel(WrappedComponent) {
   return function WithLevel(props) {
-    const [visibleLevelData, setVisibleLevelData] = useSharedState([getLevel, props.getLevelVars])
+    const [visibleLevelData] = useStateOnce([getLevel, props.getLevelVars])
     return (
-      <WrappedComponent initialVisibleLevel={visibleLevelData} setVisibleLevelData={setVisibleLevelData}  {...props} />
+      <WrappedComponent initialVisibleLevel={visibleLevelData}  {...props} />
     )
   }
 }
 
 const LevelStatus = memo(function LevelStatus(props) {
-  const { setGotCurrentLevel, setCurrentLevel, initialVisibleLevel, currentModule, subject, pupil, currentLevel, setVisibleLevelData } = props
+  const { setGotCurrentLevel, setCurrentLevelId, initialVisibleLevel, currentModule, subject, pupil } = props
 
   const [visibleLevel, setVisibleLevel] = useState(null)
   const [readyToShow, setReadyToShow] = useState(false)
 
   function bubbleGotLevel(level) {
     if (level && level.id) {
+      setVisibleLevel(level)
       setGotCurrentLevel(true)
-      setCurrentLevel(level)
+      setCurrentLevelId(level.id)
     }
   }
 
   useEffect(() => {
-    if (currentLevel) {
-      setVisibleLevel(currentLevel)
-    }
-  }, [currentLevel, visibleLevel])
-
-  useEffect(() => {
 
     if (initialVisibleLevel && initialVisibleLevel.levels.length > 0) {
-      bubbleGotLevel(initialVisibleLevel.levels[0])
+      const level = initialVisibleLevel.levels[0]
+      bubbleGotLevel(level)
+
     }
     setReadyToShow(true)
 

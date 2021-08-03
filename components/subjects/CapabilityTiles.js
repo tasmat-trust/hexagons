@@ -15,7 +15,7 @@ function Content({ tile, styles }) {
 
 function CapabilityTile(props) {
   const styles = stringStyles()
-  const { tile, isAdmin, competency, setCompetencies, gqlClient, currentModule, gotCurrentLevel, setGotCurrentLevel, subject, pupil, setCurrentLevel, currentLevel } = props
+  const { tile, isAdmin, competency, setCompetencies, gqlClient, currentModule, gotCurrentLevel, setGotCurrentLevel, subject, pupil, setCurrentLevel, currentLevelId } = props
 
 
 
@@ -36,12 +36,10 @@ function CapabilityTile(props) {
     // competency && competency.status && setCompetencyStatus(competency.status)
   }, [competency])
 
-
   async function handleStatus() {
 
-    let levelHere;
-    console.log(gotCurrentLevel, currentLevel)
-    if (!gotCurrentLevel) {
+    let levelId = currentLevelId;
+    if (!gotCurrentLevel && !currentLevelId) {
       const variables = {
         status: 'incomplete',
         subjectId: subject.id,
@@ -49,15 +47,10 @@ function CapabilityTile(props) {
         moduleId: currentModule.id
       }
       const level = await createLevel(gqlClient, variables)
-      levelHere = level
-      console.log(levelHere)
+      levelId = level.id
       setGotCurrentLevel(true)
-      setCurrentLevel(levelHere)
-    } else {
-      levelHere = currentLevel
+      setCurrentLevel(level)
     }
-
-    console.log(levelHere)
 
     let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete'
     // setCompetencyStatus(status) // Optimistic update
@@ -99,13 +92,11 @@ function CapabilityTile(props) {
       subjectId: props.subject.id
     }
 
-    if (levelHere) {
-      competencyVars.levelId = levelHere.id
-      refreshCompetencyVars.levelId = levelHere.id
+    if (levelId) {
+      competencyVars.levelId = levelId
+      refreshCompetencyVars.levelId = levelId
+      createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
     }
-
-
-    createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
 
   }
 
@@ -142,7 +133,7 @@ export default function CapabilityTiles(props) {
               const capabilities = gotC && gotC.filter((competency) => competency !== null)
               const competency = capabilities ? capabilities[0] : null
               return (
-                <CapabilityTile {...props}  key={`tile-${i}`} tile={tile} competency={competency} />
+                <CapabilityTile {...props} key={`tile-${i}`} tile={tile} competency={competency} />
               )
             })}
           </div>

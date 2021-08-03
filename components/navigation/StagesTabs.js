@@ -75,7 +75,7 @@ function StagesNav(props) {
   const [competencies, setCompetencies] = useState(competenciesData)
   const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
   const [currentLevel, setCurrentLevel] = useState(null)  // object - the current level, if any
-
+  const [currentLevelId, setCurrentLevelId] = useState(null)
 
   useEffect(() => { // Set the overlays to appear once loaded
     if (competenciesData) {
@@ -97,6 +97,7 @@ function StagesNav(props) {
     setTabValue(newValue);
     setGotCurrentLevel(false)
     setCurrentLevel(null)
+    setCurrentLevelId(null)
   };
 
 
@@ -130,8 +131,7 @@ function StagesNav(props) {
           {isAdmin && <DeleteStage setModulesData={setModulesData} {...props} currentStage={module} />}
 
           {!isAdmin && <LevelStatus
-            currentLevel={currentLevel}
-            setCurrentLevel={setCurrentLevel}
+            setCurrentLevelId={setCurrentLevelId}
             setGotCurrentLevel={setGotCurrentLevel}
             currentModule={module}
             getLevelVars={{ pupilId: pupil.id, subjectId: subject.id, moduleId: module.id }}
@@ -139,7 +139,7 @@ function StagesNav(props) {
 
           <CapabilityTiles
             {...props}
-            currentLevel={currentLevel}
+            currentLevelId={currentLevelId}
             setCurrentLevel={setCurrentLevel}
             setGotCurrentLevel={setGotCurrentLevel}
             gotCurrentLevel={gotCurrentLevel}
