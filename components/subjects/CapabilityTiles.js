@@ -33,7 +33,7 @@ function CapabilityTile(props) {
     setIsComplete(initialIsComplete)
     setIsTarget(initialIsTarget)
     setIsIncomplete(initialIsIncomplete)
-    // competency && competency.status && setCompetencyStatus(competency.status)
+    competency && competency.status && setCompetencyStatus(competency.status)
   }, [competency])
 
   async function handleStatus() {
@@ -53,7 +53,10 @@ function CapabilityTile(props) {
     }
 
     let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete'
-    // setCompetencyStatus(status) // Optimistic update
+    setTimeout(() => {
+      setCompetencyStatus(status) // Optimistic update
+    }, 100)
+    
     if (status === 'complete') {
       setIsComplete(true)
       setIsTarget(false)
@@ -103,7 +106,7 @@ function CapabilityTile(props) {
 
 
   return (
-    <div className={`${styles.hex} ${competency && `${styles[`hex_${competency.status}`]}`}`}>
+    <div className={`${styles.hex} ${competency && `${styles[`hex_${competencyStatus}`]}`}`}>
       <div className={`${styles.hexIn}`}>
         <div className={`${styles.hexContent}`}>
           {isAdmin && <Content tile={tile} styles={styles} />}
