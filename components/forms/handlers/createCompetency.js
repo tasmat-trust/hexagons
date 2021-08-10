@@ -5,10 +5,12 @@ async function updateCompetencies(gqlClient, variables, setCompetencies) {
     const data = await gqlClient.request(getCompetencies, variables)
     if (data) {
       setCompetencies(data.competencies)
+      return true
     }
   } catch (e) {
     //setError(e)
     console.error(e)
+    return false
   }
 }
 
@@ -25,6 +27,7 @@ async function createCompetency(gqlClient, variables, checkCompetencyVars, refre
     }
   } catch (e) {
     console.error(e)
+    return false
   }
   if (existingCompetencyId) {
     try {
@@ -32,22 +35,25 @@ async function createCompetency(gqlClient, variables, checkCompetencyVars, refre
       variables.id = existingCompetencyId
       const data = await gqlClient.request(updateCompetencyQuery, variables)
       if (data) {
-        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
+        const finished = updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
+        return finished
       }
     } catch (e) {
       //setError(e)
       console.error(e)
+      return false
     }
   } else {
-    console.log('not got existing')
     try {
       const data = await gqlClient.request(createCompetencyQuery, variables)
       if (data) {
-        updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
+        const finished = updateCompetencies(gqlClient, refreshCompetencyVars, setCompetencies)
+        return finished
       }
     } catch (e) {
       //setError(e)
       console.error(e)
+      return false
     }
   }
 }

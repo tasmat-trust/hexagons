@@ -6,7 +6,6 @@ import allowPublicSession from '../components/auth/allowPublicSession';
 
 export default function Home(props) {
   const { login } = useLoginLogout(props)
-  console.log(props)
   return (
     <div className="container">
       <Head>

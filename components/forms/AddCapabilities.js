@@ -23,7 +23,6 @@ export default function AddCapabilities(props) {
     }
     if (levelValue) {
       let level = levelValue === 'Step' ? 'step' : 'stage'
-      console.log(level)
       formData.level = level
     }
 

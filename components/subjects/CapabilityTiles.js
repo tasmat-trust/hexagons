@@ -1,8 +1,25 @@
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid'
-import { Box, ButtonBase } from '@material-ui/core'
+import { Box, ButtonBase, makeStyles } from '@material-ui/core'
 import { useState, useEffect } from 'react'
 import createCompetency from '../forms/handlers/createCompetency'
 import createLevel from '../forms/handlers/createLevel'
+
+const makeTileStyles = makeStyles(() => ({
+  buttonBlocker: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    background: 'transparent',
+    zIndex: '100',
+    cursor: 'wait'
+  },
+  buttonBlocker_visible: {
+    display: 'block'
+  },
+  buttonBlocker_hidden: {
+    display: 'none'
+  }
+}))
 
 function Content({ tile, styles }) {
   return (
@@ -12,17 +29,15 @@ function Content({ tile, styles }) {
   )
 }
 
-
 function CapabilityTile(props) {
   const styles = stringStyles()
   const { tile, isAdmin, competency, setCompetencies, gqlClient, currentModule, gotCurrentLevel, setGotCurrentLevel, subject, pupil, setCurrentLevel, currentLevelId } = props
-
-
 
   const [isComplete, setIsComplete] = useState(false)
   const [isTarget, setIsTarget] = useState(false)
   const [isIncomplete, setIsIncomplete] = useState(false)
   const [competencyStatus, setCompetencyStatus] = useState(null)
+  const [buttonIsDisabled, setButtonIsDisabled] = useState(false)
 
 
   useEffect(() => {
@@ -38,7 +53,15 @@ function CapabilityTile(props) {
 
   async function handleStatus() {
 
+    // Disable button and update colour
+    setButtonIsDisabled(true)
+    let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete'
+    setTimeout(() => {
+      setCompetencyStatus(status) // Optimistic update
+    }, 100)
+
     let levelId = currentLevelId;
+
     if (!gotCurrentLevel && !currentLevelId) {
       const variables = {
         status: 'incomplete',
@@ -52,11 +75,6 @@ function CapabilityTile(props) {
       setCurrentLevel(level)
     }
 
-    let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete'
-    setTimeout(() => {
-      setCompetencyStatus(status) // Optimistic update
-    }, 100)
-    
     if (status === 'complete') {
       setIsComplete(true)
       setIsTarget(false)
@@ -98,12 +116,14 @@ function CapabilityTile(props) {
     if (levelId) {
       competencyVars.levelId = levelId
       refreshCompetencyVars.levelId = levelId
-      createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
+      const finished = await createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
+      if (finished) {
+        setButtonIsDisabled(false)
+      }
     }
-
   }
 
-
+  const tileStyles = makeTileStyles()
 
   return (
     <div className={`${styles.hex} ${competency && `${styles[`hex_${competencyStatus}`]}`}`}>
@@ -111,9 +131,12 @@ function CapabilityTile(props) {
         <div className={`${styles.hexContent}`}>
           {isAdmin && <Content tile={tile} styles={styles} />}
           {!isAdmin && (
-            <ButtonBase className={styles.button} onClick={() => handleStatus()}>
-              <Content tile={tile} styles={styles} />
-            </ButtonBase>
+            <>
+              <div className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]}`}></div>
+              <ButtonBase className={styles.button} onClick={() => handleStatus()}>
+                <Content tile={tile} styles={styles} />
+              </ButtonBase>
+            </>
           )}
         </div>
       </div>

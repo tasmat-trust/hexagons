@@ -53,7 +53,6 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
         columns={columns}
         checkboxSelection
         onSelectionModelChange={(newSelection) => {
-          console.log(newSelection)
           setSelectedUsers(newSelection)
           if (newSelection.length > 0) {
             showMultiAdd(true)

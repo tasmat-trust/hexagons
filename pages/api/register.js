@@ -17,7 +17,6 @@ export default nc()
         })
         .then((res) => res.data)
         .then((data) => {
-          console.log(data);
           return {
             ...data.user,
             strapiToken: data.jwt,

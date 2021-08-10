@@ -1,6 +1,5 @@
 import { Typography, Box, List, Divider } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
-import PersonIcon from '@material-ui/icons/Person';
 import SchoolIcon from '@material-ui/icons/School';
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -27,8 +26,7 @@ function SettingNavItems({ user }) {
       <List>
         {role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
         {role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
-        {role === 'Senior Leader' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
-        <NavItem href="/manage/me" label="My account" Icon={PersonIcon} />
+        {role === 'Senior Leader' || role === 'Teacher' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
       </List>
     </Box>
   )
