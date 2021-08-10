@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -57,9 +57,12 @@ const StyledSlider = styled(Slider)`
 
 export default function PupilCard(props) {
   const {pupil} = props
-  const onwardHref = props.onwardHref ? props.onwardHref : `/pupils/${pupil.id}`
+  const [onwardHref, setOnwardHref] = useState(props.onwardHref)
   const styles = useStyles();
 
+  useEffect(() => {
+    setOnwardHref(props.onwardHref)
+  }, [props.onwardHref])
 
 
   return (
@@ -69,9 +72,9 @@ export default function PupilCard(props) {
           {/* <Link href="/pupils/[id]-RANDOM" as={`/pupils/${pupil.id}`}>
             <a>{pupil.name}</a>
           </Link> */}
-          <Link href={onwardHref} >
+          {onwardHref && <Link href={onwardHref} >
             <a>{pupil.name}</a>
-          </Link>
+          </Link>}
         </Typography>
         <ul className={styles.groupUl}>
           {pupil.groups && pupil.groups.map((group, i) => (

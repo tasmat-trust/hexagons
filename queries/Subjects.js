@@ -3,7 +3,7 @@ import { gql } from 'graphql-request'
 // Get all users with roles and groups
 const allSubjects = gql`query{
   subjects {
-  	name slug
+  	name slug isCore
   }
 }`
 
@@ -23,8 +23,8 @@ const getModule = gql`query getModule($level: ENUM_MODULE_LEVEL!, $order: Int!, 
   }
 }`
 
-const getModules = gql`query getModules($level: ENUM_MODULE_LEVEL!, $subjectId: ID!) {  
-  modules (where: {subject: $subjectId, level: $level}) { 
+const getModules = gql`query getModules($subjectId: ID!) {  
+  modules (where: {subject: $subjectId}) { 
     order id level, 
     capabilities {
       text id

@@ -13,14 +13,12 @@ function Subject(props) {
     <>
       <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={`${pupil.name}`} secondHref={`/pupils/${pupil.id}`} thirdLabel={subject.name} />
 
-      {level && <StagesTabs
-        stepOrStage='steps'
+      {level && <StagesTabs 
         isAdmin={false}        
         variables={{ slug: subject.slug }}
         {...props} />}
 
-      {!level && <SetPupilSubjectLevel 
-      stepOrStage='steps' 
+      {!level && <SetPupilSubjectLevel    
       pupil={pupil} 
       subject={subject}
        {...props} />}

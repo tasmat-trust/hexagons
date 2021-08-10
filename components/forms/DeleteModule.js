@@ -1,32 +1,12 @@
 import { Button } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
-import { deleteCapabilities, deleteStage } from './handlers/deleteModule'
+import deleteModule from './handlers/deleteModule'
 
-
-function DeleteCapabilities(props) {
+export default function DeleteModule(props) {
   const { gqlClient, setModulesData, currentStage } = props
   async function handleForm(event) {
     event.preventDefault()
-    await deleteCapabilities(gqlClient, currentStage, setModulesData)
-  }
-
-  return (
-    <form id={`new-module`} onSubmit={handleForm}>
-      <FormControl margin="normal">
-        <Button data-test-id={`delete-module`} fullWidth type="submit" variant="contained" color="primary">
-          Delete all capabilities
-        </Button>
-      </FormControl>
-    </form>
-  )
-}
-
-function DeleteStage(props) {
-  const { gqlClient, setModulesData, currentStage } = props
-  async function handleForm(event) {
-    event.preventDefault()
-    await deleteCapabilities(gqlClient, currentStage, setModulesData)
-    await deleteStage(gqlClient, currentStage, setModulesData)
+    await deleteModule(gqlClient, currentStage, setModulesData)
   }
 
   return (
@@ -38,10 +18,4 @@ function DeleteStage(props) {
       </FormControl>
     </form>
   )
-}
-
-
-export {
-  DeleteCapabilities,
-  DeleteStage
 }

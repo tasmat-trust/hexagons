@@ -54,8 +54,8 @@ const getPupilById = gql`query getPupil($id: ID, $orgId: ID!) {
 }`
 
 
-const getPupilsByGroup = gql`query getPupils($groupId: ID!) {  
-  pupils (where: {groups: $groupId}) { 
+const getPupilsByGroup = gql`query getPupils($groupId: ID!, $orgId: ID!) {  
+  pupils (where: {groups: $groupId, organization: $orgId}) { 
     name id, groups {
       name
     }

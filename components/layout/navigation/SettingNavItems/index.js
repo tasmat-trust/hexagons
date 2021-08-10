@@ -26,7 +26,7 @@ function SettingNavItems({ user }) {
       <List>
         {role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
         {role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
-        {role === 'Senior Leader' || role === 'Teacher' && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
+        {(role === 'Senior Leader' || role === 'Teacher') && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
       </List>
     </Box>
   )

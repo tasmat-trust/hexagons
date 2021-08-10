@@ -1,15 +1,13 @@
-import Link from 'next/link'
 import { getSingleSubjectBySlug } from '../../queries/Subjects'
-import useSharedState from "../data-fetching/useSharedState"
 import useStateOnce from '../data-fetching/useStateOnce'
 import handleNonResponses from "../data-fetching/handleNonResponses"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Tabs, Tab, Fade } from '@material-ui/core'
-import { Typography, Box } from '@material-ui/core'
+import { Tabs, Tab } from '@material-ui/core'
+import {  Box } from '@material-ui/core'
 import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
-import { DeleteCapabilities, DeleteStage } from '../forms/DeleteModule'
+import DeleteModule from '../forms/DeleteModule'
 import LevelStatus from '../pupil/LevelStatus'
 import { WithModules, WithCompetencies } from '../pupil/WithPupil'
 
@@ -36,7 +34,7 @@ function TabPanel(props) {
 function StagesTabs(WrappedComponent) {
   return function StagesTabs(props) {
     const { query } = useRouter()
-    const { variables, setBreadcrumbLabel, shouldShowStepStageInBreadcrumb, stepOrStage } = props
+    const { variables, setBreadcrumbLabel, shouldShowStepStageInBreadcrumb } = props
     const [subjectData, error] = useStateOnce([getSingleSubjectBySlug, variables])
     const gotNonResponse = handleNonResponses(subjectData, error)
     const stage = query.stage
@@ -51,10 +49,9 @@ function StagesTabs(WrappedComponent) {
     if (gotNonResponse) return gotNonResponse
     const subjectId = subjectData.subjects[0].id
     const subjectName = subjectData.subjects[0].name
-    const stepStage = stepOrStage === 'steps' ? 'step' : 'stage'
     return (
       <>
-        <WrappedComponent {...props} subjectId={subjectId} subjectName={subjectName} variables={{ level: stepStage, subjectId: subjectId }} />
+        <WrappedComponent {...props} subjectId={subjectId} subjectName={subjectName} variables={{ subjectId: subjectId }} />
       </>
     )
   }
@@ -76,12 +73,28 @@ function StagesNav(props) {
   const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
   const [currentLevel, setCurrentLevel] = useState(null)  // object - the current level, if any
   const [currentLevelId, setCurrentLevelId] = useState(null)
+  const [sortedModules, setSortedModules] = useState(modules)
 
   useEffect(() => { // Set the overlays to appear once loaded
     if (competenciesData) {
       setCompetencies(competenciesData)
     }
   }, [competenciesData])
+
+  useEffect(() => {
+    if (modules) {
+      modules.sort((a,b) => a.order > b.order)
+      modules.sort((a,b) => {
+        const aLevel = a.level === 'step' ? 1 : 0
+        const bLevel = b.level === 'step' ? 1 : 0
+        return (
+          aLevel < bLevel
+        )
+      })
+      setSortedModules(modules)
+    }
+    
+  }, [modules])
 
   useEffect(() => {
     if (modules && startingLevel) {
@@ -116,19 +129,18 @@ function StagesNav(props) {
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
-        {modules.map((module, i) => (
+        {sortedModules.map((module, i) => (
           <Tab
             key={`link-${i}`}
-            label={`${stepOrStage === 'steps' ? 'Step' : 'Stage'} ${module.order}`}
+            label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
             {...a11yProps(0)} />
         ))}
       </Tabs>
 
-      {modules.map((module, i) => (
+      {sortedModules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
 
-          {isAdmin && <DeleteCapabilities setModulesData={setModulesData} {...props} currentStage={module} />}
-          {isAdmin && <DeleteStage setModulesData={setModulesData} {...props} currentStage={module} />}
+          {isAdmin && <DeleteModule setModulesData={setModulesData} {...props} currentStage={module} />}
 
           {!isAdmin && <LevelStatus
             setCurrentLevelId={setCurrentLevelId}
@@ -147,7 +159,6 @@ function StagesNav(props) {
             tiles={module.capabilities}
             competencies={competencies}
             setCompetencies={setCompetencies} />
-
         </TabPanel>
       ))}
     </>
