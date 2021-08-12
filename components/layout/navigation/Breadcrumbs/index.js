@@ -2,6 +2,7 @@ import { Breadcrumbs, Typography } from '@material-ui/core';
 import Link from "next/link"
 import { ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   MenuButton: {
@@ -31,19 +32,11 @@ function LinkOrLabel(props) {
 
 export default function BreadCrumbs(props) {
 
-  function handleClick() {
-    props.setMenuOpen(true) 
-  }
-
-
   const classes = useStyles()
   const { firstLabel, firstHref, secondLabel, secondHref, thirdLabel, thirdHref, fourthLabel, fourthHref } = props
 
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      <ButtonBase className={classes.MenuButton} onClick={() => handleClick()}>
-        Menu
-      </ButtonBase>
       {firstLabel && <LinkOrLabel href={firstHref} label={firstLabel} />}
       {secondLabel && <LinkOrLabel href={secondHref} label={secondLabel} />}
       {thirdLabel && <LinkOrLabel href={thirdHref} label={thirdLabel} />}

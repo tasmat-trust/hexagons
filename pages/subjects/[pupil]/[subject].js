@@ -11,7 +11,7 @@ function Subject(props) {
   const { pupil, subject, level } = props
   return (
     <>
-      <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={`${pupil.name}`} secondHref={`/pupils/${pupil.id}`} thirdLabel={subject.name} />
+      <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/subjects" secondLabel={`${pupil.name}`} secondHref={`/pupils/${pupil.id}`} thirdLabel={subject.name} />
 
       {level && <StagesTabs 
         isAdmin={false}        

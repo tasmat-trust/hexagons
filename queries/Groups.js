@@ -31,7 +31,7 @@ const allGroups = gql`query getGroups($orgId: Int!) {
   }`
 
 const myGroups = gql`query getGroups($teacherId: ID!) {  
-  groups (where: {users_permissions_users: $teacherId}) { 
+  groups (where: {users: $teacherId}) { 
     name slug
   }
 }`

@@ -1,6 +1,6 @@
 import DialogButton from "../mui/DialogButton"
 import { AddNewUserWithGroups } from '../forms/AddNew'
-import { AssignGroupsToPupil } from '../forms/AssignTo'
+import { AssignGroupsToUser } from '../forms/AssignTo'
 import UsersGrid from "../layout/data-tables/UsersGrid"
 import { Box, Typography, Paper } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
@@ -34,7 +34,7 @@ function ManageUsersHeader(props) {
             label="Assign groups"
             text={`Assign ${userType}s to groups`}
             modelname="group">
-            <AssignGroupsToPupil
+            <AssignGroupsToUser
               {...props}
               modelname="group"
               variables={{ orgId: orgId }} />

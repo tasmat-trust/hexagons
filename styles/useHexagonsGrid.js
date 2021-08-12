@@ -61,10 +61,10 @@ const stringStyles = makeStyles((theme) => ({
     margin-bottom: calc(var(--mv) - var(--vc));
   `,
   hex_nonCore: `
-    background: ${theme.palette.primary.main}
+    background: ${theme.palette.primary.light};
   `,
   hex_core: `
-    background: ${theme.palette.primary.dark}
+    background: ${theme.palette.primary.main};
   `,
   hex_complete: `
     background: ${theme.palette.success.light};
@@ -118,6 +118,11 @@ const jssStyles = makeStyles((theme) => ({
   hex: {
     '&:hover': {
       background: theme.palette.info.dark,
+    }
+  },
+  hex_nonCore: {
+    '& .hrxLink': {
+      color: 'black'
     }
   },
   container: {

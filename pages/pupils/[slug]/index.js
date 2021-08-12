@@ -10,7 +10,7 @@ export default function Index(props) {
   const [groupName, setGroupName] = useState(null);
   return (
     <>
-      <BreadCrumbs {...props} firstLabel="Groups" firstHref="/groups" secondLabel={groupName} />
+      <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={groupName} />
       <PupilsAndGroups {...props} activeGroup={query.slug} setGroupName={setGroupName} />
     </>)
 }

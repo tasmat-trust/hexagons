@@ -36,6 +36,7 @@
     "axios": "^0.21.1",
     "graphql": "^15.5.1",
     "graphql-request": "^3.4.0",
+    "jss-plugin-nested": "^10.7.1",
     "jss-plugin-template": "^10.6.0",
     "next": "11.0.0",
     "next-connect": "^0.10.1",

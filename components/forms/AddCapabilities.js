@@ -93,7 +93,7 @@ export default function AddCapabilities(props) {
 
       <FormControl margin="normal">
         <Button data-test-id={`add-new-module`} fullWidth type="submit" variant="contained" color="primary">
-          Add new module
+          Add new {levelValue ? levelValue : 'module'}
         </Button>
       </FormControl>
     </form>

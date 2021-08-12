@@ -13,6 +13,7 @@ import { create } from 'jss';
 import { ThemeProvider, StylesProvider, jssPreset } from '@material-ui/core/styles';
 import useGlobalStyles from '../styles/useGlobalStyles';
 import templatePlugin from 'jss-plugin-template';
+import nestedPlugin from 'jss-plugin-nested';
 import theme from '../styles/theme';
 import Loading from '../components/ui-globals/Loading';
 import { useState } from 'react';
@@ -25,7 +26,7 @@ import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
 
 const jss = create({
-  plugins: [...jssPreset().plugins, templatePlugin()],
+  plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
 });
 
 function ThemeProviderWithGlobalStyles({ children }) {
@@ -35,9 +36,6 @@ function ThemeProviderWithGlobalStyles({ children }) {
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     // WHY: https://stackoverflow.com/questions/63521538/removing-server-side-injected-css
@@ -49,10 +47,10 @@ function MyApp({ Component, pageProps }) {
 
   const headers = pageProps.user
     ? {
-        headers: {
-          Authorization: `Bearer ${pageProps.user.strapiToken}`,
-        },
-      }
+      headers: {
+        Authorization: `Bearer ${pageProps.user.strapiToken}`,
+      },
+    }
     : {};
 
   const graphqlClient = new GraphQLClient(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, headers);
@@ -73,9 +71,7 @@ function MyApp({ Component, pageProps }) {
           <SkipNavLink />
           <SkipNavContent />
           <ResponsiveDrawer
-            {...pageProps}
-            menuOpen={menuOpen} 
-            setMenuOpen={setMenuOpen}
+            {...pageProps} 
             setLoading={setLoading}
             MainNavItems={MainNavItems}
             SettingNavItems={SettingNavItems}
@@ -89,7 +85,7 @@ function MyApp({ Component, pageProps }) {
               }}
             >
               {loading && <Loading message={loading} />}
-              {!loading && <Component {...pageProps} menuOpen={menuOpen} setMenuOpen={setMenuOpen} gqlClient={graphqlClient} setLoading={setLoading} />}
+              {!loading && <Component {...pageProps} gqlClient={graphqlClient} setLoading={setLoading} />}
             </SWRConfig>
           </ResponsiveDrawer>
         </StylesProvider>

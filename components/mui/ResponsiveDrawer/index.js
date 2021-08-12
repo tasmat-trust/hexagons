@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useLoginLogout } from '../../../middlewares/session'
-
 
 const drawerWidth = 240;
 
@@ -55,13 +54,15 @@ function ResponsiveDrawer(props) {
   const { window, children, MainNavItems, SettingNavItems, OrgPicker, user } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const { menuOpen, setMenuOpen } = props
   const { login, logout } = useLoginLogout(props)
 
-  const handleDrawerToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const [isOpen, setIsOpen] = useState(false)
 
+
+  const handleDrawerToggle = () => {
+    setIsOpen(!isOpen);
+  };
+ 
   const drawer = (
     <div className={classes.toolbar}>
 
@@ -115,7 +116,7 @@ function ResponsiveDrawer(props) {
             container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={menuOpen}
+            open={isOpen}
             onClose={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,

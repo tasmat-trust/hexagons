@@ -21,10 +21,16 @@ const createPupilQuery = gql`
     }      
   }`
 
-const allPupilsWithGroups = gql`query getPupilsWithGroups($orgId: ID!){pupils (where: {organization: $orgId}){  id, name, groups {name, id}} }`
+const allPupilsWithGroups = gql`query getPupilsWithGroups($orgId: ID!){
+  pupils (where: {organization: $orgId}) {  
+    id, name, 
+    groups {
+      name, id
+  } 
+}`
 
 const updatePupilGroups = gql`
-mutation updatePupil($userId: ID!, $groupIds: [ID!]) {
+mutation updatePupil($userId: ID!, $groupIds: [ID]) {
   updatePupil(
     input: {
       where: {id: $userId},

@@ -1,6 +1,9 @@
 import { Button } from '@material-ui/core';
 import Head from 'next/head';
 
+import HomepageLoggedIn from '../components/homepage/HomepageLoggedIn';
+import HomepageLoggedOut from '../components/homepage/HomepageLoggedOut';
+
 import { withSession, useLoginLogout } from '../middlewares/session';
 import allowPublicSession from '../components/auth/allowPublicSession';
 
@@ -11,14 +14,8 @@ export default function Home(props) {
       <Head>
         <title>Hexagons</title>
       </Head>
-
-      {props.user && <h1>Hello, {props.user.username}</h1>}
-      {!props.user && (
-        <>
-          <h1>Welcome to Hexagons.</h1>
-          <Button onClick={() => login()}>Login</Button>
-        </>
-      )}
+      {props.user && <HomepageLoggedIn {...props} />}
+      {!props.user && <HomepageLoggedOut {...props} />}
     </div>
   );
 }

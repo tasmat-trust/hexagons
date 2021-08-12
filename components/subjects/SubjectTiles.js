@@ -10,10 +10,10 @@ export default function SubjectTiles({ subjects, onwardHref }) {
 
     const isComplete = subject.percent > 85 ? true : ''
     return (
-      <div className={`${styles.hex} ${styles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]}`}>
+      <div className={`${styles.hex} ${styles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]} ${pseudoStyles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]}`}>
         <div className={`${styles.hexIn} ${isComplete && styles.HexagonTile__complete}`}>
           {subject.slug && (<Link href={`${onwardHref}/${subject.slug}`}>
-            <a className={`${styles.hexLink}`}>
+            <a className={`${styles.hexLink} hrxLink`}>
               {subject.name}
             </a>
           </Link>)}

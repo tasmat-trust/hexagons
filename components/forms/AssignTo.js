@@ -7,6 +7,8 @@ import useSharedState from "../data-fetching/useSharedState";
 import handleNonResponses from "../data-fetching/handleNonResponses";
 import { allGroups } from "../../queries/Groups";
 import { updatePupilGroups } from "../../queries/Pupils"
+import { updateTeacherGroups } from "../../queries/Teachers"
+import handleStrapiError from "../data-fetching/handleStrapiError"
 
 
 
@@ -51,9 +53,9 @@ function AssignTo({ selectItems, updateModel, modelname }) {
   )
 }
 
-function AssignGroupsToPupil(props) {
+function AssignGroupsToUser(props) {
 
-  const { variables, gqlClient, selectedUsers, allUsers, triggerSharedState } = props
+  const { userType, variables, gqlClient, selectedUsers, allUsers, triggerSharedState } = props
   function handleAssignToGroups(formData) {
     selectedUsers.map(userId => {
       const currentUser = allUsers.filter(user => user.id === userId)[0]
@@ -78,13 +80,13 @@ function AssignGroupsToPupil(props) {
       groupIds: user.groups
     }
     try {
-      const data = await gqlClient.request(updatePupilGroups, variables)
+      const data = await gqlClient.request(userType === 'teacher' ? updateTeacherGroups : updatePupilGroups, variables)
       if (data) triggerSharedState.update()
     } catch (e) {
+      handleStrapiError(e)
       console.error(e)
     }
   }
-
 
   const [state, setState, error] = useSharedState([allGroups, variables])
   const gotNonResponse = handleNonResponses(state, error)
@@ -95,5 +97,5 @@ function AssignGroupsToPupil(props) {
 }
 
 export {
-  AssignGroupsToPupil
+  AssignGroupsToUser
 }

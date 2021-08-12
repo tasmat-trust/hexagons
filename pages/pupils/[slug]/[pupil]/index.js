@@ -17,7 +17,7 @@ export default function Index(props) {
   return (
     <>
 
-      {query && query.slug && pupilName && groupName && <BreadCrumbs {...props} firstLabel="Groups" firstHref="/groups" secondLabel={groupName} secondHref={`/groups/${query.slug}`} thirdLabel={pupilName} />}
+      {query && query.slug && pupilName && groupName && <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={groupName} secondHref={`/pupils/${query.slug}`} thirdLabel={pupilName} />}
       <PupilMainView groupFromSlugVariables={{ orgId: orgId, slug: query.slug }} setGroupName={setGroupName} setBreadcrumbPupilName={setPupilName} {...props} />
     </>
   )

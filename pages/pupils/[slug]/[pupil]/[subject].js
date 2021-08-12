@@ -17,7 +17,7 @@ function Subject(props) {
   console.log(subjectName, groupName, pupilId, pupilName, query, query.slug)
   return (
     <>
-      {query && query.slug && pupilName && pupilId && groupName && subjectName && <BreadCrumbs {...props} firstLabel="Groups" firstHref="/groups" secondLabel={groupName} secondHref={`/groups/${query.slug}`} thirdLabel={pupilName} thirdHref={`/groups/${query.slug}/${pupilId}`} fourthLabel={subjectName} />}
+      {query && query.slug && pupilName && pupilId && groupName && subjectName && <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={groupName} secondHref={`/pupils/${query.slug}`} thirdLabel={pupilName} thirdHref={`/pupils/${query.slug}/${pupilId}`} fourthLabel={subjectName} />}
 
       <SubjectMainView
         groupFromSlugVariables={{ orgId: orgId, slug: query.slug }}

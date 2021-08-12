@@ -8,8 +8,8 @@ import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
 function MainNavItems() { 
   return (
     <List>
-      <NavItem href="/groups" label="Groups" Icon={PeopleIcon} />
-      <NavItem href="/pupils" label="Pupils" Icon={SubjectIcon} />
+      <NavItem href="/pupils" label="Pupils" Icon={PeopleIcon} />
+      <NavItem href="/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />
       <NavItem href="/rainbow-awards" label="Rainbow Awards" Icon={LooksIcon} />
     </List>
   )

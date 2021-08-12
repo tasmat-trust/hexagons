@@ -1,19 +1,15 @@
 
+import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs';
 import { withSession } from '../../middlewares/session'
 import checkSession from '../../components/auth/checkSession'
+import LastActiveGroup from '../../components/groups/LastActiveGroup';
+ 
 
-import PupilsList from '../../components/pupil/PupilsList'
-import { getOrgIdFromSession } from '../../utils'
-import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs'
-
-export default function Pupils({ user, ...other }) {
-  const orgId = getOrgIdFromSession(user)
+export default function Index(props) {
   return (
     <>
-      <BreadCrumbs {...other} firstLabel="Pupils" />
-      <p>TODO: Filter by group</p>
-      <p>TODO: Search all pupils</p>
-      <PupilsList variables={{ orgId: orgId }} {...other} />
+      <BreadCrumbs {...props} firstLabel="Pupils" />
+      <LastActiveGroup {...props} />
     </>
   )
 }
@@ -21,3 +17,4 @@ export default function Pupils({ user, ...other }) {
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher')
 })
+

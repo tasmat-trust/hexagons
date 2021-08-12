@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components'
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Link from "next/link"
-import { Slider } from "@reach/slider"
-import "@reach/slider/styles.css"
-import { Typography } from "@material-ui/core"
 
-import { cyan } from '@material-ui/core/colors';
+
+import { Typography } from "@material-ui/core"
+import CoreSubjectsProgress from "./CoreSubjectsProgress"
+
+
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
   groupUl: {
     listStyle: 'none',
     padding: '0',
@@ -43,20 +41,10 @@ const useStyles = makeStyles({
   },
 });
 
-// Uses styled components to customise Reach Slider component
-// https://reach.tech/styling/
-const StyledSlider = styled(Slider)`
-  [data-reach-slider-range] {
-    background: ${cyan['A400']}
-  }
-  [data-reach-slider-handle] {
-    background: ${cyan['A500']}
-  }
-  `
 
 
 export default function PupilCard(props) {
-  const {pupil} = props
+  const { pupil } = props
   const [onwardHref, setOnwardHref] = useState(props.onwardHref)
   const styles = useStyles();
 
@@ -66,7 +54,7 @@ export default function PupilCard(props) {
 
 
   return (
-    <Card className={styles.root}>
+    <Card>
       <CardContent>
         <Typography component='h2' variant='h4'>
           {/* <Link href="/pupils/[id]-RANDOM" as={`/pupils/${pupil.id}`}>
@@ -81,12 +69,7 @@ export default function PupilCard(props) {
             <li key={`pupil-group-${i}`} className={styles.groupLi}>{group.name}</li>
           ))}
         </ul>
-        {pupil.subjects && pupil.subjects.map((subject) => (
-          <>
-            <Typography component="h3" variant="h6">{subject.name}</Typography>
-            <StyledSlider disabled={true} value={subject.percent} min={0} max={100} />
-          </>
-        ))}
+        <CoreSubjectsProgress  {...props} />
       </CardContent>
 
     </Card >

@@ -9,7 +9,7 @@ export default function Index(props) {
   const [breadcrumbPupilName, setBreadcrumbPupilName] = useState(null)
   return (
     <>
-      {breadcrumbPupilName && <BreadCrumbs {...props} firstLabel="Pupils" firstHref="/pupils" secondLabel={breadcrumbPupilName} />}
+      {breadcrumbPupilName && <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/subjects" secondLabel={breadcrumbPupilName} />}
       <PupilMainView setBreadcrumbPupilName={setBreadcrumbPupilName} {...props} />
     </>
   )

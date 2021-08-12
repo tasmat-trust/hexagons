@@ -7,6 +7,14 @@ const allSubjects = gql`query{
   }
 }`
 
+const getCoreSubjects = gql`query{  
+  subjects (where: { isCore: true}) { 
+     id name slug
+  }
+}`
+
+
+
 const getSingleSubjectBySlug = gql`query getSubject($slug: String!) {  
   subjects (where: { slug: $slug}) { 
      id name slug
@@ -97,6 +105,7 @@ mutation DeleteModule($id: ID!) {
 }`
 
 export {
+  getCoreSubjects,
   deleteCapabilityQuery,
   createCapabilityQuery,
   deleteModuleQuery,

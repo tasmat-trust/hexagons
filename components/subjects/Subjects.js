@@ -14,7 +14,7 @@ function Subjects(props) {
   subjects.sort(function (a, b) {
     const aNum = a.isCore ? 1 : 0
     const bNum = b.isCore ? 1 : 0
-    return aNum > bNum
+    return aNum < bNum
   })
   return (
     <>

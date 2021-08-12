@@ -16,7 +16,10 @@ export default function PupilsAndGroups(props) {
     <>
       <div className={classes.root}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={4} xl={2}>
+            <GroupsMenu {...props} />
+          </Grid>
+          <Grid item xs={12} md={8} xl={10}>
             <PupilsByGroup
               {...props}
               groupFromSlugVariables={{ orgId: orgId, slug: activeGroup }}
@@ -24,9 +27,7 @@ export default function PupilsAndGroups(props) {
               setGroupName={setGroupName}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <GroupsMenu {...props} />
-          </Grid>
+
         </Grid>
       </div>
 
