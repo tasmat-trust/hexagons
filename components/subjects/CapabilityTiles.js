@@ -31,7 +31,7 @@ function Content({ tile, styles }) {
 
 function CapabilityTile(props) {
   const styles = stringStyles()
-  const { tile, isAdmin, competency, setCompetencies, gqlClient, currentModule, gotCurrentLevel, setGotCurrentLevel, subject, pupil, setCurrentLevel, currentLevelId } = props
+  const { tile, isAdmin, competency, setCompetencies, gqlClient, currentModule, gotCurrentLevel, setGotCurrentLevel, subject, pupil, setCurrentLevel, currentLevelId, setTilesDisabled } = props
 
   const [isComplete, setIsComplete] = useState(false)
   const [isTarget, setIsTarget] = useState(false)
@@ -56,13 +56,14 @@ function CapabilityTile(props) {
     // Disable button and update colour
     setButtonIsDisabled(true)
     let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete'
-    setTimeout(() => {
-      setCompetencyStatus(status) // Optimistic update
-    }, 100)
+ 
+    //setCompetencyStatus(status) // Optimistic update
+ 
 
     let levelId = currentLevelId;
 
     if (!gotCurrentLevel && !currentLevelId) {
+      setTilesDisabled(true)
       const variables = {
         status: 'incomplete',
         subjectId: subject.id,
@@ -119,6 +120,7 @@ function CapabilityTile(props) {
       const finished = await createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
       if (finished) {
         setButtonIsDisabled(false)
+        setTilesDisabled(false)
       }
     }
   }
@@ -148,10 +150,13 @@ export default function CapabilityTiles(props) {
   const { tiles, competencies, module } = props
   const styles = stringStyles()
   const pseudoStyles = jssStyles()
+  const [tilesDisabled, setTilesDisabled] = useState(false)
+  const tileStyles = makeTileStyles()
 
   return (
     <>
       <Box style={props.style} className={styles.wrapper}>
+      <div className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${tilesDisabled ? 'visible' : 'hidden'}`]}`}></div>
         <div className={styles.main}>
           <div className={`${styles.container}  ${pseudoStyles.container}`}>
             {tiles.map((tile, i) => {
@@ -159,7 +164,7 @@ export default function CapabilityTiles(props) {
               const capabilities = gotC && gotC.filter((competency) => competency !== null)
               const competency = capabilities ? capabilities[0] : null
               return (
-                <CapabilityTile {...props} key={`tile-${i}`} tile={tile} competency={competency} />
+                <CapabilityTile setTilesDisabled={setTilesDisabled} {...props} key={`tile-${i}`} tile={tile} competency={competency} />
               )
             })}
           </div>

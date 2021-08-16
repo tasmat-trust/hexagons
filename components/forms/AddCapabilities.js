@@ -3,14 +3,25 @@ import FormControl from '@material-ui/core/FormControl';
 import createModule from '../forms/handlers/createModule'
 import { MenuItem, Select, InputLabel } from "@material-ui/core";
 import { useState } from "react";
+import { makeStyles, useTheme } from "@material-ui/core";
 
-
+const styles = makeStyles((theme) => ({
+  top: {
+    marginTop: theme.spacing(3)
+  },
+  input: {
+    marginTop: theme.spacing(1)
+  }
+}))
 
 export default function AddCapabilities(props) {
   const { gqlClient, setModulesData, currentStage, setCurrentStage, subjectId } = props
   const [capabilitiesValue, setCapabilitiesValue] = useState('');
   const [orderValue, setOrderValue] = useState('');
   const [levelValue, setLevelValue] = useState('');
+  const [summaryValue, setSummaryValue] = useState('');
+  const [guidanceValue, setGuidanceValue] = useState('');
+  const classes = styles()
 
   async function handleForm(event) {
     event.preventDefault()
@@ -20,6 +31,12 @@ export default function AddCapabilities(props) {
 
     if (orderValue) {
       formData.order = orderValue
+    }
+    if (summaryValue) {
+      formData.summary = summaryValue
+    }
+    if (guidanceValue) {
+      formData.guidance = guidanceValue
     }
     if (levelValue) {
       let level = levelValue === 'Step' ? 'step' : 'stage'
@@ -42,20 +59,21 @@ export default function AddCapabilities(props) {
   }
 
   function resetForm() {
-    setOrderValue('')   
+    setOrderValue('')
+    setSummaryValue('')
+    setGuidanceValue('')
     setCapabilitiesValue('')
-    //setLevelValue('')
   }
 
   return (
 
     <form id={`new-module`} onSubmit={handleForm}>
 
-      {currentStage && <Button data-test-id={`add-new-stage-step`} onClick={handleCreateNewStepStage}  variant="contained" color="secondary">
+      {currentStage && <Button data-test-id={`add-new-stage-step`} onClick={handleCreateNewStepStage} variant="contained" color="secondary">
         Create new stage/step
       </Button>}
 
-      {!currentStage && <FormControl fullWidth variant='outlined'>
+      {!currentStage && <FormControl className={classes.top} fullWidth variant='outlined'>
         <InputLabel id="select-level">Level</InputLabel>
         <Select
           labelId="select-level"
@@ -70,16 +88,45 @@ export default function AddCapabilities(props) {
 
       {!currentStage && <TextField
         id="order"
+        className={classes.input}
         label={`${levelValue ? levelValue : 'Step / Stage'} number`}
         value={orderValue}
         required
         fullWidth
-        margin="normal"
         variant='outlined'
         onChange={(event) => setOrderValue(event.target.value)}
       />}
 
       <TextField
+        className={classes.input}
+        id="summary"
+        label="Summary"
+        value={summaryValue}
+        fullWidth={true}
+        multiline={true}
+        maxRows='20'
+        rows='2'
+        variant='outlined'
+        onChange={(event) => setSummaryValue(event.target.value)}
+      />
+
+      <TextField
+        className={classes.input}
+        id="guidance"
+        label="Guidance"
+        value={guidanceValue}
+        fullWidth={true}
+        multiline={true}
+        maxRows='20'
+        rows='5'
+        variant='outlined'
+        onChange={(event) => setGuidanceValue(event.target.value)}
+      />
+
+
+
+      <TextField
+        className={classes.input}
         id="capabilities"
         label="Capabilities"
         value={capabilitiesValue}

@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { Slider } from "@reach/slider"
 import { cyan } from '@material-ui/core/colors';
 import { useRouter } from "next/router"
+import getPercentComplete from '../../utils/getPercentComplete'
 // Uses styled components to customise Reach Slider component
 // https://reach.tech/styling/
 const StyledSlider = styled(Slider)`
@@ -67,14 +68,12 @@ function calculateStageAndPercent(levels) {
   }
 
   // Calculate level percent complete
-
   if (level && level.status && level.status === 'incomplete') {
-    const percentComplete = parseInt((level.competencies.length / level.module.capabilities.length) * 100)
-    level['percentComplete'] = percentComplete
+    level['percentComplete'] = getPercentComplete(level.competencies, level.module.capabilities)
   }
 
   if (level && level.status && level.status === 'complete') {
-    level['percentComplete']  = 100
+    level['percentComplete'] = 100
   }
 
   return level
@@ -95,13 +94,13 @@ function SubjectProgress(props) {
     <>
       {level && (
         <>
-          <Typography component="h3" variant="h6"><Link href={`${router.asPath}/${pupil.id}/${subject.slug}`}>{subject.name}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={`${router.asPath}/${pupil.id}/${subject.slug}`}>{subject.name}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={level.percentComplete} min={0} max={100} />
         </>
       )}
       {!level && (
         <>
-          <Typography component="h3" variant="h6"><Link href={`${router.asPath}/${pupil.id}/${subject.slug}`}>{subject.name}</Link><span className={classes.span}>0%</span></Typography>
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={`${router.asPath}/${pupil.id}/${subject.slug}`}>{subject.name}</Link><span className={classes.span}>0%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
         </>
       )}

@@ -23,7 +23,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box>
           {children}
         </Box>
       )}
@@ -146,6 +146,7 @@ function StagesNav(props) {
             setCurrentLevelId={setCurrentLevelId}
             setGotCurrentLevel={setGotCurrentLevel}
             currentModule={module}
+            allCompetencies={competencies}
             getLevelVars={{ pupilId: pupil.id, subjectId: subject.id, moduleId: module.id }}
             {...props} />}
 

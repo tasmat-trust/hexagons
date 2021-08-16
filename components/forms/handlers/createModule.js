@@ -38,10 +38,13 @@ async function createCapability(formData, gqlClient, triggerSharedState) {
 
   let moduleId;
   if (formData.order && formData.level) {
+    
     const createModuleVariables = {
       subject: formData.subjectId,
       order: parseInt(formData.order),
-      level: formData.level
+      level: formData.level,
+      summary: formData.summary,
+      guidance: formData.guidance
     }
     moduleId = await createModule(createModuleVariables)
   }

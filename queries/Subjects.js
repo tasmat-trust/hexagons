@@ -33,7 +33,7 @@ const getModule = gql`query getModule($level: ENUM_MODULE_LEVEL!, $order: Int!, 
 
 const getModules = gql`query getModules($subjectId: ID!) {  
   modules (where: {subject: $subjectId}) { 
-    order id level, 
+    order id level summary guidance, 
     capabilities {
       text id
     }
@@ -43,16 +43,18 @@ const getModules = gql`query getModules($subjectId: ID!) {
 
 
 const createModuleQuery = gql`
-mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!) {
+mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!, $summary: String, $guidance: String) {
     createModule(input: {
       data:{
         level:$level,
         order:$order,
-        subject: $subject
+        subject: $subject,
+        summary: $summary,
+        guidance: $guidance
         }
       }) {
       module {
-        level order id
+        level order id summary guidance
         subject {
           name id
         }
