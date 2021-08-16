@@ -5,6 +5,7 @@ import WithGroupFromSlug from "../groups/WithGroupFromSlug"
 
 import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel';
 import StagesTabs from "../navigation/StagesTabs";
+import PupilPicker from '../groups/PupilPicker';
 
 import { useEffect } from "react"
 
@@ -26,6 +27,8 @@ function Subject(props) {
 
   return (
     <>
+
+      {pupil && <PupilPicker currentPupil={pupil} groupSlug={'class-1'} />}
 
       {level && <StagesTabs
         isAdmin={false}
