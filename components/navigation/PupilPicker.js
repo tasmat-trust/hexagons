@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+    float: 'right'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -21,33 +22,30 @@ const useStyles = makeStyles((theme) => ({
 
 function PupilPicker(props) {
   const classes = useStyles();
-  const { currentPupil, pupils, groupSlug } = props
+  const { currentPupil, pupils } = props
   const [pupilId, setPupilId] = useState(currentPupil.id)
   const router = useRouter()
-   
+
   const handleChange = (event) => {
     const pupilId = event.target.value;
     setPupilId(pupilId);
-    router.push(`/pupils/${router.query.slug}/${pupilId}/number`, undefined, {shallow: true})
+    router.push(`/pupils/${router.query.slug}/${pupilId}/number`, undefined, { shallow: false })
   };
 
   return (
-    <>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-helper">Select pupil</InputLabel>
-        <NativeSelect
-          value={pupilId}
-          onChange={handleChange}
-        >
-          <option aria-label="None" value="" />
-          {pupils.map((pupil, i) => (
-            <option key={`pupil-${i}`} value={pupil.id}>{pupil.name}</option>
-          ))}
-        </NativeSelect>
-        <FormHelperText>Choose another pupil from {props.groupSlug}</FormHelperText>
-      </FormControl>
-      {pupilId}
-    </>
+    <FormControl className={classes.formControl}>
+      <InputLabel htmlFor="age-native-helper">Select pupil</InputLabel>
+      <NativeSelect
+        value={pupilId}
+        onChange={handleChange}
+      >
+        <option aria-label="None" value="" />
+        {pupils.map((pupil, i) => (
+          <option key={`pupil-${i}`} value={pupil.id}>{pupil.name}</option>
+        ))}
+      </NativeSelect>
+      <FormHelperText>Choose another pupil from {router.query.slug}</FormHelperText>
+    </FormControl>
   )
 }
 
