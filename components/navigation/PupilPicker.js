@@ -29,7 +29,7 @@ function PupilPicker(props) {
   const handleChange = (event) => {
     const pupilId = event.target.value;
     setPupilId(pupilId);
-    router.push(`/pupils/${router.query.slug}/${pupilId}/number`, undefined, { shallow: false })
+    router.push(`/pupils/${router.query.slug}/${pupilId}/${router.query.subject}`, undefined, { shallow: false })
   };
 
   return (

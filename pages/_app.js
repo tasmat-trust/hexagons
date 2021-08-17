@@ -17,7 +17,7 @@ import nestedPlugin from 'jss-plugin-nested';
 import theme from '../styles/theme';
 import Loading from '../components/ui-globals/Loading';
 import { useState } from 'react';
-
+import LogRocket from 'logrocket';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
 
@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps }) {
           <SkipNavLink />
           <SkipNavContent />
           <ResponsiveDrawer
-            {...pageProps} 
+            {...pageProps}
             setLoading={setLoading}
             MainNavItems={MainNavItems}
             SettingNavItems={SettingNavItems}

@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import { sessionMiddleware } from '../auth/session';
+import { sessionMiddleware } from '../../components/auth/session';
 import { createStrapiAxios } from '../../utils/strapi';
 
 export default nc()

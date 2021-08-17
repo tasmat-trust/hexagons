@@ -50,7 +50,7 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
 
 
 function LevelBox(props) {
-  const { visibleLevel, subject, currentModule, completeStep, markActive, allCompetencies } = props
+  const { visibleLevel, currentModule, completeStep, markActive, allCompetencies, gotResponse, checkedStatus } = props
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
   const classes = useStyles()
   const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
@@ -63,11 +63,32 @@ function LevelBox(props) {
     setVisiblePercentComplete(percentCompleteWithShortcuts)
   }, [thisLevelCompetencies, currentModule.capabilities, status])
 
+  function LevelTitle({ status, checkedStatus }) {
+
+    const [fadeStarted, setFadeStarted] = useState(false)
+
+    useEffect(() => {
+
+      if (fadeStarted !== true && checkedStatus === true) {
+        setFadeStarted(true)
+      }
+
+    }, [fadeStarted, setFadeStarted, checkedStatus])
+
+    return (
+      <Typography className={classes.title} variant='h2'>
+        {moduleLabel} {currentModule.order}
+
+        {fadeStarted && <span> &#8212; <span className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
+      </Typography>
+    )
+  }
 
   return (
     <Box style={props.style} className={classes.level}>
       <Box className={classes.header}>
-        <Typography className={classes.title} variant='h2'>{moduleLabel} {currentModule.order} &#8212; <span className={`${classes.info} ${classes[status]}`}>{visibleLevel ? visibleLevel.status : 'not started'}</span></Typography>
+        <LevelTitle gotResponse={gotResponse} status={status} checkedStatus={checkedStatus} />
+
         {currentModule && currentModule.summary && <Typography>{currentModule.summary}</Typography>}
         {currentModule && currentModule.guidance && <Typography>{currentModule.guidance}</Typography>}
 
@@ -100,6 +121,7 @@ const LevelStatus = memo(function LevelStatus(props) {
 
   const [visibleLevel, setVisibleLevel] = useState(null)
   const [readyToShow, setReadyToShow] = useState(false)
+  const [checkedStatus, setCheckedStatus] = useState(false)
 
   const bubbleGotLevel = useCallback((level) => {
     if (level && level.id) {
@@ -111,15 +133,17 @@ const LevelStatus = memo(function LevelStatus(props) {
 
   useEffect(() => {
 
+    if (initialVisibleLevel && initialVisibleLevel.levels.length < 1) {
+      setCheckedStatus(true)
+    }
+
     if (initialVisibleLevel && initialVisibleLevel.levels.length > 0) {
       const level = initialVisibleLevel.levels[0]
       bubbleGotLevel(level)
-
+      setCheckedStatus(true)
     }
 
     setReadyToShow(true)
-
-
 
   }, [initialVisibleLevel, bubbleGotLevel])
 
@@ -175,7 +199,7 @@ const LevelStatus = memo(function LevelStatus(props) {
   return (
 
     <Fade in={readyToShow}>
-      <LevelBox visibleLevel={visibleLevel} {...props} completeStep={completeStepHandler} markActive={markActive} />
+      <LevelBox visibleLevel={visibleLevel} checkedStatus={checkedStatus} {...props} completeStep={completeStepHandler} markActive={markActive} />
     </Fade>
 
   )
