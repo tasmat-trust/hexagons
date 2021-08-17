@@ -1,11 +1,11 @@
 import { Grid } from '@material-ui/core';
 
-import { withSession } from '../../../middlewares/session'
+import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'
 
 import useAdminPage from "../../../styles/useAdminPage";
 import Subjects from '../../../components/subjects/Subjects';
-import BreadCrumbs from '../../../components/layout/navigation/Breadcrumbs';
+import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
 
 import RoleInfoBanner from '../../../components/layout/RoleInfoBanner';
 

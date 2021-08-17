@@ -1,4 +1,4 @@
-import BreadCrumbs from "../layout/navigation/Breadcrumbs"
+import BreadCrumbs from "../navigation/Breadcrumbs"
 import LastActiveGroup from "../groups/LastActiveGroup"
 
 export default function HomepageLoggedIn(props) {

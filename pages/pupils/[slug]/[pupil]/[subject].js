@@ -1,7 +1,7 @@
-import { withSession } from "../../../../middlewares/session"
+import { withSession } from "../../../../components/auth/session"
 import checkSession from "../../../../components/auth/checkSession"
 
-import BreadCrumbs from "../../../../components/layout/navigation/Breadcrumbs"
+import BreadCrumbs from "../../../../components/navigation/Breadcrumbs"
 import SubjectMainView from "../../../../components/subjects/SubjectMainView"
 import { useRouter } from "next/router"
 import { useState } from "react"

@@ -1,17 +1,20 @@
 import checkSession from "../auth/checkSession"
-import { withSession } from "../../middlewares/session"
-import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../pupil/WithPupil'
-import WithGroupFromSlug from "../groups/WithGroupFromSlug"
+import { withSession } from "../auth/session"
+import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../data-fetching/WithPupil'
+import WithGroupFromSlug from "../data-fetching/WithGroupFromSlug"
 
 import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel';
 import StagesTabs from "../navigation/StagesTabs";
-import PupilPicker from '../groups/PupilPicker';
+import PupilPicker from '../navigation/PupilPicker';
 
 import { useEffect } from "react"
+import { getOrgIdFromSession } from "../../utils";
+import { useRouter } from "next/router";
 
 function Subject(props) {
-  const { pupil, subject, level, setBreadcrumbPupilName, setBreadcrumbPupilId, setBreadcrumbSubjectName } = props
-
+  const { user, pupil, subject, level, setBreadcrumbPupilName, setBreadcrumbPupilId, setBreadcrumbSubjectName } = props
+  const orgId = getOrgIdFromSession(user)
+  const { query } = useRouter()
   useEffect(() => {
     if (subject) {
       setBreadcrumbSubjectName && setBreadcrumbSubjectName(subject.name)
@@ -28,7 +31,7 @@ function Subject(props) {
   return (
     <>
 
-      {pupil && <PupilPicker currentPupil={pupil} groupSlug={'class-1'} />}
+      {pupil && <PupilPicker currentPupil={pupil} groupFromSlugVariables={{ orgId: orgId, slug: query.slug }} {...props} />}
 
       {level && <StagesTabs
         isAdmin={false}

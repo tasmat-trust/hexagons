@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useLoginLogout } from '../../../middlewares/session'
+import { useLoginLogout } from '../../auth/session'
 
 const drawerWidth = 240;
 

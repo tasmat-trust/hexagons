@@ -1,13 +1,13 @@
 import { Typography, Box, Button, Fade } from "@material-ui/core"
 import createLevel from '../forms/handlers/createLevel'
 import updateLevel from '../forms/handlers/updateLevel'
-import { getLevel } from "../../queries/Pupils"
+
 import { useEffect, useState, useCallback } from "react"
-import useStateOnce from "../data-fetching/useStateOnce"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from "@material-ui/core"
 import { memo } from "react"
 import getPercentComplete from "../../utils/getPercentComplete"
+import WithLevel from "../data-fetching/WithLevel";
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -93,15 +93,6 @@ function LevelBox(props) {
 
     </Box>
   )
-}
-
-function WithLevel(WrappedComponent) {
-  return function WithLevel(props) {
-    const [visibleLevelData] = useStateOnce([getLevel, props.getLevelVars])
-    return (
-      <WrappedComponent initialVisibleLevel={visibleLevelData}  {...props} />
-    )
-  }
 }
 
 const LevelStatus = memo(function LevelStatus(props) {

@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core"
-import { useLoginLogout } from '../../middlewares/session'
+import { useLoginLogout } from '../auth/session'
 export default function HomepageLoggedIn(props) {
   const { login } = useLoginLogout(props)
   return (

@@ -2,8 +2,8 @@ import { Grid, Typography } from '@material-ui/core';
 import useAdminPage from "../../styles/useAdminPage";
 import Subjects from '../subjects/Subjects';
 
-import { WithQueryVariables } from '../pupil/WithPupil'
-import WithGroupFromSlug from '../groups/WithGroupFromSlug'
+import { WithQueryVariables } from '../data-fetching/WithPupil'
+import WithGroupFromSlug from '../data-fetching/WithGroupFromSlug'
 import { getPupilById } from '../../queries/Pupils';
 
 import useStateOnce from '../data-fetching/useStateOnce';

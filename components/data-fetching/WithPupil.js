@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import useSharedState from '../data-fetching/useSharedState';
-import useStateOnce from '../data-fetching/useStateOnce';
+import useSharedState from './useSharedState';
+import useStateOnce from './useStateOnce';
 import { getPupilById, getLevels } from '../../queries/Pupils';
 import { getSingleSubjectBySlug } from '../../queries/Subjects'
-import handleNonResponses from '../data-fetching/handleNonResponses';
+import handleNonResponses from './handleNonResponses';
 import { getOrgIdFromSession } from '../../utils';
 import { getModules } from '../../queries/Subjects'
 import { getCompetencies } from '../../queries/Pupils'

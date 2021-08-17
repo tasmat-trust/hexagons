@@ -1,4 +1,4 @@
-import BreadCrumbs from "../layout/navigation/Breadcrumbs";
+import BreadCrumbs from "../navigation/Breadcrumbs";
 import { Grid } from "@material-ui/core";
 import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";

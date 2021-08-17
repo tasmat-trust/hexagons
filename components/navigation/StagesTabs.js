@@ -9,7 +9,7 @@ import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
 import DeleteModule from '../forms/DeleteModule'
 import LevelStatus from '../pupil/LevelStatus'
-import { WithModules, WithCompetencies } from '../pupil/WithPupil'
+import { WithModules, WithCompetencies } from '../data-fetching/WithPupil'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

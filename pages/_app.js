@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 
-import MainNavItems from '../components/layout/navigation/MainNavItems';
-import SettingNavItems from '../components/layout/navigation/SettingNavItems';
-import OrgPicker from '../components/layout/navigation/OrgPicker';
-import ResponsiveDrawer from '../components/mui/ResponsiveDrawer';
+import MainNavItems from '../components/navigation/MainNavItems';
+import SettingNavItems from '../components/navigation/SettingNavItems';
+import OrgPicker from '../components/navigation/OrgPicker';
+import ResponsiveDrawer from '../components/navigation/ResponsiveDrawer';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 

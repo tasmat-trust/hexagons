@@ -36,20 +36,3 @@ export function useLoginLogout(props) {
     logout
   };
 }
-
-export function withLoginLogout(Component) {
-  return function withLoginLogout(props) {
-    const router = useRouter();
-    function logout() {
-      props.setLoading(true)
-      axios.post('/api/logout').then(() => {
-        props.setLoading(false)
-        router.push('/login');
-      });
-    }
-    function login() {
-      router.push('/login');
-    }
-    return <Component {...props} login={login} logout={logout} />;
-  };
-}

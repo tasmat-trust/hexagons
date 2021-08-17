@@ -1,11 +1,11 @@
 import { getSingleGroup } from "../../queries/Groups";
 import { useEffect } from "react";
-import useSharedState from "../data-fetching/useSharedState";
-import handleNonResponses from "../data-fetching/handleNonResponses";
+import useSharedState from "./useSharedState";
+import handleNonResponses from "./handleNonResponses";
 import { getOrgIdFromSession } from "../../utils";
 
 export default function WithGroupFromSlug(WrappedComponent) {
-  return function WithGroupFromSlug(props) {
+  return function WithGroupFromSlug(props) { 
     const { groupFromSlugVariables, setGroupName, user } = props
     const orgId = getOrgIdFromSession(user)
     const [groupsData, setGroupsData, error] = useSharedState([getSingleGroup, groupFromSlugVariables])
@@ -19,6 +19,6 @@ export default function WithGroupFromSlug(WrappedComponent) {
 
     if (gotNonResponse) return gotNonResponse
     const groupId = groupsData.groups[0].id
-    return <WrappedComponent {...props} variables={{ groupId: groupId, orgId: orgId }} />
+    return <WrappedComponent {...props} pupilsByGroupVariables={{ groupId: groupId, orgId: orgId }} />
   }
 }

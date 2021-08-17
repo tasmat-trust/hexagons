@@ -1,4 +1,4 @@
-import { withSession } from '../../middlewares/session'
+import { withSession } from '../auth/session'
 import checkSession from '../../components/auth/checkSession'
 
 import { Typography } from "@material-ui/core";

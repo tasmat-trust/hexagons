@@ -1,4 +1,4 @@
-import DialogButton from "../mui/DialogButton"
+import DialogButton from "../ui-globals/DialogButton"
 import { AddNewUserWithGroups } from '../forms/AddNew'
 import { AssignGroupsToUser } from '../forms/AssignTo'
 import UsersGrid from "../layout/data-tables/UsersGrid"

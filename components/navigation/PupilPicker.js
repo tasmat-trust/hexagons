@@ -3,6 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import WithGroupFromSlug from '../data-fetching/WithGroupFromSlug';
+import WithPupilsByGroup from '../data-fetching/WithPupilsByGroup';
+import { useRouter } from 'next/router'
+
 import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,24 +19,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function WithPupils(WrappedComponent) {
-  return function WithPupils(props) {
-    const pupils = [{ id: 1, name: 'Ali' }, { id: 2, name: 'Dave' }]
-    return (
-      <WrappedComponent pupils={pupils} {...props} />
-    )
-  }
-}
-
 function PupilPicker(props) {
   const classes = useStyles();
-  const { currentPupil, pupils } = props
+  const { currentPupil, pupils, groupSlug } = props
   const [pupilId, setPupilId] = useState(currentPupil.id)
-
-
+  const router = useRouter()
+   
   const handleChange = (event) => {
     const pupilId = event.target.value;
     setPupilId(pupilId);
+    router.push(`/pupils/${router.query.slug}/${pupilId}/number`, undefined, {shallow: true})
   };
 
   return (
@@ -55,4 +51,4 @@ function PupilPicker(props) {
   )
 }
 
-export default WithPupils(PupilPicker)
+export default WithGroupFromSlug(WithPupilsByGroup(PupilPicker))

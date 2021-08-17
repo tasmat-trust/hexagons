@@ -1,6 +1,6 @@
 
-import BreadCrumbs from '../../components/layout/navigation/Breadcrumbs';
-import { withSession } from '../../middlewares/session'
+import BreadCrumbs from '../../components/navigation/Breadcrumbs';
+import { withSession } from '../../components/auth/session'
 import checkSession from '../../components/auth/checkSession'
 import LastActiveGroup from '../../components/groups/LastActiveGroup';
  

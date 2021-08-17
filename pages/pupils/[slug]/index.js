@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { withSession } from '../../../middlewares/session'
+import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'
 import PupilsAndGroups from '../../../components/groups/PupilsAndGroups'
-import BreadCrumbs from '../../../components/layout/navigation/Breadcrumbs';
+import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
 import { useState } from 'react';
 
 export default function Index(props) {

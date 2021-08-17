@@ -20,10 +20,10 @@ export default function GroupsList(props) {
 
   useEffect(() => {
     if (getMyGroups && groupsData && groupsData.groups.length > 0) {
-       if (!window.localStorage.getItem('active-group')) {
-         // No active group so let's get their first assigned group
-         setActiveGroup(groupsData.groups[0].slug)
-       }
+      if (!window.localStorage.getItem('active-group')) {
+        // No active group so let's get their first assigned group
+        setActiveGroup(groupsData.groups[0].slug)
+      }
     }
   }, [getMyGroups, groupsData, setActiveGroup])
 
@@ -36,7 +36,6 @@ export default function GroupsList(props) {
 
     e.preventDefault()
     localStorage.setItem('active-group', group.slug)
-    console.log(e.target)
     router.push(target)
   }
 

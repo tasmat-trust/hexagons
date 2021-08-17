@@ -81,7 +81,7 @@ function calculateStageAndPercent(levels) {
 
 function SubjectProgress(props) {
   const classes = useStyles()
-  const { subject, getLevelVariables, pupil } = props
+  const { subject, getLevelVariables, pupil, groupSlug } = props
   const router = useRouter()
   const [levelData, error] = useStateOnce([getLevels, getLevelVariables])
 
@@ -90,24 +90,32 @@ function SubjectProgress(props) {
     level = calculateStageAndPercent(levelData.levels)
   }
 
+
+  const isPupilsListing = router.asPath.includes('pupils')
+  let linkUrl
+  if (isPupilsListing) {
+    linkUrl = `/pupils/${groupSlug}/${pupil.id}/${subject.slug}`
+  } else {
+    linkUrl = `/subjects/${groupSlug}/${pupil.id}`
+  }
+
   return (
     <>
       {level && (
         <>
-          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={`${router.asPath}/${pupil.id}/${subject.slug}`}>{subject.name}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>}
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subject.name}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={level.percentComplete} min={0} max={100} />
         </>
       )}
       {!level && (
         <>
-          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={`${router.asPath}/${pupil.id}/${subject.slug}`}>{subject.name}</Link><span className={classes.span}>0%</span></Typography>}
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subject.name}</Link><span className={classes.span}>0%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
         </>
       )}
     </>
   )
 }
-
 
 export default function CoreSubjectsProgress(props) {
   const { pupil, coreSubjects } = props

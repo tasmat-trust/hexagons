@@ -1,8 +1,8 @@
 import checkSession from "../../../components/auth/checkSession"
-import { withSession } from "../../../middlewares/session"
+import { withSession } from "../../../components/auth/session"
 import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../../../components/pupil/WithPupil'
 
-import BreadCrumbs from "../../../components/layout/navigation/Breadcrumbs"
+import BreadCrumbs from "../../../components/navigation/Breadcrumbs"
 
 import SetPupilSubjectLevel from '../../../components/pupil/SetPupilSubjectLevel';
 import StagesTabs from "../../../components/navigation/StagesTabs";

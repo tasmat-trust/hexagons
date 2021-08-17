@@ -1,9 +1,9 @@
-import { withSession } from '../../../middlewares/session'
+import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'
 
 import PupilMainView from '../../../components/pupil/PupilMainView'
 import { useState } from 'react'
-import BreadCrumbs from '../../../components/layout/navigation/Breadcrumbs'
+import BreadCrumbs from '../../../components/navigation/Breadcrumbs'
 
 export default function Index(props) {
   const [breadcrumbPupilName, setBreadcrumbPupilName] = useState(null)

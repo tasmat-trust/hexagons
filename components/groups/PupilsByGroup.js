@@ -2,32 +2,18 @@
 
 import { getPupilsByGroup } from "../../queries/Pupils"
 
-import useSharedState from "../data-fetching/useSharedState";
-import useStateOnce from "../data-fetching/useStateOnce";
+import useSharedState from "../data-fetching/useSharedState"; 
 import handleNonResponses from "../data-fetching/handleNonResponses";
-import { getCoreSubjects } from "../../queries/Subjects"
+
 import { Grid } from "@material-ui/core";
 import PupilCard from "../pupil/PupilCard";
-import WithGroupFromSlug from "./WithGroupFromSlug";
-
-
-function WithCoreSubjects(WrappedComponent) {
-  return function WithCoreSubjects(props) {
-    const [subjectsData, error] = useStateOnce([getCoreSubjects])
-    const gotNonResponse = handleNonResponses(subjectsData, error)
-    if (gotNonResponse) return gotNonResponse
-    return (
-      <>
-        {subjectsData.subjects && <WrappedComponent coreSubjects={subjectsData.subjects} {...props} />}
-      </>
-    )
-  }
-}
+import WithGroupFromSlug from "../data-fetching/WithGroupFromSlug";
+import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 
 
 function PupilsByGroup(props) {
-  const { variables, groupSlug } = props
-  const [pupilsData, setPupilsData, error] = useSharedState([getPupilsByGroup, variables])
+  const { pupilsByGroupVariables, groupSlug } = props
+  const [pupilsData, setPupilsData, error] = useSharedState([getPupilsByGroup, pupilsByGroupVariables])
   const gotNonResponse = handleNonResponses(pupilsData, error)
   if (gotNonResponse) return gotNonResponse
   return (
