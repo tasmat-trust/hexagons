@@ -16,6 +16,7 @@ function Subjects(props) {
     const bNum = b.isCore ? 1 : 0
     return aNum < bNum
   })
+ 
   return (
     <>
       <Box>

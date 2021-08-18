@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSharedState from './useSharedState';
@@ -73,9 +74,8 @@ function WithCurrentLevel(WrappedComponent) {
 }
 
 function WithModules(WrappedComponent) {
-  return function WithModules(props) {
-    const { variables, isAdmin, pupil, subject } = props
-    const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
+  function WithModules({ getModulesBySubjectIdVariables, isAdmin, pupil, subject, ...other } ) {
+    const [modulesData, setModulesData, error] = useSharedState([getModules, getModulesBySubjectIdVariables])
     let modules = []
     if (modulesData) {
       modules = modulesData.modules
@@ -86,30 +86,59 @@ function WithModules(WrappedComponent) {
           competenciesVars={{ pupilId: pupil.id, subjectId: subject.id }}
           setModulesData={setModulesData}
           modules={modules}
-          {...props} />}
-        {isAdmin && <WrappedComponent setModulesData={setModulesData} modules={modules} {...props} />}
+          pupil={pupil}
+          isAdmin={isAdmin}
+          subject={subject}
+          {...other} />}
+
+        {isAdmin && <WrappedComponent 
+          setModulesData={setModulesData} 
+          modules={modules} 
+          upil={pupil}
+          isAdmin={isAdmin}
+          subject={subject}
+          {...other} />}
       </>
     )
   }
+  WithModules.propTypes = {
+    getModulesBySubjectIdVariables: PropTypes.object,
+    isAdmin: PropTypes.bool,
+    pupil: PropTypes.object,
+    subject: PropTypes.object
+  }
+  return WithModules
 }
 
 function WithCompetencies(WrappedComponent) {
-  return function WithCompetencies(props) {
-    const { competenciesVars, isAdmin } = props
-    const [competenciesData, setCompetenciesData, error] = useSharedState([getCompetencies, competenciesVars])
+  function WithCompetencies({ competenciesVars, isAdmin, ...other }) {
+    const [competenciesData, error] = useStateOnce([getCompetencies, competenciesVars])
     let competencies = []
     if (competenciesData) {
       competencies = competenciesData.competencies
     }
+    // detect duplicates
+    if (competencies.length > 0) {
+      const fks = competencies.map((comp) => comp.capability_fk)
+      const unique = Array.from(new Set(fks))
+      if (fks.length !== unique.length) {
+        throw new Error('Got duplicate competencies')
+      }
+    }
     return (
       <>
-
-        {!isAdmin && <WrappedComponent setCompetenciesData={setCompetenciesData} competenciesData={competencies} {...props} />}
-
-        {isAdmin && <WrappedComponent {...props} />}
+        {!isAdmin && <WrappedComponent isAdmin={isAdmin} competenciesData={competencies} {...other} />}
+        {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
       </>
     )
   }
+
+  WithCompetencies.propTypes = {
+    competenciesVars: PropTypes.object,
+    isAdmin: PropTypes.bool
+  }
+
+  return WithCompetencies
 }
 
 

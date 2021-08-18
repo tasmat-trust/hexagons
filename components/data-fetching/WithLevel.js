@@ -1,15 +1,19 @@
+import PropTypes from 'prop-types'
 import useStateOnce from "../data-fetching/useStateOnce"
 import { getLevel } from "../../queries/Pupils"
 
 export default function WithLevel(WrappedComponent) {
-  return function WithLevel(props) {
-    const [visibleLevelData] = useStateOnce([getLevel, props.getLevelVars])
-    const gotResponse = visibleLevelData && visibleLevelData.levels ? true : false
-    console.log(gotResponse)
+  function WithLevel({ getLevelVars, ...other }) {
+    const [visibleLevelData] = useStateOnce([getLevel, getLevelVars])
     return (
-      <WrappedComponent initialVisibleLevel={visibleLevelData} gotResponse={gotResponse}  {...props} />
+      <WrappedComponent initialVisibleLevel={visibleLevelData} {...other} />
     )
   }
+
+  WithLevel.propTypes = {
+    getLevelVars: PropTypes.object
+  }
+
+  return WithLevel
 }
 
- 

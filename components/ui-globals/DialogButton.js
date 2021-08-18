@@ -9,12 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { Button, ButtonBase } from '@material-ui/core';
 
+import { PropTypes } from "prop-types";
 
-export default function DialogButton(props) {
-
+function DialogButton({ className, label, content, text, children, modelname, isHexagon, bubbleHandleClose }) {
 
   const [open, setOpen] = useState(false);
-  const { className, label, content, text, children, modelname, isHexagon, bubbleHandleClose } = props
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -37,7 +37,7 @@ export default function DialogButton(props) {
       >
         {label}
       </Button>}
-      {isHexagon && <ButtonBase        
+      {isHexagon && <ButtonBase
         className={className}
         onClick={handleOpen}
       >
@@ -65,3 +65,16 @@ export default function DialogButton(props) {
     </>
   );
 }
+
+DialogButton.propTypes = {
+  className: PropTypes.string, // Buttonbase class name
+  label: PropTypes.string, // Button label
+  content: PropTypes.element, // Content to display inside hexagons
+  text: PropTypes.string, // Text to appear above the content in the popup
+  children: PropTypes.rlrmrnt, // Content to display in button
+  modelname: PropTypes.string, // For test id
+  isHexagon: PropTypes.bool, // Will this be appearing inside hexagon?
+  bubbleHandleClose: PropTypes.func // function to call when it closes
+}
+
+export default DialogButton

@@ -1,6 +1,6 @@
 import { getSingleGroup } from "../../queries/Groups";
 import { useEffect } from "react";
-import useSharedState from "./useSharedState";
+import useStateOnce from "./useStateOnce";
 import handleNonResponses from "./handleNonResponses";
 import { getOrgIdFromSession } from "../../utils";
 
@@ -8,7 +8,7 @@ export default function WithGroupFromSlug(WrappedComponent) {
   return function WithGroupFromSlug(props) { 
     const { groupFromSlugVariables, setGroupName, user } = props
     const orgId = getOrgIdFromSession(user)
-    const [groupsData, setGroupsData, error] = useSharedState([getSingleGroup, groupFromSlugVariables])
+    const [groupsData,  error] = useStateOnce([getSingleGroup, groupFromSlugVariables])
     const gotNonResponse = handleNonResponses(groupsData, error)
 
     useEffect(() => {

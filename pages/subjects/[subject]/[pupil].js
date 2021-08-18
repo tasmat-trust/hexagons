@@ -1,6 +1,6 @@
 import checkSession from "../../../components/auth/checkSession"
 import { withSession } from "../../../components/auth/session"
-import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../../../components/pupil/WithPupil'
+import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../../../components/data-fetching/WithPupil'
 
 import BreadCrumbs from "../../../components/navigation/Breadcrumbs"
 

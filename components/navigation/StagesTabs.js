@@ -1,19 +1,16 @@
-import { getSingleSubjectBySlug } from '../../queries/Subjects'
-import useStateOnce from '../data-fetching/useStateOnce'
-import handleNonResponses from "../data-fetching/handleNonResponses"
+import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import { Tabs, Tab } from '@material-ui/core'
-import {  Box } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
 import DeleteModule from '../forms/DeleteModule'
 import LevelStatus from '../pupil/LevelStatus'
 import { WithModules, WithCompetencies } from '../data-fetching/WithPupil'
+import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -31,32 +28,6 @@ function TabPanel(props) {
   );
 }
 
-function StagesTabs(WrappedComponent) {
-  return function StagesTabs(props) {
-    const { query } = useRouter()
-    const { variables, setBreadcrumbLabel, shouldShowStepStageInBreadcrumb } = props
-    const [subjectData, error] = useStateOnce([getSingleSubjectBySlug, variables])
-    const gotNonResponse = handleNonResponses(subjectData, error)
-    const stage = query.stage
-    useEffect(() => {
-      if (subjectData && !shouldShowStepStageInBreadcrumb) {
-        setBreadcrumbLabel && setBreadcrumbLabel(subjectData.subjects[0].name)
-      }
-      if (subjectData && shouldShowStepStageInBreadcrumb) {
-        setBreadcrumbLabel && setBreadcrumbLabel(stage)
-      }
-    }, [setBreadcrumbLabel, subjectData, shouldShowStepStageInBreadcrumb, stage])
-    if (gotNonResponse) return gotNonResponse
-    const subjectId = subjectData.subjects[0].id
-    const subjectName = subjectData.subjects[0].name
-    return (
-      <>
-        <WrappedComponent {...props} subjectId={subjectId} subjectName={subjectName} variables={{ subjectId: subjectId }} />
-      </>
-    )
-  }
-}
-
 function a11yProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
@@ -64,15 +35,13 @@ function a11yProps(index) {
   };
 }
 
+function StagesNav({ modules, isAdmin, startingLevel, setModulesData, competenciesData, pupil, subjectId, subjectName, gqlClient }) {
 
-
-function StagesNav(props) {
-  const { modules, stepOrStage, isAdmin, startingLevel, setModulesData, competenciesData, pupil, subject } = props
   const [tabValue, setTabValue] = useState(0);
   const [competencies, setCompetencies] = useState(competenciesData)
   const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
   const [currentLevel, setCurrentLevel] = useState(null)  // object - the current level, if any
-  const [currentLevelId, setCurrentLevelId] = useState(null)
+  const [currentLevelId, setCurrentLevelId] = useState(0)
   const [sortedModules, setSortedModules] = useState(modules)
 
   useEffect(() => { // Set the overlays to appear once loaded
@@ -83,8 +52,8 @@ function StagesNav(props) {
 
   useEffect(() => {
     if (modules) {
-      modules.sort((a,b) => a.order > b.order)
-      modules.sort((a,b) => {
+      modules.sort((a, b) => a.order > b.order)
+      modules.sort((a, b) => {
         const aLevel = a.level === 'step' ? 1 : 0
         const bLevel = b.level === 'step' ? 1 : 0
         return (
@@ -93,7 +62,7 @@ function StagesNav(props) {
       })
       setSortedModules(modules)
     }
-    
+
   }, [modules])
 
   useEffect(() => {
@@ -105,12 +74,11 @@ function StagesNav(props) {
     }
   }, [modules, startingLevel])
 
-
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
     setGotCurrentLevel(false)
     setCurrentLevel(null)
-    setCurrentLevelId(null)
+    setCurrentLevelId(0)
   };
 
 
@@ -118,8 +86,10 @@ function StagesNav(props) {
 
   return (
     <>
-      {isAdmin && <AddCapabilities setModulesData={setModulesData} {...props} />}
-
+      {isAdmin && <AddCapabilities
+        gqlClient={gqlClient}
+        setModulesData={setModulesData}
+        subjectId={subjectId} />}
       <Tabs
         value={tabValue}
         onChange={handleChange}
@@ -139,31 +109,47 @@ function StagesNav(props) {
 
       {sortedModules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
-
-          {isAdmin && <DeleteModule setModulesData={setModulesData} {...props} currentStage={module} />}
-
+          {isAdmin && <DeleteModule gqlClient={gqlClient} setModulesData={setModulesData} currentStage={module} />}
           {!isAdmin && <LevelStatus
+            setGotCurrentLevel={setGotCurrentLevel}
             setCurrentLevelId={setCurrentLevelId}
-            setGotCurrentLevel={setGotCurrentLevel}
             currentModule={module}
+            subjectId={subjectId}
+            pupil={pupil}
             allCompetencies={competencies}
-            getLevelVars={{ pupilId: pupil.id, subjectId: subject.id, moduleId: module.id }}
-            {...props} />}
-
+            gqlClient={gqlClient}
+            getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: module.id }}
+          />}
           <CapabilityTiles
-            {...props}
-            currentLevelId={currentLevelId}
-            setCurrentLevel={setCurrentLevel}
-            setGotCurrentLevel={setGotCurrentLevel}
-            gotCurrentLevel={gotCurrentLevel}
-            currentModule={module}
-            tiles={module.capabilities}
+            gqlClient={gqlClient}
+            subjectId={subjectId}
+            pupil={pupil}
+            capabilities={module.capabilities}
             competencies={competencies}
-            setCompetencies={setCompetencies} />
+            isAdmin={isAdmin}
+            setCompetencies={setCompetencies}
+            currentModule={module}
+            gotCurrentLevel={gotCurrentLevel}
+            setGotCurrentLevel={setGotCurrentLevel}
+            setCurrentLevel={setCurrentLevel}
+            currentLevelId={currentLevelId}
+          />
         </TabPanel>
       ))}
     </>
   )
 }
 
-export default StagesTabs(WithModules(WithCompetencies(StagesNav)))
+StagesNav.propTypes = {
+  modules: PropTypes.array,
+  isAdmin: PropTypes.bool,
+  startingLevel: PropTypes.object,
+  setModulesData: PropTypes.func,
+  competenciesData: PropTypes.array,
+  pupil: PropTypes.object,
+  subjectId: PropTypes.string,
+  subjectName: PropTypes.string,
+  gqlClient: PropTypes.object,
+}
+
+export default WithSingleSubjectFromSlug(WithModules(WithCompetencies(StagesNav)))

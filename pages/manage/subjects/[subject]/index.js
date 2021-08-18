@@ -5,6 +5,7 @@ import { withSession } from "../../../../components/auth/session"
 import checkSession from "../../../../components/auth/checkSession"
 import { useRouter } from "next/router"
 import { useState } from "react"
+
 export default function Stage(props) {
   const { query } = useRouter()
   const [stageName, setStageName] = useState(null) 
@@ -14,7 +15,11 @@ export default function Stage(props) {
 
       <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/manage/subjects" secondLabel={query.subject} secondHref={`/manage/subjects/${query.subject}`} thirdLabel={query['step-stage']} />
 
-      <StagesTabs {...props} isAdmin={true} variables={{ slug: query.subject }} setBreadcrumbLabel={setStageName} />
+      <StagesTabs 
+      {...props} 
+      isAdmin={true} 
+      getSubjectBySlugVariables={{ slug: query.subject }} 
+      setBreadcrumbLabel={setStageName} />
  
     </>
   )

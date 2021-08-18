@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import { TextField, Button } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
 import createModule from '../forms/handlers/createModule'
 import { MenuItem, Select, InputLabel } from "@material-ui/core";
 import { useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const styles = makeStyles((theme) => ({
   top: {
@@ -14,8 +15,8 @@ const styles = makeStyles((theme) => ({
   }
 }))
 
-export default function AddCapabilities(props) {
-  const { gqlClient, setModulesData, currentStage, setCurrentStage, subjectId } = props
+function AddCapabilities({ gqlClient, setModulesData, subjectId }) {
+
   const [capabilitiesValue, setCapabilitiesValue] = useState('');
   const [orderValue, setOrderValue] = useState('');
   const [levelValue, setLevelValue] = useState('');
@@ -54,10 +55,6 @@ export default function AddCapabilities(props) {
     setLevelValue(event.target.value)
   }
 
-  function handleCreateNewStepStage() {
-    setCurrentStage(null)
-  }
-
   function resetForm() {
     setOrderValue('')
     setSummaryValue('')
@@ -69,11 +66,8 @@ export default function AddCapabilities(props) {
 
     <form id={`new-module`} onSubmit={handleForm}>
 
-      {currentStage && <Button data-test-id={`add-new-stage-step`} onClick={handleCreateNewStepStage} variant="contained" color="secondary">
-        Create new stage/step
-      </Button>}
 
-      {!currentStage && <FormControl className={classes.top} fullWidth variant='outlined'>
+      <FormControl className={classes.top} fullWidth variant='outlined'>
         <InputLabel id="select-level">Level</InputLabel>
         <Select
           labelId="select-level"
@@ -84,9 +78,9 @@ export default function AddCapabilities(props) {
           <MenuItem value='Step'>Step</MenuItem>
           <MenuItem value='Stage'>Stage</MenuItem>
         </Select>
-      </FormControl>}
+      </FormControl>
 
-      {!currentStage && <TextField
+      <TextField
         id="order"
         className={classes.input}
         label={`${levelValue ? levelValue : 'Step / Stage'} number`}
@@ -95,7 +89,7 @@ export default function AddCapabilities(props) {
         fullWidth
         variant='outlined'
         onChange={(event) => setOrderValue(event.target.value)}
-      />}
+      />
 
       <TextField
         className={classes.input}
@@ -147,3 +141,11 @@ export default function AddCapabilities(props) {
 
   )
 }
+
+AddCapabilities.propTypes = {
+  gqlClient: PropTypes.object,
+  setModulesData: PropTypes.func,
+  subjectId: PropTypes.string
+}
+
+export default AddCapabilities

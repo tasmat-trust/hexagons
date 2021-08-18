@@ -1,13 +1,13 @@
+import PropTypes from 'prop-types'
 import { Typography, Box, Button, Fade } from "@material-ui/core"
 import createLevel from '../forms/handlers/createLevel'
 import updateLevel from '../forms/handlers/updateLevel'
-
 import { useEffect, useState, useCallback } from "react"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from "@material-ui/core"
-import { memo } from "react"
 import getPercentComplete from "../../utils/getPercentComplete"
 import WithLevel from "../data-fetching/WithLevel";
+import LevelStatusTitle from './LevelStatusTitle'
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -49,79 +49,26 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
 }
 
 
-function LevelBox(props) {
-  const { visibleLevel, currentModule, completeStep, markActive, allCompetencies, gotResponse, checkedStatus } = props
-  const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
+
+
+function LevelStatus({ setGotCurrentLevel,
+  setCurrentLevelId,
+  initialVisibleLevel,
+  currentModule,
+  subjectId,
+  pupil,
+  allCompetencies,
+  gqlClient }) {
+
   const classes = useStyles()
-  const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
-  const status = visibleLevel ? visibleLevel.status : 'notstarted'
-  const thisLevelCompetencies = calculateCompetenciesForThisLevel(allCompetencies, currentModule.capabilities)
-
-  useEffect(() => {
-    const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities)
-    const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete
-    setVisiblePercentComplete(percentCompleteWithShortcuts)
-  }, [thisLevelCompetencies, currentModule.capabilities, status])
-
-  function LevelTitle({ status, checkedStatus }) {
-
-    const [fadeStarted, setFadeStarted] = useState(false)
-
-    useEffect(() => {
-
-      if (fadeStarted !== true && checkedStatus === true) {
-        setFadeStarted(true)
-      }
-
-    }, [fadeStarted, setFadeStarted, checkedStatus])
-
-    return (
-      <Typography className={classes.title} variant='h2'>
-        {moduleLabel} {currentModule.order}
-
-        {fadeStarted && <span> &#8212; <span className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
-      </Typography>
-    )
-  }
-
-  return (
-    <Box style={props.style} className={classes.level}>
-      <Box className={classes.header}>
-        <LevelTitle gotResponse={gotResponse} status={status} checkedStatus={checkedStatus} />
-
-        {currentModule && currentModule.summary && <Typography>{currentModule.summary}</Typography>}
-        {currentModule && currentModule.guidance && <Typography>{currentModule.guidance}</Typography>}
-
-
-
-        {status !== 'complete' && <Button variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
-        {status === 'complete' && <Button variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
-
-      </Box>
-
-      <Box display="flex" alignItems="center">
-        <Box width="100%" mr={1}>
-          <LinearProgress variant="determinate" value={status === 'complete' ? 100 : visiblePercentComplete} />
-        </Box>
-        <Box minWidth={35}>
-          <Typography variant="body2" color="textSecondary">{`${Math.round(
-            visiblePercentComplete,
-          )}%`}</Typography>
-        </Box>
-      </Box>
-
-
-
-    </Box>
-  )
-}
-
-const LevelStatus = memo(function LevelStatus(props) {
-  const { setGotCurrentLevel, setCurrentLevelId, initialVisibleLevel, currentModule, subject, pupil } = props
-
+  const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
   const [visibleLevel, setVisibleLevel] = useState(null)
   const [readyToShow, setReadyToShow] = useState(false)
   const [checkedStatus, setCheckedStatus] = useState(false)
+
+  const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
+  const status = visibleLevel ? visibleLevel.status : 'notstarted'
+  const thisLevelCompetencies = calculateCompetenciesForThisLevel(allCompetencies, currentModule.capabilities)
 
   const bubbleGotLevel = useCallback((level) => {
     if (level && level.id) {
@@ -130,6 +77,13 @@ const LevelStatus = memo(function LevelStatus(props) {
       setCurrentLevelId(level.id)
     }
   }, [setCurrentLevelId, setVisibleLevel, setGotCurrentLevel])
+
+
+  useEffect(() => {
+    const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities)
+    const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete
+    setVisiblePercentComplete(percentCompleteWithShortcuts)
+  }, [thisLevelCompetencies, currentModule.capabilities, status])
 
   useEffect(() => {
 
@@ -150,11 +104,11 @@ const LevelStatus = memo(function LevelStatus(props) {
   async function triggerCreateLevel(status) {
     const variables = {
       status: status,
-      subjectId: subject.id,
+      subjectId: subjectId,
       pupilId: pupil.id,
       moduleId: currentModule.id
     }
-    const level = await createLevel(props.gqlClient, variables)
+    const level = await createLevel(gqlClient, variables)
 
     bubbleGotLevel(level)
   }
@@ -164,7 +118,7 @@ const LevelStatus = memo(function LevelStatus(props) {
       status: status,
       levelId: visibleLevel.id
     }
-    const level = await updateLevel(props.gqlClient, variables)
+    const level = await updateLevel(gqlClient, variables)
 
     bubbleGotLevel(level)
   }
@@ -195,14 +149,40 @@ const LevelStatus = memo(function LevelStatus(props) {
       triggerCreateLevel('incomplete')
     }
   }
-
   return (
-
     <Fade in={readyToShow}>
-      <LevelBox visibleLevel={visibleLevel} checkedStatus={checkedStatus} {...props} completeStep={completeStepHandler} markActive={markActive} />
+      <Box className={classes.level}>
+        <Box className={classes.header}>
+          <LevelStatusTitle status={status} checkedStatus={checkedStatus} classes={classes} moduleLabel={moduleLabel} moduleOrder={module.order} />
+          {currentModule && currentModule.summary && <Typography>{currentModule.summary}</Typography>}
+          {currentModule && currentModule.guidance && <Typography>{currentModule.guidance}</Typography>}
+          {status !== 'complete' && <Button variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
+          {status === 'complete' && <Button variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
+        </Box>
+        <Box display="flex" alignItems="center">
+          <Box width="100%" mr={1}>
+            <LinearProgress variant="determinate" value={status === 'complete' ? 100 : visiblePercentComplete} />
+          </Box>
+          <Box minWidth={35}>
+            <Typography variant="body2" color="textSecondary">{`${Math.round(
+              visiblePercentComplete,
+            )}%`}</Typography>
+          </Box>
+        </Box>
+      </Box>
     </Fade>
-
   )
-})
+}
+
+LevelStatus.propTypes = {
+  setGotCurrentLevel: PropTypes.func,
+  setCurrentLevelId: PropTypes.func,
+  initialVisibleLevel: PropTypes.object, // injected by WithLevel HOC
+  currentModule: PropTypes.object,
+  subjectId: PropTypes.string,
+  pupil: PropTypes.object,
+  allCompetencies: PropTypes.array,
+  gqlClient: PropTypes.object
+}
 
 export default WithLevel(LevelStatus)

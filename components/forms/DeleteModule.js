@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import { Button } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
 import deleteModule from './handlers/deleteModule'
 
-export default function DeleteModule(props) {
-  const { gqlClient, setModulesData, currentStage } = props
+function DeleteModule({ gqlClient, setModulesData, currentStage }) {
+ 
   async function handleForm(event) {
     event.preventDefault()
     await deleteModule(gqlClient, currentStage, setModulesData)
@@ -19,3 +20,11 @@ export default function DeleteModule(props) {
     </form>
   )
 }
+
+DeleteModule.propTypes = {
+  gqlClient: PropTypes.object,
+  setModulesData: PropTypes.func,
+  currentStage: PropTypes.object
+}
+
+export default DeleteModule

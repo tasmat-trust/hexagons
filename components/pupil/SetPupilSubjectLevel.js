@@ -23,7 +23,11 @@ export default function SetPupilSubjectLevel(props) {
         <Typography variant="h1">{`${pupil.name}'s ${subject.name} Baseline`}</Typography>
         <Typography>Please go to step or stage that {pupil.name} is currently working at and mark off as many competencies as you can.</Typography>
       </Box>
-      <StagesTabs {...props} isAdmin={false} isBaseline={true} variables={{ slug: subject.slug }} />
+      <StagesTabs 
+      {...props} 
+      isAdmin={false} 
+      isBaseline={true}
+      getSubjectBySlugVariables={{ slug: subject.slug }} />
     </Box>
   )
 }

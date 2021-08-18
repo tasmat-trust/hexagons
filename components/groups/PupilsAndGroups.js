@@ -1,12 +1,11 @@
-import BreadCrumbs from "../navigation/Breadcrumbs";
+import PropTypes from 'prop-types';
 import { Grid } from "@material-ui/core";
 import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";
 import { getOrgIdFromSession } from "../../utils";
-import { useState } from "react";
 import useAdminPage from "../../styles/useAdminPage";
 
-export default function PupilsAndGroups(props) {
+function PupilsAndGroups(props) {
   const { user, activeGroup, setGroupName } = props;
 
   const classes = useAdminPage()
@@ -30,8 +29,14 @@ export default function PupilsAndGroups(props) {
 
         </Grid>
       </div>
-
-
     </>
   )
 }
+
+PupilsAndGroups.propTypes = {
+  user: PropTypes.object,
+  activeGroup: PropTypes.object,
+  setGrouoName: PropTypes.func
+}
+
+export default PupilsAndGroups

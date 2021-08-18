@@ -1,7 +1,7 @@
 import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'
 
-import PupilMainView from '../../../components/pupil/PupilMainView'
+ 
 import { useState } from 'react'
 import BreadCrumbs from '../../../components/navigation/Breadcrumbs'
 
@@ -10,7 +10,7 @@ export default function Index(props) {
   return (
     <>
       {breadcrumbPupilName && <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/subjects" secondLabel={breadcrumbPupilName} />}
-      <PupilMainView setBreadcrumbPupilName={setBreadcrumbPupilName} {...props} />
+       
     </>
   )
 }

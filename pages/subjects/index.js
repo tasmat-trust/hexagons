@@ -4,13 +4,13 @@ import checkSession from '../../components/auth/checkSession'
 
 import PupilsAndGroups from '../../components/groups/PupilsAndGroups' 
 import BreadCrumbs from '../../components/navigation/Breadcrumbs'
+import Subjects from '../../components/subjects/Subjects'
 
 export default function Pupils(props) { 
   return (
     <>
-      <BreadCrumbs {...props} firstLabel="Subjects" />
-      <p>TODO: Search all pupils</p>
-      <PupilsAndGroups {...props} activeGroup='class-1' />
+      <BreadCrumbs {...props} firstLabel="Subjects" /> 
+      <Subjects />
     </>
   )
 }

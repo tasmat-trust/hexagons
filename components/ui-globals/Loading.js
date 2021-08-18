@@ -1,5 +1,6 @@
 import { Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core";
+import { PropTypes } from "prop-types";
 
 const useStyles = makeStyles({
   loading: {
@@ -177,10 +178,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Loading(props) {
+function Loading({message}) {
 
   const classes = useStyles()
-  const { message } = props
   return (
     <>
       <div className={classes.loading}>
@@ -215,3 +215,9 @@ export default function Loading(props) {
     </>
   )
 }
+
+Loading.propTypes = {
+  message: PropTypes.string // message to display below loading animation
+}
+
+export default Loading
