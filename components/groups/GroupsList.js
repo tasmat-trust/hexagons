@@ -9,7 +9,8 @@ import { useRouter } from 'next/router'
 
 function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActiveGroupSlug, setActiveGroupName, setActiveGroupId }) {
 
-  const router = useRouter()
+
+   const router = useRouter()
   let query = getMyGroups ? myGroups : allGroups
   
 
@@ -29,7 +30,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
         setActiveGroupId && setActiveGroupId(groupsData.groups[0].id)
       }
     }
-  }, [getMyGroups, groupsData, setActiveGroupSlug, setActiveGroupName])
+  }, [getMyGroups, groupsData, setActiveGroupSlug, setActiveGroupName, setActiveGroupId])
 
   const gotNonResponse = handleNonResponses(groupsData, error)
   if (gotNonResponse) return gotNonResponse

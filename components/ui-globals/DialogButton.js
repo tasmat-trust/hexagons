@@ -11,7 +11,7 @@ import { Button, ButtonBase } from '@material-ui/core';
 
 import { PropTypes } from "prop-types";
 
-function DialogButton({ className, label, content, text, children, modelname, isHexagon, bubbleHandleClose }) {
+function DialogButton({ className, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose }) {
 
   const [open, setOpen] = useState(false);
 
@@ -29,10 +29,10 @@ function DialogButton({ className, label, content, text, children, modelname, is
     <>
 
       {!isHexagon && <Button
-        variant="contained"
-        color="secondary"
+        variant={variant}
+        color={color}
         className={className}
-        startIcon={<AddIcon />}
+        // startIcon={<AddIcon />}
         onClick={handleOpen}
       >
         {label}
@@ -50,7 +50,7 @@ function DialogButton({ className, label, content, text, children, modelname, is
       >
 
         <DialogContent>
-          <Typography gutterBottom={true} id="form-dialog-title" variant="h2" component="h4">{label}</Typography>
+          {boxTitle && <Typography gutterBottom={true} id="form-dialog-title" variant="h2" component="h4">{boxTitle}</Typography>}
           <DialogContentText>
             {text}
           </DialogContentText>
@@ -67,6 +67,9 @@ function DialogButton({ className, label, content, text, children, modelname, is
 }
 
 DialogButton.propTypes = {
+  boxTitle: PropTypes.string, // title of box
+  variant: PropTypes.string, // outlined / contained
+  color: PropTypes.string, // primary / secondary
   className: PropTypes.string, // Buttonbase class name
   label: PropTypes.string, // Button label
   content: PropTypes.element, // Content to display inside hexagons

@@ -20,7 +20,6 @@ function CapabilityTile(props) {
     setGotCurrentLevel,
     subjectId,
     pupil,
-    setCurrentLevel,
     currentLevelId,
     setTilesDisabled,
   } = props;
@@ -66,8 +65,7 @@ function CapabilityTile(props) {
         return;
       }
       levelId = level.id;
-      setGotCurrentLevel(true);
-      setCurrentLevel(level);
+      setGotCurrentLevel(true); 
     }
 
     if (status === 'complete') {
@@ -168,7 +166,6 @@ CapabilityTile.propTypes = {
   setGotCurrentLevel: PropTypes.func,
   subjectId: PropTypes.string,
   pupil: PropTypes.object,
-  setCurrentLevel: PropTypes.func,
   currentLevelId: PropTypes.number,
   setTilesDisabled: PropTypes.func,
 };

@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     float: 'right',
+    position: 'relative',
+    top: '-1rem'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -42,7 +44,7 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="age-native-helper">Select pupil</InputLabel>
+      <InputLabel htmlFor="age-native-helper">Select from {groupName}</InputLabel>
       <NativeSelect value={pupilId} onChange={handleChange}>
         <option aria-label="None" value="" />
         {pupils.map((pupil, i) => (
@@ -50,8 +52,7 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
             {pupil.name}
           </option>
         ))}
-      </NativeSelect>
-      <FormHelperText>Choose another pupil from {groupName}</FormHelperText>
+      </NativeSelect> 
     </FormControl>
   );
 }

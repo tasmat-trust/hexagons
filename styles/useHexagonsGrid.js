@@ -135,7 +135,7 @@ const jssStyles = makeStyles((theme) => ({
       content: "''",
       width: "calc(var(--s)/2 + var(--mh))",
       float: "left",
-      height: "200vh",
+      height: "300vh",
       "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
     }
   },

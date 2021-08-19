@@ -12,7 +12,6 @@ function LastActiveGroup({ user, orgId, ...other }) {
       const savedGroupSlug = window.localStorage.getItem('active-group-slug');
       const savedGroupName = window.localStorage.getItem('active-group-name');
       const savedGroupId = window.localStorage.getItem('active-group-id');
-      console.log(savedGroupId)
       savedGroupSlug && setActiveGroupSlug(savedGroupSlug);
       savedGroupName && setActiveGroupName(savedGroupName);
       savedGroupId && setActiveGroupId(savedGroupId);
@@ -25,7 +24,7 @@ function LastActiveGroup({ user, orgId, ...other }) {
         Your most recent active group was {activeGroupName}. You can choose another group or search
         for an individual pupil.
       </p>
-      {activeGroupId && <PupilsAndGroups
+      <PupilsAndGroups
         {...other}
         orgId={orgId}
         userId={user.id}
@@ -34,7 +33,7 @@ function LastActiveGroup({ user, orgId, ...other }) {
         setActiveGroupSlug={setActiveGroupSlug}
         setActiveGroupName={setActiveGroupName}
         setActiveGroupId={setActiveGroupId}
-      />}
+      />
     </>
   );
 }

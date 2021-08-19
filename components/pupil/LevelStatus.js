@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core"
 import getPercentComplete from "../../utils/getPercentComplete"
 import WithLevel from "../data-fetching/WithLevel";
 import LevelStatusTitle from './LevelStatusTitle'
+import DialogButton from '../ui-globals/DialogButton'
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -32,12 +33,17 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.warning.main
   },
   header: {
-    textAlign: 'center',
-    display: 'inline-flex'
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   title: {
     flexGrow: 0,
     marginRight: theme.spacing(2)
+  },
+  endButton: {
+    marginLeft: theme.spacing(1)
   }
 }));
 
@@ -47,9 +53,6 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
   const competencies = allComps.filter((comp, i) => capString.includes(comp.capability_fk))
   return competencies
 }
-
-
-
 
 function LevelStatus({ setGotCurrentLevel,
   setCurrentLevelId,
@@ -151,13 +154,24 @@ function LevelStatus({ setGotCurrentLevel,
   }
   return (
     <Fade in={readyToShow}>
+
       <Box className={classes.level}>
         <Box className={classes.header}>
-          <LevelStatusTitle status={status} checkedStatus={checkedStatus} classes={classes} moduleLabel={moduleLabel} moduleOrder={module.order} />
-          {currentModule && currentModule.summary && <Typography>{currentModule.summary}</Typography>}
-          {currentModule && currentModule.guidance && <Typography>{currentModule.guidance}</Typography>}
-          {status !== 'complete' && <Button variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
-          {status === 'complete' && <Button variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
+          <Box>
+            <LevelStatusTitle status={status} checkedStatus={checkedStatus} classes={classes} moduleLabel={moduleLabel} moduleOrder={currentModule.order} />
+          </Box>
+          <Box>
+            <DialogButton
+              label="View Summary"
+              color="primary"
+              variant="contained"
+              boxTitle={`${moduleLabel} ${currentModule.order} summary`}>
+              {currentModule.summary}
+            </DialogButton>
+            {status !== 'complete' && <Button className={classes.endButton} variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
+            {status === 'complete' && <Button className={classes.endButton} variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
+
+          </Box>
         </Box>
         <Box display="flex" alignItems="center">
           <Box width="100%" mr={1}>
@@ -170,6 +184,7 @@ function LevelStatus({ setGotCurrentLevel,
           </Box>
         </Box>
       </Box>
+
     </Fade>
   )
 }

@@ -84,7 +84,7 @@ function calculateStageAndPercent(levels) {
   return level
 }
 
-function SubjectProgress({ subjectName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug }) {
+function SubjectProgress({ coreSubjectName, coreSubjectSlug, getLevelVariables, pupilId, activeGroupSlug }) {
   const classes = useStyles()
   const router = useRouter()
   const [levelData, error] = useStateOnce([getLevels, getLevelVariables])
@@ -96,9 +96,9 @@ function SubjectProgress({ subjectName, subjectSlug, getLevelVariables, pupilId,
   const isSubjectsListing = router.asPath.includes('subjects')
   let linkUrl
   if (isSubjectsListing) {
-    linkUrl = `/subjects/${router.query.subject}/${activeGroupSlug}/${pupilId}`    
+    linkUrl = `/subjects/${coreSubjectSlug}/${activeGroupSlug}/${pupilId}`
   } else {
-    linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`
+    linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${coreSubjectSlug}`
   }
 
   return (
@@ -106,18 +106,18 @@ function SubjectProgress({ subjectName, subjectSlug, getLevelVariables, pupilId,
       {level && (
         <>
           {router && router.asPath && <Typography component="h3" variant="h6" className={classes.flexy}>
-          
-            <Link href={linkUrl}>{subjectName}</Link> 
-            <Chip variant="outlined" color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} /> 
-            
+
+            <Link href={linkUrl}>{coreSubjectName}</Link>
+            <Chip variant="outlined" color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} />
+
             <span className={classes.span}>{level.percentComplete}%</span>
-            </Typography>}
+          </Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={level.percentComplete} min={0} max={100} />
         </>
       )}
       {!level && (
         <>
-          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subjectName}</Link><span className={classes.span}>0%</span></Typography>}
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{coreSubjectName}</Link><span className={classes.span}>0%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
         </>
       )}
@@ -140,11 +140,12 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, ...other }) {
       {coreSubjects.map((subject, i) => (
         <li key={`subject-${i}`} className={classes.li}>
           <SubjectProgress
-            subjectSlug={subject.slug}
-            subjectName={subject.name}
+            {...other} // activeGroupSlug
+            coreSubjectSlug={subject.slug}
+            coreSubjectName={subject.name}
             getLevelVariables={{ subjectId: subject.id, pupilId: pupilId }}
             pupilId={pupilId}
-            {...other} // activeGroupSlug
+
           />
         </li>
 

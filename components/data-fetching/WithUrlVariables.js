@@ -7,8 +7,10 @@ export default function WithUrlVariables(WrappedComponent) {
     const router = useRouter();
     const [subjectSlug, setSubjectSlug] = useState(null);
     const [groupSlug, setGroupSlug] = useState(null);
+    const [isReady, setIsReady] = useState(false)
     useEffect(() => {
       if (!router.isReady) return;
+      setIsReady(true)
       if (router.query.subject) {
         setSubjectSlug(router.query.subject);
       }
@@ -16,16 +18,15 @@ export default function WithUrlVariables(WrappedComponent) {
         setGroupSlug(router.query.group);
       }
     }, [router]);
-
     return (
       <>
-        <WrappedComponent
+        {isReady && <WrappedComponent
           {...other}
           orgId={orgId}
           activeGroupSlug={groupSlug}
           getSubjectBySlugVariables={{ slug: subjectSlug }}
           groupFromSlugVariables={{ orgId: orgId, slug: groupSlug }}
-        />
+        />}
       </>
     );
   }

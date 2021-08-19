@@ -6,9 +6,11 @@ import { makeStyles } from "@material-ui/core/styles"
 
 const styles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
+    clear: 'both'
   },
   title: {
+    clear: 'both',
     marginBottom: theme.spacing(3),
     textAlign: 'center'
   }
@@ -20,10 +22,6 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, pupil, ...other }) {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.title}>
-        <Typography variant="h1">{`${pupil.name}'s ${subjectName} Baseline`}</Typography>
-        <Typography>Please go to step or stage that {pupil.name} is currently working at and mark off as many competencies as you can.</Typography>
-      </Box>
       <StagesTabs 
       {...other}
       pupil={pupil}

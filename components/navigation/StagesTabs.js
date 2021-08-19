@@ -6,9 +6,12 @@ import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
 import DeleteModule from '../forms/DeleteModule'
 import LevelStatus from '../pupil/LevelStatus'
-import WithCompetencies  from '../data-fetching/WithCompetencies'
+import WithCompetencies from '../data-fetching/WithCompetencies'
 import WithModules from '../data-fetching/WithModules'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
+
+import { withStyles } from '@material-ui/styles'
+import theme from '../../styles/theme'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,18 +39,17 @@ function a11yProps(index) {
   };
 }
 
-function StagesNav({ modules, 
-  isAdmin, 
-  startingLevel, 
-  setModulesData, 
-  competenciesData, 
-  pupil, 
-  subjectId, 
+function StagesNav({ modules,
+  isAdmin,
+  startingLevel,
+  setModulesData,
+  competenciesData,
+  pupil,
+  subjectId,
   gqlClient }) {
   const [tabValue, setTabValue] = useState(0);
   const [competencies, setCompetencies] = useState(competenciesData)
   const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
-  const [currentLevel, setCurrentLevel] = useState(null)  // object - the current level, if any
   const [currentLevelId, setCurrentLevelId] = useState(0)
   const [sortedModules, setSortedModules] = useState(modules)
 
@@ -84,12 +86,50 @@ function StagesNav({ modules,
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
     setGotCurrentLevel(false)
-    setCurrentLevel(null)
     setCurrentLevelId(0)
   };
 
+  const HexagonsTabs = withStyles({
+    root: {
+      borderBottom: '1px solid #e8e8e8',
+    },
+    indicator: {
+      backgroundColor: theme.palette.info.light,
+    },
+  })(Tabs);
 
-
+  const HexagonsTab = withStyles((theme) => ({
+    root: {
+      textTransform: 'none',
+      minWidth: 72,
+      fontWeight: theme.typography.fontWeightRegular,
+      marginRight: theme.spacing(4),
+      // fontFamily: [
+      //   '-apple-system',
+      //   'BlinkMacSystemFont',
+      //   '"Segoe UI"',
+      //   'Roboto',
+      //   '"Helvetica Neue"',
+      //   'Arial',
+      //   'sans-serif',
+      //   '"Apple Color Emoji"',
+      //   '"Segoe UI Emoji"',
+      //   '"Segoe UI Symbol"',
+      // ].join(','),
+      '&:hover': {
+        color: theme.palette.info.main,
+        opacity: 1,
+      },
+      '&$selected': {
+        color: theme.palette.info.dark,
+        fontWeight: theme.typography.fontWeightMedium,
+      },
+      '&:focus': {
+        color: theme.palette.info.main,
+      },
+    },
+    selected: {},
+  }))((props) => <Tab disableRipple {...props} />);
 
   return (
     <>
@@ -97,22 +137,20 @@ function StagesNav({ modules,
         gqlClient={gqlClient}
         setModulesData={setModulesData}
         subjectId={subjectId} />}
-      <Tabs
+      <HexagonsTabs
         value={tabValue}
         onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
         variant="scrollable"
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
         {sortedModules.map((module, i) => (
-          <Tab
+          <HexagonsTab
             key={`link-${i}`}
             label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
             {...a11yProps(0)} />
         ))}
-      </Tabs>
+      </HexagonsTabs>
 
       {sortedModules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
@@ -138,7 +176,6 @@ function StagesNav({ modules,
             currentModule={module}
             gotCurrentLevel={gotCurrentLevel}
             setGotCurrentLevel={setGotCurrentLevel}
-            setCurrentLevel={setCurrentLevel}
             currentLevelId={currentLevelId}
           />
         </TabPanel>
