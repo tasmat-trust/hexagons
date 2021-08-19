@@ -3,7 +3,7 @@ import handleNonResponses from "../data-fetching/handleNonResponses";
 import { getCoreSubjects } from "../../queries/Subjects"
 
 export default function WithCoreSubjects(WrappedComponent) {
-  return function WithCoreSubjects(props) {
+  function WithCoreSubjects(props) {
     const [subjectsData, error] = useStateOnce([getCoreSubjects])
     const gotNonResponse = handleNonResponses(subjectsData, error)
     if (gotNonResponse) return gotNonResponse
@@ -13,4 +13,6 @@ export default function WithCoreSubjects(WrappedComponent) {
       </>
     )
   }
+
+  return WithCoreSubjects
 }

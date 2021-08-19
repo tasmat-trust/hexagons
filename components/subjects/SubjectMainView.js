@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import checkSession from "../auth/checkSession"
 import { withSession } from "../auth/session"
 import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../data-fetching/WithPupil'
@@ -8,12 +9,10 @@ import StagesTabs from "../navigation/StagesTabs";
 import PupilPicker from '../navigation/PupilPicker';
 
 import { useEffect } from "react"
-import { getOrgIdFromSession } from "../../utils";
 import { useRouter } from "next/router";
 
 function Subject(props) {
-  const { user, pupil, subject, level, setBreadcrumbPupilName, setBreadcrumbPupilId, setBreadcrumbSubjectName } = props
-  const orgId = getOrgIdFromSession(user)
+  const {  pupil, subject, level, setBreadcrumbPupilName, setBreadcrumbPupilId, setBreadcrumbSubjectName, orgId } = props
   const { query } = useRouter()
   useEffect(() => {
     if (subject) {
@@ -27,6 +26,8 @@ function Subject(props) {
       setBreadcrumbPupilId && setBreadcrumbPupilId(pupil.id)
     }
   }, [pupil, setBreadcrumbPupilName, setBreadcrumbPupilId])
+
+  console.log(pupil)
 
   return (
     <>
@@ -46,8 +47,5 @@ function Subject(props) {
   )
 }
 
-export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Teacher')
-})
 
 export default WithQueryVariables(WithGroupFromSlug(WithPupilData(WithSubjectData(WithCurrentLevel(Subject)))))

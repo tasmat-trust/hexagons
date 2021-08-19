@@ -24,6 +24,7 @@ import '@reach/skip-nav/styles.css';
 // Data fetching
 import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
+import { getOrgIdFromSession } from '../utils';
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
@@ -59,6 +60,11 @@ function MyApp({ Component, pageProps }) {
     const data = await graphqlClient.request(query, variables);
     return data;
   };
+  let orgId = 0
+  if (pageProps.user) {
+    orgId = getOrgIdFromSession(pageProps.user)
+  }
+
   return (
     <>
       <Head>
@@ -85,7 +91,7 @@ function MyApp({ Component, pageProps }) {
               }}
             >
               {loading && <Loading message={loading} />}
-              {!loading && <Component {...pageProps} gqlClient={graphqlClient} setLoading={setLoading} />}
+              {!loading && <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={setLoading} />}
             </SWRConfig>
           </ResponsiveDrawer>
         </StylesProvider>

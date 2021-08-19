@@ -1,21 +1,37 @@
+import PropTypes from 'prop-types'
 import { useState, useEffect } from "react"
 import PupilsAndGroups from "./PupilsAndGroups"
 
-export default function LastActiveGroup(props) {
-  const [activeGroup, setActiveGroup] = useState()
+function LastActiveGroup({ user, ...other }) {
+
+  const [activeGroupSlug, setActiveGroupSlug] = useState()
+  const [activeGroupName, setActiveGroupName] = useState()
   useEffect(() => {
     if (window.localStorage) {
-      const savedGroup = window.localStorage.getItem('active-group')
-      savedGroup && setActiveGroup(savedGroup)
+      const savedGroupSlug = window.localStorage.getItem('active-group-slug')
+      const savedGroupName = window.localStorage.getItem('active-group-name')
+      savedGroupSlug && setActiveGroupSlug(savedGroupSlug)
+      savedGroupName && setActiveGroupName(savedGroupName)
     }
 
   }, [])
-  
+
   return (
     <>
-      <h1>Hello, {props.user.username}</h1>
-      <p>Your most recent active group was {activeGroup}. You can choose another group or search for an individual pupil.</p>
-      <PupilsAndGroups {...props} activeGroup={activeGroup} setActiveGroup={setActiveGroup} />
+      <h1>Hello, {user.username}</h1>
+      <p>Your most recent active group was {activeGroupName}. You can choose another group or search for an individual pupil.</p>
+      <PupilsAndGroups
+        {...other}
+        userId={user.id}
+        activeGroupSlug={activeGroupSlug}
+        setActiveGroupSlug={setActiveGroupSlug}
+        setActiveGroupName={setActiveGroupName} />
     </>
   )
 }
+
+LastActiveGroup.propTypes = {
+  user: PropTypes.object
+}
+
+export default LastActiveGroup

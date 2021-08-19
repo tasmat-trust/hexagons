@@ -1,12 +1,10 @@
+import PropTypes from 'prop-types'
 import { Paper, Box, Typography, Grid } from "@material-ui/core"
 import GroupsList from "./GroupsList"
 import useAdminPage from "../../styles/useAdminPage"
-import { getOrgIdFromSession } from "../../utils"
-export default function GroupsMenu(props) {
+function GroupsMenu({orgId, userId, ...other}) {
 
-  const classes = useAdminPage()
-  const { user } = props;
-  const orgId = getOrgIdFromSession(user)
+  const classes = useAdminPage() 
 
   return (
     <>
@@ -16,7 +14,7 @@ export default function GroupsMenu(props) {
             <Box className={classes.box}>
               <Typography data-test-id="title" variant="h4" component="h2" className={classes.title}>My groups</Typography>
             </Box>
-            <GroupsList {...props} getMyGroups={true} variables={{ teacherId: user.id }} />
+            <GroupsList {...other} getMyGroups={true} getGroupsVariables={{ teacherId: userId, orgId: orgId }} />
           </Paper>
         </Grid>
         <Grid item xs={12}>
@@ -25,8 +23,8 @@ export default function GroupsMenu(props) {
               <Typography variant="h4" component="h2" className={classes.title}>All groups</Typography>
             </Box>
             <GroupsList
-              {...props}
-              variables={{ orgId: orgId }}
+              {...other}
+              getGroupsVariables={{ orgId: orgId }}
             />
           </Paper>
         </Grid>
@@ -35,3 +33,10 @@ export default function GroupsMenu(props) {
     </>
   )
 }
+
+GroupsMenu.propTypes = {
+  orgId: PropTypes.number,
+  userId: PropTypes.number
+}
+
+export default GroupsMenu

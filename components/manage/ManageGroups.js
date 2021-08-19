@@ -35,7 +35,7 @@ export default function ManageGroups(props) {
       <GroupsList
         {...props}
         setSharedState={setMutateGroup}
-        variables={{ orgId: orgId }}
+        getGroupsVariables={{ orgId: orgId }}
       />
     </Paper>
   )

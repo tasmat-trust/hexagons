@@ -1,32 +1,53 @@
-
-
+import PropTypes from 'prop-types'
 import { getPupilsByGroup } from "../../queries/Pupils"
-
-import useSharedState from "../data-fetching/useSharedState"; 
+import useStateOnce from "../data-fetching/useStateOnce";
 import handleNonResponses from "../data-fetching/handleNonResponses";
-
 import { Grid } from "@material-ui/core";
 import PupilCard from "../pupil/PupilCard";
 import WithGroupFromSlug from "../data-fetching/WithGroupFromSlug";
 import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
+import { useRouter } from 'next/router';
 
+function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, ...other }) {
 
-function PupilsByGroup(props) {
-  const { pupilsByGroupVariables, groupSlug } = props
-  const [pupilsData, setPupilsData, error] = useSharedState([getPupilsByGroup, pupilsByGroupVariables])
+  const router = useRouter()
+  const [pupilsData, error] = useStateOnce([getPupilsByGroup, pupilsByGroupVariables])
   const gotNonResponse = handleNonResponses(pupilsData, error)
   if (gotNonResponse) return gotNonResponse
+  const isSubjectsListing = router.asPath.includes('subjects')
+
   return (
     <>
       <Grid container spacing={3}>
-        {pupilsData.pupils.map((p, i) => (
-          <Grid key={`pupil-${i}`} item xs={12} md={6} lg={4} sm={6} xl={3}>
-            <PupilCard {...props} key={i} pupil={p} onwardHref={`/pupils/${groupSlug}/${p.id}`} />
-          </Grid>
-        ))}
+        {pupilsData.pupils.map((p, i) => {          
+          let linkUrl
+          if (isSubjectsListing) {            
+            linkUrl = `/subjects/${router.query.subject}/${activeGroupSlug}/${p.id}`
+          } else {
+            linkUrl = `/pupils/${activeGroupSlug}/${p.id}`
+          }
+          return (
+            <Grid key={`pupil-${i}`} item xs={12} md={6} lg={4} sm={6} xl={3}>
+              <PupilCard
+                {...other}
+                key={i}
+                pupilId={p.id}
+                pupilName={p.name}
+                pupilGroups={p.groups}
+                activeGroupSlug={activeGroupSlug}
+                onwardHref={linkUrl}
+              />
+            </Grid>
+          )
+        })}
       </Grid>
     </>
   )
+}
+
+PupilsByGroup.propTypes = {
+  pupilsByGroupVariables: PropTypes.object,
+  activeGroupSlug: PropTypes.string
 }
 
 export default WithCoreSubjects(WithGroupFromSlug(PupilsByGroup))

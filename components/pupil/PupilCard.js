@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -43,35 +43,39 @@ const useStyles = makeStyles({
 
 
 
-export default function PupilCard(props) {
-  const { pupil } = props
-  const [onwardHref, setOnwardHref] = useState(props.onwardHref)
+function PupilCard({
+  onwardHref,
+  pupilName,
+  pupilGroups,
+  ...other }) // pupilId, coreSubjects, activeGroupSlug
+{
   const styles = useStyles();
-
-  useEffect(() => {
-    setOnwardHref(props.onwardHref)
-  }, [props.onwardHref])
-
-
   return (
     <Card>
       <CardContent>
-        <Typography component='h2' variant='h4'>
-          {/* <Link href="/pupils/[id]-RANDOM" as={`/pupils/${pupil.id}`}>
-            <a>{pupil.name}</a>
-          </Link> */}
+        <Typography component='h2' variant='h4'> 
           {onwardHref && <Link href={onwardHref} >
-            <a>{pupil.name}</a>
+            <a>{pupilName}</a>
           </Link>}
         </Typography>
         <ul className={styles.groupUl}>
-          {pupil.groups && pupil.groups.map((group, i) => (
+          {pupilGroups && pupilGroups.map((group, i) => (
             <li key={`pupil-group-${i}`} className={styles.groupLi}>{group.name}</li>
           ))}
         </ul>
-        <CoreSubjectsProgress  {...props} />
+        <CoreSubjectsProgress
+          {...other}
+        />
       </CardContent>
 
     </Card >
   )
 }
+
+PupilCard.propTypes = {
+  onwardHref: PropTypes.string,
+  pupilName: PropTypes.string,
+  pupilGroups: PropTypes.array
+}
+
+export default PupilCard

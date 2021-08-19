@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import useStateOnce from "../data-fetching/useStateOnce"
 import { getCoreSubjects } from "../../queries/Subjects"
 import handleNonResponses from "../data-fetching/handleNonResponses"
@@ -79,37 +80,34 @@ function calculateStageAndPercent(levels) {
   return level
 }
 
-function SubjectProgress(props) {
+function SubjectProgress({ subjectName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug }) {
   const classes = useStyles()
-  const { subject, getLevelVariables, pupil, groupSlug } = props
   const router = useRouter()
   const [levelData, error] = useStateOnce([getLevels, getLevelVariables])
-
   let level = null
   if (levelData && levelData.levels) {
     level = calculateStageAndPercent(levelData.levels)
   }
 
-
-  const isPupilsListing = router.asPath.includes('pupils')
+  const isSubjectsListing = router.asPath.includes('subjects')
   let linkUrl
-  if (isPupilsListing) {
-    linkUrl = `/pupils/${groupSlug}/${pupil.id}/${subject.slug}`
+  if (isSubjectsListing) {
+    linkUrl = `/subjects/${activeGroupSlug}/${pupilId}`    
   } else {
-    linkUrl = `/subjects/${groupSlug}/${pupil.id}`
+    linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`
   }
 
   return (
     <>
       {level && (
         <>
-          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subject.name}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>}
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subjectName}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={level.percentComplete} min={0} max={100} />
         </>
       )}
       {!level && (
         <>
-          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subject.name}</Link><span className={classes.span}>0%</span></Typography>}
+          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subjectName}</Link><span className={classes.span}>0%</span></Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
         </>
       )}
@@ -117,23 +115,37 @@ function SubjectProgress(props) {
   )
 }
 
-export default function CoreSubjectsProgress(props) {
-  const { pupil, coreSubjects } = props
+SubjectProgress.propTypes = {
+  subjectSlug: PropTypes.string,
+  subjectName: PropTypes.string,
+  getLevelVariables: PropTypes.object,
+  pupilId: PropTypes.string,
+  activeGroupSlug: PropTypes.string
+}
+
+function CoreSubjectsProgress({ pupilId, coreSubjects, ...other }) {
   const classes = useStyles()
   return (
     <ul className={classes.root}>
       {coreSubjects.map((subject, i) => (
         <li key={`subject-${i}`} className={classes.li}>
           <SubjectProgress
-            {...props}
-            subject={subject}
-            pupil={pupil}
-            getLevelVariables={{ subjectId: subject.id, pupilId: pupil.id }}
+            subjectSlug={subject.slug}
+            subjectName={subject.name}
+            getLevelVariables={{ subjectId: subject.id, pupilId: pupilId }}
+            pupilId={pupilId}
+            {...other} // activeGroupSlug
           />
         </li>
 
       ))}
     </ul>
   )
-
 }
+
+CoreSubjectsProgress.propTypes = {
+  pupilId: PropTypes.string,
+  coreSubjects: PropTypes.array
+}
+
+export default CoreSubjectsProgress

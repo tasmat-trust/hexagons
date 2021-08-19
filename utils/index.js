@@ -13,6 +13,10 @@ const getOrgIdFromSession = (user) => {
     return user.organization.id
 }
 
+const getSubjectNameFromSlug = (slug) => {
+    return 'Music'
+}
+
 export {
-    fetcher, getOrgIdFromSession
+    fetcher, getOrgIdFromSession, getSubjectNameFromSlug
 }

@@ -35,7 +35,15 @@ function a11yProps(index) {
   };
 }
 
-function StagesNav({ modules, isAdmin, startingLevel, setModulesData, competenciesData, pupil, subjectId, subjectName, gqlClient }) {
+function StagesNav({ modules, 
+  isAdmin, 
+  startingLevel, 
+  setModulesData, 
+  competenciesData, 
+  pupil, 
+  subjectId, 
+  subjectName, 
+  gqlClient }) {
 
   const [tabValue, setTabValue] = useState(0);
   const [competencies, setCompetencies] = useState(competenciesData)

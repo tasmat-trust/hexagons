@@ -109,7 +109,7 @@ function CapabilityTile(props) {
       refreshCompetencyVars.levelId = levelId
       const finished = await createCompetency(gqlClient, competencyVars, checkCompetencyVars, refreshCompetencyVars, updateCompetencyVars, setCompetencies)
       if (finished) {
-        setButtonIsDisabled(false)
+        setButtonIsDisabled(false) // sometimes get no op unmounted component warning
         setTilesDisabled(false)
       }
     }

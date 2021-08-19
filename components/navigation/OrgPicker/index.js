@@ -29,7 +29,7 @@ function OrgPicker({ user }) {
           className={classes.logo}
           width={user.organization.logo.width}
           height={user.organization.logo.height}
-          src={`/${apiUrl}${img}`}
+          src={`${apiUrl}${img}`}
           alt={`${alt}'s Logo`} />
       </Box>
     </Box>
