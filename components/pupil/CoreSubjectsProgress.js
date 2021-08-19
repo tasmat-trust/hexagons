@@ -5,7 +5,7 @@ import handleNonResponses from "../data-fetching/handleNonResponses"
 import { getLevels } from "../../queries/Pupils"
 import { Typography } from "@material-ui/core"
 import Link from "next/link"
-import { makeStyles, useTheme } from "@material-ui/core"
+import { makeStyles, Chip } from "@material-ui/core"
 import "@reach/slider/styles.css"
 import styled from 'styled-components'
 import { Slider } from "@reach/slider"
@@ -39,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
   },
   slider: {
     marginBottom: theme.spacing(1)
+  },
+  flexy: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
@@ -92,7 +96,7 @@ function SubjectProgress({ subjectName, subjectSlug, getLevelVariables, pupilId,
   const isSubjectsListing = router.asPath.includes('subjects')
   let linkUrl
   if (isSubjectsListing) {
-    linkUrl = `/subjects/${activeGroupSlug}/${pupilId}`    
+    linkUrl = `/subjects/${router.query.subject}/${activeGroupSlug}/${pupilId}`    
   } else {
     linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`
   }
@@ -101,7 +105,13 @@ function SubjectProgress({ subjectName, subjectSlug, getLevelVariables, pupilId,
     <>
       {level && (
         <>
-          {router && router.asPath && <Typography component="h3" variant="h6"><Link href={linkUrl}>{subjectName}</Link> - {level.module.level === 'stage' ? 'Stage' : 'Step'} {level.module.order} <span className={classes.span}>{level.percentComplete}%</span></Typography>}
+          {router && router.asPath && <Typography component="h3" variant="h6" className={classes.flexy}>
+          
+            <Link href={linkUrl}>{subjectName}</Link> 
+            <Chip variant="outlined" color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} /> 
+            
+            <span className={classes.span}>{level.percentComplete}%</span>
+            </Typography>}
           <StyledSlider className={classes.slider} disabled={true} value={level.percentComplete} min={0} max={100} />
         </>
       )}

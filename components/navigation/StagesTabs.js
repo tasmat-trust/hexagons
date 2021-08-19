@@ -42,9 +42,7 @@ function StagesNav({ modules,
   competenciesData, 
   pupil, 
   subjectId, 
-  subjectName, 
   gqlClient }) {
-
   const [tabValue, setTabValue] = useState(0);
   const [competencies, setCompetencies] = useState(competenciesData)
   const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
@@ -156,7 +154,6 @@ StagesNav.propTypes = {
   competenciesData: PropTypes.array,
   pupil: PropTypes.object,
   subjectId: PropTypes.string,
-  subjectName: PropTypes.string,
   gqlClient: PropTypes.object,
 }
 

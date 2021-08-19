@@ -1,39 +1,41 @@
-import checkSession from "../../../../components/auth/checkSession"
-import { withSession } from "../../../../components/auth/session"
-import { WithParamVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../../../../components/data-fetching/WithPupil'
-import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug'
-import WithSingleSubjectFromSlugVariables from '../../../../components/data-fetching/WithSingleSubjectFromSlugVariables'
-import BreadCrumbs from "../../../../components/navigation/Breadcrumbs"
+import checkSession from '../../../../components/auth/checkSession';
+import { withSession } from '../../../../components/auth/session';
+import { WithPupilData } from '../../../../components/data-fetching/WithPupil';
+import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
+import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug';
+import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables';
+import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
 
-import SetPupilSubjectLevel from '../../../../components/pupil/SetPupilSubjectLevel'; 
-import { useRouter } from "next/router";
+import SubjectMainView from '../../../../components/subjects/SubjectMainView';
 
-function Subject(props) {
-  const { pupil, subject, level, subjectName } = props
-  const { query } = useRouter()
+function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil,...other }) {
   return (
     <>
-      {query && query.subject && <BreadCrumbs
+      <BreadCrumbs
         firstLabel="Subjects"
         firstHref="/subjects"
         secondLabel={subjectName}
-        secondHref={`/subjects/${query.subject}`}
-        thirdLabel={'Class 4'}
-        thirdHref={'/subjects/pshe/class-4'}
-        fourthLabel={pupil.name} />}
+        thirdLabel={groupName}
+        thirdHref={`/subjects/${subjectSlug}/${activeGroupSlug}`}
+        fourthLabel={pupil.name}
+      />
 
-      {!level && <SetPupilSubjectLevel
-        pupil={pupil}
-        subject={subject}
-        {...props} />}
+      <SubjectMainView
+        {...other}
+        pupil={pupil} 
+        groupName={groupName}
+        activeGroupSlug={activeGroupSlug}
+        subjectName={subjectName}
+        subjectSlug={subjectSlug}
+      />
     </>
-  )
+  );
 }
 
-
-
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Teacher')
-})
+  return checkSession(ctx, 'Teacher');
+});
 
-export default WithSingleSubjectFromSlugVariables(WithSingleSubjectFromSlug(WithParamVariables(WithPupilData(WithSubjectData(WithCurrentLevel(Subject))))))
+export default WithUrlVariables(
+  WithUrlVariables(WithSingleSubjectFromSlug(WithGroupFromSlug(WithPupilData(Subject))))
+);

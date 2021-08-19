@@ -4,12 +4,10 @@ import useStateOnce from "../data-fetching/useStateOnce";
 import handleNonResponses from "../data-fetching/handleNonResponses";
 import { Grid } from "@material-ui/core";
 import PupilCard from "../pupil/PupilCard";
-import WithGroupFromSlug from "../data-fetching/WithGroupFromSlug";
 import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 import { useRouter } from 'next/router';
 
 function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, ...other }) {
-
   const router = useRouter()
   const [pupilsData, error] = useStateOnce([getPupilsByGroup, pupilsByGroupVariables])
   const gotNonResponse = handleNonResponses(pupilsData, error)
@@ -50,4 +48,4 @@ PupilsByGroup.propTypes = {
   activeGroupSlug: PropTypes.string
 }
 
-export default WithCoreSubjects(WithGroupFromSlug(PupilsByGroup))
+export default WithCoreSubjects(PupilsByGroup)

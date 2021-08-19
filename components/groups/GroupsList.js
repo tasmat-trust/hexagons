@@ -7,7 +7,7 @@ import useSharedState from "../data-fetching/useSharedState"
 import handleNonResponses from '../data-fetching/handleNonResponses'
 import { useRouter } from 'next/router'
 
-function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActiveGroupSlug, setActiveGroupName }) {
+function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActiveGroupSlug, setActiveGroupName, setActiveGroupId }) {
 
   const router = useRouter()
   let query = getMyGroups ? myGroups : allGroups
@@ -26,6 +26,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
         // No active group so let's get their first assigned group
         setActiveGroupSlug && setActiveGroupSlug(groupsData.groups[0].slug)
         setActiveGroupName && setActiveGroupName(groupsData.groups[0].name)
+        setActiveGroupId && setActiveGroupId(groupsData.groups[0].id)
       }
     }
   }, [getMyGroups, groupsData, setActiveGroupSlug, setActiveGroupName])
@@ -40,6 +41,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
     e.preventDefault()
     localStorage.setItem('active-group-slug', group.slug)
     localStorage.setItem('active-group-name', group.name)
+    localStorage.setItem('active-group-id', group.id)
     router.push(linkUrl)
   }
 
@@ -72,7 +74,8 @@ GroupsList.propTypes = {
   setSharedState: PropTypes.func,
   getMyGroups: PropTypes.bool,
   setActiveGroupSlug: PropTypes.func,
-  setActiveGroupName: PropTypes.func
+  setActiveGroupName: PropTypes.func,
+  setActiveGroupId: PropTypes.func
 }
 
 export default GroupsList

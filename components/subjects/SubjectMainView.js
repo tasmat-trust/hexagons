@@ -1,51 +1,35 @@
-import PropTypes from 'prop-types'
-import checkSession from "../auth/checkSession"
-import { withSession } from "../auth/session"
-import { WithQueryVariables, WithPupilData, WithSubjectData, WithCurrentLevel } from '../data-fetching/WithPupil'
-import WithGroupFromSlug from "../data-fetching/WithGroupFromSlug"
-
+import PropTypes from 'prop-types';
+import { WithCurrentLevel } from '../data-fetching/WithPupil';
 import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel';
-import StagesTabs from "../navigation/StagesTabs";
 import PupilPicker from '../navigation/PupilPicker';
 
-import { useEffect } from "react"
-import { useRouter } from "next/router";
-
-function Subject(props) {
-  const {  pupil, subject, level, setBreadcrumbPupilName, setBreadcrumbPupilId, setBreadcrumbSubjectName, orgId } = props
-  const { query } = useRouter()
-  useEffect(() => {
-    if (subject) {
-      setBreadcrumbSubjectName && setBreadcrumbSubjectName(subject.name)
-    }
-  }, [subject, setBreadcrumbSubjectName])
-
-  useEffect(() => {
-    if (pupil) {
-      setBreadcrumbPupilName && setBreadcrumbPupilName(pupil.name)
-      setBreadcrumbPupilId && setBreadcrumbPupilId(pupil.id)
-    }
-  }, [pupil, setBreadcrumbPupilName, setBreadcrumbPupilId])
-
-  console.log(pupil)
-
+function SubjectMainView({ pupil, activeGroupSlug, orgId, subjectName, subjectSlug, ...other }) {
   return (
     <>
+      <PupilPicker
+        {...other}
+        orgId={orgId}
+        currentPupil={pupil}
+        activeGroupSlug={activeGroupSlug}
+        subjectSlug={subjectSlug}
+        groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
+      />
 
-      {pupil && <PupilPicker currentPupil={pupil} groupFromSlugVariables={{ orgId: orgId, slug: query.slug }} {...props} />}
-
-      {level && <StagesTabs
-        isAdmin={false}
-        variables={{ slug: subject.slug }}
-        {...props} />}
-
-      {!level && <SetPupilSubjectLevel
+      <SetPupilSubjectLevel
+        {...other}
+        subjectName={subjectName}
+        subjectSlug={subjectSlug}
         pupil={pupil}
-        subject={subject}
-        {...props} />}
+      />
     </>
-  )
+  );
 }
 
+SubjectMainView.propTypes = {
+  pupil: PropTypes.object,
+  subjectName: PropTypes.string,
+  subjectSlug: PropTypes.string,
+  activeGroupSlug: PropTypes.string,
+};
 
-export default WithQueryVariables(WithGroupFromSlug(WithPupilData(WithSubjectData(WithCurrentLevel(Subject)))))
+export default WithCurrentLevel(SubjectMainView);

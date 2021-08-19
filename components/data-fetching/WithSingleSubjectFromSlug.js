@@ -8,14 +8,17 @@ export default function WithSingleSubjectFromSlug(WrappedComponent) {
     const [subjectData, error] = useStateOnce([getSingleSubjectBySlug, getSubjectBySlugVariables])
     const gotNonResponse = handleNonResponses(subjectData, error)
     if (gotNonResponse) return gotNonResponse
-    const subjectId = subjectData.subjects[0].id
-    const subjectName = subjectData.subjects[0].name
+    const subject = subjectData.subjects[0]
+    const subjectId = subject.id
+    const subjectName = subject.name
+    const subjectSlug = subject.slug 
     return (
       <>
         <WrappedComponent
           {...other}
           subjectId={subjectId}
           subjectName={subjectName}
+          subjectSlug={subjectSlug}
           getModulesBySubjectIdVariables={{ subjectId: subjectId }} />
       </>
     )

@@ -14,22 +14,32 @@ const styles = makeStyles((theme) => ({
   }
 }))
 
-export default function SetPupilSubjectLevel(props) {
+function SetPupilSubjectLevel({ subjectName, subjectSlug, pupil, ...other }) {
 
   const classes = styles()
-  const { subject, pupil } = props
+
   return (
     <Box className={classes.root}>
       <Box className={classes.title}>
-        <Typography variant="h1">{`${pupil.name}'s ${subject.name} Baseline`}</Typography>
+        <Typography variant="h1">{`${pupil.name}'s ${subjectName} Baseline`}</Typography>
         <Typography>Please go to step or stage that {pupil.name} is currently working at and mark off as many competencies as you can.</Typography>
       </Box>
       <StagesTabs 
-      {...props} 
+      {...other}
+      pupil={pupil}
+      subjectName={subjectName}
+      subjectSlug={subjectSlug}
       isAdmin={false} 
       isBaseline={true}
-      getSubjectBySlugVariables={{ slug: subject.slug }} />
+      getSubjectBySlugVariables={{ slug: subjectSlug }} />
     </Box>
   )
 }
 
+SetPupilSubjectLevel.propTypes = {
+  subjectName: PropTypes.string,
+  subjectSlug: PropTypes.string,
+  pupil: PropTypes.object
+}
+
+export default SetPupilSubjectLevel

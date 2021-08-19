@@ -6,7 +6,6 @@ import useAdminPage from "../../styles/useAdminPage";
 
 function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
 
-
   const classes = useAdminPage()
 
   return (
@@ -20,7 +19,6 @@ function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
             <PupilsByGroup
               {...other}
               orgId={orgId}
-              groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
               activeGroupSlug={activeGroupSlug}
             />
           </Grid>

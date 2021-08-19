@@ -26,7 +26,6 @@ function Subject({orgId, ...other}) {
         fourthLabel={subjectName} />}
 
       <SubjectMainView
-        groupFromSlugVariables={{ orgId: orgId, slug: query.slug }}
         orgId={orgId}
         setBreadcrumbPupilName={setPupilName}
         setBreadcrumbPupilId={setPupilId}

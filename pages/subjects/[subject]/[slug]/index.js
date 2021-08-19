@@ -3,38 +3,36 @@ import { withSession } from '../../../../components/auth/session'
 import checkSession from '../../../../components/auth/checkSession'
 import BreadCrumbs from '../../../../components/navigation/Breadcrumbs'
 import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug'
-import WithSingleSubjectFromSlugVariables from '../../../../components/data-fetching/WithSingleSubjectFromSlugVariables'
-import { useRouter } from 'next/router'
+import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug'
+import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables'
+ 
 import PupilsAndGroups from '../../../../components/groups/PupilsAndGroups'
-import { useState, useEffect } from 'react'
-function Index({ user, subjectName, ...other }) {
-  const { query } = useRouter();
-  const [activeSlug, setActiveSlug] = useState(null)
-
-  useEffect(() => {
-    if (query && query.slug) {
-      setActiveSlug(query.slug)
-    }
-  }, [query])
-  const [breadcrumbsGroupName, setBreadcrumbsGroupName] = useState(null);
+ 
+function Index({ user, subjectName, groupName, ...other }) {
+   
   return (
     <>
-      <BreadCrumbs firstLabel='Subjects' firstHref='/subjects' secondLabel={subjectName} />
+      <BreadCrumbs 
+      firstLabel='Subjects' 
+      firstHref='/subjects' 
+      secondLabel={subjectName}
+      thirdLabel={groupName} 
+      />
       <PupilsAndGroups
         {...other}
         userId={user.id}
-        activeGroupSlug={activeSlug}
-        setBreadcrumbsGroupName={setBreadcrumbsGroupName}
       />
     </>
   )
 }
 
 Index.propTypes = {
-  subjectName: PropTypes.string
+  user: PropTypes.object,
+  subjectName: PropTypes.string,
+  groupName: PropTypes.string
 }
 
-export default WithSingleSubjectFromSlugVariables(WithSingleSubjectFromSlug(Index))
+export default WithUrlVariables(WithSingleSubjectFromSlug(WithGroupFromSlug(Index)))
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher')

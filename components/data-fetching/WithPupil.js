@@ -9,104 +9,32 @@ import handleNonResponses from './handleNonResponses';
 import { getModules } from '../../queries/Subjects'
 import { getCompetencies } from '../../queries/Pupils'
 
-function WithQueryVariables(WrappedComponent) {
-  function WithQueryVariables({ user, orgId, ...other }) {
-    const router = useRouter()
-    const [query, setQuery] = useState(null)
-    useEffect(() => {
-      if (!router.isReady) return;
-      setQuery(router.query)
-    }, [router])
-
-    return (
-      <>
-        {query && <WrappedComponent
-          orgId={orgId}
-          user={user}
-          subjectVariables={{ slug: query.subject }}
-          pupilVariables={{ id: query.pupil, orgId: orgId }}
-          {...other} />}
-      </>
-    )
-  }
-
-  WithQueryVariables.propTypes = {
-    user: PropTypes.object,
-    orgId: PropTypes.number
-  }
-
-  return WithQueryVariables
-}
-
-function WithParamVariables(WrappedComponent) {
-  function WithParamVariables({ user, orgId, ...other }) {
-    const router = useRouter()
-    const [query, setQuery] = useState(null)
-    useEffect(() => {
-      if (!router.isReady) return;
-      setQuery(router.query)
-    }, [router])
-
-    return (
-      <>
-        {query && <WrappedComponent
-          orgId={orgId}
-          user={user}
-          subjectVariables={{ slug: query.subject }}
-          pupilVariables={{ id: query.pupil, orgId: orgId }}
-          {...other} />}
-      </>
-    )
-  }
-
-  WithParamVariables.propTypes = {
-    user: PropTypes.object,
-    orgId: PropTypes.number
-  }
-
-  return WithParamVariables
-}
-
 function WithPupilData(WrappedComponent) {
-  function WithPupilData({ pupilVariables, ...other }) {
+  function WithPupilData({ pupilVariables, subjectId, ...other }) {
     const [pupilsData, error] = useStateOnce([getPupilById, pupilVariables])
     const gotNonResponse = handleNonResponses(pupilsData, error, 'No pupil found')
     if (gotNonResponse) return gotNonResponse
     const pupil = pupilsData.pupils[0]
     return (
-      <WrappedComponent {...other} pupil={pupil} />
+      <WrappedComponent 
+      {...other} 
+      subjectId={subjectId}
+      pupil={pupil} 
+      levelVariables={{ pupilId: pupil.id, subjectId: subjectId }} />
     )
   }
 
   WithPupilData.propTypes = {
     pupilVariables: PropTypes.object,
+    subjectId: PropTypes.string
   }
 
   return WithPupilData
 }
 
-function WithSubjectData(WrappedComponent) {
-  function WithSubjectData({ pupil, subjectVariables, ...other }) {
-    const [subjectData, error] = useStateOnce([getSingleSubjectBySlug, subjectVariables])
-    const gotNonResponse = handleNonResponses(subjectData, error, 'Subject not found')
-    if (gotNonResponse) return gotNonResponse
-    const subject = subjectData.subjects[0]
-    return (
-      <WrappedComponent {...other} pupil={pupil} subject={subject} levelVariables={{ pupilId: pupil.id, subjectId: subject.id }} />
-    )
-  }
-
-  WithSubjectData.propTypes = {
-    pupil: PropTypes.object,
-    subjectVariables: PropTypes.object
-  }
-
-  return WithSubjectData
-}
-
 function WithCurrentLevel(WrappedComponent) {
-  return function WithCurrentLevel(props) {
-    const [levelsData, error] = useStateOnce([getLevels, props.levelVariables])
+  function WithCurrentLevel({levelVariables, ...other}) {
+    const [levelsData, error] = useStateOnce([getLevels, levelVariables])
     const gotNonResponse = handleNonResponses(levelsData, error, 'No levels found')
     let startingLevel = null;
     if (!gotNonResponse) {
@@ -117,15 +45,21 @@ function WithCurrentLevel(WrappedComponent) {
     }
     return (
       <>
-        {startingLevel && <WrappedComponent {...props} startingLevel={startingLevel} />}
-        {!startingLevel && <WrappedComponent {...props} />}
+        {startingLevel && <WrappedComponent {...other} startingLevel={startingLevel} />}
+        {!startingLevel && <WrappedComponent {...other} />}
       </>
     )
   }
+
+  WithCurrentLevel.propTypes = {
+    levelVariables: PropTypes.object
+  }
+
+  return WithCurrentLevel
 }
 
 function WithModules(WrappedComponent) {
-  function WithModules({ getModulesBySubjectIdVariables, isAdmin, pupil, subject, ...other }) {
+  function WithModules({ getModulesBySubjectIdVariables, isAdmin, pupil, subjectId, ...other }) {
     const [modulesData, setModulesData, error] = useSharedState([getModules, getModulesBySubjectIdVariables])
     let modules = []
     if (modulesData) {
@@ -134,20 +68,19 @@ function WithModules(WrappedComponent) {
     return (
       <>
         {modules.length > 0 && !isAdmin && <WrappedComponent
-          competenciesVars={{ pupilId: pupil.id, subjectId: subject.id }}
+          competenciesVars={{ pupilId: pupil.id, subjectId: subjectId }}
           setModulesData={setModulesData}
           modules={modules}
           pupil={pupil}
-          isAdmin={isAdmin}
-          subject={subject}
+          isAdmin={isAdmin} 
+          subjectId={subjectId}
           {...other} />}
 
         {isAdmin && <WrappedComponent
           setModulesData={setModulesData}
           modules={modules}
           upil={pupil}
-          isAdmin={isAdmin}
-          subject={subject}
+          isAdmin={isAdmin} 
           {...other} />}
       </>
     )
@@ -156,7 +89,7 @@ function WithModules(WrappedComponent) {
     getModulesBySubjectIdVariables: PropTypes.object,
     isAdmin: PropTypes.bool,
     pupil: PropTypes.object,
-    subject: PropTypes.object
+    subjectId: PropTypes.string
   }
   return WithModules
 }
@@ -195,9 +128,6 @@ function WithCompetencies(WrappedComponent) {
 
 
 export {
-  WithQueryVariables,
-  WithParamVariables,
-  WithSubjectData,
   WithModules,
   WithCompetencies,
   WithPupilData,
