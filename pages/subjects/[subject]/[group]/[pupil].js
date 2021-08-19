@@ -1,6 +1,6 @@
 import checkSession from '../../../../components/auth/checkSession';
 import { withSession } from '../../../../components/auth/session';
-import { WithPupilData } from '../../../../components/data-fetching/WithPupil';
+import WithPupilData from '../../../../components/data-fetching/WithPupilData';
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
 import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug';
 import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables';
@@ -8,7 +8,7 @@ import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
 
 import SubjectMainView from '../../../../components/subjects/SubjectMainView';
 
-function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil,...other }) {
+function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
   return (
     <>
       <BreadCrumbs
@@ -22,7 +22,7 @@ function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil,.
 
       <SubjectMainView
         {...other}
-        pupil={pupil} 
+        pupil={pupil}
         groupName={groupName}
         activeGroupSlug={activeGroupSlug}
         subjectName={subjectName}
@@ -37,5 +37,5 @@ export const getServerSideProps = withSession((ctx) => {
 });
 
 export default WithUrlVariables(
-  WithUrlVariables(WithSingleSubjectFromSlug(WithGroupFromSlug(WithPupilData(Subject))))
+  WithSingleSubjectFromSlug(WithGroupFromSlug(WithPupilData(Subject)))
 );

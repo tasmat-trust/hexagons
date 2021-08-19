@@ -34,7 +34,7 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
         shallow: true,
       });
     } else {
-      router.push(`/pupils/${router.query.slug}/${pupilId}/${router.query.subject}`, undefined, {
+      router.push(`/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`, undefined, {
         shallow: true,
       });
     }

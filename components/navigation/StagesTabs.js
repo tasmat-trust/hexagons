@@ -6,7 +6,8 @@ import CapabilityTiles from '../subjects/CapabilityTiles'
 import AddCapabilities from '../forms/AddCapabilities'
 import DeleteModule from '../forms/DeleteModule'
 import LevelStatus from '../pupil/LevelStatus'
-import { WithModules, WithCompetencies } from '../data-fetching/WithPupil'
+import WithCompetencies  from '../data-fetching/WithCompetencies'
+import WithModules from '../data-fetching/WithModules'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 
 function TabPanel(props) {

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { WithCurrentLevel } from '../data-fetching/WithPupil';
+import WithCurrentLevel from '../data-fetching/WithCurrentLevel';
 import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel';
 import PupilPicker from '../navigation/PupilPicker';
 

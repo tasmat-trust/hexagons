@@ -5,27 +5,27 @@ import checkSession from '../../../components/auth/checkSession'
 import PupilsAndGroups from '../../../components/groups/PupilsAndGroups'
 import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
 import { useEffect, useState } from 'react';
+import WithUrlVariables from '../../../components/data-fetching/WithUrlVariables';
+import WithGroupFromSlug from '../../../components/data-fetching/WithGroupFromSlug';
 
-function Index({ user, ...other }) {
+function Index({ user, groupName, activeGroupSlug, ...other }) {
   const { query } = useRouter();
   const [activeSlug, setActiveSlug] = useState(null)
 
   useEffect(() => {
-    if (query && query.slug) {
-      setActiveSlug(query.slug)
+    if (query && query.group) {
+      setActiveSlug(query.group)
     }
   }, [query])
 
-  const [breadcrumbsGroupName, setBreadcrumbsGroupName] = useState(null);
-  console.log(activeSlug)
+  
   return (
     <>
-      <BreadCrumbs firstLabel="Pupils" firstHref="/pupils" secondLabel={breadcrumbsGroupName} />
+      <BreadCrumbs firstLabel="Pupils"  />
       <PupilsAndGroups
         {...other}
         userId={user.id}
-        activeGroupSlug={activeSlug}
-        setBreadcrumbsGroupName={setBreadcrumbsGroupName}
+        activeGroupSlug={activeGroupSlug} 
       />
     </>)
 }
@@ -34,7 +34,7 @@ Index.propTypes = {
   user: PropTypes.object
 }
 
-export default Index
+export default WithUrlVariables(WithGroupFromSlug(Index))
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher')
