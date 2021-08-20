@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import PupilsAndGroups from './PupilsAndGroups';
+import SubjectsAndGroups from './SubjectsAndGroups'
 
-function LastActiveGroup({ user, orgId, ...other }) {
+function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
   const [activeGroupSlug, setActiveGroupSlug] = useState();
   const [activeGroupName, setActiveGroupName] = useState();
   const [activeGroupId, setActiveGroupId] = useState();
@@ -24,7 +25,7 @@ function LastActiveGroup({ user, orgId, ...other }) {
         Your most recent active group was {activeGroupName}. You can choose another group or search
         for an individual pupil.
       </p>
-      <PupilsAndGroups
+      {isHomepage && <SubjectsAndGroups
         {...other}
         orgId={orgId}
         userId={user.id}
@@ -33,13 +34,24 @@ function LastActiveGroup({ user, orgId, ...other }) {
         setActiveGroupSlug={setActiveGroupSlug}
         setActiveGroupName={setActiveGroupName}
         setActiveGroupId={setActiveGroupId}
-      />
+      />}
+      {!isHomepage && <PupilsAndGroups
+        {...other}
+        orgId={orgId}
+        userId={user.id}
+        activeGroupSlug={activeGroupSlug}
+        pupilsByGroupVariables={{ groupId: activeGroupId, orgId: orgId }}
+        setActiveGroupSlug={setActiveGroupSlug}
+        setActiveGroupName={setActiveGroupName}
+        setActiveGroupId={setActiveGroupId}
+      />}
     </>
   );
 }
 
 LastActiveGroup.propTypes = {
   orgId: PropTypes.number,
+  isHomepage: PropTypes.bool,
   user: PropTypes.object,
 };
 

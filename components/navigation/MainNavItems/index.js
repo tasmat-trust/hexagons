@@ -8,6 +8,7 @@ import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
 function MainNavItems() { 
   return (
     <List>
+      <NavItem href="/" label="Home" Icon={SubjectIcon} isHomeLink={true} />
       <NavItem href="/pupils" label="Pupils" Icon={PeopleIcon} />
       <NavItem href="/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />
       <NavItem href="/rainbow-awards" label="Rainbow Awards" Icon={LooksIcon} />

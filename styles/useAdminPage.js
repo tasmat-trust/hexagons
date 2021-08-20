@@ -8,7 +8,7 @@ const useAdminPage = makeStyles((theme) => ({
     },
     paper: {
       padding: theme.spacing(2),
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
     },
     paperAlert: {
       marginBottom: theme.spacing(3),

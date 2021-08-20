@@ -1,5 +1,5 @@
 import { createTheme } from '@material-ui/core/styles';
-import { red, pink, cyan, grey } from '@material-ui/core/colors';
+import { red, pink, purple, cyan, grey } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -56,12 +56,12 @@ const theme = createTheme({
     }
   },
   palette: {
-    // primary: {
-    //   main: pink['500'],
-    // },
-    // secondary: {
-    //   main: cyan.A400,
-    // },
+    primary: {
+      main: cyan['500'],
+    },
+    secondary: {
+      main: purple.A400,
+    },
     error: {
       main: red.A400,
     },
