@@ -22,7 +22,7 @@ function CapabilityTiles({ capabilities, competencies, ...other }) {
               const capabilities = gotC && gotC.filter((competency) => competency !== null)
               const competency = capabilities ? capabilities[0] : null
               return (
-                <CapabilityTile setTilesDisabled={setTilesDisabled} {...other} key={`capability-${i}`} capability={capability} competency={competency} />
+                <CapabilityTile hexId={`hex-${i+1}`} setTilesDisabled={setTilesDisabled} {...other} key={`capability-${i}`} capability={capability} competency={competency} />
               )
             })}
           </div>

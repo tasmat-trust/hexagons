@@ -10,9 +10,9 @@ function LevelTitle({ status, checkedStatus, classes, moduleLabel, moduleOrder }
     }
   }, [fadeStarted, setFadeStarted, checkedStatus])
   return (
-    <Typography className={classes.title} variant='h2'>
+    <Typography data-test-id="level-status-title" className={classes.title} variant='h2'>
       {moduleLabel} {moduleOrder}
-      {fadeStarted && <span> &#8212; <span className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
+      {fadeStarted && <span> &#8212; <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
     </Typography>
   )
 }

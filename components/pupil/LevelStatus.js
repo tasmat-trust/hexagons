@@ -163,13 +163,14 @@ function LevelStatus({ setGotCurrentLevel,
           <Box>
             <DialogButton
               label="View Summary"
+              testId="view-summary-button"
               color="primary"
               variant="contained"
               boxTitle={`${moduleLabel} ${currentModule.order} summary`}>
               {currentModule.summary}
             </DialogButton>
-            {status !== 'complete' && <Button className={classes.endButton} variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
-            {status === 'complete' && <Button className={classes.endButton} variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
+            {status !== 'complete' && <Button data-test-id="mark-complete" className={classes.endButton} variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
+            {status === 'complete' && <Button data-test-id="mark-incomplete" className={classes.endButton} variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
 
           </Box>
         </Box>
@@ -178,7 +179,7 @@ function LevelStatus({ setGotCurrentLevel,
             <LinearProgress variant="determinate" value={status === 'complete' ? 100 : visiblePercentComplete} />
           </Box>
           <Box minWidth={35}>
-            <Typography variant="body2" color="textSecondary">{`${Math.round(
+            <Typography data-test-id="percent-complete-label" variant="body2" color="textSecondary">{`${Math.round(
               visiblePercentComplete,
             )}%`}</Typography>
           </Box>

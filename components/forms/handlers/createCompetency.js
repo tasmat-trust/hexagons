@@ -4,7 +4,6 @@ async function updateCompetencies(gqlClient, variables, setCompetencies) {
   try {
     const data = await gqlClient.request(getCompetencies, variables)
     if (data) {
-      console.log(data.competencies)
       setCompetencies(data.competencies)
       return true
     }

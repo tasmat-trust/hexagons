@@ -10,6 +10,7 @@ import CapabilityTileContent from './CapabilityTileContent';
 function CapabilityTile(props) {
   const styles = stringStyles();
   const {
+    hexId,
     capability,
     isAdmin,
     competency,
@@ -141,7 +142,7 @@ function CapabilityTile(props) {
                   tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
                 }`}
               ></div>
-              <ButtonBase className={styles.button} onClick={() => handleUpdate()}>
+              <ButtonBase data-test-id={hexId} className={styles.button} onClick={() => handleUpdate()}>
                 <CapabilityTileContent
                   text={capability.text}
                   className={`${styles.hexContent_inner}`}
@@ -156,6 +157,7 @@ function CapabilityTile(props) {
 }
 
 CapabilityTile.propTypes = {
+  hexId: PropTypes.string,
   capability: PropTypes.object,
   isAdmin: PropTypes.bool,
   competency: PropTypes.object,

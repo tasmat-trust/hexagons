@@ -7,7 +7,7 @@ const allSubjects = gql`query{
   }
 }`
 
-const getCoreSubjects = gql`query{  
+const getCoreSubjects = gql`query getCoreSubjects {  
   subjects (where: { isCore: true}) { 
      id name slug
   }
