@@ -2,7 +2,7 @@ describe('Manage Groups Page', () => {
 
   beforeEach(() => { 
     cy.login(('Teacher'))
-    cy.visit('/groups')
+    cy.visit('/pupils')
   })
 
   it('shows groups to logged in user', () => {    

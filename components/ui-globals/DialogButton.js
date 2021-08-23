@@ -11,7 +11,7 @@ import { Button, ButtonBase } from '@material-ui/core';
 
 import { PropTypes } from "prop-types";
 
-function DialogButton({ className, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose }) {
+function DialogButton({ className, testId, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose }) {
 
   const [open, setOpen] = useState(false);
 
@@ -32,6 +32,8 @@ function DialogButton({ className, variant, color, label, boxTitle, content, tex
         variant={variant}
         color={color}
         className={className}
+
+        data-test-id={testId}
         // startIcon={<AddIcon />}
         onClick={handleOpen}
       >
@@ -67,6 +69,7 @@ function DialogButton({ className, variant, color, label, boxTitle, content, tex
 }
 
 DialogButton.propTypes = {
+  testId: PropTypes.string,
   boxTitle: PropTypes.string, // title of box
   variant: PropTypes.string, // outlined / contained
   color: PropTypes.string, // primary / secondary

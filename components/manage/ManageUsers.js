@@ -18,7 +18,7 @@ function ManageUsersHeader(props) {
 
         {multiAddVisible && userType === 'teacher' && (
           <DialogButton
-            data-test-id="assign-roles"
+            testId="assign-roles"
             className={classes.button}
             label="Assign role"
             text={`Assign roles to ${userType}s`}
@@ -29,7 +29,7 @@ function ManageUsersHeader(props) {
 
         {multiAddVisible && (
           <DialogButton
-            data-test-id="assign-groups"
+            testId="assign-groups"
             className={classes.button}
             label="Assign groups"
             text={`Assign ${userType}s to groups`}
@@ -41,7 +41,7 @@ function ManageUsersHeader(props) {
           </DialogButton>
         )}
         <DialogButton
-          data-test-id={`new-${userType}`}
+          testId={`new-${userType}`}
           className={classes.button}
           label={`New ${userType}`}
           text={`Add a new ${userType} and assign them groups. You can always assign groups later.`}

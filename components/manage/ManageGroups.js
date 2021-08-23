@@ -22,7 +22,7 @@ export default function ManageGroups(props) {
         <DialogButton
           className={classes.button}
           label="New group"
-          data-test-id="new-group"
+          testId="new-group"
           text={`Create a new group - ${userType}s can then be assigned to groups.`}
           modelname="group">
           <AddNewGroup
