@@ -20,8 +20,7 @@ const stringStyles = makeStyles((theme) => ({
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
   `,
   main_wide: `
-    display: flex;
-    max-width: 90%;
+    display: flex; 
     --s: 16rem; /* size */
     --r: 1.05; /* ratio */
     /* clip-path */
@@ -33,6 +32,9 @@ const stringStyles = makeStyles((theme) => ({
     --mv: 4px; /* vertical */
     --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 2px);
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
+  `,
+  main_wide_smaller: `
+    --s: 10rem;
   `,
   container: `
     position: relative;
@@ -90,7 +92,7 @@ const stringStyles = makeStyles((theme) => ({
     float: left;
     color: white;
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
   `,
   hexContent: ` 
     display: flex;
@@ -126,10 +128,18 @@ const jssStyles = makeStyles((theme) => ({
       color: 'black'
     }
   },
+  main_wide: {
+    [theme.breakpoints.down('xs')]: {
+      '--s': '8rem',
+      '--mv': '2px',
+      '--mh': 'calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 1px)',
+      '--f': 'calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 1px)'
+    }
+  },
   container: {
     [theme.breakpoints.down('xs')]: {
-      maxWidth: '150%',
-      minWidth: '150%',
+      maxWidth: '140%',
+      minWidth: '140%',
       marginLeft: '-20vw',
     },
     '&::before': {
@@ -142,15 +152,15 @@ const jssStyles = makeStyles((theme) => ({
   },
   container_wide: {
     [theme.breakpoints.down('xs')]: {
-      maxWidth: '100%',
-      minWidth: '100%',
-      marginLeft: '-1rem',
+      minWidth: '130%',
+      width: '130%',
+      marginLeft: '-3rem',
     },
     '&::before': {
       content: "''",
       width: "calc(var(--s)/2 + var(--mh))",
       float: "left",
-      height: "200vh",
+      height: "100%",
       "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
     }
   }

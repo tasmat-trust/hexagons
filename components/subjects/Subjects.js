@@ -5,7 +5,7 @@ import handleNonResponses from '../data-fetching/handleNonResponses';
 import SubjectTiles from '../subjects/SubjectTiles';
 import { useRouter } from 'next/router';
 
-function Subjects({ linkTo }) {
+function Subjects({ linkTo, ...other }) {
   const router = useRouter();
   const [subjectsData, error] = useStateOnce(allSubjectsQuery);
   const gotNonResponse = handleNonResponses(subjectsData, error);
@@ -28,7 +28,7 @@ function Subjects({ linkTo }) {
   return (
     <>
       <Box>
-        <SubjectTiles subjects={allSubjects} onwardHref={onwardHref} />
+        <SubjectTiles {...other} subjects={allSubjects} onwardHref={onwardHref} />
       </Box>
     </>
   );

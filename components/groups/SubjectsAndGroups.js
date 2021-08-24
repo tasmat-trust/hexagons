@@ -5,7 +5,7 @@ import Subjects from '../subjects/Subjects';
 import GroupsMenu from './GroupsMenu';
 import useAdminPage from '../../styles/useAdminPage';
 
-function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
+function SubjectsAndGroups({ orgId, activeGroupSlug, ...other }) {
   const classes = useAdminPage();
 
   return (
@@ -16,7 +16,7 @@ function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
             <GroupsMenu orgId={orgId} {...other} />
           </Grid>
           <Grid item xs={12} md={9} xl={10}>
-            <Subjects linkTo='/subjects' />
+            <Subjects linkTo='/subjects' isNarrow={true} />
           </Grid>
         </Grid>
       </div>
@@ -24,8 +24,8 @@ function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
   );
 }
 
-PupilsAndGroups.propTypes = {
+SubjectsAndGroups.propTypes = {
   activeGroupSlug: PropTypes.string,
 };
 
-export default PupilsAndGroups;
+export default SubjectsAndGroups;

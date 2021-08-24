@@ -30,7 +30,6 @@ function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
         orgId={orgId}
         userId={user.id}
         activeGroupSlug={activeGroupSlug}
-        pupilsByGroupVariables={{ groupId: activeGroupId, orgId: orgId }}
         setActiveGroupSlug={setActiveGroupSlug}
         setActiveGroupName={setActiveGroupName}
         setActiveGroupId={setActiveGroupId}
