@@ -1,9 +1,9 @@
 import { gql } from 'graphql-request'
 
 // Get all users with roles and groups
-const allSubjects = gql`query{
+const allSubjectsQuery = gql`query{
   subjects {
-  	name slug isCore
+  	name slug isCore isChildOf isEarlyDevelopment isRainbowAwards
   }
 }`
 
@@ -113,6 +113,6 @@ export {
   deleteModuleQuery,
   createModuleQuery,
   getSingleSubjectBySlug,
-  allSubjects,
+  allSubjectsQuery,
   getModules
 }

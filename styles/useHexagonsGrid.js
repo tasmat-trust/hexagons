@@ -23,7 +23,7 @@ const stringStyles = makeStyles((theme) => ({
     display: flex;
     max-width: 90%;
     --s: 16rem; /* size */
-    --r: 1; /* ratio */
+    --r: 1.05; /* ratio */
     /* clip-path */
     --h: 0.5;
     --v: 0.25;
@@ -107,6 +107,7 @@ const stringStyles = makeStyles((theme) => ({
     width: 100%;
     height: 100%;
     font-size: inherit;
+    float: left;
   `,
   hexContent_inner: `
     width: 70%;

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid'
 import Link from 'next/link'
+import DialogButton from '../ui-globals/DialogButton'
 function SubjectTile({ subject, onwardHref }) {
   const styles = stringStyles()
   const pseudoStyles = jssStyles()
@@ -13,6 +14,23 @@ function SubjectTile({ subject, onwardHref }) {
             {subject.name}
           </a>
         </Link>)}
+        {!subject.slug && (<DialogButton
+          className={styles.button}
+          isHexagon={true}
+          label={subject.name}
+          content={<div className={styles.hexLink}>{subject.name}</div>}
+        >
+          <>
+            {subject.subjects.map((s, i) => (
+              <Link key={`subject-child-${i}`} href={`${onwardHref}/${s.slug}`}>
+                <a>
+                  {s.name}
+                </a>
+              </Link>
+            ))}
+          </>
+
+        </DialogButton>)}
       </div>
     </div>
   )
