@@ -55,7 +55,7 @@ const LoginForm = (props) => {
   return (
     <>
       {error && <Alert data-test-id="error" className={classes.spaced} severity="error">{error}</Alert>}
-      {loading && <Loading message={loading} />}
+      {loading && <Loading message={loading} testId='login-loading' />}
       {!loading && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>
 

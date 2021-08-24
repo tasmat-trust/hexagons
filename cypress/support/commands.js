@@ -26,6 +26,16 @@ Cypress.Commands.add('login', (role) => {
     cy.setCookie(cookieName, seniorLeaderJWT)
   }
 })
+
+Cypress.Commands.add('waitForSpinners', () => {
+
+  // Doesn't work: TODO FIX
+  // cy.get('[data-test-id=app-loading]', { timeout: 10000 }).should('not.exist')
+  // cy.get('[data-test-id=loading]', { timeout: 10000 }).should('not.exist')
+  // cy.get('.loading-spinner', { timeout: 10000 }).should('not.exist')
+  cy.wait(500)
+})
+
 //
 //
 // -- This is a child command --

@@ -178,12 +178,12 @@ const useStyles = makeStyles({
   }
 });
 
-function Loading({message}) {
+function Loading({message, testId}) {
 
   const classes = useStyles()
   return (
     <>
-      <div className={classes.loading}>
+      <div data-test-id={testId} className={`${classes.loading} loading-spinner`}>
         <div className={classes.wrapper}>
           <section className={classes.container}>
             <div className={classes.div}>
@@ -217,6 +217,7 @@ function Loading({message}) {
 }
 
 Loading.propTypes = {
+  testId: PropTypes.string,
   message: PropTypes.string // message to display below loading animation
 }
 

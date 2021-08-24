@@ -191,7 +191,11 @@ context('Assessment page', () => {
   describe('assessment functionality', () => {
     beforeEach(() => {
       cy.visit('/subjects/number/group-a/2');
+      cy.wait('@gqlgetModulesQuery');
+      cy.wait('@gqlgetPupilQuery');
       cy.wait('@gqlgetCompetenciesQuery');
+      cy.wait('@gqlgetLevelQuery');
+      cy.waitForSpinners()
     });
 
     it('allows steps to be marked complete', () => {
@@ -207,9 +211,8 @@ context('Assessment page', () => {
           },
         },
       };
+      cy.waitForSpinners()
 
-      cy.get('[data-test-id=view-summary-button]').should('be.visible');
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
       cy.get('[data-test-id=hex-3]').click();
       cy.wait('@gqlgetCompetencyQuery');
       cy.wait('@gqlupdateCompetencyQuery');

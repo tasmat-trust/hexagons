@@ -109,7 +109,7 @@ const RegistrationForm = (props) => {
   return (
     <>
       {error && <Alert data-test-id="error" className={classes.spaced} severity="error">{error}</Alert>}
-      {loading && <Loading data-test-id="loading" message={loading} />}
+      {loading && <Loading data-test-id="loading" message={loading} testId='registration-loading' />}
       {success && (
         <>
           Your account has been created and we have emailed you an activation link. Please check your email.

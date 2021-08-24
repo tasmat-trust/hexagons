@@ -90,7 +90,7 @@ function MyApp({ Component, pageProps }) {
                 fetcher: fetcher,
               }}
             >
-              {loading && <Loading message={loading} />}
+              {loading && <Loading message={loading} testId='app-loading' />}
               {!loading && <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={setLoading} />}
             </SWRConfig>
           </ResponsiveDrawer>
