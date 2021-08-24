@@ -23,6 +23,7 @@ function AddCapabilities({ gqlClient, setModulesData, subjectId }) {
   const [summaryValue, setSummaryValue] = useState('');
   const [guidanceValue, setGuidanceValue] = useState('');
   const classes = styles()
+  if (!subjectId) throw new Error('no subject id')
 
   async function handleForm(event) {
     event.preventDefault()

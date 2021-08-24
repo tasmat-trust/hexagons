@@ -25,6 +25,7 @@ export default function WithModules(WrappedComponent) {
           modules={modules}
           upil={pupil}
           isAdmin={isAdmin} 
+          subjectId={subjectId}
           {...other} />}
       </>
     )

@@ -14,7 +14,7 @@ import handleApiLoginErrors from './handlers/handleApiLoginErrors';
 import handleCredentialErrors from './handlers/handleCredentialErrors';
 
 const LoginForm = (props) => {
-  const { title, subtitle } = props
+ 
   const router = useRouter();
   const classes = useLoginLogoutPages();
   const [error, setError] = useState(null);
@@ -54,14 +54,14 @@ const LoginForm = (props) => {
   };
   return (
     <>
-      {error && <Alert data-test-id="error" className={classes.spaced} severity="error">{error}</Alert>}
+      {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
       {loading && <Loading message={loading} testId='login-loading' />}
       {!loading && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>
 
 
           <TextField
-            className={classes.spaced}
+            className={classes.input}
             value={emailValue}
             fullWidth
             error={fieldError === 'email'}
@@ -74,7 +74,7 @@ const LoginForm = (props) => {
             }} />
 
           <TextField
-            className={classes.spaced}
+            className={classes.input}
             value={passwordValue}
             fullWidth
             error={fieldError === 'password'}
@@ -92,7 +92,7 @@ const LoginForm = (props) => {
               fullWidth
               type="submit"
               variant="contained"
-              color="primary"
+              color="secondary"
             >
               Login
             </Button>

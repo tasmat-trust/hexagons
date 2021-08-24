@@ -18,6 +18,8 @@ function ManageUsersHeader(props) {
 
         {multiAddVisible && userType === 'teacher' && (
           <DialogButton
+            variant='contained'
+            color='secondary'
             testId="assign-roles"
             className={classes.button}
             label="Assign role"
@@ -29,6 +31,8 @@ function ManageUsersHeader(props) {
 
         {multiAddVisible && (
           <DialogButton
+            variant='contained'
+            color='secondary'
             testId="assign-groups"
             className={classes.button}
             label="Assign groups"
@@ -41,6 +45,8 @@ function ManageUsersHeader(props) {
           </DialogButton>
         )}
         <DialogButton
+          variant='contained'
+          color='secondary'
           testId={`new-${userType}`}
           className={classes.button}
           label={`New ${userType}`}

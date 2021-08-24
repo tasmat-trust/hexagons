@@ -26,6 +26,7 @@ const allPupilsWithGroups = gql`query getPupilsWithGroups($orgId: ID!){
     id, name, 
     groups {
       name, id
+    }
   } 
 }`
 

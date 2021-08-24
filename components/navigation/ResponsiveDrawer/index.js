@@ -16,12 +16,15 @@ import { useLoginLogout } from '../../auth/session'
 
 const drawerWidth = 240;
 
+ 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
   title: {
     flexGrow: 1,
+    'font-family': theme.typography.secondaryFamily
   },
   menuButton: {
     marginRight: theme.spacing(2),

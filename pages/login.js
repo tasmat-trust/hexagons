@@ -8,7 +8,7 @@ export default function LoginPage(props) {
   return (
     <>
       <Paper elevation={1} square className={classes.paper}>
-        <h1>Login to Hexagons</h1>
+        <h1 className={classes.title}>Login to Hexagons</h1>
         <LoginForm {...props} />
       </Paper>
       <Typography className={classes.secondaryAction}>Need an account? <Link href="/register">Register</Link></Typography>

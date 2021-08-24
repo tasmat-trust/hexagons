@@ -4,16 +4,22 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useRouter } from 'next/router';
 
-function NavItem({ label, href, Icon }) {
-  const router = useRouter(); 
-  const isActive = router.asPath.includes(href) ? 'active' : ''; 
+function NavItem({ label, href, Icon, isHomeLink }) {
+  const router = useRouter();
+  const isActive = router.asPath.includes(href) ? 'active' : '';
+
+  function highlightHome() {
+    return router.pathname === '/' ? true : false
+  }
+
+
   return (
     <li className={`NavItem ${isActive}`}>
       <ListItem
         button={true}
         component={'a'}
         href={href}
-        selected={router.asPath.includes(href)}
+        selected={!isHomeLink ? router.asPath.includes(href) : highlightHome()}
         key={label}
       >
         <ListItemIcon>

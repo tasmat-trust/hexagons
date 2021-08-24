@@ -73,7 +73,7 @@ function AddNew(props) {
       )}
       {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
       <FormControl margin="normal">
-        <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="primary">
+        <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="secondary">
           Add new {modelname}
         </Button>
       </FormControl>

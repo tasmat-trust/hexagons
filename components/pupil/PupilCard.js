@@ -6,11 +6,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Link from "next/link"
 
 
-import { Typography } from "@material-ui/core"
+import { Chip, Typography } from "@material-ui/core"
 import CoreSubjectsProgress from "./CoreSubjectsProgress"
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   groupUl: {
     listStyle: 'none',
     padding: '0',
@@ -33,13 +33,16 @@ const useStyles = makeStyles({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
+  pupilTitle: {
+    fontFamily: theme.typography.secondaryFamily
+  },
   title: {
     fontSize: 14,
   },
   pos: {
     marginBottom: 12,
   },
-});
+}));
 
 
 
@@ -53,14 +56,16 @@ function PupilCard({
   return (
     <Card>
       <CardContent>
-        <Typography component='h2' variant='h4'> 
+        <Typography className={styles.pupilTitle} component='h2' variant='h4'>
           {onwardHref && <Link href={onwardHref} >
             <a>{pupilName}</a>
           </Link>}
         </Typography>
         <ul className={styles.groupUl}>
           {pupilGroups && pupilGroups.map((group, i) => (
-            <li key={`pupil-group-${i}`} className={styles.groupLi}>{group.name}</li>
+            <li key={`pupil-group-${i}`} className={styles.groupLi}>
+              <Chip color="primary" size="small" label={group.name} variant="outlined" />
+            </li>
           ))}
         </ul>
         <CoreSubjectsProgress

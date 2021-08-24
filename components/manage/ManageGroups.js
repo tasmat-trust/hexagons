@@ -23,6 +23,8 @@ export default function ManageGroups(props) {
           className={classes.button}
           label="New group"
           testId="new-group"
+          variant='contained'
+          color='secondary'
           text={`Create a new group - ${userType}s can then be assigned to groups.`}
           modelname="group">
           <AddNewGroup

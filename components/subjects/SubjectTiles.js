@@ -8,7 +8,7 @@ function SubjectTiles({ isNarrow, subjects, ...other }) {
   const isN = isNarrow ? isNarrow : false
   return (
     <div className={styles.wrapper}>
-      <div className={`${styles.main_wide} ${pseudoStyles.main_wide} ${isNarrow ? styles.main_wide_smaller : ''}`}>
+      <div className={`${styles.main_wide} ${pseudoStyles.main_wide} ${isNarrow ? `${styles.main_wide_smaller} ${pseudoStyles.main_wide_smaller}` : ''}`}>
         <div className={`${styles.container_wide}  ${pseudoStyles.container_wide}`}>
           {subjects.map((subject, i) => {
             return (

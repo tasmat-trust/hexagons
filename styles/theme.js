@@ -1,20 +1,23 @@
 import { createTheme } from '@material-ui/core/styles';
-import { red, pink, purple, cyan, grey } from '@material-ui/core/colors';
+import { red, purple, cyan, grey } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const theme = createTheme({
   typography: {
     fontFamily: [
       'Roboto',
-      '-apple-system', 
+      '-apple-system',
       'BlinkMacSystemFont',
-      '"Segoe UI"', 
+      '"Segoe UI"',
       '"Helvetica Neue"',
       'Arial',
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
+    ].join(','),
+    secondaryFamily: [
+      'Bree Serif'
     ].join(','),
     // Overwrite too-big Material UI defaults
     // https://material-ui.com/customization/typography/

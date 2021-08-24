@@ -16,8 +16,9 @@ const styles = makeStyles((theme) => ({
   }
 }))
 
-function SetPupilSubjectLevel({ subjectName, subjectSlug, pupil, ...other }) {
+function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...other }) {
 
+ 
   const classes = styles()
 
   return (
@@ -25,6 +26,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, pupil, ...other }) {
       <StagesTabs 
       {...other}
       pupil={pupil}
+      subjectId={subjectId}
       subjectName={subjectName}
       subjectSlug={subjectSlug}
       isAdmin={false} 

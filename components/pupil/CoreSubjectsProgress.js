@@ -9,14 +9,14 @@ import { makeStyles, Chip } from "@material-ui/core"
 import "@reach/slider/styles.css"
 import styled from 'styled-components'
 import { Slider } from "@reach/slider"
-import { cyan } from '@material-ui/core/colors';
+import { purple } from '@material-ui/core/colors';
 import { useRouter } from "next/router"
 import getPercentComplete from '../../utils/getPercentComplete'
 // Uses styled components to customise Reach Slider component
 // https://reach.tech/styling/
 const StyledSlider = styled(Slider)`
   [data-reach-slider-range] {
-    background: ${cyan['A400']}
+    background: ${purple['A400']}
   }
  
   [data-reach-slider-handle] {
@@ -108,7 +108,7 @@ function SubjectProgress({ coreSubjectName, coreSubjectSlug, getLevelVariables, 
           {router && router.asPath && <Typography component="h3" variant="h6" className={classes.flexy}>
 
             <Link href={linkUrl}>{coreSubjectName}</Link>
-            <Chip variant="outlined" color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} />
+            <Chip  color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} />
 
             <span className={classes.span}>{level.percentComplete}%</span>
           </Typography>}

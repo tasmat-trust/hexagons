@@ -59,14 +59,14 @@ const stringStyles = makeStyles((theme) => ({
     display: inline-block;
     font-size: initial;
     clip-path: polygon(var(--hc) 0, calc(100% - var(--hc)) 0, 100% var(--vc), 100% calc(100% - var(--vc)), calc(100% - var(--hc)) 100%,var(--hc) 100%, 0 calc(100% - var(--vc)), 0 var(--vc));
-    background: ${theme.palette.info.light};
+    background: ${theme.palette.primary.main};
     margin-bottom: calc(var(--mv) - var(--vc));
   `,
   hex_nonCore: `
-    background: ${theme.palette.primary.light};
+    background: ${theme.palette.secondary.light};
   `,
   hex_core: `
-    background: ${theme.palette.primary.main};
+    background: ${theme.palette.secondary.dark};
   `,
   hex_complete: `
     background: ${theme.palette.success.light};
@@ -92,7 +92,9 @@ const stringStyles = makeStyles((theme) => ({
     float: left;
     color: white;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.4rem;
+    font-family: ${theme.typography.secondaryFamily};
+    font-weight: normal;
   `,
   hexContent: ` 
     display: flex;
@@ -125,7 +127,12 @@ const jssStyles = makeStyles((theme) => ({
   },
   hex_nonCore: {
     '& .hrxLink': {
-      color: 'black'
+      color: theme.palette.text.primary
+    }
+  },
+  main_wide_smaller: {
+    '& .hrxLink': {
+      fontSize: '1rem'
     }
   },
   main_wide: {
@@ -134,6 +141,11 @@ const jssStyles = makeStyles((theme) => ({
       '--mv': '2px',
       '--mh': 'calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 1px)',
       '--f': 'calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 1px)'
+    }
+  },
+  hexLink: {
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1rem'
     }
   },
   container: {

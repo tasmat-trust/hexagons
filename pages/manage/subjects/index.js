@@ -9,7 +9,7 @@ import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
 
 import RoleInfoBanner from '../../../components/layout/RoleInfoBanner';
 
-export default function Index(props) {
+function Index(props) {
 
   const classes = useAdminPage()
 
@@ -27,6 +27,8 @@ export default function Index(props) {
     </>
   )
 }
+
+export default Index
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Senior Leader')

@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.success.dark
   },
   incomplete: {
-    background: theme.palette.info.light,
-    borderColor: theme.palette.info.main
+    background: theme.palette.secondary.light,
+    borderColor: theme.palette.secondary.main
   },
   notstarted: {
-    background: theme.palette.warning.light,
-    borderColor: theme.palette.warning.main
+    background: theme.palette.secondary.light,
+    borderColor: theme.palette.secondary.main
   },
   header: {
     paddingTop: theme.spacing(2),
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 0,
+    fontFamily: theme.typography.secondaryFamily,
     marginRight: theme.spacing(2)
   },
   endButton: {
@@ -164,19 +165,32 @@ function LevelStatus({ setGotCurrentLevel,
             <DialogButton
               label="View Summary"
               testId="view-summary-button"
-              color="primary"
+              color="secondary"
               variant="contained"
               boxTitle={`${moduleLabel} ${currentModule.order} summary`}>
               {currentModule.summary}
             </DialogButton>
-            {status !== 'complete' && <Button data-test-id="mark-complete" className={classes.endButton} variant="outlined" color="primary" onClick={completeStep}>Complete this {moduleLabel}</Button>}
-            {status === 'complete' && <Button data-test-id="mark-incomplete" className={classes.endButton} variant="outlined" color="info" onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
+            {status !== 'complete' && <Button
+              data-test-id="mark-complete"
+              className={classes.endButton}
+              variant="outlined"
+              color="secondary"
+              onClick={completeStep}>Complete this {moduleLabel}</Button>}
+            {status === 'complete' && <Button
+              data-test-id="mark-incomplete"
+              className={classes.endButton}
+              variant="outlined"
+              color="secondary"
+              onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
 
           </Box>
         </Box>
         <Box display="flex" alignItems="center">
           <Box width="100%" mr={1}>
-            <LinearProgress variant="determinate" value={status === 'complete' ? 100 : visiblePercentComplete} />
+            <LinearProgress
+              color="secondary"
+              variant="determinate"
+              value={status === 'complete' ? 100 : visiblePercentComplete} />
           </Box>
           <Box minWidth={35}>
             <Typography data-test-id="percent-complete-label" variant="body2" color="textSecondary">{`${Math.round(

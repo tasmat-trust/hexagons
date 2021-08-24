@@ -94,7 +94,7 @@ function StagesNav({ modules,
       borderBottom: '1px solid #e8e8e8',
     },
     indicator: {
-      backgroundColor: theme.palette.info.light,
+      backgroundColor: theme.palette.primary.light,
     },
   })(Tabs);
 
@@ -104,28 +104,16 @@ function StagesNav({ modules,
       minWidth: 72,
       fontWeight: theme.typography.fontWeightRegular,
       marginRight: theme.spacing(4),
-      // fontFamily: [
-      //   '-apple-system',
-      //   'BlinkMacSystemFont',
-      //   '"Segoe UI"',
-      //   'Roboto',
-      //   '"Helvetica Neue"',
-      //   'Arial',
-      //   'sans-serif',
-      //   '"Apple Color Emoji"',
-      //   '"Segoe UI Emoji"',
-      //   '"Segoe UI Symbol"',
-      // ].join(','),
       '&:hover': {
-        color: theme.palette.info.main,
+        color: theme.palette.primary.main,
         opacity: 1,
       },
       '&$selected': {
-        color: theme.palette.info.dark,
+        color: theme.palette.primary.dark,
         fontWeight: theme.typography.fontWeightMedium,
       },
       '&:focus': {
-        color: theme.palette.info.main,
+        color: theme.palette.primary.main,
       },
     },
     selected: {},
@@ -154,7 +142,12 @@ function StagesNav({ modules,
 
       {sortedModules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
-          {isAdmin && <DeleteModule gqlClient={gqlClient} setModulesData={setModulesData} currentStage={module} />}
+          {isAdmin && <DeleteModule
+            gqlClient={gqlClient}
+            setModulesData={setModulesData}
+            currentStage={module}
+            subjectId={subjectId}
+          />}
           {!isAdmin && <LevelStatus
             setGotCurrentLevel={setGotCurrentLevel}
             setCurrentLevelId={setCurrentLevelId}

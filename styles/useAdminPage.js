@@ -7,8 +7,7 @@ const useAdminPage = makeStyles((theme) => ({
       paddingTop: theme.spacing(4)
     },
     paper: {
-      padding: theme.spacing(2),
-      color: theme.palette.text.primary,
+      padding: theme.spacing(2), 
     },
     paperAlert: {
       marginBottom: theme.spacing(3),
@@ -24,6 +23,7 @@ const useAdminPage = makeStyles((theme) => ({
     },
     title: {
       flexGrow: 1,
+      'font-family': theme.typography.secondaryFamily
     },
     schoolCard: {
       padding: theme.spacing(1),

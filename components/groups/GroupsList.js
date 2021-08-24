@@ -10,9 +10,9 @@ import { useRouter } from 'next/router'
 function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActiveGroupSlug, setActiveGroupName, setActiveGroupId }) {
 
 
-   const router = useRouter()
+  const router = useRouter()
   let query = getMyGroups ? myGroups : allGroups
-  
+
 
   const classes = useAdminPage()
   const [groupsData, setGroupsData, error] = useSharedState([query, getGroupsVariables])
@@ -49,18 +49,18 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
   return (
     <ul className={classes.ul}>
       {groupsData.groups.map((group, i) => {
-        
+
         let linkUrl
-        if (isSubjectsListing) {          
+        if (isSubjectsListing) {
           linkUrl = `/subjects/${router.query.subject}/${group.slug}`
         } else {
           linkUrl = `/pupils/${group.slug}`
         }
         return (
           <li className={classes.listItem} key={`group-${i}`}>
-            <Paper elevation={1} className={classes.groupBox}>
+            <Paper elevation={1} className={classes.groupBox}> 
               <Link onClick={(e) => storeRecentGroup(e, group, linkUrl)} href={linkUrl} className={classes.groupBox_link}>
-                <Typography className={classes.groupBox_title} variant="h5" component="h3" gutterBottom={true}>{group.name}</Typography>
+               {group.name}
               </Link>
             </Paper>
           </li>

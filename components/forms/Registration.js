@@ -13,8 +13,7 @@ import Loading from '../ui-globals/Loading';
 import handleApiLoginErrors from './handlers/handleApiLoginErrors';
 import handleCredentialErrors from './handlers/handleCredentialErrors';
 
-const RegistrationForm = (props) => {
-  const router = useRouter();
+const RegistrationForm = (props) => { 
   const classes = useLoginLogoutPages();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -108,7 +107,7 @@ const RegistrationForm = (props) => {
 
   return (
     <>
-      {error && <Alert data-test-id="error" className={classes.spaced} severity="error">{error}</Alert>}
+      {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
       {loading && <Loading data-test-id="loading" message={loading} testId='registration-loading' />}
       {success && (
         <>
@@ -117,7 +116,7 @@ const RegistrationForm = (props) => {
       )}
       {!loading && !success && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>
-          <FormControl variant="filled" fullWidth className={classes.spaced}>
+          <FormControl variant="filled" fullWidth>
             <InputLabel htmlFor="age-native-simple">School</InputLabel>
             <Select
               data-test-id='select-school'
@@ -138,7 +137,7 @@ const RegistrationForm = (props) => {
 
           <TextField
             error={fieldError === 'username'}
-            className={classes.spaced}
+            className={classes.input}
             value={usernameValue}
             fullWidth
             id="username"
@@ -151,7 +150,7 @@ const RegistrationForm = (props) => {
 
           <TextField
             error={fieldError === 'email'}
-            className={classes.spaced}
+            className={classes.input}
             value={emailValue}
             fullWidth id="email"
             label="Email"
@@ -164,7 +163,7 @@ const RegistrationForm = (props) => {
 
           <TextField
             error={fieldError === 'password'}
-            className={classes.spaced}
+            className={classes.input}
             value={passwordValue}
             fullWidth id="password"
             label="Password"
@@ -181,7 +180,7 @@ const RegistrationForm = (props) => {
               fullWidth
               type="submit"
               variant="contained"
-              color="primary"
+              color="secondary"
             >
               Register
             </Button>

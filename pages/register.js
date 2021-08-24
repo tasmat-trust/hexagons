@@ -20,7 +20,7 @@ export default function Register(props) {
   return (
     <>
     <Paper elevation={1} className={classes.paper}>
-      <h1>Create account</h1>
+      <h1 className={classes.title}>Create account</h1>
       <RegistrationFormWithSchools {...props} />
     </Paper>
     <Typography className={classes.secondaryAction}>Already have an account? <Link href="/login">Login</Link></Typography>

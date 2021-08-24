@@ -10,7 +10,7 @@ function SubjectTile({ subject, onwardHref }) {
     <div className={`${styles.hex} ${styles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]} ${pseudoStyles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]}`}>
       <div className={`${styles.hexIn} ${isComplete && styles.HexagonTile__complete}`}>
         {subject.slug && (<Link href={`${onwardHref}/${subject.slug}`}>
-          <a className={`${styles.hexLink} hrxLink`}>
+          <a className={`${styles.hexLink} ${pseudoStyles.hexLink} hrxLink`}>
             {subject.name}
           </a>
         </Link>)}
@@ -18,7 +18,7 @@ function SubjectTile({ subject, onwardHref }) {
           className={styles.button}
           isHexagon={true}
           label={subject.name}
-          content={<div className={styles.hexLink}>{subject.name}</div>}
+          content={<div className={`${styles.hexLink} ${pseudoStyles.hexLink} hrxLink`}>{subject.name}</div>}
         >
           <>
             {subject.subjects.map((s, i) => (

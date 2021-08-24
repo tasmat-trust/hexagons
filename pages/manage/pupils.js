@@ -10,14 +10,14 @@ import ManageGroups from '../../components/manage/ManageGroups'
 import BreadCrumbs from '../../components/navigation/Breadcrumbs';
 import RoleInfoBanner from '../../components/layout/RoleInfoBanner';
 
-export default function Index(props) {
+function Index(props) {
 
   const classes = useAdminPage()
 
   return (
     <>
       <RoleInfoBanner role="Teacher" />
-      <BreadCrumbs {...props} firstLabel="Pupils" />
+      <BreadCrumbs firstLabel="Pupils" />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item md={8} xs={12}>
@@ -32,6 +32,7 @@ export default function Index(props) {
   )
 }
 
+export default Index
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher')
