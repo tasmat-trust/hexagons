@@ -12,19 +12,6 @@
     "test:basic": "cypress run",
     "prepare": "husky install"
   },
-  "devDependencies": {
-    "@cypress/code-coverage": "^3.9.7",
-    "@testing-library/cypress": "^7.0.6",
-    "babel-plugin-istanbul": "5.1.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "cypress": "^8.0.0",
-    "eslint": "^7.29.0",
-    "eslint-config-next": "^11.0.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
-    "lint-staged": "^11.0.0"
-  },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/data-grid": "^4.0.0-alpha.32",
