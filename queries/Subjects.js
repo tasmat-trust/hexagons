@@ -7,6 +7,12 @@ const allSubjectsQuery = gql`query{
   }
 }`
 
+const allRainbowAwardsQuery = gql`query getRainbowAwardsSubjects{
+  subjects  (where: { isRainbowAwards: true}){
+  	name slug
+  }
+}`
+
 const getCoreSubjects = gql`query getCoreSubjects {  
   subjects (where: { isCore: true}) { 
      id name slug
@@ -107,6 +113,7 @@ mutation DeleteModule($id: ID!) {
 }`
 
 export {
+  allRainbowAwardsQuery,
   getCoreSubjects,
   deleteCapabilityQuery,
   createCapabilityQuery,

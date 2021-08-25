@@ -31,8 +31,10 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
   const handleChange = (event) => {
     const pupilId = event.target.value;
     const isSubjectsListing = router.asPath.includes('subjects');
-    if (isSubjectsListing) {
-      router.push(`/subjects/${subjectSlug}/${activeGroupSlug}/${pupilId}`, undefined, {
+    const isRainbowAwards = router.asPath.includes('rainbow-awards')
+    if (isSubjectsListing || isRainbowAwards) {
+      const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
+      router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${pupilId}`, undefined, {
         shallow: true,
       });
     } else {
@@ -52,7 +54,7 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
             {pupil.name}
           </option>
         ))}
-      </NativeSelect> 
+      </NativeSelect>
     </FormControl>
   );
 }

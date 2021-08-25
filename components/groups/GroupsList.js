@@ -35,6 +35,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
   const gotNonResponse = handleNonResponses(groupsData, error)
   if (gotNonResponse) return gotNonResponse
   const isSubjectsListing = router.asPath.includes('subjects')
+  const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
 
   function storeRecentGroup(e, group, linkUrl) {
@@ -51,16 +52,17 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
       {groupsData.groups.map((group, i) => {
 
         let linkUrl
-        if (isSubjectsListing) {
-          linkUrl = `/subjects/${router.query.subject}/${group.slug}`
+        if (isSubjectsListing || isRainbowAwards) {
+          const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
+          linkUrl = `/${basePath}/${router.query.subject}/${group.slug}`
         } else {
           linkUrl = `/pupils/${group.slug}`
         }
         return (
           <li className={classes.listItem} key={`group-${i}`}>
-            <Paper elevation={1} className={classes.groupBox}> 
+            <Paper elevation={1} className={classes.groupBox}>
               <Link onClick={(e) => storeRecentGroup(e, group, linkUrl)} href={linkUrl} className={classes.groupBox_link}>
-               {group.name}
+                {group.name}
               </Link>
             </Paper>
           </li>

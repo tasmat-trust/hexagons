@@ -13,14 +13,16 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, ...other }) {
   const gotNonResponse = handleNonResponses(pupilsData, error)
   if (gotNonResponse) return gotNonResponse
   const isSubjectsListing = router.asPath.includes('subjects')
+  const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
   return (
     <>
       <Grid container spacing={3}>
-        {pupilsData.pupils.map((p, i) => {          
+        {pupilsData.pupils.map((p, i) => {
           let linkUrl
-          if (isSubjectsListing) {            
-            linkUrl = `/subjects/${router.query.subject}/${activeGroupSlug}/${p.id}`
+          if (isSubjectsListing || isRainbowAwards) {
+            const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
+            linkUrl = `/${basePath}/${router.query.subject}/${activeGroupSlug}/${p.id}`
           } else {
             linkUrl = `/pupils/${activeGroupSlug}/${p.id}`
           }

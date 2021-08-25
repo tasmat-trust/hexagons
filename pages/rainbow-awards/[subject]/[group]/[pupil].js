@@ -4,7 +4,7 @@ import PupilHexagonsView from '../../../../components/shared-pages/PupilHexagons
 
 export default function Pupil(props) {
   return (
-    <PupilHexagonsView firstLabel="Subjects" firstSlug="subjects" {...props} />
+    <PupilHexagonsView firstLabel="Rainbow Awards" firstSlug="rainbow-awards" {...props} />
   )
 }
 

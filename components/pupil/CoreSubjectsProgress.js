@@ -94,9 +94,12 @@ function SubjectProgress({ coreSubjectName, coreSubjectSlug, getLevelVariables, 
   }
 
   const isSubjectsListing = router.asPath.includes('subjects')
+  const isRainbowAwards = router.asPath.includes('rainbow-awards')
+
   let linkUrl
-  if (isSubjectsListing) {
-    linkUrl = `/subjects/${coreSubjectSlug}/${activeGroupSlug}/${pupilId}`
+  if (isSubjectsListing || isRainbowAwards) {
+    const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
+    linkUrl = `/${basePath}/${coreSubjectSlug}/${activeGroupSlug}/${pupilId}`
   } else {
     linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${coreSubjectSlug}`
   }
@@ -108,7 +111,7 @@ function SubjectProgress({ coreSubjectName, coreSubjectSlug, getLevelVariables, 
           {router && router.asPath && <Typography component="h3" variant="h6" className={classes.flexy}>
 
             <Link href={linkUrl}>{coreSubjectName}</Link>
-            <Chip  color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} />
+            <Chip color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} />
 
             <span className={classes.span}>{level.percentComplete}%</span>
           </Typography>}
