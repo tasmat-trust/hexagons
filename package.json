@@ -15,7 +15,7 @@
   "devDependencies": {
     "@cypress/code-coverage": "^3.9.7",
     "@testing-library/cypress": "^7.0.6",
-    "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-istanbul": "5.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cypress": "^8.0.0",
     "eslint": "^7.29.0",
