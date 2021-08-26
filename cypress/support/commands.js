@@ -22,7 +22,7 @@ Cypress.Commands.add('login', (role) => {
     cy.setCookie(cookieName, teacherJWT)
   }
 
-  if (role === 'Senior Leader') {
+  if (role === 'Leader') {
     cy.setCookie(cookieName, seniorLeaderJWT)
   }
 })

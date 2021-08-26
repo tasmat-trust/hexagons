@@ -15,7 +15,7 @@ export default function Index(props) {
   return (
     <>
       <Paper elevation={2}>
-        <Alert severity="info" data-test-id="notification">This is a <b>Senior Leader</b> page. It is only visible to Senior Leaders</Alert>
+        <Alert severity="info" data-test-id="notification">This is a <b>Leader</b> page. It is only visible to Leaders</Alert>
       </Paper>
       <div className={classes.root}>
         <Grid container spacing={3}>
@@ -32,5 +32,5 @@ export default function Index(props) {
 }
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Senior Leader')
+  return checkSession(ctx, 'Leader')
 })

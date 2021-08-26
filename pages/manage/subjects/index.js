@@ -15,7 +15,7 @@ function Index(props) {
 
   return (
     <>
-      <RoleInfoBanner role="Senior Leader" />
+      <RoleInfoBanner role="Leader" />
       <BreadCrumbs {...props} firstLabel="Subjects" />
       <div className={classes.root}>
         <Grid container spacing={3}>
@@ -31,5 +31,5 @@ function Index(props) {
 export default Index
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Senior Leader')
+  return checkSession(ctx, 'Leader')
 })

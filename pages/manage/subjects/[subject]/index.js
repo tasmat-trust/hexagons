@@ -16,7 +16,7 @@ function Stage(props) {
  
   return (
     <>
-      <RoleInfoBanner role="Senior Leader" />
+      <RoleInfoBanner role="Leader" />
 
       <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/manage/subjects" secondLabel={query.subject} secondHref={`/manage/subjects/${query.subject}`} thirdLabel={query['step-stage']} />
 
@@ -33,5 +33,5 @@ function Stage(props) {
 export default WithUrlVariables(WithSingleSubjectFromSlug(Stage))
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Senior Leader')
+  return checkSession(ctx, 'Leader')
 })

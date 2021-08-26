@@ -2,7 +2,7 @@ export default function checkSession(ctx, role) {
   const { req } = ctx;
   const user = req.session.get('user') || null;
   function isAuthorized(userRole, requiredRole) {
-    if (userRole === 'Senior Leader') {
+    if (userRole === 'Leader') {
       return true;
     }
 

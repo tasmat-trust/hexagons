@@ -24,9 +24,9 @@ function SettingNavItems({ user }) {
       <Divider />
       <Typography variant='h6' className={classes.settingsTitle}>Manage</Typography>
       <List>
-        {role === 'Senior Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
-        {role === 'Senior Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
-        {(role === 'Senior Leader' || role === 'Teacher') && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
+        {role === 'Leader' && <NavItem href="/manage/teachers" label="Teachers" Icon={SchoolIcon} />}
+        {role === 'Leader' && <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />}
+        {(role === 'Leader' || role === 'Teacher') && <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />}
       </List>
     </Box>
   )

@@ -4,8 +4,8 @@ import useAdminPage from "../../styles/useAdminPage"
 
 
 function Message({ role }) {
-  if (role === 'Senior Leader') return <>This is an <b>SLT</b> page. It is only visible to Senior Leaders</>
-  if (role === 'Teacher') return <>This is a <b>Teacher</b> page. It is only visible to Teachers and Senior Leaders</>
+  if (role === 'Leader') return <>This is an <b>SLT</b> page. It is only visible to Leaders</>
+  if (role === 'Teacher') return <>This is a <b>Teacher</b> page. It is only visible to Teachers and Leaders</>
   return ''
 }
 
