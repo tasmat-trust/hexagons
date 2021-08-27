@@ -2,6 +2,10 @@ import { hasOperationName, aliasQuery } from '../utils/graphql-test-utils';
 
 context('Assessment page', () => {
   beforeEach(() => {
+
+    cy.login('Teacher');
+
+
     let getSubject = {
       body: {
         data: { subjects: [{ id: '1', name: 'Number', slug: 'number' }] },
@@ -185,7 +189,7 @@ context('Assessment page', () => {
       }
     );
 
-    cy.login('Teacher');
+    
   });
 
   describe('assessment functionality', () => {

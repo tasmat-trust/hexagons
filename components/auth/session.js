@@ -1,12 +1,12 @@
 import { withIronSession, ironSession } from 'next-iron-session';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-
+ 
 const sessionConfig = {
   password: 'KDKMDKMDKMDKDMnnnnnh8dddh8h08h08h80h80h08h80h80h8h80h08h08hAB',
   cookieName: 'next-session',
   cookieOptions: {
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
   },
 };
 
