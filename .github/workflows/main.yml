@@ -1,26 +1,26 @@
-name: Cypress Tests
+# name: Cypress Tests
 
-on: [push]
+# on: [push]
 
-jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          build: npm run build
-          start: npm start
-        env:
-          NEXT_PUBLIC_API_URL: http://localhost:1337
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # pass GitHub token to allow accurately detecting a build vs a re-run build
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v1
+# jobs:
+#   cypress-run:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       # Install NPM dependencies, cache them correctly
+#       # and run all Cypress tests
+#       - name: Cypress run
+#         uses: cypress-io/github-action@v2
+#         with:
+#           record: true
+#           build: npm run build
+#           start: npm start
+#         env:
+#           NEXT_PUBLIC_API_URL: http://localhost:1337
+#           # pass the Dashboard record key as an environment variable
+#           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#           # pass GitHub token to allow accurately detecting a build vs a re-run build
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Upload to Codecov
+#         uses: codecov/codecov-action@v1
