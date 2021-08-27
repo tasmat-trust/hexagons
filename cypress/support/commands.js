@@ -33,7 +33,7 @@ Cypress.Commands.add('waitForSpinners', () => {
   // cy.get('[data-test-id=app-loading]', { timeout: 10000 }).should('not.exist')
   // cy.get('[data-test-id=loading]', { timeout: 10000 }).should('not.exist')
   // cy.get('.loading-spinner', { timeout: 10000 }).should('not.exist')
-  cy.wait(500)
+  cy.wait(1000)
 })
 
 //
