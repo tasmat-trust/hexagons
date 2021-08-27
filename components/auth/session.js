@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 
 const sessionConfig = {
-  password: process.env.SECRET_COOKIE_PASSWORD || 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  password: 'KDKMDKMDKMDKDMnnnnnh8dddh8h08h08h80h80h08h80h80h8h80h08h08hAB',
   cookieName: 'next-session',
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
