@@ -22,6 +22,8 @@ export default function handleErrors(error, setError, setLoading) {
     if (error.response.data) {
 
       if (!error.response.data.message) {
+        console.log(error)
+        console.log(error.response)
         console.log(error.response.data);
         console.log('No error.response.data.message');
         errorOutput = connectionErrorMessage
