@@ -64,8 +64,10 @@ function LevelStatus({ setGotCurrentLevel,
   allCompetencies,
   gqlClient }) {
 
+
   const classes = useStyles()
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
+
   const [visibleLevel, setVisibleLevel] = useState(null)
   const [readyToShow, setReadyToShow] = useState(false)
   const [checkedStatus, setCheckedStatus] = useState(false)
@@ -73,6 +75,10 @@ function LevelStatus({ setGotCurrentLevel,
   const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
   const status = visibleLevel ? visibleLevel.status : 'notstarted'
   const thisLevelCompetencies = calculateCompetenciesForThisLevel(allCompetencies, currentModule.capabilities)
+
+
+
+
 
   const bubbleGotLevel = useCallback((level) => {
     if (level && level.id) {
@@ -89,6 +95,8 @@ function LevelStatus({ setGotCurrentLevel,
     setVisiblePercentComplete(percentCompleteWithShortcuts)
   }, [thisLevelCompetencies, currentModule.capabilities, status])
 
+
+
   useEffect(() => {
 
     if (initialVisibleLevel && initialVisibleLevel.levels.length < 1) {
@@ -102,6 +110,11 @@ function LevelStatus({ setGotCurrentLevel,
     }
 
     setReadyToShow(true)
+
+ 
+    if (visiblePercentComplete === 100) {
+      completeStep()
+    } 
 
   }, [initialVisibleLevel, bubbleGotLevel])
 
@@ -134,25 +147,35 @@ function LevelStatus({ setGotCurrentLevel,
     completeStep()
   }
 
+  function markActiveHandler(e) {
+    e.preventDefault()
+    markActive()
+  }
+
   function completeStep() {
-    if (visibleLevel) {
-      triggerUpdateLevel('complete')
-    } else {
-      //create level and mark as complete
-      triggerCreateLevel('complete')
+    if (status !== 'complete') {
+      if (visibleLevel) {
+        triggerUpdateLevel('complete')
+      } else {
+        //create level and mark as complete
+        triggerCreateLevel('complete')
+      }
     }
   }
 
   async function markActive() {
-    if (visibleLevel) {
-      // Mark current level as incomplete
-      triggerUpdateLevel('incomplete')
+    if (status === 'complete') {
+      if (visibleLevel) {
+        // Mark current level as incomplete
+        triggerUpdateLevel('incomplete')
 
-    } else {
-      // create level and mark as incomplete
-      triggerCreateLevel('incomplete')
+      } else {
+        // create level and mark as incomplete
+        triggerCreateLevel('incomplete')
+      }
     }
   }
+
   return (
     <Fade in={readyToShow}>
 
@@ -175,13 +198,13 @@ function LevelStatus({ setGotCurrentLevel,
               className={classes.endButton}
               variant="outlined"
               color="secondary"
-              onClick={completeStep}>Complete this {moduleLabel}</Button>}
+              onClick={completeStepHandler}>Complete this {moduleLabel}</Button>}
             {status === 'complete' && <Button
               data-test-id="mark-incomplete"
               className={classes.endButton}
               variant="outlined"
               color="secondary"
-              onClick={markActive}>Mark {moduleLabel} incomplete</Button>}
+              onClick={markActiveHandler}>Mark {moduleLabel} incomplete</Button>}
 
           </Box>
         </Box>

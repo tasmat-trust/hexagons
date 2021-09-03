@@ -9,6 +9,7 @@ import LevelStatus from '../pupil/LevelStatus'
 import WithCompetencies from '../data-fetching/WithCompetencies'
 import WithModules from '../data-fetching/WithModules'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
+import { sortModules } from '../../utils/sortLevelsAndModules'
 
 import { withStyles } from '@material-ui/styles'
 import theme from '../../styles/theme'
@@ -61,22 +62,15 @@ function StagesNav({ modules,
 
   useEffect(() => {
     if (modules) {
-      modules.sort((a, b) => a.order > b.order)
-      modules.sort((a, b) => {
-        const aLevel = a.level === 'step' ? 1 : 0
-        const bLevel = b.level === 'step' ? 1 : 0
-        return (
-          aLevel < bLevel
-        )
-      })
-      setSortedModules(modules)
+      const sortedModules = sortModules(modules)
+      setSortedModules(sortedModules)
     }
 
   }, [modules])
 
   useEffect(() => {
     if (modules && startingLevel) {
-      const activeModule = modules.map((module, i) => module.order === startingLevel.module.order)
+      const activeModule = modules.map((module, i) => module.order === startingLevel.module.order && module.level === startingLevel.module.level)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
       setTabValue(startingIndex)
       //setCompetencies(level.competencies)

@@ -4,8 +4,7 @@ import SubjectTile from './SubjectTile'
 
 function SubjectTiles({ isNarrow, subjects, ...other }) {
   const styles = stringStyles()
-  const pseudoStyles = jssStyles()
-  const isN = isNarrow ? isNarrow : false
+  const pseudoStyles = jssStyles() 
   return (
     <div className={styles.wrapper}>
       <div className={`${styles.main_wide} ${pseudoStyles.main_wide} ${isNarrow ? `${styles.main_wide_smaller} ${pseudoStyles.main_wide_smaller}` : ''}`}>

@@ -4,7 +4,7 @@ import checkSession from '../../../../components/auth/checkSession'
 
 import GroupPupilChooserView from '../../../../components/shared-pages/GroupPupilChooserView'
 
-const Group = (props) => <GroupPupilChooserView {...props} firstLabel="Subjects" firstSlug="subjects" />
+const Group = (props) => <GroupPupilChooserView {...props} shouldShowGroupBySubject={true} firstLabel="Subjects" firstSlug="subjects" />
 
 export default Group
 

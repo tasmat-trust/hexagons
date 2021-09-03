@@ -18,6 +18,8 @@ function Index({ firstLabel, firstSlug, user, subjectName, groupName, ...other }
       />
       <PupilsAndGroups
         {...other}
+        groupName={groupName}
+        subjectName={subjectName}
         userId={user.id}
       />
     </>

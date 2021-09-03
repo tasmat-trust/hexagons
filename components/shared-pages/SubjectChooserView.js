@@ -6,13 +6,17 @@ import WithUrlVariables from '../data-fetching/WithUrlVariables'
 
 
 function Index({ firstLabel, firstSlug, subjectName, ...other }) {
+
   return (
     <>
       <BreadCrumbs
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}
         secondLabel={subjectName} />
-      <LastActiveGroup {...other} />
+      <LastActiveGroup
+        shouldShowGroupBySubject={true}
+        subjectName={subjectName}
+        {...other} />
     </>
   )
 }

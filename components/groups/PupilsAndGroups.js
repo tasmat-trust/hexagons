@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Grid } from "@material-ui/core";
 import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";
-import useAdminPage from "../../styles/useAdminPage";
+import useAdminPage from "../../styles/useAdminPage"; 
 
 function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
 

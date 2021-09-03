@@ -6,8 +6,9 @@ import { Grid } from "@material-ui/core";
 import PupilCard from "../pupil/PupilCard";
 import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 import { useRouter } from 'next/router';
+import SubjectCard from '../pupil/SubjectCard';
 
-function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, ...other }) {
+function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter()
   const [pupilsData, error] = useStateOnce([getPupilsByGroup, pupilsByGroupVariables])
   const gotNonResponse = handleNonResponses(pupilsData, error)
@@ -18,6 +19,16 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, ...other }) {
   return (
     <>
       <Grid container spacing={3}>
+        {shouldShowGroupBySubject && <Grid item xs={6} md={12}>
+          <SubjectCard
+            {...other} 
+            activeGroupSlug={activeGroupSlug}
+            pupils={pupilsData.pupils}
+          />
+        </Grid>}
+
+
+
         {pupilsData.pupils.map((p, i) => {
           let linkUrl
           if (isSubjectsListing || isRainbowAwards) {
@@ -46,6 +57,7 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, ...other }) {
 }
 
 PupilsByGroup.propTypes = {
+  shouldShowGroupBySubject: PropTypes.bool,
   pupilsByGroupVariables: PropTypes.object,
   activeGroupSlug: PropTypes.string
 }

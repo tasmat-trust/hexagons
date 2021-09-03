@@ -96,6 +96,9 @@ const stringStyles = makeStyles((theme) => ({
     font-family: ${theme.typography.secondaryFamily};
     font-weight: normal;
   `,
+  hexButtonLink: ` 
+    margin-bottom: ${theme.spacing(1)}px;
+  `,
   hexContent: ` 
     display: flex;
     align-items: center;
@@ -144,6 +147,9 @@ const jssStyles = makeStyles((theme) => ({
     }
   },
   hexLink: {
+    '&:hover': {
+      textDecoration: 'none'
+    },
     [theme.breakpoints.down('xs')]: {
       fontSize: '1rem'
     }

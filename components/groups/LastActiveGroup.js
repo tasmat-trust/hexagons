@@ -32,6 +32,7 @@ function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
       <p>
         Your most recent active group was {activeGroupName}.
       </p>
+
       {isHomepage && <SubjectsAndGroups
         {...other}
         orgId={orgId}
@@ -45,6 +46,7 @@ function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
         {...other}
         orgId={orgId}
         userId={user.id}
+        groupName={activeGroupName}
         activeGroupSlug={activeGroupSlug}
         pupilsByGroupVariables={{ groupId: activeGroupId, orgId: orgId }}
         setActiveGroupSlug={setActiveGroupSlug}
@@ -62,3 +64,4 @@ LastActiveGroup.propTypes = {
 };
 
 export default LastActiveGroup;
+ 
