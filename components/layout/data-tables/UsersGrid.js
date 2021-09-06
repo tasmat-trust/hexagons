@@ -5,6 +5,7 @@ import { allPupilsWithGroups } from '../../../queries/Pupils'
 import useSharedState from "../../data-fetching/useSharedState"
 import handleNonResponses from "../../data-fetching/handleNonResponses"
 import { useEffect } from "react"
+import sortByName from '../../../utils/sortByName'
 
 export default function UsersGrid({ variables, showMultiAdd, userType, setSharedState, setSelectedUsers, setAllUsers }) {
 
@@ -42,7 +43,12 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
     width: 200,
     sortable: false,
     valueGetter: (params) => {
-      return params.row.groups && params.row.groups.map((group) => `${group.name}`)
+      if (params.row.groups) {
+        const sortedGroups = sortByName(params.row.groups)
+        return sortedGroups.map((group) => `${group.name}`)
+      } else {
+        return ''
+      }
     }
   })
 

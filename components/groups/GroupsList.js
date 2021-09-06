@@ -6,6 +6,7 @@ import { allGroups, myGroups } from "../../queries/Groups"
 import useSharedState from "../data-fetching/useSharedState"
 import handleNonResponses from '../data-fetching/handleNonResponses'
 import { useRouter } from 'next/router'
+import sortByName from '../../utils/sortByName';
 
 function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActiveGroupSlug, setActiveGroupName, setActiveGroupId }) {
 
@@ -34,6 +35,12 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
 
   const gotNonResponse = handleNonResponses(groupsData, error)
   if (gotNonResponse) return gotNonResponse
+
+
+  const groups = groupsData.groups
+
+  const sortedGroups = sortByName(groups)
+
   const isSubjectsListing = router.asPath.includes('subjects')
   const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
@@ -49,7 +56,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
 
   return (
     <ul className={classes.ul}>
-      {groupsData.groups.map((group, i) => {
+      {sortedGroups.map((group, i) => {
 
         let linkUrl
         if (isSubjectsListing || isRainbowAwards) {

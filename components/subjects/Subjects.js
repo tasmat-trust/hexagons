@@ -27,9 +27,9 @@ function Subjects({ linkTo, isRainbowAwards, ...other }) {
   }
 
   subjects.sort((a, b) => {
-    const aNum = a.isCore ? 1 : 0;
-    const bNum = b.isCore ? 1 : 0;
-    return aNum < bNum;
+    const aNum = a.isCore ? 'a' : 'b';
+    const bNum = b.isCore ? 'a' : 'b';
+    return aNum.localeCompare(bNum)
   });
   const onwardHref = linkTo ? linkTo : router.asPath;
   return (
