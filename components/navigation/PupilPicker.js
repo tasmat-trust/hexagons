@@ -29,6 +29,7 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
   const router = useRouter();
   if (gotNonResponse) return <div className={classes.formControl}>{gotNonResponse}</div>
   const handleChange = (event) => {
+    alert('now')
     const pupilId = event.target.value;
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards')

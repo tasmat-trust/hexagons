@@ -23,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
     '&:last-child::after': {
       content: "''"
     },
-    '&::after': {
-      content: "'|'",
-      paddingLeft: '0.5em',
-    }
   },
   bullet: {
     display: 'inline-block',
@@ -53,6 +49,7 @@ function PupilCard({
   ...other }) // pupilId, coreSubjects, activeGroupSlug
 {
   const styles = useStyles();
+  const baseHref = '/pupils'
   return (
     <Card>
       <CardContent>
@@ -64,7 +61,11 @@ function PupilCard({
         <ul className={styles.groupUl}>
           {pupilGroups && pupilGroups.map((group, i) => (
             <li key={`pupil-group-${i}`} className={styles.groupLi}>
-              <Chip color="primary" size="small" label={group.name} variant="outlined" />
+              <Link href={`${baseHref}/${group.slug}`}>
+                <a>
+                  <Chip clickable={true} color="primary" size="small" label={group.name} variant="outlined" />
+                </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -78,6 +79,7 @@ function PupilCard({
 }
 
 PupilCard.propTypes = {
+  baseHref: PropTypes.string,
   onwardHref: PropTypes.string,
   pupilName: PropTypes.string,
   pupilGroups: PropTypes.array

@@ -19,7 +19,7 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
   return (
     <>
       <Grid container spacing={3}>
-        {shouldShowGroupBySubject && <Grid item xs={6} md={12}>
+        {shouldShowGroupBySubject && <Grid item xs={12} md={12}>
           <SubjectCard
             {...other} 
             activeGroupSlug={activeGroupSlug}

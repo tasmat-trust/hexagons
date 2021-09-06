@@ -10,6 +10,7 @@ import WithCompetencies from '../data-fetching/WithCompetencies'
 import WithModules from '../data-fetching/WithModules'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import { sortModules } from '../../utils/sortLevelsAndModules'
+import EarlyDevelopmentTabPanelContent from '../subjects/EarlyDevelopmentTabPanelContent'
 
 import { withStyles } from '@material-ui/styles'
 import theme from '../../styles/theme'
@@ -126,6 +127,10 @@ function StagesNav({ modules,
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
+        {!isAdmin &&
+          <HexagonsTab
+            label='Step 1'
+            {...a11yProps(0)} />}
         {sortedModules.map((module, i) => (
           <HexagonsTab
             key={`link-${i}`}
@@ -133,9 +138,13 @@ function StagesNav({ modules,
             {...a11yProps(0)} />
         ))}
       </HexagonsTabs>
+      {!isAdmin &&
+        <TabPanel value={tabValue} index={0}>
+          <EarlyDevelopmentTabPanelContent />
+        </TabPanel>}
 
       {sortedModules.map((module, i) => (
-        <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
+        <TabPanel key={`panel-${i}`} value={tabValue} index={i + 1}>
           {isAdmin && <DeleteModule
             gqlClient={gqlClient}
             setModulesData={setModulesData}

@@ -19,6 +19,7 @@ function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, 
         thirdLabel={pupil.name}
         thirdHref={`/pupils/${activeGroupSlug}/${pupil.id}`}
         fourthLabel={subjectName}
+        fourthHref={`/subjects/${subjectSlug}/${activeGroupSlug}`}
       />
 
       <SubjectMainView

@@ -24,7 +24,7 @@ const createPupilQuery = gql`
 const allPupilsWithGroups = gql`query getPupilsWithGroups($orgId: ID!){
   pupils (where: {organization: $orgId}) {  
     id, name, 
-    groups {
+    groups (where: {organization: $orgId}){
       name, id
     }
   } 
@@ -51,7 +51,7 @@ mutation updatePupil($userId: ID!, $groupIds: [ID]) {
 const getPupilById = gql`query getPupil($id: ID, $orgId: ID!) {  
   pupils (where: {id: $id, organization: $orgId}) { 
     name id,
-     groups {
+     groups (where: {organization: $orgId}){
       name
     }
     organization {
@@ -63,8 +63,8 @@ const getPupilById = gql`query getPupil($id: ID, $orgId: ID!) {
 
 const getPupilsByGroup = gql`query getPupils($groupId: ID!, $orgId: ID!) {  
   pupils (where: {groups: $groupId, organization: $orgId}) { 
-    name id, groups {
-      name
+    name id, groups (where: {organization: $orgId}){
+      name slug
     }
   }
 }`

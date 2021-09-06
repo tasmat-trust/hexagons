@@ -11,10 +11,12 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: theme.typography.secondaryFamily
   },
   ul: {
+    '@media (min-width: 600px)': {
+      columns: 'auto 2',
+      columnGap: theme.spacing(4)
+    },
     listStyle: 'none',
     padding: 0,
-    columns: 'auto 2',
-    columnGap: theme.spacing(4)
   },
   li: {
     breakInside: 'avoid-column',
@@ -37,7 +39,7 @@ function SubjectCard({
   return (
     <Card>
       <CardContent >
-        <Typography className={styles.title} component='h2' variant='h3'>     
+        <Typography className={styles.title} component='h2' variant='h3'>
           {groupName} - {subjectName}
         </Typography>
         <ul className={styles.ul}>
