@@ -9,14 +9,11 @@ function SubjectMainView({ pupil, activeGroupSlug, orgId, subjectName, subjectSl
       <PupilPicker
         {...other}
         orgId={orgId}
-        currentPupil={pupil}
+        currentPupilId={parseInt(pupil.id)}
         activeGroupSlug={activeGroupSlug}
         subjectSlug={subjectSlug}
         groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
       />
-
-
-
       <SetPupilSubjectLevel
         {...other}
         subjectName={subjectName}

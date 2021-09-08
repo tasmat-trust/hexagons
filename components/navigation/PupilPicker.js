@@ -23,27 +23,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, groupName, gotNonResponse }) {
+function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, groupName, gotNonResponse }) {
   const classes = useStyles();
-  const [pupilId, setPupilId] = useState(currentPupil.id);
+  const [pupilId, setPupilId] = useState(currentPupilId);
   const router = useRouter();
   if (gotNonResponse) return <div className={classes.formControl}>{gotNonResponse}</div>
-  const handleChange = (event) => {
-    alert('now')
-    const pupilId = event.target.value;
+  const handleChange = (event) => { 
+    const newPupilId = event.target.value;
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards')
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
-      router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${pupilId}`, undefined, {
+      router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
         shallow: true,
       });
     } else {
-      router.push(`/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`, undefined, {
+      router.push(`/pupils/${activeGroupSlug}/${newPupilId}/${subjectSlug}`, undefined, {
         shallow: true,
       });
     }
-    setPupilId(pupilId);
+    setPupilId(newPupilId);
   };
   return (
     <FormControl className={classes.formControl}>
@@ -61,7 +60,7 @@ function PupilPicker({ currentPupil, pupils, subjectSlug, activeGroupSlug, group
 }
 
 PupilPicker.propTypes = {
-  currentPupil: PropTypes.object,
+  currentPupil: PropTypes.number,
   pupils: PropTypes.array,
   subjectSlug: PropTypes.string,
   groupName: PropTypes.string,

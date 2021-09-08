@@ -88,6 +88,7 @@ function MyApp({ Component, pageProps }) {
               value={{
                 refreshInterval: 0,
                 fetcher: fetcher,
+                revalidateOnFocus: false
               }}
             >
               {loading && <Loading message={loading} testId='app-loading' />}
