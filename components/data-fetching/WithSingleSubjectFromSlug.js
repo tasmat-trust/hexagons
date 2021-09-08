@@ -11,7 +11,7 @@ export default function WithSingleSubjectFromSlug(WrappedComponent) {
     const subject = subjectData.subjects[0]
     const subjectId = subject.id
     const subjectName = subject.name
-    const subjectSlug = subject.slug 
+    const subjectSlug = subject.slug  
     return (
       <>
         <WrappedComponent

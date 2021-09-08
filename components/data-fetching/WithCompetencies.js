@@ -9,6 +9,7 @@ export default function WithCompetencies(WrappedComponent) {
     if (competenciesData) {
       competencies = competenciesData.competencies
     }
+ 
     // detect duplicates
     if (competencies.length > 0) {
       const fks = competencies.map((comp) => comp.capability_fk)

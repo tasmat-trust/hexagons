@@ -12,7 +12,7 @@ export default function WithModules(WrappedComponent) {
     return (
       <>
         {modules.length > 0 && !isAdmin && <WrappedComponent
-          competenciesVars={{ pupilId: pupil.id, subjectId: subjectId }}
+          competenciesVars={{ pupilId: parseInt(pupil.id), subjectId: parseInt(subjectId) }}
           setModulesData={setModulesData}
           modules={modules}
           pupil={pupil}

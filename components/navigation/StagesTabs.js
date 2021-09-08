@@ -73,7 +73,7 @@ function StagesNav({ modules,
     if (modules && startingLevel) {
       const activeModule = modules.map((module, i) => module.order === startingLevel.module.order && module.level === startingLevel.module.level)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
-      setTabValue(startingIndex)
+      setTabValue(startingIndex + 1) // Plus one for early development
       //setCompetencies(level.competencies)
     }
   }, [modules, startingLevel])
@@ -140,7 +140,17 @@ function StagesNav({ modules,
       </HexagonsTabs>
       {!isAdmin &&
         <TabPanel value={tabValue} index={0}>
-          <EarlyDevelopmentTabPanelContent />
+          <EarlyDevelopmentTabPanelContent
+            gqlClient={gqlClient}
+            pupil={pupil}
+            setGotCurrentLevel={setGotCurrentLevel}
+            setCurrentLevelId={setCurrentLevelId}
+            gotCurrentLevel={gotCurrentLevel}
+            currentLevelId={currentLevelId}
+            getSubjectBySlugVariables={{ slug: 'early-development' }}
+            isAdmin={isAdmin}
+          
+          />
         </TabPanel>}
 
       {sortedModules.map((module, i) => (

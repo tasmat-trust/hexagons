@@ -6,14 +6,16 @@ import PupilPicker from '../navigation/PupilPicker';
 function SubjectMainView({ pupil, activeGroupSlug, orgId, subjectName, subjectSlug, ...other }) {
   return (
     <>
-      {/* <PupilPicker
+      <PupilPicker
         {...other}
         orgId={orgId}
         currentPupil={pupil}
         activeGroupSlug={activeGroupSlug}
         subjectSlug={subjectSlug}
         groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
-      /> */}
+      />
+
+
 
       <SetPupilSubjectLevel
         {...other}

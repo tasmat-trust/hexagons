@@ -84,7 +84,7 @@ function LevelStatus({ setGotCurrentLevel,
     if (level && level.id) {
       setVisibleLevel(level)
       setGotCurrentLevel(true)
-      setCurrentLevelId(level.id)
+      setCurrentLevelId(parseInt(level.id))
     }
   }, [setCurrentLevelId, setVisibleLevel, setGotCurrentLevel])
 
