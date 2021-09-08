@@ -1,6 +1,5 @@
 import { useEffect } from "react"
-import useSharedState from "../data-fetching/useSharedState"
-import handleNonResponses from "../data-fetching/handleNonResponses"
+import useSWR from "swr"
 import { getModules, getSingleSubjectBySlug } from '../../queries/Subjects'
 import StagePicker from "../subjects/StagePicker"
 import Capabilities from "../subjects/Capabilities"
@@ -9,17 +8,15 @@ import { useState } from "react"
 function SubjectGetter(WrappedComponent) {
   return function SubjectGetter(props) {
     const { user, variables, setSubjectName } = props
-    const [subjectData, setSubjectData, error] = useSharedState([getSingleSubjectBySlug, variables])
-    const gotNonResponse = handleNonResponses(subjectData, error)
+    const { data: subjectData } = useSWR([getSingleSubjectBySlug, variables], { suspense: true })
 
-    useEffect(() => {
+
+    useEffect(() => { // Possible race condition cause
       if (subjectData) {
         setSubjectName && setSubjectName(subjectData.subjects[0].name)
       }
     }, [setSubjectName, subjectData])
 
-
-    if (gotNonResponse) return gotNonResponse
     const subjectId = subjectData.subjects[0].id
     return (
       <WrappedComponent {...props} subjectId={subjectId} variables={{ level: user.organization.school_type, subjectId: subjectId }} />
@@ -30,8 +27,7 @@ function SubjectGetter(WrappedComponent) {
 
 function ManageCapabilities(props) {
   const { variables } = props
-  const [modulesData, setModulesData, error] = useSharedState([getModules, variables])
-  const gotNonResponse = handleNonResponses(modulesData)
+  const { data: modulesData, mutate: setModulesData } = useSWR([getModules, variables], { suspense: true })
   const [currentStage, setCurrentStage] = useState(null)
 
   useEffect(() => {
@@ -40,10 +36,9 @@ function ManageCapabilities(props) {
     }
   }, [modulesData])
 
-  //if (gotNonResponse) return gotNonResponse
   return (
     <>
-      {modulesData && <StagePicker {...props} stages={modulesData.modules} setCurrentStage={setCurrentStage} />}
+      <StagePicker {...props} stages={modulesData.modules} setCurrentStage={setCurrentStage} />
       <Capabilities {...props} setModulesData={setModulesData} currentStage={currentStage} setCurrentStage={setCurrentStage} />
 
     </>

@@ -3,8 +3,7 @@ import { Paper, Link, Typography } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
 import { useEffect } from "react"
 import { allGroups, myGroups } from "../../queries/Groups"
-import useSharedState from "../data-fetching/useSharedState"
-import handleNonResponses from '../data-fetching/handleNonResponses'
+import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import sortByName from '../../utils/sortByName';
 
@@ -16,9 +15,9 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
 
 
   const classes = useAdminPage()
-  const [groupsData, setGroupsData, error] = useSharedState([query, getGroupsVariables])
+  const { data: groupsData, mutate: setGroupsData } = useSWR([query, getGroupsVariables], { suspense: true })
 
-  useEffect(() => {
+  useEffect(() => {  
     if (setGroupsData && setSharedState) setSharedState({ update: setGroupsData })
   }, [setSharedState, setGroupsData])
 
@@ -32,9 +31,6 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
       }
     }
   }, [getMyGroups, groupsData, setActiveGroupSlug, setActiveGroupName, setActiveGroupId])
-
-  const gotNonResponse = handleNonResponses(groupsData, error)
-  if (gotNonResponse) return gotNonResponse
 
 
   const groups = groupsData.groups

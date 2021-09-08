@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types'
-import useSharedState from './useSharedState';
 import { getModules } from '../../queries/Subjects'
+import useSWR from 'swr';
 
 export default function WithModules(WrappedComponent) {
   function WithModules({ getModulesBySubjectIdVariables, isAdmin, pupil, subjectId, ...other }) {
-    const [modulesData, setModulesData, error] = useSharedState([getModules, getModulesBySubjectIdVariables])
-    let modules = []
-    if (modulesData) {
-      modules = modulesData.modules
-    }
+    const { data: modulesData, mutate: setModulesData } = useSWR([getModules, getModulesBySubjectIdVariables], { suspense: true })
+    let modules = modulesData.modules
+
     return (
       <>
         {modules.length > 0 && !isAdmin && <WrappedComponent
@@ -16,7 +14,7 @@ export default function WithModules(WrappedComponent) {
           setModulesData={setModulesData}
           modules={modules}
           pupil={pupil}
-          isAdmin={isAdmin} 
+          isAdmin={isAdmin}
           subjectId={subjectId}
           {...other} />}
 
@@ -24,7 +22,7 @@ export default function WithModules(WrappedComponent) {
           setModulesData={setModulesData}
           modules={modules}
           upil={pupil}
-          isAdmin={isAdmin} 
+          isAdmin={isAdmin}
           subjectId={subjectId}
           {...other} />}
       </>

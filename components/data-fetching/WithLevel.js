@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types'
-import useStateOnce from "../data-fetching/useStateOnce"
+import { Suspense } from 'react'
+import useSWR from 'swr'
 import { getLevel } from "../../queries/Pupils"
+import Loading from '../ui-globals/Loading'
 
 export default function WithLevel(WrappedComponent) {
   function WithLevel({ getLevelVars, ...other }) {
-    const [visibleLevelData] = useStateOnce([getLevel, getLevelVars])
+    const { data: visibleLevelData } = useSWR([getLevel, getLevelVars], { suspense: true })
     return (
-      <WrappedComponent initialVisibleLevel={visibleLevelData} {...other} />
+      <Suspense fallback={<Loading message="Loading level"/>}>
+        <WrappedComponent initialVisibleLevel={visibleLevelData} {...other} />
+      </Suspense>
     )
   }
 

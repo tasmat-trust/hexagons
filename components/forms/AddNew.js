@@ -5,15 +5,14 @@ import MultipleSelect from "./MultipleSelect";
 import { useState } from "react";
 
 
-import useSharedState from "../data-fetching/useSharedState";
-import handleNonResponses from "../data-fetching/handleNonResponses"
+import useSWR from "swr";
 import { allGroups } from '../../queries/Groups'
 
 import createPupil from '../forms/handlers/createPupil'
 import createTeacher from '../forms/handlers/createTeacher'
 import createGroup from '../forms/handlers/createGroup'
 import { getOrgIdFromSession } from "../../utils";
- 
+
 function AddNew(props) {
   const { updateHandler, modelname, triggerSharedState, nameFieldName, includeEmail, selectItems, gqlClient } = props
   const [selectValue, setSelectValue] = useState([]);
@@ -95,9 +94,8 @@ function AddNewGroup(props) {
 
 function AddNewUserWithGroups(props) {
   const { variables, userType } = props
-  const [state, setState, error] = useSharedState([allGroups, variables])
-  const gotNonResponse = handleNonResponses(state, error)
-  const groups = gotNonResponse ? [] : state.groups
+  const { data: groupsData } = useSWR([allGroups, variables], { suspense: true })
+  const groups = groupsData.groups
   return (
     <>
       {userType === 'teacher' && <AddNew

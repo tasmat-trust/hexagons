@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types'
-import useStateOnce from "./useStateOnce"
-import handleNonResponses from "./handleNonResponses"
+import useSWR from 'swr'
 import { getSingleSubjectBySlug } from "../../queries/Subjects"
-
 export default function WithSingleSubjectFromSlug(WrappedComponent) {
   function WithSingleSubjectFromSlug({ getSubjectBySlugVariables, ...other }) {
-    const [subjectData, error] = useStateOnce([getSingleSubjectBySlug, getSubjectBySlugVariables])
-    const gotNonResponse = handleNonResponses(subjectData, error)
-    if (gotNonResponse) return gotNonResponse
+    const { data: subjectData } = useSWR([getSingleSubjectBySlug, getSubjectBySlugVariables], { suspense: true })
     const subject = subjectData.subjects[0]
     const subjectId = subject.id
     const subjectName = subject.name
-    const subjectSlug = subject.slug  
+    const subjectSlug = subject.slug
     return (
       <>
         <WrappedComponent

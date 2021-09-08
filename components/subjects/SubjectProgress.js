@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import useStateOnce from "../data-fetching/useStateOnce"
+import useSWR from 'swr'
 import { getLevels } from "../../queries/Pupils"
 import { Typography } from "@material-ui/core"
 import Link from "next/link"
@@ -50,11 +50,9 @@ const useStyles = makeStyles((theme) => ({
 function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug }) {
   const classes = useStyles()
   const router = useRouter()
-  const [levelData, error] = useStateOnce([getLevels, getLevelVariables])
-  let level = null
-  if (levelData && levelData.levels) {
-    level = getCurrentLevel(levelData.levels)
-  }
+  const { data: levelData } = useSWR([getLevels, getLevelVariables], { suspense: true })
+  let level = getCurrentLevel(levelData.levels)
+
 
   const isSubjectsListing = router.asPath.includes('subjects')
   const isRainbowAwards = router.asPath.includes('rainbow-awards')

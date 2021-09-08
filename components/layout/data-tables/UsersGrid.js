@@ -2,16 +2,15 @@
 import { DataGrid } from '@material-ui/data-grid'
 import { allTeachers } from '../../../queries/Teachers'
 import { allPupilsWithGroups } from '../../../queries/Pupils'
-import useSharedState from "../../data-fetching/useSharedState"
-import handleNonResponses from "../../data-fetching/handleNonResponses"
 import { useEffect } from "react"
 import sortByName from '../../../utils/sortByName'
+import useSWR from 'swr'
 
 export default function UsersGrid({ variables, showMultiAdd, userType, setSharedState, setSelectedUsers, setAllUsers }) {
 
   const query = userType === 'teacher' ? allTeachers : allPupilsWithGroups
 
-  const [state, setState, error] = useSharedState([query, variables])
+  const { data: state, mutate: setState } = useSWR([query, variables], { suspense: true })
 
   useEffect(() => { // Set page-wide pupil/teacher state
     if (setState && setSharedState) setSharedState({ update: setState })
@@ -23,8 +22,6 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
       setAllUsers && setAllUsers(users)
     }
   }, [state, userType, setAllUsers])
-  const gotNonResponse = handleNonResponses(state, error)
-  if (gotNonResponse) return gotNonResponse
 
   let columns = [];
 

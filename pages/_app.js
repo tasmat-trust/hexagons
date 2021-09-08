@@ -7,6 +7,9 @@ import SettingNavItems from '../components/navigation/SettingNavItems';
 import OrgPicker from '../components/navigation/OrgPicker';
 import ResponsiveDrawer from '../components/navigation/ResponsiveDrawer';
 
+import { Suspense } from 'react'
+import ErrorBoundary from '../components/data-fetching/ErrorBoundary'
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { create } from 'jss';
@@ -17,7 +20,6 @@ import nestedPlugin from 'jss-plugin-nested';
 import theme from '../styles/theme';
 import Loading from '../components/ui-globals/Loading';
 import { useState } from 'react';
-import LogRocket from 'logrocket';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
 
@@ -25,6 +27,8 @@ import '@reach/skip-nav/styles.css';
 import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
 import { getOrgIdFromSession } from '../utils';
+
+const isServer = typeof window === "undefined";
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
@@ -78,7 +82,6 @@ function MyApp({ Component, pageProps }) {
           <SkipNavContent />
           <ResponsiveDrawer
             {...pageProps}
-            setLoading={setLoading}
             MainNavItems={MainNavItems}
             SettingNavItems={SettingNavItems}
             OrgPicker={OrgPicker}
@@ -91,8 +94,17 @@ function MyApp({ Component, pageProps }) {
                 revalidateOnFocus: false
               }}
             >
-              {loading && <Loading message={loading} testId='app-loading' />}
-              {!loading && <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={setLoading} />}
+
+              {!isServer ? (
+                <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
+                  <Suspense fallback={<Loading message="Loading with top level Suspense" />}>
+                    <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={() => { }} />
+                  </Suspense>
+                </ErrorBoundary>
+              ) : (
+                <Loading message="Loading from server" />
+              )}
+
             </SWRConfig>
           </ResponsiveDrawer>
         </StylesProvider>

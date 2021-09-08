@@ -3,8 +3,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import MultipleSelect from "./MultipleSelect";
 import { useState } from "react";
-import useSharedState from "../data-fetching/useSharedState";
-import handleNonResponses from "../data-fetching/handleNonResponses";
+import useSWR from "swr";
 import { allGroups } from "../../queries/Groups";
 import { updatePupilGroups } from "../../queries/Pupils"
 import { updateTeacherGroups } from "../../queries/Teachers"
@@ -88,11 +87,9 @@ function AssignGroupsToUser(props) {
     }
   }
 
-  const [state, setState, error] = useSharedState([allGroups, variables])
-  const gotNonResponse = handleNonResponses(state, error)
-  const groups = gotNonResponse ? [] : state.groups
+  const { data: state } = useSWR([allGroups, variables], { suspense: true })
   return (
-    <AssignTo {...props} selectItems={groups} updateModel={handleAssignToGroups} />
+    <AssignTo {...props} selectItems={state.groups} updateModel={handleAssignToGroups} />
   )
 }
 

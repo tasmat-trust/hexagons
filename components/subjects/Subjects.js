@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types'
 import { Box } from '@material-ui/core';
 import { allSubjectsQuery, allRainbowAwardsQuery } from '../../queries/Subjects';
-import useStateOnce from '../data-fetching/useStateOnce';
-import handleNonResponses from '../data-fetching/handleNonResponses';
+
+import useSWR from 'swr';
+
+
 import SubjectTiles from '../subjects/SubjectTiles';
 import { useRouter } from 'next/router';
 
 function Subjects({ linkTo, isRainbowAwards, ...other }) {
   const router = useRouter();
-
   const subjectsQuery = isRainbowAwards ? allRainbowAwardsQuery : allSubjectsQuery
-
-  const [subjectsData, error] = useStateOnce(subjectsQuery);
-  const gotNonResponse = handleNonResponses(subjectsData, error);
-  if (gotNonResponse) return gotNonResponse;
+  const { data: subjectsData } = useSWR(subjectsQuery, { suspense: true });
   let subjects = subjectsData.subjects;
   if (!isRainbowAwards) {
     // Get all parent subjects (may change in Strapi)
@@ -40,6 +38,7 @@ function Subjects({ linkTo, isRainbowAwards, ...other }) {
     </>
   );
 }
+
 
 Subjects.propTypes = {
   linkTo: PropTypes.string,

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { getPupilsByGroup } from "../../queries/Pupils"
-import useStateOnce from "../data-fetching/useStateOnce";
-import handleNonResponses from "../data-fetching/handleNonResponses";
+import useSWR from 'swr'; 
 import { Grid } from "@material-ui/core";
 import PupilCard from "../pupil/PupilCard";
 import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
@@ -10,9 +9,7 @@ import SubjectCard from '../pupil/SubjectCard';
 
 function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter()
-  const [pupilsData, error] = useStateOnce([getPupilsByGroup, pupilsByGroupVariables])
-  const gotNonResponse = handleNonResponses(pupilsData, error)
-  if (gotNonResponse) return gotNonResponse
+  const { data: pupilsData } = useSWR([getPupilsByGroup, pupilsByGroupVariables], { suspense: true })
   const isSubjectsListing = router.asPath.includes('subjects')
   const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
@@ -21,7 +18,7 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
       <Grid container spacing={3}>
         {shouldShowGroupBySubject && <Grid item xs={12} md={12}>
           <SubjectCard
-            {...other} 
+            {...other}
             activeGroupSlug={activeGroupSlug}
             pupils={pupilsData.pupils}
           />

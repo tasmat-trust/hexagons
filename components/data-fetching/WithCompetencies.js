@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
-import useStateOnce from './useStateOnce';
 import { getCompetencies } from '../../queries/Pupils'
+import useSWR from 'swr'
+import { Suspense } from 'react'
+import Loading from '../ui-globals/Loading'
 
 export default function WithCompetencies(WrappedComponent) {
   function WithCompetencies({ competenciesVars, isAdmin, ...other }) {
-    const [competenciesData, error] = useStateOnce([getCompetencies, competenciesVars])
-    let competencies = []
-    if (competenciesData) {
-      competencies = competenciesData.competencies
-    }
- 
+    const { data: competenciesData } = useSWR([getCompetencies, competenciesVars], { suspense: true })
+    let competencies = competenciesData.competencies
+
     // detect duplicates
     if (competencies.length > 0) {
       const fks = competencies.map((comp) => comp.capability_fk)
@@ -20,8 +19,10 @@ export default function WithCompetencies(WrappedComponent) {
     }
     return (
       <>
-        {!isAdmin && <WrappedComponent isAdmin={isAdmin} competenciesData={competencies} {...other} />}
-        {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
+        <Suspense fallback={<Loading message="Loading Competencies" />}>
+          {!isAdmin && <WrappedComponent isAdmin={isAdmin} competenciesData={competencies} {...other} />}
+          {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
+        </Suspense>
       </>
     )
   }

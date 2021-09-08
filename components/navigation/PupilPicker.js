@@ -23,12 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, groupName, gotNonResponse }) {
+function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, groupName }) {
   const classes = useStyles();
   const [pupilId, setPupilId] = useState(currentPupilId);
   const router = useRouter();
-  if (gotNonResponse) return <div className={classes.formControl}>{gotNonResponse}</div>
-  const handleChange = (event) => { 
+  const handleChange = (event) => {
     const newPupilId = event.target.value;
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards')

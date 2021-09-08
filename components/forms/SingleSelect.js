@@ -8,16 +8,11 @@ import { allSubjects } from '../../queries/Subjects'
 import useFormStyles from '../../styles/useFormStyles';
 import { useTheme } from '@material-ui/core/styles';
 
-import useSharedState from "../data-fetching/useSharedState";
-import handleNonResponses from "../data-fetching/handleNonResponses"
-
-
+import useSWR from "swr";
 
 function SingleSelectWithSubjects(WrappedComponent) {
   return function SingleSelectWithSubjects(props) {
-    const [subjectsData, setSubjectsData, error] = useSharedState(allSubjects)
-    const gotNonResponse = handleNonResponses(subjectsData, error)
-    if (gotNonResponse) return gotNonResponse
+    const { data: subjectsData, mutate: setSubjectsData } = useSWR(allSubjects, { suspense: true })
     return (
       <WrappedComponent {...props} selectItems={subjectsData.subjects} />
     )
