@@ -10,6 +10,7 @@ import { Slider } from "@reach/slider"
 import { purple } from '@material-ui/core/colors';
 import { useRouter } from "next/router"
 import getCurrentLevel from '../../utils/getCurrentLevel'
+import ErrorBoundary from '../data-fetching/ErrorBoundary'
 // Uses styled components to customise Reach Slider component
 // https://reach.tech/styling/
 const StyledSlider = styled(Slider)`
@@ -66,7 +67,7 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
   }
 
   return (
-    <>
+    <ErrorBoundary alert="Error in SubjectProgress component">
       {level && (
         <>
           {router && router.asPath && <Typography component="h3" variant="h6" className={classes.flexy}>
@@ -85,7 +86,7 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
           <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
         </>
       )}
-    </>
+    </ErrorBoundary>
   )
 }
 

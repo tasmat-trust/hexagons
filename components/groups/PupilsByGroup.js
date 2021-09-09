@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { getPupilsByGroup } from "../../queries/Pupils"
-import useSWR from 'swr'; 
+import useSWR from 'swr';
 import { Grid } from "@material-ui/core";
 import PupilCard from "../pupil/PupilCard";
 import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 import { useRouter } from 'next/router';
 import SubjectCard from '../pupil/SubjectCard';
+import ErrorBoundary from '../data-fetching/ErrorBoundary';
 
 function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter()
@@ -17,11 +18,13 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
     <>
       <Grid container spacing={3}>
         {shouldShowGroupBySubject && <Grid item xs={12} md={12}>
-          <SubjectCard
-            {...other}
-            activeGroupSlug={activeGroupSlug}
-            pupils={pupilsData.pupils}
-          />
+          <ErrorBoundary alert="Error with SubjectCard">
+            <SubjectCard
+              {...other}
+              activeGroupSlug={activeGroupSlug}
+              pupils={pupilsData.pupils}
+            />
+          </ErrorBoundary>
         </Grid>}
 
 
@@ -35,16 +38,19 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
             linkUrl = `/pupils/${activeGroupSlug}/${p.id}`
           }
           return (
+
             <Grid key={`pupil-${i}`} item xs={12} md={6} lg={4} sm={6} xl={3}>
-              <PupilCard
-                {...other}
-                key={i}
-                pupilId={p.id}
-                pupilName={p.name}
-                pupilGroups={p.groups}
-                activeGroupSlug={activeGroupSlug}
-                onwardHref={linkUrl}
-              />
+              <ErrorBoundary alert={`Error with ${p.name}`}>
+                <PupilCard
+                  {...other}
+                  key={i}
+                  pupilId={p.id}
+                  pupilName={p.name}
+                  pupilGroups={p.groups}
+                  activeGroupSlug={activeGroupSlug}
+                  onwardHref={linkUrl}
+                />
+              </ErrorBoundary>
             </Grid>
           )
         })}

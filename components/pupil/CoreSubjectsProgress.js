@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import SubjectProgress from '../subjects/SubjectProgress'
 import { makeStyles } from "@material-ui/core"
+import ErrorBoundary from '../data-fetching/ErrorBoundary';
 const useStyles = makeStyles(() => ({
   root: {
     listStyle: 'none',
@@ -18,19 +19,20 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, ...other }) {
   return (
     <ul className={classes.root}>
       {coreSubjects.map((subject, i) => (
-        <li key={`subject-${i}`} className={classes.li}>
-          <SubjectProgress
-            {...other} // activeGroupSlug
-            subjectSlug={subject.slug}
-            titleName={subject.name}
-            getLevelVariables={{ subjectId: subject.id, pupilId: pupilId }}
-            pupilId={pupilId}
-
-          />
-        </li>
-
+        <ErrorBoundary key={`subject-${i}`} fallback={<p>Error rendering {subject.name}</p>}>
+          <li className={classes.li}>
+            <SubjectProgress
+              {...other} // activeGroupSlug
+              subjectSlug={subject.slug}
+              titleName={subject.name}
+              getLevelVariables={{ subjectId: subject.id, pupilId: pupilId }}
+              pupilId={pupilId}
+            />
+          </li>
+        </ErrorBoundary>
       ))}
     </ul>
+
   )
 }
 

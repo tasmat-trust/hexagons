@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { Typography } from '@material-ui/core';
 
 import SubjectProgress from '../subjects/SubjectProgress';
+import ErrorBoundary from '../data-fetching/ErrorBoundary';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -45,14 +46,15 @@ function SubjectCard({
         <ul className={styles.ul}>
           {pupils && pupils.map((pupil, i) => (
             <li key={`pupil-${i}`} className={styles.li}>
-              <SubjectProgress
-                {...other} // activeGroupSlug
-                subjectSlug={subjectSlug}
-                titleName={pupil.name}
-                getLevelVariables={{ subjectId: subjectId, pupilId: pupil.id }}
-                pupilId={pupil.id}
-
-              />
+              <ErrorBoundary fallback={<p>Error rendering {pupil.name}</p>}>
+                <SubjectProgress
+                  {...other} // activeGroupSlug
+                  subjectSlug={subjectSlug}
+                  titleName={pupil.name}
+                  getLevelVariables={{ subjectId: subjectId, pupilId: pupil.id }}
+                  pupilId={pupil.id}
+                />
+              </ErrorBoundary>
             </li>
           ))}
         </ul>

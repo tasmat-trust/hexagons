@@ -8,6 +8,7 @@ import Link from "next/link"
 
 import { Chip, Typography } from "@material-ui/core"
 import CoreSubjectsProgress from "./CoreSubjectsProgress"
+import ErrorBoundary from '../data-fetching/ErrorBoundary';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,25 +54,29 @@ function PupilCard({
   return (
     <Card>
       <CardContent>
-        <Typography className={styles.pupilTitle} component='h2' variant='h4'>
-          {onwardHref && <Link href={onwardHref} >
-            <a>{pupilName}</a>
-          </Link>}
-        </Typography>
-        <ul className={styles.groupUl}>
-          {pupilGroups && pupilGroups.map((group, i) => (
-            <li key={`pupil-group-${i}`} className={styles.groupLi}>
-              <Link href={`${baseHref}/${group.slug}`}>
-                <a>
-                  <Chip clickable={true} color="primary" size="small" label={group.name} variant="outlined" />
-                </a>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <CoreSubjectsProgress
-          {...other}
-        />
+        <ErrorBoundary fallback={<p>Error loading {pupilName}</p>}>
+          <Typography className={styles.pupilTitle} component='h2' variant='h4'>
+            {onwardHref && <Link href={onwardHref} >
+              <a>{pupilName}</a>
+            </Link>}
+          </Typography>
+          <ul className={styles.groupUl}>
+            {pupilGroups && pupilGroups.map((group, i) => (
+              <ErrorBoundary key={`pupil-group-${i}`} fallback={<p>Error loading {group.name}</p>}>
+                <li className={styles.groupLi}>
+                  <Link href={`${baseHref}/${group.slug}`}>
+                    <a>
+                      <Chip clickable={true} color="primary" size="small" label={group.name} variant="outlined" />
+                    </a>
+                  </Link>
+                </li>
+              </ErrorBoundary>
+            ))}
+          </ul>
+          <CoreSubjectsProgress
+            {...other}
+          />
+        </ErrorBoundary>
       </CardContent>
 
     </Card >

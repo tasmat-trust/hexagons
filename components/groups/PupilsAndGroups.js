@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import { Grid } from "@material-ui/core";
 import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";
-import useAdminPage from "../../styles/useAdminPage"; 
+import useAdminPage from "../../styles/useAdminPage";
+import ErrorBoundary from '../data-fetching/ErrorBoundary';
 
 function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
 
@@ -16,11 +17,13 @@ function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
             <GroupsMenu orgId={orgId} {...other} />
           </Grid>
           <Grid item xs={12} md={8} xl={10}>
-            <PupilsByGroup
-              {...other}
-              orgId={orgId}
-              activeGroupSlug={activeGroupSlug}
-            />
+            <ErrorBoundary alert="Error rendering PupilsByGroup">
+              <PupilsByGroup
+                {...other}
+                orgId={orgId}
+                activeGroupSlug={activeGroupSlug}
+              />
+            </ErrorBoundary>
           </Grid>
 
         </Grid>
