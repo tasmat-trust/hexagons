@@ -3,6 +3,7 @@ import BreadCrumbs from '../navigation/Breadcrumbs'
 import LastActiveGroup from '../groups/LastActiveGroup'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import WithUrlVariables from '../data-fetching/WithUrlVariables'
+import CustomSuspense from '../data-fetching/CustomSuspense'
 
 
 function Index({ firstLabel, firstSlug, subjectName, ...other }) {
@@ -13,10 +14,12 @@ function Index({ firstLabel, firstSlug, subjectName, ...other }) {
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}
         secondLabel={subjectName} />
-      <LastActiveGroup
-        shouldShowGroupBySubject={true}
-        subjectName={subjectName}
-        {...other} />
+      <CustomSuspense message="Loading groups">
+        <LastActiveGroup
+          shouldShowGroupBySubject={true}
+          subjectName={subjectName}
+          {...other} />
+      </CustomSuspense>
     </>
   )
 }

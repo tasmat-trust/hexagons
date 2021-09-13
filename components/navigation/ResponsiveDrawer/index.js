@@ -13,10 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useLoginLogout } from '../../auth/session'
-
+import { motion } from "framer-motion"
 const drawerWidth = 240;
+import { useRouter } from 'next/router';
 
- 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ResponsiveDrawer(props) {
   const { window, children, MainNavItems, SettingNavItems, OrgPicker, user } = props;
+  const router = useRouter()
   const classes = useStyles();
   const theme = useTheme();
   const { login, logout } = useLoginLogout(props)
@@ -65,7 +66,7 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setIsOpen(!isOpen);
   };
- 
+
   const drawer = (
     <div className={classes.toolbar}>
 
@@ -132,15 +133,23 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
+      <motion.main
+        className={classes.content}
+        key={router.route}
+        initial="initial"
+        animate="animate"
+        variants={{
+          initial: {
+            opacity: 0,
+          },
+          animate: {
+            opacity: 1,
+          }
+        }}
+      >
         <div className={classes.toolbar} />
-
-
-
         {children}
-
-
-      </main>
+      </motion.main>
     </div>
   );
 }

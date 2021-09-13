@@ -2,15 +2,15 @@ import PropTypes from 'prop-types'
 import { Suspense } from 'react'
 import useSWR from 'swr'
 import { getLevel } from "../../queries/Pupils"
-import Loading from '../ui-globals/Loading'
 
 export default function WithLevel(WrappedComponent) {
   function WithLevel({ getLevelVars, ...other }) {
-    const { data: visibleLevelData } = useSWR([getLevel, getLevelVars], { suspense: true })
+    const { data: visibleLevelData } = useSWR([getLevel, getLevelVars]) 
     return (
-      <Suspense fallback={<Loading message="Loading level"/>}>
-        <WrappedComponent initialVisibleLevel={visibleLevelData} {...other} />
-      </Suspense>
+      <>
+        {!visibleLevelData && <WrappedComponent {...other} />}
+        {visibleLevelData && <WrappedComponent initialVisibleLevel={visibleLevelData} {...other} />}
+      </>
     )
   }
 

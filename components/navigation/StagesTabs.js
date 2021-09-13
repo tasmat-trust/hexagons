@@ -11,9 +11,9 @@ import WithModules from '../data-fetching/WithModules'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import { sortModules } from '../../utils/sortLevelsAndModules'
 import EarlyDevelopmentTabPanelContent from '../subjects/EarlyDevelopmentTabPanelContent'
-
 import { withStyles } from '@material-ui/styles'
 import theme from '../../styles/theme'
+import CustomSuspense from '../data-fetching/CustomSuspense'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,21 +45,22 @@ function StagesNav({ modules,
   isAdmin,
   startingLevel,
   setModulesData,
-  competenciesData,
+  initialCompetencies,
   pupil,
   subjectId,
   gqlClient }) {
   const [tabValue, setTabValue] = useState(0);
-  const [competencies, setCompetencies] = useState(competenciesData)
-  const [gotCurrentLevel, setGotCurrentLevel] = useState(false) // boolean - have we got a current level
-  const [currentLevelId, setCurrentLevelId] = useState(0)
+  const [competencies, setCompetencies] = useState(initialCompetencies)
+  const [gotCurrentLevel, setGotCurrentLevel] = useState(startingLevel ? true : false) // boolean - have we got a current level
+  const [currentLevelId, setCurrentLevelId] = useState(startingLevel ? startingLevel.id : 0)
   const [sortedModules, setSortedModules] = useState(modules)
 
   useEffect(() => { // Set the overlays to appear once loaded
-    if (competenciesData) {
-      setCompetencies(competenciesData)
+    if (initialCompetencies) {
+      setCompetencies(initialCompetencies)
     }
-  }, [competenciesData])
+  }, [initialCompetencies])
+
 
   useEffect(() => {
     if (modules) {
@@ -74,7 +75,9 @@ function StagesNav({ modules,
       const activeModule = modules.map((module, i) => module.order === startingLevel.module.order && module.level === startingLevel.module.level)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
       setTabValue(startingIndex + 1) // Plus one for early development
-      //setCompetencies(level.competencies)
+      setCompetencies(startingLevel.competencies)
+      setCurrentLevelId(startingLevel.id)
+      setGotCurrentLevel(true)
     }
   }, [modules, startingLevel])
 
@@ -120,37 +123,41 @@ function StagesNav({ modules,
         gqlClient={gqlClient}
         setModulesData={setModulesData}
         subjectId={subjectId} />}
-      <HexagonsTabs
-        value={tabValue}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons="auto"
-        aria-label="scrollable auto tabs example"
-      >
-        {!isAdmin &&
-          <HexagonsTab
-            label='Step 1'
-            {...a11yProps(0)} />}
-        {sortedModules.map((module, i) => (
-          <HexagonsTab
-            key={`link-${i}`}
-            label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
-            {...a11yProps(0)} />
-        ))}
-      </HexagonsTabs>
+      <CustomSuspense message="Loading tabs">
+        <HexagonsTabs
+          value={tabValue}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="scrollable auto tabs example"
+        >
+          {!isAdmin &&
+            <HexagonsTab
+              label='Step 1'
+              {...a11yProps(0)} />}
+          {sortedModules.map((module, i) => (
+            <HexagonsTab
+              key={`link-${i}`}
+              label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
+              {...a11yProps(0)} />
+          ))}
+        </HexagonsTabs>
+      </CustomSuspense>
       {!isAdmin &&
         <TabPanel value={tabValue} index={0}>
-          <EarlyDevelopmentTabPanelContent
-            gqlClient={gqlClient}
-            pupil={pupil}
-            setGotCurrentLevel={setGotCurrentLevel}
-            setCurrentLevelId={setCurrentLevelId}
-            gotCurrentLevel={gotCurrentLevel}
-            currentLevelId={currentLevelId}
-            getSubjectBySlugVariables={{ slug: 'early-development' }}
-            isAdmin={isAdmin}
-          
-          />
+          <CustomSuspense message="Loading Early development">
+            <EarlyDevelopmentTabPanelContent
+              gqlClient={gqlClient}
+              pupil={pupil}
+              setGotCurrentLevel={setGotCurrentLevel}
+              setCurrentLevelId={setCurrentLevelId}
+              gotCurrentLevel={gotCurrentLevel}
+              currentLevelId={currentLevelId}
+              getSubjectBySlugVariables={{ slug: 'early-development' }}
+              isAdmin={isAdmin}
+            />
+          </CustomSuspense>
+
         </TabPanel>}
 
       {sortedModules.map((module, i) => (
@@ -161,29 +168,34 @@ function StagesNav({ modules,
             currentStage={module}
             subjectId={subjectId}
           />}
-          {!isAdmin && <LevelStatus
-            setGotCurrentLevel={setGotCurrentLevel}
-            setCurrentLevelId={setCurrentLevelId}
-            currentModule={module}
-            subjectId={subjectId}
-            pupil={pupil}
-            allCompetencies={competencies}
-            gqlClient={gqlClient}
-            getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: module.id }}
-          />}
-          <CapabilityTiles
-            gqlClient={gqlClient}
-            subjectId={subjectId}
-            pupil={pupil}
-            capabilities={module.capabilities}
-            competencies={competencies}
-            isAdmin={isAdmin}
-            setCompetencies={setCompetencies}
-            currentModule={module}
-            gotCurrentLevel={gotCurrentLevel}
-            setGotCurrentLevel={setGotCurrentLevel}
-            currentLevelId={currentLevelId}
-          />
+          {!isAdmin &&
+            <CustomSuspense message="Loading status">
+              <LevelStatus
+                setGotCurrentLevel={setGotCurrentLevel}
+                setCurrentLevelId={setCurrentLevelId}
+                currentModule={module}
+                subjectId={subjectId}
+                pupil={pupil}
+                competencies={competencies}
+                gqlClient={gqlClient}
+                getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: module.id }}
+              />
+            </CustomSuspense>}
+          <CustomSuspense message="Loading tiles">
+            <CapabilityTiles
+              gqlClient={gqlClient}
+              subjectId={subjectId}
+              pupil={pupil}
+              capabilities={module.capabilities}
+              competencies={competencies}
+              isAdmin={isAdmin}
+              setCompetencies={setCompetencies}
+              currentModule={module}
+              gotCurrentLevel={gotCurrentLevel}
+              setGotCurrentLevel={setGotCurrentLevel}
+              currentLevelId={currentLevelId}
+            />
+          </CustomSuspense>
         </TabPanel>
       ))}
     </>
@@ -195,7 +207,7 @@ StagesNav.propTypes = {
   isAdmin: PropTypes.bool,
   startingLevel: PropTypes.object,
   setModulesData: PropTypes.func,
-  competenciesData: PropTypes.array,
+  competencies: PropTypes.array,
   pupil: PropTypes.object,
   subjectId: PropTypes.string,
   gqlClient: PropTypes.object,

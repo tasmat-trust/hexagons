@@ -20,11 +20,11 @@ export function useLoginLogout(props) {
   const router = useRouter();
 
   function logout() {
-    props.setLoading('Logging you out')
+ 
     axios.post('/api/logout').then(() => {
       
       router.push('/login');
-      setTimeout(() => props.setLoading(false), 2000)
+ 
     });
   }
   function login() {

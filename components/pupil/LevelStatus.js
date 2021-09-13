@@ -61,8 +61,9 @@ function LevelStatus({ setGotCurrentLevel,
   currentModule,
   subjectId,
   pupil,
-  allCompetencies,
-  gqlClient }) {
+  competencies,
+  gqlClient,
+  ...other }) {
 
 
   const classes = useStyles()
@@ -70,11 +71,10 @@ function LevelStatus({ setGotCurrentLevel,
 
   const [visibleLevel, setVisibleLevel] = useState(null)
   const [readyToShow, setReadyToShow] = useState(false)
-  const [checkedStatus, setCheckedStatus] = useState(false)
 
   const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
   const status = visibleLevel ? visibleLevel.status : 'notstarted'
-  const thisLevelCompetencies = calculateCompetenciesForThisLevel(allCompetencies, currentModule.capabilities)
+  const thisLevelCompetencies = calculateCompetenciesForThisLevel(competencies, currentModule.capabilities)
 
 
 
@@ -99,24 +99,20 @@ function LevelStatus({ setGotCurrentLevel,
 
   useEffect(() => {
 
-    if (initialVisibleLevel && initialVisibleLevel.levels.length < 1) {
-      setCheckedStatus(true)
-    }
 
     if (initialVisibleLevel && initialVisibleLevel.levels.length > 0) {
       const level = initialVisibleLevel.levels[0]
       bubbleGotLevel(level)
-      setCheckedStatus(true)
     }
 
     setReadyToShow(true)
 
- 
-    if (visiblePercentComplete === 100) {
+    const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities)
+    if (percentComplete === 100) {
       completeStep()
-    } 
+    }
 
-  }, [initialVisibleLevel, bubbleGotLevel])
+  }, [visibleLevel, bubbleGotLevel])
 
   async function triggerCreateLevel(status) {
     const variables = {
@@ -182,7 +178,14 @@ function LevelStatus({ setGotCurrentLevel,
       <Box className={classes.level}>
         <Box className={classes.header}>
           <Box>
-            <LevelStatusTitle status={status} checkedStatus={checkedStatus} classes={classes} moduleLabel={moduleLabel} moduleOrder={currentModule.order} />
+            <LevelStatusTitle
+              bubbleGotLevel={bubbleGotLevel} 
+              status={status}
+              classes={classes}
+              moduleLabel={moduleLabel}
+              moduleOrder={currentModule.order}
+              {...other}
+            />
           </Box>
           <Box>
             <DialogButton
@@ -230,7 +233,6 @@ function LevelStatus({ setGotCurrentLevel,
 LevelStatus.propTypes = {
   setGotCurrentLevel: PropTypes.func,
   setCurrentLevelId: PropTypes.func,
-  initialVisibleLevel: PropTypes.object, // injected by WithLevel HOC
   currentModule: PropTypes.object,
   subjectId: PropTypes.string,
   pupil: PropTypes.object,
@@ -238,4 +240,4 @@ LevelStatus.propTypes = {
   gqlClient: PropTypes.object
 }
 
-export default WithLevel(LevelStatus)
+export default LevelStatus

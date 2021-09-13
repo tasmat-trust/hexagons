@@ -7,6 +7,7 @@ import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 import { useRouter } from 'next/router';
 import SubjectCard from '../pupil/SubjectCard';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+import CustomSuspense from '../data-fetching/CustomSuspense';
 
 function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter()
@@ -19,11 +20,13 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
       <Grid container spacing={3}>
         {shouldShowGroupBySubject && <Grid item xs={12} md={12}>
           <ErrorBoundary alert="Error with SubjectCard">
-            <SubjectCard
-              {...other}
-              activeGroupSlug={activeGroupSlug}
-              pupils={pupilsData.pupils}
-            />
+            <CustomSuspense message="Loading pupils by subject">
+              <SubjectCard
+                {...other}
+                activeGroupSlug={activeGroupSlug}
+                pupils={pupilsData.pupils}
+              />
+            </CustomSuspense>
           </ErrorBoundary>
         </Grid>}
 

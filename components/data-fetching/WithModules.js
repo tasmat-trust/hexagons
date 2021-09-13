@@ -11,7 +11,6 @@ export default function WithModules(WrappedComponent) {
       <>
         {modules.length > 0 && !isAdmin && <WrappedComponent
           competenciesVars={{ pupilId: parseInt(pupil.id), subjectId: parseInt(subjectId) }}
-          setModulesData={setModulesData}
           modules={modules}
           pupil={pupil}
           isAdmin={isAdmin}

@@ -34,11 +34,11 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, gro
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
       router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
-        shallow: true,
+        shallow: false,
       });
     } else {
       router.push(`/pupils/${activeGroupSlug}/${newPupilId}/${subjectSlug}`, undefined, {
-        shallow: true,
+        shallow: false,
       });
     }
     setPupilId(newPupilId);

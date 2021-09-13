@@ -1,23 +1,28 @@
 import PropTypes from 'prop-types'
 import { Typography } from "@material-ui/core"
 import { useState, useEffect } from 'react'
+import WithLevel from '../data-fetching/WithLevel'
 
-function LevelTitle({ status, checkedStatus, classes, moduleLabel, moduleOrder }) {
-  const [fadeStarted, setFadeStarted] = useState(false)
+function LevelTitle({ status, classes, moduleLabel, moduleOrder, initialVisibleLevel, bubbleGotLevel }) {
+  const [level, setLevel] = useState(null)
   useEffect(() => {
-    if (fadeStarted !== true && checkedStatus === true) {
-      setFadeStarted(true)
+    if (initialVisibleLevel) {
+      let level = initialVisibleLevel.levels[0]
+      bubbleGotLevel(level)
+      setLevel(level)
     }
-  }, [fadeStarted, setFadeStarted, checkedStatus])
+  }, [initialVisibleLevel, setLevel, bubbleGotLevel])
   return (
     <Typography data-test-id="level-status-title" className={classes.title} variant='h2'>
       {moduleLabel} {moduleOrder}
-      {fadeStarted && <span> &#8212; <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
+      {level && status === 'complete' && <span> &#8212; <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
     </Typography>
   )
 }
 
 LevelTitle.propTypes = {
+  bubbleGotLevel: PropTypes.func,
+  initialVisibleLevel: PropTypes.object,
   moduleLabel: PropTypes.string,
   moduleOrder: PropTypes.number,
   status: PropTypes.string,
@@ -25,4 +30,4 @@ LevelTitle.propTypes = {
   classes: PropTypes.object
 }
 
-export default LevelTitle
+export default WithLevel(LevelTitle)

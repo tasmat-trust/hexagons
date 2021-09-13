@@ -22,6 +22,8 @@ import Loading from '../components/ui-globals/Loading';
 import { useState } from 'react';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
+import { AnimateSharedLayout } from "framer-motion"
+import { motion } from "framer-motion"
 
 // Data fetching
 import { GraphQLClient } from 'graphql-request'
@@ -74,41 +76,45 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProviderWithGlobalStyles theme={theme}>
-        <StylesProvider jss={jss}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <SkipNavLink />
-          <SkipNavContent />
-          <ResponsiveDrawer
-            {...pageProps}
-            MainNavItems={MainNavItems}
-            SettingNavItems={SettingNavItems}
-            OrgPicker={OrgPicker}
-          >
-            <SWRConfig
-              {...pageProps}
-              value={{
-                refreshInterval: 0,
-                fetcher: fetcher,
-                revalidateOnFocus: false
-              }}
-            >
+      <AnimateSharedLayout>
+        <ThemeProviderWithGlobalStyles theme={theme}>
+          <StylesProvider jss={jss}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <SkipNavLink />
+            <SkipNavContent />
+ 
+              <ResponsiveDrawer
+                {...pageProps}
+                MainNavItems={MainNavItems}
+                SettingNavItems={SettingNavItems}
+                OrgPicker={OrgPicker}
+              >
+                <SWRConfig
+                  {...pageProps}
+                  value={{
+                    refreshInterval: 0,
+                    fetcher: fetcher,
+                    revalidateOnFocus: false
+                  }}
+                >
 
-              {!isServer ? (
-                <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
-                  <Suspense fallback={<Loading message="Loading with top level Suspense" />}>
-                    <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={() => { }} />
-                  </Suspense>
-                </ErrorBoundary>
-              ) : (
-                <Loading message="Loading from server" />
-              )}
+                  {!isServer ? (
+                    <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
+                      <Suspense fallback={<Loading message="Loading with top level Suspense" />}>
+                        <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={setLoading} />
+                      </Suspense>
+                    </ErrorBoundary>
+                  ) : (
+                    <Loading message="Loading from server" />
+                  )}
 
-            </SWRConfig>
-          </ResponsiveDrawer>
-        </StylesProvider>
-      </ThemeProviderWithGlobalStyles>
+                </SWRConfig>
+              </ResponsiveDrawer>
+  
+          </StylesProvider>
+        </ThemeProviderWithGlobalStyles>
+      </AnimateSharedLayout>
     </>
   );
 }

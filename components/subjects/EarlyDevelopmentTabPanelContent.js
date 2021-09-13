@@ -5,23 +5,26 @@ import WithCompetencies from '../data-fetching/WithCompetencies'
 import LevelStatus from '../pupil/LevelStatus'
 import CapabilityTiles from './CapabilityTiles'
 import { useState, useEffect } from 'react'
+import CustomSuspense from '../data-fetching/CustomSuspense'
 
-function EarlyDevelopmentTabPanelContent({ pupil, modules, competenciesData, subjectId, ...other }) {
-  const [competencies, setCompetencies] = useState(competenciesData)
+function EarlyDevelopmentTabPanelContent({ pupil, modules, initialCompetencies, subjectId, ...other }) {
+  const [competencies, setCompetencies] = useState(initialCompetencies)
   useEffect(() => { // Set the overlays to appear once loaded
-    if (competenciesData) {
-      setCompetencies(competenciesData)
+    if (initialCompetencies) {
+      setCompetencies(initialCompetencies)
     }
-  }, [competenciesData])
+  }, [initialCompetencies, setCompetencies])
   return (
     <>
+
       <LevelStatus
         currentModule={modules[0]}
-        allCompetencies={competencies}
+        competencies={competencies}
         subjectId={subjectId}
         getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: modules[0].id }}
         {...other}
       />
+
       <CapabilityTiles
         subjectId={subjectId}
         pupil={pupil}

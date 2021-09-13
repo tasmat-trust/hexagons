@@ -15,18 +15,19 @@ function NavItem({ label, href, Icon, isHomeLink }) {
 
   return (
     <li className={`NavItem ${isActive}`}>
-      <ListItem
-        button={true}
-        component={'a'}
-        href={href}
-        selected={!isHomeLink ? router.asPath.includes(href) : highlightHome()}
-        key={label}
-      >
-        <ListItemIcon>
-          <Icon />
-        </ListItemIcon>
-        <ListItemText>{label}</ListItemText>
-      </ListItem>
+      <Link href={href} passHref>
+        <ListItem
+          button={true}
+          component={'a'}
+          selected={!isHomeLink ? router.asPath.includes(href) : highlightHome()}
+          key={label}
+        >
+          <ListItemIcon>
+            <Icon />
+          </ListItemIcon>
+          <ListItemText>{label}</ListItemText>
+        </ListItem>
+      </Link>
     </li>
   );
 }

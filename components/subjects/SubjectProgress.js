@@ -51,8 +51,12 @@ const useStyles = makeStyles((theme) => ({
 function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug }) {
   const classes = useStyles()
   const router = useRouter()
-  const { data: levelData } = useSWR([getLevels, getLevelVariables], { suspense: true })
-  let level = getCurrentLevel(levelData.levels)
+  const { data: levelData } = useSWR([getLevels, getLevelVariables])
+  let level = null
+  if (levelData) {
+    level = getCurrentLevel(levelData.levels)
+  }
+
 
 
   const isSubjectsListing = router.asPath.includes('subjects')

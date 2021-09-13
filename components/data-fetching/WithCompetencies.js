@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import { getCompetencies } from '../../queries/Pupils'
 import useSWR from 'swr'
-import { Suspense } from 'react'
-import Loading from '../ui-globals/Loading'
 
 export default function WithCompetencies(WrappedComponent) {
   function WithCompetencies({ competenciesVars, isAdmin, ...other }) {
@@ -19,10 +17,8 @@ export default function WithCompetencies(WrappedComponent) {
     }
     return (
       <>
-        <Suspense fallback={<Loading message="Loading Competencies" />}>
-          {!isAdmin && <WrappedComponent isAdmin={isAdmin} competenciesData={competencies} {...other} />}
-          {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
-        </Suspense>
+        {!isAdmin && <WrappedComponent isAdmin={isAdmin} initialCompetencies={competencies} {...other} />}
+        {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
       </>
     )
   }
