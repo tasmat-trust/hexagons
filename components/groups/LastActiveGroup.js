@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PupilsAndGroups from './PupilsAndGroups';
 import SubjectsAndGroups from './SubjectsAndGroups'
 import { makeStyles } from '@material-ui/core';
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
 const styles = makeStyles((theme) => ({
   title: {
@@ -10,10 +11,11 @@ const styles = makeStyles((theme) => ({
   }
 }))
 
-function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
+function LastActiveGroup({ user, isHomepage, ...other }) {
   const [activeGroupSlug, setActiveGroupSlug] = useState();
   const [activeGroupName, setActiveGroupName] = useState();
   const [activeGroupId, setActiveGroupId] = useState();
+  const { orgId } = useContext(HexagonsContext)
   const classes = styles()
 
   useEffect(() => {
@@ -35,7 +37,6 @@ function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
 
       {isHomepage && <SubjectsAndGroups
         {...other}
-        orgId={orgId}
         userId={user.id}
         activeGroupSlug={activeGroupSlug}
         setActiveGroupSlug={setActiveGroupSlug}
@@ -44,7 +45,6 @@ function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
       />}
       {!isHomepage && <PupilsAndGroups
         {...other}
-        orgId={orgId}
         userId={user.id}
         groupName={activeGroupName}
         activeGroupSlug={activeGroupSlug}
@@ -58,10 +58,8 @@ function LastActiveGroup({ user, orgId, isHomepage, ...other }) {
 }
 
 LastActiveGroup.propTypes = {
-  orgId: PropTypes.number,
   isHomepage: PropTypes.bool,
   user: PropTypes.object,
 };
 
 export default LastActiveGroup;
- 

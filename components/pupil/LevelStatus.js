@@ -2,13 +2,15 @@ import PropTypes from 'prop-types'
 import { Typography, Box, Button, Fade } from "@material-ui/core"
 import createLevel from '../forms/handlers/createLevel'
 import updateLevel from '../forms/handlers/updateLevel'
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useContext } from "react"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from "@material-ui/core"
 import getPercentComplete from "../../utils/getPercentComplete"
-import WithLevel from "../data-fetching/WithLevel";
 import LevelStatusTitle from './LevelStatusTitle'
 import DialogButton from '../ui-globals/DialogButton'
+import LightbulbIcon from '../ui-globals/LightbulbIcon'
+import ErrorBoundary from '../data-fetching/ErrorBoundary'
+import { HexagonsContext } from '../data-fetching/HexagonsContext'
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -56,15 +58,15 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
 }
 
 function LevelStatus({ setGotCurrentLevel,
+  setGlobalGuidanceActive,
   setCurrentLevelId,
-  initialVisibleLevel,
   currentModule,
   subjectId,
   pupil,
   competencies,
-  gqlClient,
   ...other }) {
 
+  const { gqlClient } = useContext(HexagonsContext)
 
   const classes = useStyles()
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
@@ -98,12 +100,6 @@ function LevelStatus({ setGotCurrentLevel,
 
 
   useEffect(() => {
-
-
-    if (initialVisibleLevel && initialVisibleLevel.levels.length > 0) {
-      const level = initialVisibleLevel.levels[0]
-      bubbleGotLevel(level)
-    }
 
     setReadyToShow(true)
 
@@ -172,20 +168,58 @@ function LevelStatus({ setGotCurrentLevel,
     }
   }
 
+  // Guidance feature
+
+  const [guidanceActive, setGuidanceActive] = useState(false)
+
+  useEffect(() => {
+    setGlobalGuidanceActive(guidanceActive)
+  }, [guidanceActive, setGlobalGuidanceActive])
+
+
   return (
     <Fade in={readyToShow}>
 
       <Box className={classes.level}>
         <Box className={classes.header}>
           <Box>
-            <LevelStatusTitle
-              bubbleGotLevel={bubbleGotLevel} 
-              status={status}
-              classes={classes}
-              moduleLabel={moduleLabel}
-              moduleOrder={currentModule.order}
-              {...other}
-            />
+            <ErrorBoundary alert="Failed to load levels">
+              <LevelStatusTitle
+                bubbleGotLevel={bubbleGotLevel}
+                status={status}
+                classes={classes}
+                moduleLabel={moduleLabel}
+                moduleOrder={currentModule.order}
+                {...other}
+              />
+            </ErrorBoundary>
+          </Box>
+          <Box>
+            <DialogButton
+              startIcon={<LightbulbIcon viewBox="0 0 100 125" />}
+              label={guidanceActive ? 'Go back to assessment' : 'Add / View Guidance'}
+              testId="view-guidance-button"
+              color={guidanceActive ? 'secondary' : 'primary'}
+              onClose={() => {
+                setTimeout(() => {
+                  setGuidanceActive(!guidanceActive)
+                }, 100)
+
+              }}
+              variant="contained"
+              boxTitle={`${moduleLabel} ${currentModule.order} summary`}>
+              {guidanceActive && (
+                <>
+                  <p>You are back in assessment mode for {pupil.name}</p>
+                </>
+              )}
+              {!guidanceActive && (
+                <>
+                  <p>You can now view guidance from colleagues and add your own by tapping the Hexagons</p>
+                </>
+              )}
+
+            </DialogButton>
           </Box>
           <Box>
             <DialogButton
@@ -232,12 +266,12 @@ function LevelStatus({ setGotCurrentLevel,
 
 LevelStatus.propTypes = {
   setGotCurrentLevel: PropTypes.func,
+  setGlobalGuidanceActive: PropTypes.func,
   setCurrentLevelId: PropTypes.func,
   currentModule: PropTypes.object,
   subjectId: PropTypes.string,
   pupil: PropTypes.object,
-  allCompetencies: PropTypes.array,
-  gqlClient: PropTypes.object
+  allCompetencies: PropTypes.array
 }
 
 export default LevelStatus

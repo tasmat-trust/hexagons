@@ -4,13 +4,13 @@ import { AssignGroupsToUser } from '../forms/AssignTo'
 import UsersGrid from "../layout/data-tables/UsersGrid"
 import { Box, Typography, Paper } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
-import { getOrgIdFromSession } from '../../utils';
-import { useState, memo } from "react"
+import { useState, memo, useContext } from "react"
+import { HexagonsContext } from "../data-fetching/HexagonsContext"
 
 function ManageUsersHeader(props) {
 
-  const { classes, orgId, multiAddVisible, userType } = props
-
+  const { classes, multiAddVisible, userType } = props
+  const { orgId } = useContext(HexagonsContext)
   return (
     <>
       <Box className={classes.box}>
@@ -64,7 +64,7 @@ function ManageUsersHeader(props) {
 }
 
 const ManageUsersBody = memo(function ManageUsersBody(props) {
-  const { orgId } = props
+  const { orgId } = useContext(HexagonsContext)
 
   return (
     <UsersGrid {...props} variables={{ orgId: orgId }}></UsersGrid>
@@ -72,7 +72,6 @@ const ManageUsersBody = memo(function ManageUsersBody(props) {
 })
 
 function ManageUsers(props) {
-  const orgId = getOrgIdFromSession(props.user)
   const classes = useAdminPage()
   const [multiAddVisible, setMultiAddVisible] = useState(false)
   const [mutateUsers, setMutateUsers] = useState()
@@ -82,7 +81,6 @@ function ManageUsers(props) {
     <Paper variant="outlined" className={classes.paper}>
       <ManageUsersHeader
         {...props}
-        orgId={orgId}
         classes={classes}
         allUsers={allUsers}
         selectedUsers={selectedUsers}
@@ -91,7 +89,6 @@ function ManageUsers(props) {
       />
       <ManageUsersBody
         {...props}
-        orgId={orgId}
         setAllUsers={setAllUsers}
         setSelectedUsers={setSelectedUsers}
         setSharedState={setMutateUsers}

@@ -4,7 +4,7 @@ import useSWR from 'swr'
 
 export default function WithCompetencies(WrappedComponent) {
   function WithCompetencies({ competenciesVars, isAdmin, ...other }) {
-    const { data: competenciesData } = useSWR([getCompetencies, competenciesVars], { suspense: true })
+    const { data: competenciesData} = useSWR([getCompetencies, competenciesVars], { suspense: true })
     let competencies = competenciesData.competencies
 
     // detect duplicates
@@ -17,7 +17,10 @@ export default function WithCompetencies(WrappedComponent) {
     }
     return (
       <>
-        {!isAdmin && <WrappedComponent isAdmin={isAdmin} initialCompetencies={competencies} {...other} />}
+        {!isAdmin && <WrappedComponent
+          isAdmin={isAdmin}
+          initialCompetencies={competencies}
+          {...other} />}
         {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
       </>
     )

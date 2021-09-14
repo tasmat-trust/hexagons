@@ -10,8 +10,7 @@ async function createTeacher(formData, gqlClient, orgId, triggerSharedState, set
   }
   try {
     const data = await gqlClient.request(createTeacherQuery, variables)
-    if (data) {
-      console.log(data)
+    if (data) { 
       //triggerSharedState.update()
     }
   } catch (e) {

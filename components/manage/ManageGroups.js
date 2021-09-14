@@ -4,16 +4,15 @@ import DialogButton from '../ui-globals/DialogButton'
 import GroupsList from '../../components/groups/GroupsList'
 
 import { AddNewGroup } from '../../components/forms/AddNew';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import useAdminPage from "../../styles/useAdminPage";
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
-// Utils
-import { getOrgIdFromSession } from '../../utils';
 
 export default function ManageGroups(props) {
   const { user, userType } = props
   const classes = useAdminPage()
-  const orgId = getOrgIdFromSession(user)
+  const { orgId}  = useContext(HexagonsContext)
   const [mutateGroup, setMutateGroup] = useState()
   return (
     <Paper variant="outlined" className={classes.paper}>

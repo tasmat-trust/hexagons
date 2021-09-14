@@ -4,10 +4,13 @@ import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";
 import useAdminPage from "../../styles/useAdminPage";
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+import { useContext } from 'react';
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
-function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
+function PupilsAndGroups({ activeGroupSlug, ...other }) {
 
   const classes = useAdminPage()
+  const {orgId} = useContext(HexagonsContext)
 
   return (
     <>
@@ -20,7 +23,6 @@ function PupilsAndGroups({ orgId, activeGroupSlug, ...other }) {
             <ErrorBoundary alert="Error rendering PupilsByGroup">
               <PupilsByGroup
                 {...other}
-                orgId={orgId}
                 activeGroupSlug={activeGroupSlug}
               />
             </ErrorBoundary>

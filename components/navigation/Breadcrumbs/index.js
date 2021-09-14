@@ -24,7 +24,9 @@ function LinkOrLabel(props) {
     <Box data-test-id={testId}>
       {href && (
         <Link color="inherit" href={href}>
-          {label}
+          <a>
+            {label}
+          </a>
         </Link>
       )}
       {!href && label && <Typography>{label}</Typography>}

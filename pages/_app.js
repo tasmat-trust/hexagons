@@ -30,6 +30,8 @@ import { GraphQLClient } from 'graphql-request'
 import { SWRConfig } from 'swr'
 import { getOrgIdFromSession } from '../utils';
 
+import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
+
 const isServer = typeof window === "undefined";
 
 const jss = create({
@@ -60,16 +62,21 @@ function MyApp({ Component, pageProps }) {
     }
     : {};
 
-  const graphqlClient = new GraphQLClient(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, headers);
+  const gqlClient = new GraphQLClient(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, headers);
 
   const fetcher = async (query, variables) => {
-    const data = await graphqlClient.request(query, variables);
+    const data = await gqlClient.request(query, variables);
     return data;
   };
   let orgId = 0
   if (pageProps.user) {
     orgId = getOrgIdFromSession(pageProps.user)
   }
+
+  const hexagonsGlobals = {
+    gqlClient, orgId
+  }
+  
 
   return (
     <>
@@ -83,7 +90,7 @@ function MyApp({ Component, pageProps }) {
             <CssBaseline />
             <SkipNavLink />
             <SkipNavContent />
- 
+            <HexagonsContext.Provider value={hexagonsGlobals}>
               <ResponsiveDrawer
                 {...pageProps}
                 MainNavItems={MainNavItems}
@@ -102,7 +109,7 @@ function MyApp({ Component, pageProps }) {
                   {!isServer ? (
                     <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
                       <Suspense fallback={<Loading message="Loading with top level Suspense" />}>
-                        <Component  {...pageProps} orgId={orgId} gqlClient={graphqlClient} setLoading={setLoading} />
+                        <Component  {...pageProps} setLoading={setLoading} />
                       </Suspense>
                     </ErrorBoundary>
                   ) : (
@@ -111,7 +118,7 @@ function MyApp({ Component, pageProps }) {
 
                 </SWRConfig>
               </ResponsiveDrawer>
-  
+            </HexagonsContext.Provider>
           </StylesProvider>
         </ThemeProviderWithGlobalStyles>
       </AnimateSharedLayout>

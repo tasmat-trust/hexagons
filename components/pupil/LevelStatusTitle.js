@@ -7,6 +7,9 @@ function LevelTitle({ status, classes, moduleLabel, moduleOrder, initialVisibleL
   const [level, setLevel] = useState(null)
   useEffect(() => {
     if (initialVisibleLevel) {
+      if (initialVisibleLevel.levels.length > 1) {
+        throw new Error('Too many levels!')
+      }
       let level = initialVisibleLevel.levels[0]
       bubbleGotLevel(level)
       setLevel(level)

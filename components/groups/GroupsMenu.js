@@ -2,9 +2,12 @@ import PropTypes from 'prop-types'
 import { Paper, Box, Typography, Grid } from "@material-ui/core"
 import GroupsList from "./GroupsList"
 import useAdminPage from "../../styles/useAdminPage"
-function GroupsMenu({orgId, userId, ...other}) {
+import { useContext } from 'react'
+import { HexagonsContext } from '../data-fetching/HexagonsContext'
+function GroupsMenu({ userId, ...other }) {
 
-  const classes = useAdminPage() 
+  const classes = useAdminPage()
+  const { orgId } = useContext(HexagonsContext)
 
   return (
     <>
@@ -35,7 +38,6 @@ function GroupsMenu({orgId, userId, ...other}) {
 }
 
 GroupsMenu.propTypes = {
-  orgId: PropTypes.number,
   userId: PropTypes.number
 }
 

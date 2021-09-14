@@ -2,9 +2,13 @@ import PropTypes from 'prop-types'
 import { Button } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
 import deleteModule from './handlers/deleteModule'
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import { useContext } from 'react';
 
-function DeleteModule({ gqlClient, setModulesData, currentStage }) {
- 
+function DeleteModule({ setModulesData, currentStage }) {
+
+  const { gqlClient } = useContext(HexagonsContext)
+
   async function handleForm(event) {
     event.preventDefault()
     await deleteModule(gqlClient, currentStage, setModulesData)
@@ -22,7 +26,6 @@ function DeleteModule({ gqlClient, setModulesData, currentStage }) {
 }
 
 DeleteModule.propTypes = {
-  gqlClient: PropTypes.object,
   setModulesData: PropTypes.func,
   currentStage: PropTypes.object
 }

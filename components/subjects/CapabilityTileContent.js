@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 function CapabilityTileContent({ text, className }) {
   return (
-    <div className={className}>
+    <div className={`${className}`}>
       {text}
     </div>
   )

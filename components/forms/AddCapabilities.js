@@ -3,8 +3,9 @@ import { TextField, Button } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
 import createModule from '../forms/handlers/createModule'
 import { MenuItem, Select, InputLabel } from "@material-ui/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core";
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
 const styles = makeStyles((theme) => ({
   top: {
@@ -15,8 +16,9 @@ const styles = makeStyles((theme) => ({
   }
 }))
 
-function AddCapabilities({ gqlClient, setModulesData, subjectId }) {
+function AddCapabilities({ setModulesData, subjectId }) {
 
+  const { gqlClient } = useContext(HexagonsContext)
   const [capabilitiesValue, setCapabilitiesValue] = useState('');
   const [orderValue, setOrderValue] = useState('');
   const [levelValue, setLevelValue] = useState('');
@@ -144,7 +146,6 @@ function AddCapabilities({ gqlClient, setModulesData, subjectId }) {
 }
 
 AddCapabilities.propTypes = {
-  gqlClient: PropTypes.object,
   setModulesData: PropTypes.func,
   subjectId: PropTypes.string
 }

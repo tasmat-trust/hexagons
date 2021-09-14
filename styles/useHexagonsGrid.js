@@ -116,6 +116,12 @@ const stringStyles = makeStyles((theme) => ({
     font-size: inherit;
     float: left;
   `,
+  lightbulb: `
+    position: absolute !important;
+    opacity: 50%;
+    top: 5%;
+    right: 25%;
+  `,
   hexContent_inner: `
     width: 70%;
     margin: 0px auto;

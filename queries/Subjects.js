@@ -28,12 +28,12 @@ const getSingleSubjectBySlug = gql`query getSubject($slug: String!) {
 }`
 
 
-const getModule = gql`query getModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subjectId: ID!) {  
-  modules (where: {subject: $subjectId, order: $order, level: $level}) { 
-    order id,
-    subject {
-      name id
-    }
+const getCapability = gql`query getCapability($id: ID!) {  
+  capabilities (where: {id: $id}) { 
+    text id,
+    guidance {
+          text
+        }
   }
 }`
 
@@ -41,7 +41,10 @@ const getModules = gql`query getModules($subjectId: ID!) {
   modules (where: {subject: $subjectId}) { 
     order id level summary guidance, 
     capabilities {
-      text id
+      text id,
+        guidance {
+          text
+        }
     }
   }
 }`
@@ -112,6 +115,21 @@ mutation DeleteModule($id: ID!) {
   }
 }`
 
+const createGuidanceQuery = gql`
+mutation createGuidance($text: String!, $capability: ID!) {
+  createGuidance(input: {
+    data: {
+      text: $text,
+      capability: $capability
+    }
+  }) {
+    guidance {
+      text id
+    }
+  }
+}
+`
+
 export {
   allRainbowAwardsQuery,
   getCoreSubjects,
@@ -121,5 +139,7 @@ export {
   createModuleQuery,
   getSingleSubjectBySlug,
   allSubjectsQuery,
-  getModules
+  getModules,
+  createGuidanceQuery, 
+  getCapability
 }

@@ -1,21 +1,24 @@
 import { PropTypes } from 'prop-types';
 import { stringStyles } from '../../styles/useHexagonsGrid';
 import { ButtonBase } from '@material-ui/core';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import createCompetency from '../forms/handlers/createCompetency';
 import createLevel from '../forms/handlers/createLevel';
 import useTileStyles from '../../styles/useTileStyles';
 import CapabilityTileContent from './CapabilityTileContent';
+import CapabilityTileGuidance from './CapabilityTileGuidance'
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import Image from 'next/image'
 
 function CapabilityTile(props) {
   const styles = stringStyles();
   const {
+    guidanceActive,
     hexId,
-    capability,
+    initialCapability,
     isAdmin,
     competency,
     setCompetencies,
-    gqlClient,
     currentModule,
     gotCurrentLevel,
     setGotCurrentLevel,
@@ -23,14 +26,24 @@ function CapabilityTile(props) {
     pupil,
     currentLevelId,
     setTilesDisabled,
+    ...other
   } = props;
-
+  const { gqlClient } = useContext(HexagonsContext)
   const [isComplete, setIsComplete] = useState(false);
   const [isTarget, setIsTarget] = useState(false);
   const [isIncomplete, setIsIncomplete] = useState(false);
   const [competencyStatus, setCompetencyStatus] = useState(null);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
+  const [guidanceIsOpen, setGuidanceIsOpen] = useState(false)
+  const [capability, setCapability] = useState(initialCapability)
   const tileStyles = useTileStyles();
+
+  useEffect(() => {
+    if (initialCapability) {
+      setCapability(initialCapability)
+    }
+  }, [initialCapability, setCapability])
+
 
   useEffect(() => {
     let initialIsIncomplete = !competency;
@@ -43,13 +56,20 @@ function CapabilityTile(props) {
     competency && competency.status && setCompetencyStatus(competency.status);
   }, [competency, competencyStatus]);
 
+
+
   function handleUpdate() {
-    // Disable button and update colour
-    setButtonIsDisabled(true);
-    let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
-    setCompetencyStatus(status); // Optimistic update
-    let levelId = currentLevelId;
-    handleStatus(levelId, status);
+    if (!guidanceActive) {
+      // Disable button and update colour
+      setButtonIsDisabled(true);
+      let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
+      setCompetencyStatus(status); // Optimistic update
+      let levelId = currentLevelId;
+      handleStatus(levelId, status);
+    } else {
+      setGuidanceIsOpen(true)
+    }
+
   }
 
   async function handleStatus(levelId, status) {
@@ -66,7 +86,7 @@ function CapabilityTile(props) {
         return;
       }
       levelId = level.id;
-      setGotCurrentLevel(true); 
+      setGotCurrentLevel(true);
     }
 
     if (status === 'complete') {
@@ -138,16 +158,30 @@ function CapabilityTile(props) {
           {!isAdmin && (
             <>
               <div
-                className={`${tileStyles.buttonBlocker} ${
-                  tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
-                }`}
+                className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
+                  }`}
               ></div>
               <ButtonBase data-test-id={hexId} className={styles.button} onClick={() => handleUpdate()}>
+                {capability.guidance.length > 0 && (
+                  <div className={styles.lightbulb}>
+                    <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />
+                  </div>
+                )}
                 <CapabilityTileContent
                   text={capability.text}
                   className={`${styles.hexContent_inner}`}
                 />
+
               </ButtonBase>
+              {guidanceIsOpen && <CapabilityTileGuidance
+                {...other}
+                capability={capability}
+                setCapability={setCapability}
+                capabilityId={capability.id}
+                guidanceIsOpen={guidanceIsOpen}
+                setGuidanceIsOpen={setGuidanceIsOpen}
+                guidance={capability.guidance}
+              />}
             </>
           )}
         </div>
@@ -157,12 +191,12 @@ function CapabilityTile(props) {
 }
 
 CapabilityTile.propTypes = {
+  guidanceActive: PropTypes.bool,
   hexId: PropTypes.string,
   capability: PropTypes.object,
   isAdmin: PropTypes.bool,
   competency: PropTypes.object,
   setCompetencies: PropTypes.func,
-  gqlClient: PropTypes.object,
   currentModule: PropTypes.object,
   gotCurrentLevel: PropTypes.bool,
   setGotCurrentLevel: PropTypes.func,

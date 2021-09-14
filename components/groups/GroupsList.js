@@ -17,7 +17,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
   const classes = useAdminPage()
   const { data: groupsData, mutate: setGroupsData } = useSWR([query, getGroupsVariables], { suspense: true })
 
-  useEffect(() => {  
+  useEffect(() => {
     if (setGroupsData && setSharedState) setSharedState({ update: setGroupsData })
   }, [setSharedState, setGroupsData])
 
@@ -65,7 +65,9 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
           <li className={classes.listItem} key={`group-${i}`}>
             <Paper elevation={1} className={classes.groupBox}>
               <Link onClick={(e) => storeRecentGroup(e, group, linkUrl)} href={linkUrl} className={classes.groupBox_link}>
-                {group.name}
+                <a>
+                  {group.name}
+                </a>
               </Link>
             </Paper>
           </li>

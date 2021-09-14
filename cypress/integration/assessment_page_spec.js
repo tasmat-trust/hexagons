@@ -140,8 +140,7 @@ context('Assessment page', () => {
         aliasQuery(req, 'getLevel');
         aliasQuery(req, 'updateCompetency');
 
-        if (hasOperationName(req, 'getSubject')) {
-          console.log('SUBJECT');
+        if (hasOperationName(req, 'getSubject')) { 
           req.reply(getSubject);
           return;
         }

@@ -6,12 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Typography from '@material-ui/core/Typography';
 
-import AddIcon from '@material-ui/icons/Add';
 import { Button, ButtonBase } from '@material-ui/core';
 
 import { PropTypes } from "prop-types";
 
-function DialogButton({ className, testId, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose }) {
+function DialogButton({ startIcon, className, testId, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose, onClose }) {
 
   const [open, setOpen] = useState(false);
 
@@ -21,6 +20,10 @@ function DialogButton({ className, testId, variant, color, label, boxTitle, cont
 
   const handleClose = () => {
     setOpen(false);
+    if (onClose) {
+      onClose()
+    }
+
   };
 
   bubbleHandleClose && bubbleHandleClose(handleClose)
@@ -33,6 +36,7 @@ function DialogButton({ className, testId, variant, color, label, boxTitle, cont
         color={color}
         className={className}
 
+        startIcon={startIcon}
         data-test-id={testId}
         // startIcon={<AddIcon />}
         onClick={handleOpen}
@@ -45,6 +49,7 @@ function DialogButton({ className, testId, variant, color, label, boxTitle, cont
       >
         {content}
       </ButtonBase>}
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -69,6 +74,7 @@ function DialogButton({ className, testId, variant, color, label, boxTitle, cont
 }
 
 DialogButton.propTypes = {
+  onClose: PropTypes.func,
   testId: PropTypes.string,
   boxTitle: PropTypes.string, // title of box
   variant: PropTypes.string, // outlined / contained

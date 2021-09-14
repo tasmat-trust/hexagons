@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { HexagonsContext } from './HexagonsContext';
 
 export default function WithUrlVariables(WrappedComponent) {
-  function WithUrlVariables({ orgId, ...other }) {
+  function WithUrlVariables(props) {
     const router = useRouter();
+    const { orgId } = useContext(HexagonsContext)
     const [subjectSlug, setSubjectSlug] = useState(null);
     const [groupSlug, setGroupSlug] = useState(null);
     const [isReady, setIsReady] = useState(false)
@@ -21,8 +22,7 @@ export default function WithUrlVariables(WrappedComponent) {
     return (
       <>
         {isReady && <WrappedComponent
-          {...other}
-          orgId={orgId}
+          {...props}
           activeGroupSlug={groupSlug}
           getSubjectBySlugVariables={{ slug: subjectSlug }}
           groupFromSlugVariables={{ orgId: orgId, slug: groupSlug }}
@@ -30,10 +30,6 @@ export default function WithUrlVariables(WrappedComponent) {
       </>
     );
   }
-
-  WithUrlVariables.propTypes = {
-    orgId: PropTypes.number,
-  };
 
   return WithUrlVariables;
 }

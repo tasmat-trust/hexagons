@@ -11,7 +11,7 @@ class ErrorBoundary extends React.Component {
   }
   render() {
     if (this.props.alert && this.state.hasError) {
-      return <Alert severity="error">{this.props.alert}</Alert>
+      return <Alert severity="error">{this.props.alert} - {this.state.error.message}</Alert>
     }
     if (this.state.hasError) {
       return this.props.fallback;

@@ -8,14 +8,15 @@ import WithGroupFromSlug from '../../../components/data-fetching/WithGroupFromSl
 
 
 
-function Index({ user, activeGroupSlug, ...other }) {
+function Index({ user, activeGroupSlug, groupName, ...other }) {
 
   return (
     <>
-      <BreadCrumbs firstLabel="Pupils"  />
+      <BreadCrumbs firstLabel="Pupils" secondLabel={groupName}  />
       <PupilsAndGroups
         {...other}
         userId={user.id}
+        groupName={groupName}
         activeGroupSlug={activeGroupSlug} 
       />
     </>)

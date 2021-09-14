@@ -9,7 +9,7 @@ import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariab
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
 import WithPupilData from '../../../../components/data-fetching/WithPupilData';
 
-function Index({ groupName, activeGroupSlug, pupil, orgId, ...other }) {
+function Index({ groupName, activeGroupSlug, pupil, ...other }) {
   return (
     <>
       <BreadCrumbs
@@ -21,7 +21,6 @@ function Index({ groupName, activeGroupSlug, pupil, orgId, ...other }) {
       />
       <PupilSubjectsView
         {...other}
-        orgId={orgId}
         pupil={pupil}
         groupName={groupName}
         activeGroupSlug={activeGroupSlug}
@@ -33,8 +32,7 @@ function Index({ groupName, activeGroupSlug, pupil, orgId, ...other }) {
 Index.propTypes = {
   groupName: PropTypes.string,
   activeGroupSlug: PropTypes.string,
-  pupil: PropTypes.object,
-  orgId: PropTypes.number,
+  pupil: PropTypes.object
 };
 
 export default WithUrlVariables(WithGroupFromSlug(WithPupilData(Index)));

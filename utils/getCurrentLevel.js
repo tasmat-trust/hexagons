@@ -33,8 +33,6 @@ export default function getCurrentLevel(jumbledLevels) {
     level['percentComplete'] = 100
   }
 
-  console.log(level)
-
   return level
 
 }

@@ -2,13 +2,13 @@ import { Button, Checkbox } from "@material-ui/core"
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import MultipleSelect from "./MultipleSelect";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useSWR from "swr";
 import { allGroups } from "../../queries/Groups";
 import { updatePupilGroups } from "../../queries/Pupils"
 import { updateTeacherGroups } from "../../queries/Teachers"
 import handleStrapiError from "../data-fetching/handleStrapiError"
-
+import { HexagonsContext } from "../data-fetching/HexagonsContext";
 
 
 function AssignTo({ selectItems, updateModel, modelname }) {
@@ -54,7 +54,8 @@ function AssignTo({ selectItems, updateModel, modelname }) {
 
 function AssignGroupsToUser(props) {
 
-  const { userType, variables, gqlClient, selectedUsers, allUsers, triggerSharedState } = props
+  const { gqlClient } = useContext(HexagonsContext)
+  const { userType, variables, selectedUsers, allUsers, triggerSharedState } = props
   function handleAssignToGroups(formData) {
     selectedUsers.map(userId => {
       const currentUser = allUsers.filter(user => user.id === userId)[0]

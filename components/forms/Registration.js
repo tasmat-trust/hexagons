@@ -74,7 +74,6 @@ const RegistrationForm = (props) => {
 
     let forbiddenCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "$", "!","%","@", "*", "^", "-", "+", "-", "~", ";", ":", ",", "<", ">", "/", "`", "£", "|", "#"]
     const gotForbidden = forbiddenCharacters.map((char) => {
-      console.log(char)
       if (passwordValue.includes(char)) {
         setError('Password must not contain special characters or numbers')
         setFieldError('password')

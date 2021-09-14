@@ -15,6 +15,7 @@ export default function WithModules(WrappedComponent) {
           pupil={pupil}
           isAdmin={isAdmin}
           subjectId={subjectId}
+          setModulesData={setModulesData}
           {...other} />}
 
         {isAdmin && <WrappedComponent

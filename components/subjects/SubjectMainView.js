@@ -3,14 +3,16 @@ import WithCurrentLevel from '../data-fetching/WithCurrentLevel';
 import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel';
 import PupilPicker from '../navigation/PupilPicker';
 import CustomSuspense from '../data-fetching/CustomSuspense';
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import { useContext } from 'react';
 
-function SubjectMainView({ pupil, activeGroupSlug, orgId, subjectName, subjectSlug, ...other }) {
+function SubjectMainView({ pupil, activeGroupSlug, subjectName, subjectSlug, ...other }) {
+  const { orgId } = useContext(HexagonsContext)
   return (
     <>
       <CustomSuspense message="Loading PupilPicker">
         <PupilPicker
           {...other}
-          orgId={orgId}
           currentPupilId={parseInt(pupil.id)}
           activeGroupSlug={activeGroupSlug}
           subjectSlug={subjectSlug}
