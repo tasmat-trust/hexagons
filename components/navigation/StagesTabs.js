@@ -101,7 +101,7 @@ function StagesTabs({ modules,
             <HexagonsTab
               key={`link-${i}`}
               label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
-              {...a11yProps(0)} />
+              {...a11yProps(i + 1)} />
           ))}
         </HexagonsTabs>
       </CustomSuspense>

@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types'
 import React from 'react';
-import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import Alert from '@material-ui/lab/Alert';
@@ -13,7 +13,11 @@ import Loading from '../ui-globals/Loading';
 import handleApiLoginErrors from './handlers/handleApiLoginErrors';
 import handleCredentialErrors from './handlers/handleCredentialErrors';
 
-const RegistrationForm = (props) => { 
+
+
+const RegistrationForm = ({ orgs }) => {
+
+
   const classes = useLoginLogoutPages();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -39,6 +43,24 @@ const RegistrationForm = (props) => {
     setFieldError(null)
   }
 
+  function getPermittedDomains(orgId) {
+    let hArray = ''
+    let cArray = []
+    try {
+      const org = orgs.filter((org) => org.id === orgId)[0] 
+      const domains = org.email_domains.split(',')
+      cArray = domains.map((domain) => domain.split(" ").join(""))
+      hArray = cArray.map((domain,i) => `${domain}${i+1!==cArray.length ? ' or ' :''}`)
+    } catch (e) {
+      console.error(e)
+      setError('Error getting domain from organisation. Please check with person in charge.')
+    }
+    return {
+      humanOrgsArray: hArray.toString().replace(/,/g,''),
+      computerOrgsArray: cArray
+    }
+  }
+
   const onSubmit = (event) => {
     event.preventDefault();
 
@@ -54,7 +76,9 @@ const RegistrationForm = (props) => {
       return
     }
 
-    const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
+    const { humanOrgsArray, computerOrgsArray } = getPermittedDomains(orgValue)
+    
+    const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError, humanOrgsArray, computerOrgsArray)
 
     if (gotErrs) {
       return
@@ -72,7 +96,7 @@ const RegistrationForm = (props) => {
       return
     }
 
-    let forbiddenCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "$", "!","%","@", "*", "^", "-", "+", "-", "~", ";", ":", ",", "<", ">", "/", "`", "£", "|", "#"]
+    let forbiddenCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "$", "!", "%", "@", "*", "^", "-", "+", "-", "~", ";", ":", ",", "<", ">", "/", "`", "£", "|", "#"]
     const gotForbidden = forbiddenCharacters.map((char) => {
       if (passwordValue.includes(char)) {
         setError('Password must not contain special characters or numbers')
@@ -130,7 +154,7 @@ const RegistrationForm = (props) => {
               name="org"
             >
               <option aria-label="None" value="" data-test-id="blank" />
-              {props.orgs.map((org, i) => <option data-test-id={`option-${i}`} key={`option-${i}`} value={org.id}>{org.name}</option>)}
+              {orgs.map((org, i) => <option data-test-id={`option-${i}`} key={`option-${i}`} value={org.id}>{org.name}</option>)}
             </Select>
           </FormControl>
 
@@ -154,7 +178,7 @@ const RegistrationForm = (props) => {
             fullWidth id="email"
             label="Email"
             variant="filled"
-            helperText="Must be an email address ending in tasmat.org.uk"
+            helperText={`Must be an email address from your organisation.`}
             onChange={(ev) => {
               clearErrors()
               setEmailValue(ev.target.value)
@@ -189,5 +213,9 @@ const RegistrationForm = (props) => {
     </>
   );
 };
+
+RegistrationForm.propTypes = {
+  orgs: PropTypes.array
+}
 
 export default RegistrationForm;

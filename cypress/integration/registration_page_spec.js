@@ -5,7 +5,7 @@ describe('Registration page', () => {
   beforeEach(() => {
 
     let orgsResponse = {
-      body: {"data":{"organizations":[{"name":"Torfield School","id":"1"},{"name":"Saxon Mount School","id":"2"}]}}
+      body: { "data": { "organizations": [{ "name": "Torfield School", "id": "1", "email_domains": "tasmat.org.uk" }, { "name": "Saxon Mount School", "id": "2", "email_domains": "tasmat.org.uk,othervaliddomain.com, thirdvaliddomain.com" }] } }
 
     }
 
@@ -25,7 +25,7 @@ describe('Registration page', () => {
 
     cy.clearCookies()
     cy.visit('/register')
-  })  
+  })
   it('shows a register button', () => {
     cy.get('[data-test-id=register]').should('be.visible')
   })
@@ -38,7 +38,7 @@ describe('Registration page', () => {
   it('requires user to choose a school', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('');    
+    cy.get('.MuiSelect-root').select('');
     cy.get('[data-test-id=register]').click()
     cy.get('[data-test-id=error]').should('be.visible')
   })
@@ -46,7 +46,7 @@ describe('Registration page', () => {
   it('requires user to enter a username', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');    
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('[data-test-id=register]').click()
     cy.get('[data-test-id=error]').should('be.visible')
   })
@@ -54,7 +54,7 @@ describe('Registration page', () => {
   it('requires user to enter an email', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');   
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('#username').clear();
     cy.get('#username').type('Damian Phelps');
     cy.get('[data-test-id=register]').click()
@@ -64,7 +64,7 @@ describe('Registration page', () => {
   it('requires user to enter a password', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');   
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('#username').clear();
     cy.get('#username').type('Damian Phelps');
     cy.get('#email').clear();
@@ -76,7 +76,7 @@ describe('Registration page', () => {
   it('requires user to enter a lowercase password', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');   
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('#username').clear();
     cy.get('#username').type('Damian Phelps');
     cy.get('#email').clear();
@@ -90,7 +90,7 @@ describe('Registration page', () => {
   it('requires user to enter a password with more than 16 characters', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');   
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('#username').clear();
     cy.get('#username').type('Damian Phelps');
     cy.get('#email').clear();
@@ -104,7 +104,7 @@ describe('Registration page', () => {
   it('disallows special characters and numbers in passwords', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');   
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('#username').clear();
     cy.get('#username').type('Damian Phelps');
     cy.get('#email').clear();
@@ -118,7 +118,7 @@ describe('Registration page', () => {
   it('only accepts email addresses from the list of permitted domains', () => {
     cy.get('[data-test-id=select-school]').should('be.visible')
     cy.get('[data-test-id=select-school]').click()
-    cy.get('.MuiSelect-root').select('Saxon Mount School');   
+    cy.get('.MuiSelect-root').select('Saxon Mount School');
     cy.get('#username').clear();
     cy.get('#username').type('Damian Phelps');
     cy.get('#email').clear();
@@ -126,7 +126,23 @@ describe('Registration page', () => {
     cy.get('#password').clear();
     cy.get('#password').type('validrandomfourwords');
     cy.get('[data-test-id=register]').click()
-    cy.get('[data-test-id=error]').contains('You must use an email address from Tasmat')
+    cy.get('[data-test-id=error]').contains('You must use an email address from tasmat.org.uk or othervaliddomain.com or thirdvaliddomain.com')
+
+
+  })
+
+  it('formats domain nicely when there is only one', () => {
+    cy.get('[data-test-id=select-school]').should('be.visible')
+    cy.get('[data-test-id=select-school]').click()
+    cy.get('.MuiSelect-root').select('Torfield School');
+    cy.get('#username').clear();
+    cy.get('#username').type('Damian Phelps');
+    cy.get('#email').clear();
+    cy.get('#email').type('damian@gmail.com');
+    cy.get('#password').clear();
+    cy.get('#password').type('validrandomfourwords');
+    cy.get('[data-test-id=register]').click()
+    cy.get('[data-test-id=error]').contains('You must use an email address from tasmat.org.uk')
   })
 
 

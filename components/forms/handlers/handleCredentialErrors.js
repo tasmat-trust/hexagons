@@ -1,6 +1,4 @@
-export default function handleCredentialErrors(email, password, setError, setFieldError) {
-  
-  const permittedDomains = ["aliblackwell", "tasmat.org.uk"]
+export default function handleCredentialErrors(email, password, setError, setFieldError, humanOrgsArray, computerOrgsArray) {
 
   if (!email) {
     setError('Please enter your email.')
@@ -8,9 +6,9 @@ export default function handleCredentialErrors(email, password, setError, setFie
     return true
   }
 
-  const correctEmails = permittedDomains.map((domain) => email.includes(domain))
+  const correctEmails = computerOrgsArray.map((domain) => email.includes(domain))
   if (!correctEmails.includes(true)) {
-    setError('You must use an email address from Tasmat')
+    setError(`You must use an email address from ${humanOrgsArray}`)
     setFieldError('email')
     return true
   }
