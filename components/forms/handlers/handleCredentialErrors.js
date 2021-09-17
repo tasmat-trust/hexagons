@@ -6,11 +6,13 @@ export default function handleCredentialErrors(email, password, setError, setFie
     return true
   }
 
-  const correctEmails = computerOrgsArray.map((domain) => email.includes(domain))
-  if (!correctEmails.includes(true)) {
-    setError(`You must use an email address from ${humanOrgsArray}`)
-    setFieldError('email')
-    return true
+  if (humanOrgsArray && computerOrgsArray) {
+    const correctEmails = computerOrgsArray.map((domain) => email.includes(domain))
+    if (!correctEmails.includes(true)) {
+      setError(`You must use an email address from ${humanOrgsArray}`)
+      setFieldError('email')
+      return true
+    }
   }
 
   if (!password) {
