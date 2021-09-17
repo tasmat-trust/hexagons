@@ -16,7 +16,6 @@ function CapabilityTile(props) {
     guidanceActive,
     hexId,
     initialCapability,
-    isAdmin,
     competency,
     setCompetencies,
     currentModule,
@@ -149,41 +148,34 @@ function CapabilityTile(props) {
     <div className={`${styles.hex} ${styles[`hex_${competencyStatus}`]}`}>
       <div className={`${styles.hexIn}`}>
         <div className={`${styles.hexContent}`}>
-          {isAdmin && (
-            <CapabilityTileContent
-              text={capability.text}
-              className={`${styles.hexContent_inner}`}
-            />
-          )}
-          {!isAdmin && (
-            <>
-              <div
-                className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
-                  }`}
-              ></div>
-              <ButtonBase data-test-id={hexId} className={styles.button} onClick={() => handleUpdate()}>
-                {capability.guidance.length > 0 && (
-                  <div className={styles.lightbulb}>
-                    <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />
-                  </div>
-                )}
-                <CapabilityTileContent
-                  text={capability.text}
-                  className={`${styles.hexContent_inner}`}
-                />
+          <>
+            <div
+              className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
+                }`}
+            ></div>
+            <ButtonBase data-test-id={hexId} className={styles.button} onClick={() => handleUpdate()}>
+              {capability.guidance.length > 0 && (
+                <div className={styles.lightbulb}>
+                  <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />
+                </div>
+              )}
+              <CapabilityTileContent
+                text={capability.text}
+                className={`${styles.hexContent_inner}`}
+              />
 
-              </ButtonBase>
-              {guidanceIsOpen && <CapabilityTileGuidance
-                {...other}
-                capability={capability}
-                setCapability={setCapability}
-                capabilityId={capability.id}
-                guidanceIsOpen={guidanceIsOpen}
-                setGuidanceIsOpen={setGuidanceIsOpen}
-                guidance={capability.guidance}
-              />}
-            </>
-          )}
+            </ButtonBase>
+            {guidanceIsOpen && <CapabilityTileGuidance
+              {...other}
+              capability={capability}
+              setCapability={setCapability}
+              capabilityId={capability.id}
+              guidanceIsOpen={guidanceIsOpen}
+              setGuidanceIsOpen={setGuidanceIsOpen}
+              guidance={capability.guidance}
+            />}
+          </>
+
         </div>
       </div>
     </div>
@@ -194,7 +186,6 @@ CapabilityTile.propTypes = {
   guidanceActive: PropTypes.bool,
   hexId: PropTypes.string,
   capability: PropTypes.object,
-  isAdmin: PropTypes.bool,
   competency: PropTypes.object,
   setCompetencies: PropTypes.func,
   currentModule: PropTypes.object,

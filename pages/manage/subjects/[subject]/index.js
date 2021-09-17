@@ -1,6 +1,6 @@
 import RoleInfoBanner from "../../../../components/layout/RoleInfoBanner"
 import BreadCrumbs from "../../../../components/navigation/Breadcrumbs"
-import StagesTabs from "../../../../components/navigation/StagesTabs"
+import StagesTabsAdmin from "../../../../components/navigation/StagesTabsAdmin"
 import { withSession } from "../../../../components/auth/session"
 import checkSession from "../../../../components/auth/checkSession"
 import { useRouter } from "next/router"
@@ -20,9 +20,8 @@ function Stage(props) {
 
       <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/manage/subjects" secondLabel={query.subject} secondHref={`/manage/subjects/${query.subject}`} thirdLabel={query['step-stage']} />
 
-      <StagesTabs
+      <StagesTabsAdmin
         {...props}
-        isAdmin={true}
         getSubjectBySlugVariables={{ slug: query.subject }}
         setBreadcrumbLabel={setStageName} />
 

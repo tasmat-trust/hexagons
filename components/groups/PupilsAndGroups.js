@@ -6,11 +6,12 @@ import useAdminPage from "../../styles/useAdminPage";
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import CustomSuspense from '../data-fetching/CustomSuspense';
 
 function PupilsAndGroups({ activeGroupSlug, ...other }) {
 
   const classes = useAdminPage()
-  const {orgId} = useContext(HexagonsContext)
+  const { orgId } = useContext(HexagonsContext)
 
   return (
     <>
@@ -21,10 +22,12 @@ function PupilsAndGroups({ activeGroupSlug, ...other }) {
           </Grid>
           <Grid item xs={12} md={8} xl={10}>
             <ErrorBoundary alert="Error rendering PupilsByGroup">
-              <PupilsByGroup
-                {...other}
-                activeGroupSlug={activeGroupSlug}
-              />
+              <CustomSuspense message="Loading group">
+                <PupilsByGroup
+                  {...other}
+                  activeGroupSlug={activeGroupSlug}
+                />
+              </CustomSuspense>
             </ErrorBoundary>
           </Grid>
 

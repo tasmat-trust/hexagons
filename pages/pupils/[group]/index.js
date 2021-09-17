@@ -12,12 +12,12 @@ function Index({ user, activeGroupSlug, groupName, ...other }) {
 
   return (
     <>
-      <BreadCrumbs firstLabel="Pupils" secondLabel={groupName}  />
+      <BreadCrumbs firstLabel="Pupils" secondLabel={groupName} {...other} />
       <PupilsAndGroups
         {...other}
         userId={user.id}
         groupName={groupName}
-        activeGroupSlug={activeGroupSlug} 
+        activeGroupSlug={activeGroupSlug}
       />
     </>)
 }

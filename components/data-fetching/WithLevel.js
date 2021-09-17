@@ -7,16 +7,15 @@ import { HexagonsContext } from './HexagonsContext'
 export default function WithLevel(WrappedComponent) {
   function WithLevel({ getLevelVars, ...other }) {
     const { gqlClient } = useContext(HexagonsContext)
-    const { data: visibleLevelData, mutate: refreshLevels } = useSWR([getLevel, getLevelVars])
+    const { data: visibleLevelData } = useSWR([getLevel, getLevelVars])
     if (visibleLevelData && visibleLevelData.levels.length > 1) {
-      const levelNoCompetencies = visibleLevelData.levels.filter((level) => {        
+      const levelNoCompetencies = visibleLevelData.levels.filter((level) => {
         return level.competencies.length === 0
       })
       levelNoCompetencies.map(async (level, i) => {
         // safely delete level
         try {
           await gqlClient.request(deleteLevel, { id: level.id })
-          refreshLevels()
         } catch (e) {
           console.error(e)
         }

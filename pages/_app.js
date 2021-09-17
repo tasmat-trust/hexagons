@@ -76,6 +76,8 @@ function MyApp({ Component, pageProps }) {
   const hexagonsGlobals = {
     gqlClient, orgId
   }
+
+
   
 
   return (
@@ -102,7 +104,8 @@ function MyApp({ Component, pageProps }) {
                   value={{
                     refreshInterval: 0,
                     fetcher: fetcher,
-                    revalidateOnFocus: false
+                    revalidateOnFocus: false,
+                    revalidateOnReconnect: false
                   }}
                 >
 

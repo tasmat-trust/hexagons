@@ -23,7 +23,6 @@ function AddCapabilities({ setModulesData, subjectId }) {
   const [orderValue, setOrderValue] = useState('');
   const [levelValue, setLevelValue] = useState('');
   const [summaryValue, setSummaryValue] = useState('');
-  const [guidanceValue, setGuidanceValue] = useState('');
   const classes = styles()
   if (!subjectId) throw new Error('no subject id')
 
@@ -38,9 +37,6 @@ function AddCapabilities({ setModulesData, subjectId }) {
     }
     if (summaryValue) {
       formData.summary = summaryValue
-    }
-    if (guidanceValue) {
-      formData.guidance = guidanceValue
     }
     if (levelValue) {
       let level = levelValue === 'Step' ? 'step' : 'stage'
@@ -61,7 +57,6 @@ function AddCapabilities({ setModulesData, subjectId }) {
   function resetForm() {
     setOrderValue('')
     setSummaryValue('')
-    setGuidanceValue('')
     setCapabilitiesValue('')
   }
 
@@ -106,21 +101,6 @@ function AddCapabilities({ setModulesData, subjectId }) {
         variant='outlined'
         onChange={(event) => setSummaryValue(event.target.value)}
       />
-
-      <TextField
-        className={classes.input}
-        id="guidance"
-        label="Guidance"
-        value={guidanceValue}
-        fullWidth={true}
-        multiline={true}
-        maxRows='20'
-        rows='5'
-        variant='outlined'
-        onChange={(event) => setGuidanceValue(event.target.value)}
-      />
-
-
 
       <TextField
         className={classes.input}

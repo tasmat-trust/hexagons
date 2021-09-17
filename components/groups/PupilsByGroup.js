@@ -15,6 +15,7 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
   const isSubjectsListing = router.asPath.includes('subjects')
   const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
+  if (pupilsData.pupils.length === 0) return <p>No pupils in this group.</p>
   return (
     <>
       <Grid container spacing={3}>

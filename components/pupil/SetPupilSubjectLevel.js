@@ -18,20 +18,19 @@ const styles = makeStyles((theme) => ({
 
 function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...other }) {
 
- 
+
   const classes = styles()
 
   return (
     <Box className={classes.root}>
-      <StagesTabs 
-      {...other}
-      pupil={pupil}
-      subjectId={subjectId}
-      subjectName={subjectName}
-      subjectSlug={subjectSlug}
-      isAdmin={false} 
-      isBaseline={true}
-      getSubjectBySlugVariables={{ slug: subjectSlug }} />
+      <StagesTabs
+        {...other}
+        pupil={pupil}
+        subjectId={subjectId}
+        subjectName={subjectName}
+        subjectSlug={subjectSlug}
+        isBaseline={true}
+        getSubjectBySlugVariables={{ slug: subjectSlug }} />
     </Box>
   )
 }

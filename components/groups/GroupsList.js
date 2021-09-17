@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { Paper, Link, Typography } from "@material-ui/core"
+import { Paper, Typography } from "@material-ui/core"
+import Link from 'next/link';
 import useAdminPage from "../../styles/useAdminPage"
 import { useEffect } from "react"
 import { allGroups, myGroups } from "../../queries/Groups"
@@ -22,14 +23,17 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
   }, [setSharedState, setGroupsData])
 
   useEffect(() => {
-    if (getMyGroups && groupsData && groupsData.groups.length > 0) {
-      if (!window.localStorage.getItem('active-group')) {
+
+    if (!window.localStorage.getItem('active-group')) {
+      if (groupsData && groupsData.groups.length > 0) {
         // No active group so let's get their first assigned group
         setActiveGroupSlug && setActiveGroupSlug(groupsData.groups[0].slug)
         setActiveGroupName && setActiveGroupName(groupsData.groups[0].name)
         setActiveGroupId && setActiveGroupId(groupsData.groups[0].id)
-      }
+      } 
     }
+
+
   }, [getMyGroups, groupsData, setActiveGroupSlug, setActiveGroupName, setActiveGroupId])
 
 
@@ -42,12 +46,11 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
 
 
   function storeRecentGroup(e, group, linkUrl) {
-
     e.preventDefault()
     localStorage.setItem('active-group-slug', group.slug)
     localStorage.setItem('active-group-name', group.name)
     localStorage.setItem('active-group-id', group.id)
-    router.push(linkUrl)
+    router.push(linkUrl, undefined, { shallow: true })
   }
 
   return (
@@ -63,13 +66,11 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
         }
         return (
           <li className={classes.listItem} key={`group-${i}`}>
-            <Paper elevation={1} className={classes.groupBox}>
-              <Link onClick={(e) => storeRecentGroup(e, group, linkUrl)} href={linkUrl} className={classes.groupBox_link}>
-                <a>
-                  {group.name}
-                </a>
-              </Link>
-            </Paper>
+            <Link href={linkUrl} className={classes.groupBox_link}>
+              <a onClick={(e) => storeRecentGroup(e, group, linkUrl)}>
+                {group.name}
+              </a>
+            </Link>
           </li>
         )
       })}

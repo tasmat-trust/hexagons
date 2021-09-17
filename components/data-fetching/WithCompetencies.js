@@ -3,8 +3,8 @@ import { getCompetencies } from '../../queries/Pupils'
 import useSWR from 'swr'
 
 export default function WithCompetencies(WrappedComponent) {
-  function WithCompetencies({ competenciesVars, isAdmin, ...other }) {
-    const { data: competenciesData} = useSWR([getCompetencies, competenciesVars], { suspense: true })
+  function WithCompetencies({ competenciesVars, ...other }) {
+    const { data: competenciesData } = useSWR([getCompetencies, competenciesVars], { suspense: true })
     let competencies = competenciesData.competencies
 
     // detect duplicates
@@ -15,20 +15,13 @@ export default function WithCompetencies(WrappedComponent) {
         throw new Error('Got duplicate competencies')
       }
     }
-    return (
-      <>
-        {!isAdmin && <WrappedComponent
-          isAdmin={isAdmin}
-          initialCompetencies={competencies}
-          {...other} />}
-        {isAdmin && <WrappedComponent isAdmin={isAdmin} {...other} />}
-      </>
-    )
+    return <WrappedComponent
+      initialCompetencies={competencies}
+      {...other} />
   }
 
   WithCompetencies.propTypes = {
-    competenciesVars: PropTypes.object,
-    isAdmin: PropTypes.bool
+    competenciesVars: PropTypes.object
   }
 
   return WithCompetencies

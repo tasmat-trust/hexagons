@@ -145,6 +145,7 @@ function LevelStatus({ setGotCurrentLevel,
   }
 
   function completeStep() {
+    console.log(visibleLevel)
     if (status !== 'complete') {
       if (visibleLevel) {
         triggerUpdateLevel('complete')

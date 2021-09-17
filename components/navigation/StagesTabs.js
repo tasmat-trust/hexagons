@@ -1,19 +1,16 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { Tabs, Tab } from '@material-ui/core'
 import { Box } from '@material-ui/core'
 import CapabilityTiles from '../subjects/CapabilityTiles'
-import AddCapabilities from '../forms/AddCapabilities'
-import DeleteModule from '../forms/DeleteModule'
 import LevelStatus from '../pupil/LevelStatus'
 import WithCompetencies from '../data-fetching/WithCompetencies'
 import WithModules from '../data-fetching/WithModules'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import { sortModules } from '../../utils/sortLevelsAndModules'
 import EarlyDevelopmentTabPanelContent from '../subjects/EarlyDevelopmentTabPanelContent'
-import { withStyles } from '@material-ui/styles'
-import theme from '../../styles/theme'
 import CustomSuspense from '../data-fetching/CustomSuspense'
+
+import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,11 +38,9 @@ function a11yProps(index) {
   };
 }
 
-function StagesNav({ modules,
-  isAdmin,
+function StagesTabs({ modules,
   startingLevel,
   setModulesData,
-  refreshCompetencies,
   initialCompetencies,
   pupil,
   subjectId }) {
@@ -88,41 +83,8 @@ function StagesNav({ modules,
     setCurrentLevelId(0)
   };
 
-  const HexagonsTabs = withStyles({
-    root: {
-      borderBottom: '1px solid #e8e8e8',
-    },
-    indicator: {
-      backgroundColor: theme.palette.primary.light,
-    },
-  })(Tabs);
-
-  const HexagonsTab = withStyles((theme) => ({
-    root: {
-      textTransform: 'none',
-      minWidth: 72,
-      fontWeight: theme.typography.fontWeightRegular,
-      marginRight: theme.spacing(4),
-      '&:hover': {
-        color: theme.palette.primary.main,
-        opacity: 1,
-      },
-      '&$selected': {
-        color: theme.palette.primary.dark,
-        fontWeight: theme.typography.fontWeightMedium,
-      },
-      '&:focus': {
-        color: theme.palette.primary.main,
-      },
-    },
-    selected: {},
-  }))((props) => <Tab disableRipple {...props} />);
-
   return (
     <>
-      {isAdmin && <AddCapabilities
-        setModulesData={setModulesData}
-        subjectId={subjectId} />}
       <CustomSuspense message="Loading tabs">
         <HexagonsTabs
           value={tabValue}
@@ -131,10 +93,10 @@ function StagesNav({ modules,
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          {!isAdmin &&
-            <HexagonsTab
-              label='Step 1'
-              {...a11yProps(0)} />}
+
+          <HexagonsTab
+            label='Step 1'
+            {...a11yProps(0)} />
           {sortedModules.map((module, i) => (
             <HexagonsTab
               key={`link-${i}`}
@@ -143,45 +105,35 @@ function StagesNav({ modules,
           ))}
         </HexagonsTabs>
       </CustomSuspense>
-      {!isAdmin &&
-        <TabPanel value={tabValue} index={0}>
-          <CustomSuspense message="Loading Early development">
-            <EarlyDevelopmentTabPanelContent
-              pupil={pupil}
-              setGlobalGuidanceActive={setGuidanceActive}
-              setGotCurrentLevel={setGotCurrentLevel}
-              setCurrentLevelId={setCurrentLevelId}
-              gotCurrentLevel={gotCurrentLevel}
-              currentLevelId={currentLevelId}
-              getSubjectBySlugVariables={{ slug: 'early-development' }}
-              isAdmin={isAdmin}
-              setModulesData={setModulesData}
-              refreshCompetencies={refreshCompetencies}
-            />
-          </CustomSuspense>
 
-        </TabPanel>}
-
+      <TabPanel value={tabValue} index={0}>
+        <CustomSuspense message="Loading Early development">
+          <EarlyDevelopmentTabPanelContent
+            pupil={pupil}
+            setGlobalGuidanceActive={setGuidanceActive}
+            setGotCurrentLevel={setGotCurrentLevel}
+            setCurrentLevelId={setCurrentLevelId}
+            gotCurrentLevel={gotCurrentLevel}
+            currentLevelId={currentLevelId}
+            getSubjectBySlugVariables={{ slug: 'early-development' }}
+            setModulesData={setModulesData}
+          />
+        </CustomSuspense>
+      </TabPanel>
       {sortedModules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={tabValue} index={i + 1}>
-          {isAdmin && <DeleteModule
-            setModulesData={setModulesData}
-            currentStage={module}
-            subjectId={subjectId}
-          />}
-          {!isAdmin &&
-            <CustomSuspense message="Loading status">
-              <LevelStatus
-                setGotCurrentLevel={setGotCurrentLevel}
-                setGlobalGuidanceActive={setGuidanceActive}
-                setCurrentLevelId={setCurrentLevelId}
-                currentModule={module}
-                subjectId={subjectId}
-                pupil={pupil}
-                competencies={competencies}
-                getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: module.id }}
-              />
-            </CustomSuspense>}
+          <CustomSuspense message="Loading status">
+            <LevelStatus
+              setGotCurrentLevel={setGotCurrentLevel}
+              setGlobalGuidanceActive={setGuidanceActive}
+              setCurrentLevelId={setCurrentLevelId}
+              currentModule={module}
+              subjectId={subjectId}
+              pupil={pupil}
+              competencies={competencies}
+              getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: module.id }}
+            />
+          </CustomSuspense>
           <CustomSuspense message="Loading tiles">
             <CapabilityTiles
               subjectId={subjectId}
@@ -189,14 +141,12 @@ function StagesNav({ modules,
               pupil={pupil}
               capabilities={module.capabilities}
               competencies={competencies}
-              isAdmin={isAdmin}
               setCompetencies={setCompetencies}
               currentModule={module}
               gotCurrentLevel={gotCurrentLevel}
               setGotCurrentLevel={setGotCurrentLevel}
               currentLevelId={currentLevelId}
               setModulesData={setModulesData}
-              refreshCompetencies={refreshCompetencies}
             />
           </CustomSuspense>
         </TabPanel>
@@ -205,9 +155,8 @@ function StagesNav({ modules,
   )
 }
 
-StagesNav.propTypes = {
+StagesTabs.propTypes = {
   modules: PropTypes.array,
-  isAdmin: PropTypes.bool,
   startingLevel: PropTypes.object,
   setModulesData: PropTypes.func,
   competencies: PropTypes.array,
@@ -215,4 +164,4 @@ StagesNav.propTypes = {
   subjectId: PropTypes.string
 }
 
-export default WithSingleSubjectFromSlug(WithModules(WithCompetencies(StagesNav)))
+export default WithSingleSubjectFromSlug(WithModules(WithCompetencies(StagesTabs)))
