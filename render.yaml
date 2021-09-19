@@ -1,6 +1,6 @@
 services:
 - type: web
-  name: next-js
+  name: Hexagons Client
   env: node
   plan: starter
   buildCommand: npm install --production; npm run build
