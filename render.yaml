@@ -1,6 +1,6 @@
 services:
 - type: web
-  name: Hexagons Client
+  name: hexagons-client
   env: node
   plan: starter
   buildCommand: npm install --production; npm run build
