@@ -5,7 +5,6 @@ import LastActiveGroup from '../groups/LastActiveGroup';
 function HomepageLoggedIn({ user, ...other }) {
   return (
     <>
-      <BreadCrumbs firstLabel="Home" />
       <LastActiveGroup isHomepage={true} user={user} {...other} />
     </>
   );

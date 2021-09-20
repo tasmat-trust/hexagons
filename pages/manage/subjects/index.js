@@ -8,6 +8,7 @@ import Subjects from '../../../components/subjects/Subjects';
 import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
 
 import RoleInfoBanner from '../../../components/layout/RoleInfoBanner';
+import CustomHead from '../../../components/ui-globals/CustomHead';
 
 function Index(props) {
 
@@ -15,8 +16,9 @@ function Index(props) {
 
   return (
     <>
+      <CustomHead titleContent="Manage Subjects" />
       <RoleInfoBanner role="Leader" />
-      <BreadCrumbs {...props} firstLabel="Subjects" />
+      <BreadCrumbs {...props} firstLabel="Manage Subjects" />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item md={12} xs={12}>

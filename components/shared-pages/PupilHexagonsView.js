@@ -6,10 +6,12 @@ import WithUrlVariables from '../data-fetching/WithUrlVariables';
 import BreadCrumbs from '../navigation/Breadcrumbs';
 
 import SubjectMainView from '../subjects/SubjectMainView';
+import CustomHead from '../ui-globals/CustomHead';
 
 function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
   return (
     <>
+      <CustomHead titleContent={`${pupil.name} | ${groupName} | ${subjectName}`} justContent={true} />
       <BreadCrumbs
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}

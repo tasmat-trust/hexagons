@@ -1,4 +1,4 @@
-
+import CustomHead from '../../components/ui-globals/CustomHead'
 import { withSession } from '../../components/auth/session'
 import checkSession from '../../components/auth/checkSession'
 
@@ -9,6 +9,7 @@ import CustomSuspense from '../../components/data-fetching/CustomSuspense'
 export default function Pupils(props) {
   return (
     <>
+      <CustomHead titleContent="Subjects" />
       <BreadCrumbs {...props} firstLabel="Subjects" />
       <CustomSuspense message="Loading subjects">
         <Subjects />

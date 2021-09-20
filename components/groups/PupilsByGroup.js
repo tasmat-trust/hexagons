@@ -9,13 +9,13 @@ import SubjectCard from '../pupil/SubjectCard';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 
-function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
+function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter()
   const { data: pupilsData } = useSWR([getPupilsByGroup, pupilsByGroupVariables], { suspense: true })
   const isSubjectsListing = router.asPath.includes('subjects')
   const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
-  if (pupilsData.pupils.length === 0) return <p>No pupils in this group.</p>
+  if (pupilsData.pupils.length === 0) return <p>No pupils in {groupName}.</p>
   return (
     <>
       <Grid container spacing={3}>
@@ -24,6 +24,7 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
             <CustomSuspense message="Loading pupils by subject">
               <SubjectCard
                 {...other}
+                groupName={groupName}
                 activeGroupSlug={activeGroupSlug}
                 pupils={pupilsData.pupils}
               />
@@ -47,6 +48,7 @@ function PupilsByGroup({ pupilsByGroupVariables, activeGroupSlug, shouldShowGrou
               <ErrorBoundary alert={`Error with ${p.name}`}>
                 <PupilCard
                   {...other}
+                  groupName={groupName}
                   key={i}
                   pupilId={p.id}
                   pupilName={p.name}

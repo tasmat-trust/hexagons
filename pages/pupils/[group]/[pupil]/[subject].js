@@ -7,10 +7,12 @@ import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariab
 import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug';
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
 import WithPupilData from '../../../../components/data-fetching/WithPupilData';
+import CustomHead from '../../../../components/ui-globals/CustomHead';
 
 function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
   return (
     <>
+      <CustomHead titleContent={`${pupil.name} | ${subjectName} | ${groupName}`} justContent={true} />
       <BreadCrumbs
         firstLabel="Pupils"
         firstHref="/pupils"

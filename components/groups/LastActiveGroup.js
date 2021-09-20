@@ -30,11 +30,6 @@ function LastActiveGroup({ user, isHomepage, ...other }) {
   }, []);
   return (
     <>
-      <h1 className={classes.title}>Hello, {user.username}</h1>
-      <p>
-        Your most recent active group was {activeGroupName}.
-      </p>
-
       {isHomepage && <SubjectsAndGroups
         {...other}
         userId={user.id}

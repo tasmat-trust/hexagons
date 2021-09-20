@@ -21,6 +21,7 @@ function EarlyDevelopmentTabPanelContent({ pupil, modules, initialCompetencies, 
         currentModule={modules[0]}
         competencies={competencies}
         subjectId={subjectId}
+        pupil={pupil}
         getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: modules[0].id }}
         {...other}
       />

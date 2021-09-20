@@ -4,6 +4,7 @@ import useSWR from 'swr'
 import { getAllOrgs } from '../queries/Organizations'
 import useLoginLogoutPages from '../styles/useLoginLogoutPages'
 import Link from "next/link"
+import CustomHead from '../components/ui-globals/CustomHead'
 
 function RegistrationFormWithSchools(props) {
   const { data } = useSWR(getAllOrgs, { suspense: true })
@@ -14,6 +15,7 @@ export default function Register(props) {
   const classes = useLoginLogoutPages();
   return (
     <>
+      <CustomHead titleContent="Register" />
       <Paper elevation={1} className={classes.paper}>
         <h1 className={classes.title}>Create account</h1>
         <RegistrationFormWithSchools {...props} />

@@ -5,6 +5,7 @@ import PupilsAndGroups from '../../../components/groups/PupilsAndGroups'
 import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
 import WithUrlVariables from '../../../components/data-fetching/WithUrlVariables';
 import WithGroupFromSlug from '../../../components/data-fetching/WithGroupFromSlug';
+import CustomHead from '../../../components/ui-globals/CustomHead';
 
 
 
@@ -12,6 +13,7 @@ function Index({ user, activeGroupSlug, groupName, ...other }) {
 
   return (
     <>
+      <CustomHead titleContent={`${groupName} | Pupils`} />
       <BreadCrumbs firstLabel="Pupils" secondLabel={groupName} {...other} />
       <PupilsAndGroups
         {...other}

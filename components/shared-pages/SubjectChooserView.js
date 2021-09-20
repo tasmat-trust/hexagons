@@ -4,12 +4,13 @@ import LastActiveGroup from '../groups/LastActiveGroup'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import WithUrlVariables from '../data-fetching/WithUrlVariables'
 import CustomSuspense from '../data-fetching/CustomSuspense'
-
+import CustomHead from '../ui-globals/CustomHead'
 
 function Index({ firstLabel, firstSlug, subjectName, ...other }) {
 
   return (
     <>
+      <CustomHead titleContent={`${subjectName} | ${firstLabel}`} />
       <BreadCrumbs
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}

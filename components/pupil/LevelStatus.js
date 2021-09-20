@@ -72,10 +72,11 @@ function LevelStatus({ setGotCurrentLevel,
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
 
   const [visibleLevel, setVisibleLevel] = useState(null)
+  const [status, setStatus] = useState(null)
   const [readyToShow, setReadyToShow] = useState(false)
 
   const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
-  const status = visibleLevel ? visibleLevel.status : 'notstarted'
+
   const thisLevelCompetencies = calculateCompetenciesForThisLevel(competencies, currentModule.capabilities)
 
 
@@ -87,7 +88,9 @@ function LevelStatus({ setGotCurrentLevel,
       setVisibleLevel(level)
       setGotCurrentLevel(true)
       setCurrentLevelId(parseInt(level.id))
+      setStatus(level.status ? level.status : 'notstarted')
     }
+
   }, [setCurrentLevelId, setVisibleLevel, setGotCurrentLevel])
 
 
@@ -145,8 +148,7 @@ function LevelStatus({ setGotCurrentLevel,
   }
 
   function completeStep() {
-    console.log(visibleLevel)
-    if (status !== 'complete') {
+    if (status && status !== 'complete') {
       if (visibleLevel) {
         triggerUpdateLevel('complete')
       } else {

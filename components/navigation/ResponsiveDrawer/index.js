@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link'
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,15 +17,25 @@ import { useLoginLogout } from '../../auth/session'
 import { motion } from "framer-motion"
 const drawerWidth = 240;
 import { useRouter } from 'next/router';
-
+import LogoIcon from '../../ui-globals/LogoIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
+  mainBar: {
+    justifyContent: 'space-between'
+  },
   title: {
-    flexGrow: 1,
-    'font-family': theme.typography.secondaryFamily
+    'font-family': theme.typography.secondaryFamily,
+  },
+  titleLink: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  hexagons: {
+    marginLeft: theme.spacing(1),
+    marginTop: '-2px'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -87,7 +98,7 @@ function ResponsiveDrawer(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed">
-        <Toolbar>
+        <Toolbar className={classes.mainBar}>
           {user && (
             <IconButton
               color="inherit"
@@ -100,7 +111,14 @@ function ResponsiveDrawer(props) {
             </IconButton>
           )}
           <Typography variant="h3" noWrap className={classes.title}>
-            Hexagons
+            <Link href="/">
+              <a className={classes.titleLink}>
+                <LogoIcon fontSize="medium" color="secondary" viewBox="0 0 32 32" />
+                <span className={classes.hexagons}>
+                  Hexagons
+                </span>
+              </a>
+            </Link>
           </Typography>
 
           {!user && <>

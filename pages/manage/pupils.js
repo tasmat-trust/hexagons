@@ -9,6 +9,7 @@ import ManageUsers from '../../components/manage/ManageUsers'
 import ManageGroups from '../../components/manage/ManageGroups'
 import BreadCrumbs from '../../components/navigation/Breadcrumbs';
 import RoleInfoBanner from '../../components/layout/RoleInfoBanner';
+import CustomHead from '../../components/ui-globals/CustomHead';
 
 function Index(props) {
 
@@ -16,6 +17,7 @@ function Index(props) {
 
   return (
     <>
+      <CustomHead titleContent="Manage Pupils" />
       <RoleInfoBanner role="Teacher" />
       <BreadCrumbs firstLabel="Pupils" />
       <div className={classes.root}>

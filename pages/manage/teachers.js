@@ -7,6 +7,7 @@ import checkSession from '../../components/auth/checkSession'
 import useAdminPage from "../../styles/useAdminPage";
 import ManageUsers from '../../components/manage/ManageUsers'
 import ManageGroups from '../../components/manage/ManageGroups'
+import CustomHead from '../../components/ui-globals/CustomHead';
 
 export default function Index(props) {
 
@@ -14,6 +15,7 @@ export default function Index(props) {
 
   return (
     <>
+      <CustomHead titleContent="Manage Teachers" />
       <Paper elevation={2}>
         <Alert severity="info" data-test-id="notification">This is a <b>Leader</b> page. It is only visible to Leaders</Alert>
       </Paper>

@@ -5,7 +5,9 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   bc: {
-    float: 'left',
+    '& ol': {
+      justifyContent: 'center'
+    }
   },
   clear: {
     clear: 'left',

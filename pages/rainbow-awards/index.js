@@ -1,13 +1,15 @@
 import { withSession } from '../../components/auth/session'
 import checkSession from '../../components/auth/checkSession'
- 
+
 import BreadCrumbs from '../../components/navigation/Breadcrumbs'
 import Subjects from '../../components/subjects/Subjects'
+import CustomHead from '../../components/ui-globals/CustomHead'
 
-export default function Pupils(props) { 
+export default function Pupils(props) {
   return (
     <>
-      <BreadCrumbs firstLabel="Rainbow Awards" /> 
+      <CustomHead titleContent="Rainbow Awards" />
+      <BreadCrumbs firstLabel="Rainbow Awards" />
       <Subjects isRainbowAwards={true} />
     </>
   )

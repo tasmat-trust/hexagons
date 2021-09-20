@@ -24,9 +24,9 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
 
   useEffect(() => {
 
-    if (!window.localStorage.getItem('active-group')) {
-      if (groupsData && groupsData.groups.length > 0) {
-        // No active group so let's get their first assigned group
+    if (!window.localStorage.getItem('active-group-slug')) {
+      if (!getMyGroups  && groupsData && groupsData.groups.length > 0) {
+        // No active group so let's get the first group
         setActiveGroupSlug && setActiveGroupSlug(groupsData.groups[0].slug)
         setActiveGroupName && setActiveGroupName(groupsData.groups[0].name)
         setActiveGroupId && setActiveGroupId(groupsData.groups[0].id)

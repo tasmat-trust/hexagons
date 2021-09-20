@@ -8,22 +8,25 @@ import { useState } from "react"
 
 import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables'
 import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug';
+import CustomHead from "../../../../components/ui-globals/CustomHead"
 
 
 function Stage(props) {
+  const { subjectName } = props
   const { query } = useRouter()
-  const [stageName, setStageName] = useState(null)
- 
+
   return (
     <>
+      <CustomHead titleContent={`${subjectName} | Manage Subjects`} justContent={true} />
       <RoleInfoBanner role="Leader" />
-
-      <BreadCrumbs {...props} firstLabel="Subjects" firstHref="/manage/subjects" secondLabel={query.subject} secondHref={`/manage/subjects/${query.subject}`} thirdLabel={query['step-stage']} />
+      <BreadCrumbs {...props}
+        firstLabel="Manage Subjects"
+        firstHref="/manage/subjects"
+        secondLabel={subjectName} secondHref={`/manage/subjects/${query.subject}`} thirdLabel={query['step-stage']} />
 
       <StagesTabsAdmin
         {...props}
-        getSubjectBySlugVariables={{ slug: query.subject }}
-        setBreadcrumbLabel={setStageName} />
+        getSubjectBySlugVariables={{ slug: query.subject }} />
 
     </>
   )

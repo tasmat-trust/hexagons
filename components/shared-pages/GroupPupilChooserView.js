@@ -3,13 +3,14 @@ import BreadCrumbs from '../navigation/Breadcrumbs'
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import WithGroupFromSlug from '../data-fetching/WithGroupFromSlug'
 import WithUrlVariables from '../data-fetching/WithUrlVariables'
-
+import CustomHead from '../ui-globals/CustomHead'
 import PupilsAndGroups from '../groups/PupilsAndGroups'
 
 function Index({ firstLabel, firstSlug, user, subjectName, groupName, ...other }) {
 
   return (
     <>
+      <CustomHead titleContent={`${groupName} | ${subjectName} | ${firstLabel}`} justContent={true} />
       <BreadCrumbs
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}

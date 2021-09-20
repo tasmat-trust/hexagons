@@ -7,19 +7,20 @@ import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
 
 import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables';
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
-import WithPupilData from '../../../../components/data-fetching/WithPupilData'; 
+import WithPupilData from '../../../../components/data-fetching/WithPupilData';
+import CustomHead from '../../../../components/ui-globals/CustomHead';
 
 function Index({ groupName, activeGroupSlug, pupil, ...other }) {
   return (
     <>
-      
-        <BreadCrumbs
-          firstLabel="Pupils"
-          firstHref="/pupils"
-          secondLabel={groupName}
-          secondHref={`/pupils/${activeGroupSlug}`}
-          thirdLabel={pupil.name}
-        /> 
+      <CustomHead titleContent={`${pupil.name} | ${groupName} | Subjects`} />
+      <BreadCrumbs
+        firstLabel="Pupils"
+        firstHref="/pupils"
+        secondLabel={groupName}
+        secondHref={`/pupils/${activeGroupSlug}`}
+        thirdLabel={pupil.name}
+      />
       <PupilSubjectsView
         {...other}
         pupil={pupil}
