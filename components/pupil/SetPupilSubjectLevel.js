@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Box } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import StagesTabsWithEarlyDevelopment from '../navigation/StagesTabsWithEarlyDevelopment'
-
+import StagesTabsSingleSubject from '../navigation/StagesTabsSingleSubject'
 const styles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(3),
@@ -19,9 +19,17 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
 
   const classes = styles()
 
+  const noEarlyDevelopmentSlugs = ['expressive-and-receptive-language', 'expressive-language', 'receptive-language']
+
+  let includeEarlyDevelopment = true
+  if (noEarlyDevelopmentSlugs.includes(subjectSlug)) {
+    includeEarlyDevelopment = false
+  }
+
   return (
     <Box className={classes.root}>
-      <StagesTabsWithEarlyDevelopment
+      
+      {includeEarlyDevelopment && <StagesTabsWithEarlyDevelopment
         {...other}
         pupil={pupil}
         subjectId={subjectId}
@@ -30,7 +38,16 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
         isBaseline={true}
         showEdAndSubjectsTogether={true}
         getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
-        getSubjectBySlugVariables={{ slug: subjectSlug }} />
+        getSubjectBySlugVariables={{ slug: subjectSlug }} />}
+
+      {!includeEarlyDevelopment && <StagesTabsSingleSubject
+        {...other}
+        pupil={pupil}
+        subjectId={subjectId}
+        subjectName={subjectName}
+        subjectSlug={subjectSlug}
+        isBaseline={true}
+        getSubjectBySlugVariables={{ slug: subjectSlug }} />}
     </Box>
   )
 }
