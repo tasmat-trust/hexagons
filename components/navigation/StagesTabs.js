@@ -3,11 +3,7 @@ import { useEffect, useState } from 'react'
 import { Box } from '@material-ui/core'
 import CapabilityTiles from '../subjects/CapabilityTiles'
 import LevelStatus from '../pupil/LevelStatus'
-import WithCompetencies from '../data-fetching/WithCompetencies'
-import WithModules from '../data-fetching/WithModules'
-import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
 import { sortModules } from '../../utils/sortLevelsAndModules'
-import EarlyDevelopmentTabPanelContent from '../subjects/EarlyDevelopmentTabPanelContent'
 import CustomSuspense from '../data-fetching/CustomSuspense'
 
 import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs'
@@ -40,10 +36,11 @@ function a11yProps(index) {
 
 function StagesTabs({ modules,
   startingLevel,
-  setModulesData,
   initialCompetencies,
   pupil,
-  subjectId }) {
+  edSubjectId,
+  subjectId,
+  showEdAndSubjectsTogether }) {
   const [tabValue, setTabValue] = useState(0);
   const [competencies, setCompetencies] = useState(initialCompetencies)
   const [gotCurrentLevel, setGotCurrentLevel] = useState(startingLevel ? true : false) // boolean - have we got a current level
@@ -54,9 +51,9 @@ function StagesTabs({ modules,
   useEffect(() => { // Set the overlays to appear once loaded
     if (initialCompetencies) {
       setCompetencies(initialCompetencies)
+
     }
   }, [initialCompetencies])
-
 
   useEffect(() => {
     if (modules) {
@@ -67,15 +64,16 @@ function StagesTabs({ modules,
   }, [modules])
 
   useEffect(() => {
-    if (modules && startingLevel) {
+    if (modules && startingLevel && startingLevel.module) {
       const activeModule = modules.map((module, i) => module.order === startingLevel.module.order && module.level === startingLevel.module.level)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
-      setTabValue(startingIndex + 1) // Plus one for early development
-      setCompetencies(startingLevel.competencies)
+      setTabValue(startingIndex)
       setCurrentLevelId(startingLevel.id)
       setGotCurrentLevel(true)
+    } else {
+      setTabValue(0)
     }
-  }, [modules, startingLevel])
+  }, [modules, startingLevel, initialCompetencies, pupil])
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -93,64 +91,52 @@ function StagesTabs({ modules,
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-
-          <HexagonsTab
-            label='Step 1'
-            {...a11yProps(0)} />
           {sortedModules.map((module, i) => (
             <HexagonsTab
               key={`link-${i}`}
               label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
-              {...a11yProps(i + 1)} />
+              {...a11yProps(i)} />
           ))}
         </HexagonsTabs>
       </CustomSuspense>
-
-      <TabPanel value={tabValue} index={0}>
-        <CustomSuspense message="Loading Early development">
-          <EarlyDevelopmentTabPanelContent
-            pupil={pupil}
-            setGlobalGuidanceActive={setGuidanceActive}
-            setGotCurrentLevel={setGotCurrentLevel}
-            setCurrentLevelId={setCurrentLevelId}
-            gotCurrentLevel={gotCurrentLevel}
-            currentLevelId={currentLevelId}
-            getSubjectBySlugVariables={{ slug: 'early-development' }}
-            setModulesData={setModulesData}
-          />
-        </CustomSuspense>
-      </TabPanel>
-      {sortedModules.map((module, i) => (
-        <TabPanel key={`panel-${i}`} value={tabValue} index={i + 1}>
-          <CustomSuspense message="Loading status">
-            <LevelStatus
-              setGotCurrentLevel={setGotCurrentLevel}
-              setGlobalGuidanceActive={setGuidanceActive}
-              setCurrentLevelId={setCurrentLevelId}
-              currentModule={module}
-              subjectId={subjectId}
-              pupil={pupil}
-              competencies={competencies}
-              getLevelVars={{ pupilId: pupil.id, subjectId: subjectId, moduleId: module.id }}
-            />
-          </CustomSuspense>
-          <CustomSuspense message="Loading tiles">
-            <CapabilityTiles
-              subjectId={subjectId}
-              guidanceActive={guidanceActive}
-              pupil={pupil}
-              capabilities={module.capabilities}
-              competencies={competencies}
-              setCompetencies={setCompetencies}
-              currentModule={module}
-              gotCurrentLevel={gotCurrentLevel}
-              setGotCurrentLevel={setGotCurrentLevel}
-              currentLevelId={currentLevelId}
-              setModulesData={setModulesData}
-            />
-          </CustomSuspense>
-        </TabPanel>
-      ))}
+      {sortedModules.map((module, i) => {
+        const isEd = module.isEd ? true : false
+        return (
+          <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
+            <CustomSuspense message="Loading status">
+              <LevelStatus
+                setGotCurrentLevel={setGotCurrentLevel}
+                setGlobalGuidanceActive={setGuidanceActive}
+                setCurrentLevelId={setCurrentLevelId}
+                currentModule={module}
+                subjectId={subjectId}
+                edSubjectId={edSubjectId}
+                pupil={pupil}
+                competencies={competencies}
+                getLevelVars={{ pupilId: pupil.id, subjectId: isEd ? edSubjectId : subjectId, moduleId: module.id }}
+                isEd={isEd}
+              />
+            </CustomSuspense>
+            <CustomSuspense message="Loading tiles">
+              <CapabilityTiles
+                showEdAndSubjectsTogether={showEdAndSubjectsTogether}
+                subjectId={subjectId}
+                edSubjectId={edSubjectId}
+                guidanceActive={guidanceActive}
+                pupil={pupil}
+                capabilities={module.capabilities}
+                competencies={competencies}
+                setCompetencies={setCompetencies}
+                currentModule={module}
+                gotCurrentLevel={gotCurrentLevel}
+                setGotCurrentLevel={setGotCurrentLevel}
+                currentLevelId={currentLevelId}
+                isEd={isEd}
+              />
+            </CustomSuspense>
+          </TabPanel>
+        )
+      })}
     </>
   )
 }
@@ -158,10 +144,11 @@ function StagesTabs({ modules,
 StagesTabs.propTypes = {
   modules: PropTypes.array,
   startingLevel: PropTypes.object,
-  setModulesData: PropTypes.func,
   competencies: PropTypes.array,
   pupil: PropTypes.object,
-  subjectId: PropTypes.string
+  subjectId: PropTypes.number,
+  edSubjectId: PropTypes.number,
+  showEdAndSubjectsTogether: PropTypes.bool
 }
 
-export default WithSingleSubjectFromSlug(WithModules(WithCompetencies(StagesTabs)))
+export default StagesTabs

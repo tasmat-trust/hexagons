@@ -3,10 +3,9 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import WithPupilsByGroup from '../data-fetching/WithPupilsByGroup';
 import { useRouter } from 'next/router';
-
 import { useState } from 'react';
+import WithAllSubjects from '../data-fetching/WithAllSubjects';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -21,33 +20,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, groupName }) {
+function SubjectPicker({ currentSubjectSlug, allSubjects, activeGroupSlug, currentPupilId }) {
   const classes = useStyles();
-  const [pupilId, setPupilId] = useState(currentPupilId);
+  const [subjectSlug, setSubjectSlug] = useState(currentSubjectSlug);
   const router = useRouter();
   const handleChange = (event) => {
-    const newPupilId = event.target.value;
+    const newSubjectSlug = event.target.value;
+
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards')
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
-      router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
+      router.push(`/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`, undefined, {
         shallow: false,
       });
     } else {
-      router.push(`/pupils/${activeGroupSlug}/${newPupilId}/${subjectSlug}`, undefined, {
+      router.push(`/pupils/${activeGroupSlug}/${currentPupilId}/${newSubjectSlug}`, undefined, {
         shallow: false,
       });
     }
-    setPupilId(newPupilId);
+    setSubjectSlug(newSubjectSlug);
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select from {groupName}</InputLabel>
-      <NativeSelect value={pupilId} onChange={handleChange}> 
-        {pupils.map((pupil, i) => (
-          <option key={`pupil-${i}`} value={pupil.id}>
-            {pupil.name}
+      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select subject</InputLabel>
+      <NativeSelect value={subjectSlug} onChange={handleChange}>
+        {allSubjects.map((subject, i) => (
+          <option key={`subject-${i}`} value={subject.slug}>
+            {subject.name}
           </option>
         ))}
       </NativeSelect>
@@ -55,12 +55,11 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, gro
   );
 }
 
-PupilPicker.propTypes = {
-  currentPupil: PropTypes.number,
-  pupils: PropTypes.array,
-  subjectSlug: PropTypes.string,
-  groupName: PropTypes.string,
+SubjectPicker.propTypes = {
+  currentSubjectSlug: PropTypes.string,
+  subjects: PropTypes.array,
   activeGroupSlug: PropTypes.string,
+  currentPupilId: PropTypes.number
 };
 
-export default WithPupilsByGroup(PupilPicker);
+export default WithAllSubjects(SubjectPicker);

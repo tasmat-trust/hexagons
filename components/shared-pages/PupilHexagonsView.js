@@ -7,19 +7,37 @@ import BreadCrumbs from '../navigation/Breadcrumbs';
 
 import SubjectMainView from '../subjects/SubjectMainView';
 import CustomHead from '../ui-globals/CustomHead';
+import PupilPicker from '../navigation/PupilPicker';
+import { useContext } from 'react';
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import SubjectPicker from '../navigation/SubjectPicker';
+import CustomSuspense from '../data-fetching/CustomSuspense';
 
 function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
+  const { orgId } = useContext(HexagonsContext)
   return (
     <>
       <CustomHead titleContent={`${pupil.name} | ${groupName} | ${subjectName}`} justContent={true} />
       <BreadCrumbs
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}
-        secondLabel={subjectName}
+        secondLabel={<CustomSuspense message="Loading subjects" textOnly={true}><SubjectPicker
+          currentSubjectSlug={subjectSlug}
+          activeGroupSlug={activeGroupSlug}
+          currentPupilId={parseInt(pupil.id)}
+        /></CustomSuspense>}
         thirdLabel={groupName}
         thirdHref={`/${firstSlug}/${subjectSlug}/${activeGroupSlug}`}
-        fourthLabel={pupil.name}
+        fourthLabel={<CustomSuspense message="Loading pupils" textOnly={true}><PupilPicker
+          {...other}
+          currentPupilId={parseInt(pupil.id)}
+          activeGroupSlug={activeGroupSlug}
+          subjectSlug={subjectSlug}
+          groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
+        /></CustomSuspense>}
       />
+
+
 
       <SubjectMainView
         {...other}

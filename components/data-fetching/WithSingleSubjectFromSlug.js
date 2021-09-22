@@ -4,6 +4,7 @@ import { getSingleSubjectBySlug } from "../../queries/Subjects"
 export default function WithSingleSubjectFromSlug(WrappedComponent) {
   function WithSingleSubjectFromSlug({ getSubjectBySlugVariables, ...other }) {
     const { data: subjectData } = useSWR([getSingleSubjectBySlug, getSubjectBySlugVariables], { suspense: true })
+
     const subject = subjectData.subjects[0]
     const subjectId = subject.id
     const subjectName = subject.name

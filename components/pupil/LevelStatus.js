@@ -11,6 +11,7 @@ import DialogButton from '../ui-globals/DialogButton'
 import LightbulbIcon from '../ui-globals/LightbulbIcon'
 import ErrorBoundary from '../data-fetching/ErrorBoundary'
 import { HexagonsContext } from '../data-fetching/HexagonsContext'
+import CustomSuspense from '../data-fetching/CustomSuspense'
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -62,8 +63,10 @@ function LevelStatus({ setGotCurrentLevel,
   setCurrentLevelId,
   currentModule,
   subjectId,
+  edSubjectId,
   pupil,
   competencies,
+  isEd,
   ...other }) {
 
   const { gqlClient } = useContext(HexagonsContext)
@@ -72,16 +75,12 @@ function LevelStatus({ setGotCurrentLevel,
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0)
 
   const [visibleLevel, setVisibleLevel] = useState(null)
-  const [status, setStatus] = useState(null)
+  const [status, setStatus] = useState('notstarted')
   const [readyToShow, setReadyToShow] = useState(false)
 
   const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage'
 
   const thisLevelCompetencies = calculateCompetenciesForThisLevel(competencies, currentModule.capabilities)
-
-
-
-
 
   const bubbleGotLevel = useCallback((level) => {
     if (level && level.id) {
@@ -90,7 +89,6 @@ function LevelStatus({ setGotCurrentLevel,
       setCurrentLevelId(parseInt(level.id))
       setStatus(level.status ? level.status : 'notstarted')
     }
-
   }, [setCurrentLevelId, setVisibleLevel, setGotCurrentLevel])
 
 
@@ -103,29 +101,30 @@ function LevelStatus({ setGotCurrentLevel,
 
 
   useEffect(() => {
-
     setReadyToShow(true)
-
     const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities)
     if (percentComplete === 100) {
       completeStep()
     }
+  }, [visibleLevel, bubbleGotLevel, completeStep, currentModule, thisLevelCompetencies])
 
-  }, [visibleLevel, bubbleGotLevel])
-
-  async function triggerCreateLevel(status) {
-    const variables = {
-      status: status,
-      subjectId: subjectId,
-      pupilId: pupil.id,
-      moduleId: currentModule.id
+  const triggerCreateLevel = useCallback(async (status) => {
+    if (status && subjectId && pupil && pupil.id && currentModule && currentModule.id) {
+      const variables = {
+        status: status,
+        subjectId: isEd ? edSubjectId : subjectId,
+        pupilId: pupil.id,
+        moduleId: currentModule.id
+      }
+      const level = await createLevel(gqlClient, variables)
+      bubbleGotLevel(level)
+    } else {
+      console.log(status, subjectId,  pupil, currentModule)
+      throw new Error('Something has gone wrong. Please refresh and try again.')
     }
-    const level = await createLevel(gqlClient, variables)
+  }, [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId, edSubjectId, isEd])
 
-    bubbleGotLevel(level)
-  }
-
-  async function triggerUpdateLevel(status) {
+  const triggerUpdateLevel = useCallback(async (status) => {
     const variables = {
       status: status,
       levelId: visibleLevel.id
@@ -133,7 +132,7 @@ function LevelStatus({ setGotCurrentLevel,
     const level = await updateLevel(gqlClient, variables)
 
     bubbleGotLevel(level)
-  }
+  }, [bubbleGotLevel, gqlClient, visibleLevel])
 
 
 
@@ -147,7 +146,7 @@ function LevelStatus({ setGotCurrentLevel,
     markActive()
   }
 
-  function completeStep() {
+  const completeStep = useCallback(() => {
     if (status && status !== 'complete') {
       if (visibleLevel) {
         triggerUpdateLevel('complete')
@@ -156,7 +155,7 @@ function LevelStatus({ setGotCurrentLevel,
         triggerCreateLevel('complete')
       }
     }
-  }
+  }, [status, visibleLevel, triggerUpdateLevel, triggerCreateLevel])
 
   async function markActive() {
     if (status === 'complete') {
@@ -186,16 +185,18 @@ function LevelStatus({ setGotCurrentLevel,
       <Box className={classes.level}>
         <Box className={classes.header}>
           <Box>
-            <ErrorBoundary alert="Failed to load levels">
-              <LevelStatusTitle
-                bubbleGotLevel={bubbleGotLevel}
-                status={status}
-                classes={classes}
-                moduleLabel={moduleLabel}
-                moduleOrder={currentModule.order}
-                {...other}
-              />
-            </ErrorBoundary>
+            <CustomSuspense message="Loading level" textOnly={true}>
+              <ErrorBoundary alert="Failed to load levels">
+                <LevelStatusTitle
+                  bubbleGotLevel={bubbleGotLevel}
+                  status={status}
+                  classes={classes}
+                  moduleLabel={moduleLabel}
+                  moduleOrder={currentModule.order}
+                  {...other}
+                />
+              </ErrorBoundary>
+            </CustomSuspense>
           </Box>
           <Box>
             <DialogButton
@@ -272,9 +273,11 @@ LevelStatus.propTypes = {
   setGlobalGuidanceActive: PropTypes.func,
   setCurrentLevelId: PropTypes.func,
   currentModule: PropTypes.object,
-  subjectId: PropTypes.string,
+  subjectId: PropTypes.number,
+  edSubjectId: PropTypes.number,
   pupil: PropTypes.object,
-  allCompetencies: PropTypes.array
+  allCompetencies: PropTypes.array,
+  isEd: PropTypes.bool
 }
 
 export default LevelStatus

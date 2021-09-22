@@ -178,38 +178,40 @@ const useStyles = makeStyles({
   }
 });
 
-function Loading({message, testId}) {
+function Loading({ message, testId, textOnly }) {
 
   const classes = useStyles()
   return (
     <>
       <div data-test-id={testId} className={`${classes.loading} loading-spinner`}>
-        <div className={classes.wrapper}>
-          <section className={classes.container}>
-            <div className={classes.div}>
-              <div className={`${classes.div} ${classes.nestedDiv}`}>
-                <span className={`${classes.span} ${classes.h6}`}></span>
-                <span className={`${classes.span} ${classes.h3}`}></span>
+        {!textOnly && (
+          <div className={classes.wrapper}>
+            <section className={classes.container}>
+              <div className={classes.div}>
+                <div className={`${classes.div} ${classes.nestedDiv}`}>
+                  <span className={`${classes.span} ${classes.h6}`}></span>
+                  <span className={`${classes.span} ${classes.h3}`}></span>
+                </div>
               </div>
-            </div>
 
 
-            <div className={classes.div}>
-              <div className={`${classes.div} ${classes.nestedDiv}`}>
-                <span className={`${classes.span} ${classes.h1}`}></span>
-                <span className={`${classes.span} ${classes.h4}`}></span>
+              <div className={classes.div}>
+                <div className={`${classes.div} ${classes.nestedDiv}`}>
+                  <span className={`${classes.span} ${classes.h1}`}></span>
+                  <span className={`${classes.span} ${classes.h4}`}></span>
+                </div>
               </div>
-            </div>
 
 
-            <div className={classes.div}>
-              <div className={`${classes.div} ${classes.nestedDiv}`}>
-                <span className={`${classes.span} ${classes.h5}`}></span>
-                <span className={`${classes.span} ${classes.h2}`}></span>
+              <div className={classes.div}>
+                <div className={`${classes.div} ${classes.nestedDiv}`}>
+                  <span className={`${classes.span} ${classes.h5}`}></span>
+                  <span className={`${classes.span} ${classes.h2}`}></span>
+                </div>
               </div>
-            </div>
-          </section>
-        </div>
+            </section>
+          </div>
+        )}
         <Typography className={classes.text}>{message}</Typography>
       </div>
     </>

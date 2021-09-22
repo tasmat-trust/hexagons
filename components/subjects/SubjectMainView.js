@@ -1,41 +1,25 @@
 import PropTypes from 'prop-types';
-import WithCurrentLevel from '../data-fetching/WithCurrentLevel';
-import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel';
-import PupilPicker from '../navigation/PupilPicker';
 import CustomSuspense from '../data-fetching/CustomSuspense';
-import { HexagonsContext } from '../data-fetching/HexagonsContext';
-import { useContext } from 'react';
+import WithCurrentLevel from '../data-fetching/WithCurrentLevel';
+import SetPupilSubjectLevel from '../pupil/SetPupilSubjectLevel'; 
 
-function SubjectMainView({ pupil, activeGroupSlug, subjectName, subjectSlug, ...other }) {
-  const { orgId } = useContext(HexagonsContext)
+
+function SubjectMainView({ subjectName, subjectSlug, ...other }) {
+  
   return (
-    <>
-      <CustomSuspense message="Loading PupilPicker">
-        <PupilPicker
-          {...other}
-          currentPupilId={parseInt(pupil.id)}
-          activeGroupSlug={activeGroupSlug}
-          subjectSlug={subjectSlug}
-          groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
-        />
-      </CustomSuspense>
-      <CustomSuspense message="Loading SubjectMainView">
+    <CustomSuspense message="Loading Hexagons">
         <SetPupilSubjectLevel
           {...other}
           subjectName={subjectName}
-          subjectSlug={subjectSlug}
-          pupil={pupil}
-        />
-      </CustomSuspense>
-    </>
+          subjectSlug={subjectSlug} 
+        /> 
+    </CustomSuspense>
   );
 }
 
 SubjectMainView.propTypes = {
-  pupil: PropTypes.object,
   subjectName: PropTypes.string,
   subjectSlug: PropTypes.string,
-  activeGroupSlug: PropTypes.string,
 };
 
 export default WithCurrentLevel(SubjectMainView);

@@ -88,7 +88,7 @@ const getLevel = gql`query getLevel($subjectId: ID!, $pupilId: ID!, $moduleId: I
   levels (where: {subject: $subjectId, pupil: $pupilId, module: $moduleId}) { 
     id status,
     competencies {
-      id
+      id status capability_fk   
     }
   }
 }`
@@ -108,16 +108,16 @@ mutation updateLevel($levelId: ID!, $status: ENUM_LEVEL_STATUS!) {
 }
 `
 
-const getCompetencies = gql`query getCompetencies($pupilId: ID!, $subjectId: ID!) {  
+const getCompetencies = gql`query getCompetencies($pupilId: ID!, $subjectId: [ID!]) {  
   competencies (where: {pupil: $pupilId, subject: $subjectId}) {
-    status capability_fk    
+    id status capability_fk    
   }
 }`
 
 
 const getCompetency = gql`query getCompetency($pupilId: ID!, $capability_fk: Int!) {  
   competencies (where: {pupil: $pupilId, capability_fk: $capability_fk}) {
-    id 
+    id status capability_fk   
   }
 }`
 
@@ -135,7 +135,7 @@ mutation createCompetency($pupilId: ID!, $subjectId: ID!, $levelId: ID, $status:
         }
       }) {
       competency {
-        capability_text status
+        capability_text status capability_fk id
       }
     }      
 }`

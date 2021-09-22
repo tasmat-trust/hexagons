@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   bc: {
+    padding: theme.spacing(1),
     '& ol': {
       justifyContent: 'center'
     }

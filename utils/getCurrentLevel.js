@@ -25,11 +25,11 @@ export default function getCurrentLevel(jumbledLevels) {
   }
 
   // Calculate level percent complete
-  if (level && level.status && level.status === 'incomplete') {
+  if (level && level.status && level.status === 'incomplete' && level.module) {
     level['percentComplete'] = getPercentComplete(level.competencies, level.module.capabilities)
   }
 
-  if (level && level.status && level.status === 'complete') {
+  if (level && level.status && level.status === 'complete' && level.module) {
     level['percentComplete'] = 100
   }
 

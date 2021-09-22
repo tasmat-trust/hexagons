@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { withSession } from '../../../../components/auth/session';
 import checkSession from '../../../../components/auth/checkSession';
 import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
@@ -8,8 +9,13 @@ import WithSingleSubjectFromSlug from '../../../../components/data-fetching/With
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
 import WithPupilData from '../../../../components/data-fetching/WithPupilData';
 import CustomHead from '../../../../components/ui-globals/CustomHead';
+import PupilPicker from '../../../../components/navigation/PupilPicker';
+import { HexagonsContext } from '../../../../components/data-fetching/HexagonsContext';
+import SubjectPicker from '../../../../components/navigation/SubjectPicker';
 
 function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
+
+  const { orgId } = useContext(HexagonsContext)
   return (
     <>
       <CustomHead titleContent={`${pupil.name} | ${subjectName} | ${groupName}`} justContent={true} />
@@ -18,12 +24,20 @@ function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, 
         firstHref="/pupils"
         secondLabel={groupName}
         secondHref={`/pupils/${activeGroupSlug}`}
-        thirdLabel={pupil.name}
-        thirdHref={`/pupils/${activeGroupSlug}/${pupil.id}`}
-        fourthLabel={subjectName}
-        fourthHref={`/subjects/${subjectSlug}/${activeGroupSlug}`}
+        thirdLabel={<PupilPicker
+          {...other}
+          currentPupilId={parseInt(pupil.id)}
+          activeGroupSlug={activeGroupSlug}
+          subjectSlug={subjectSlug}
+          groupName={groupName}
+          groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
+        />}
+        fourthLabel={<SubjectPicker
+          currentSubjectSlug={subjectSlug}
+          activeGroupSlug={activeGroupSlug}
+          currentPupilId={parseInt(pupil.id)}
+        />}
       />
-
       <SubjectMainView
         {...other}
         pupil={pupil}

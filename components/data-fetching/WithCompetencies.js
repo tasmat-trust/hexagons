@@ -6,7 +6,6 @@ export default function WithCompetencies(WrappedComponent) {
   function WithCompetencies({ competenciesVars, ...other }) {
     const { data: competenciesData } = useSWR([getCompetencies, competenciesVars], { suspense: true })
     let competencies = competenciesData.competencies
-
     // detect duplicates
     if (competencies.length > 0) {
       const fks = competencies.map((comp) => comp.capability_fk)

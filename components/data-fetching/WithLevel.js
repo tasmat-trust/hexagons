@@ -8,12 +8,23 @@ export default function WithLevel(WrappedComponent) {
   function WithLevel({ getLevelVars, ...other }) {
     const { gqlClient } = useContext(HexagonsContext)
     const { data: visibleLevelData } = useSWR([getLevel, getLevelVars])
+    let correctLevel = visibleLevelData ? visibleLevelData.levels[0] : null
     if (visibleLevelData && visibleLevelData.levels.length > 1) {
-      const levelNoCompetencies = visibleLevelData.levels.filter((level) => {
-        return level.competencies.length === 0
+      // Got duplicates - get all competencies out of levels 
+      // combine them into the first item
+      // then delete all but the first
+      // N.B. In production there shouldn't be duplicates due to defensive coding elsewhere
+      // So the below is just in case!
+      const competencies = []
+      visibleLevelData.levels.map((level, i) => {
+        competencies.push(...level.competencies)
+      })
+      correctLevel.competencies = [...new Set([...competencies])];
+      const levelNoCompetencies = visibleLevelData.levels.filter((level, i) => {
+        return i !== 0
       })
       levelNoCompetencies.map(async (level, i) => {
-        // safely delete level
+        // safely delete levels
         try {
           await gqlClient.request(deleteLevel, { id: level.id })
         } catch (e) {
@@ -23,8 +34,8 @@ export default function WithLevel(WrappedComponent) {
     }
     return (
       <>
-        {!visibleLevelData && <WrappedComponent {...other} />}
-        {visibleLevelData && <WrappedComponent initialVisibleLevel={visibleLevelData} {...other} />}
+        {!correctLevel && <WrappedComponent {...other} />}
+        {correctLevel && <WrappedComponent initialVisibleLevel={correctLevel} {...other} />}
       </>
     )
   }

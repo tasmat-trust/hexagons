@@ -25,12 +25,14 @@ function CapabilityTile(props) {
     pupil,
     currentLevelId,
     setTilesDisabled,
+    isEd,
+    edSubjectId,
+    showEdAndSubjectsTogether,
     ...other
   } = props;
   const { gqlClient } = useContext(HexagonsContext)
   const [isComplete, setIsComplete] = useState(false);
   const [isTarget, setIsTarget] = useState(false);
-  const [isIncomplete, setIsIncomplete] = useState(false);
   const [competencyStatus, setCompetencyStatus] = useState(null);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
   const [guidanceIsOpen, setGuidanceIsOpen] = useState(false)
@@ -43,7 +45,6 @@ function CapabilityTile(props) {
     }
   }, [initialCapability, setCapability])
 
-
   useEffect(() => {
     let initialIsIncomplete = !competency;
     const initialIsComplete = competency && competency.status === 'complete';
@@ -51,8 +52,8 @@ function CapabilityTile(props) {
     initialIsIncomplete = competency && competency.status === 'incomplete';
     setIsComplete(initialIsComplete);
     setIsTarget(initialIsTarget);
-    setIsIncomplete(initialIsIncomplete);
     competency && competency.status && setCompetencyStatus(competency.status);
+    !competency && setCompetencyStatus('incomplete')
   }, [competency, competencyStatus]);
 
 
@@ -76,7 +77,7 @@ function CapabilityTile(props) {
       setTilesDisabled(true);
       const variables = {
         status: 'incomplete',
-        subjectId: subjectId,
+        subjectId: isEd ? edSubjectId : subjectId,
         pupilId: pupil.id,
         moduleId: currentModule.id,
       };
@@ -91,19 +92,16 @@ function CapabilityTile(props) {
     if (status === 'complete') {
       setIsComplete(true);
       setIsTarget(false);
-      setIsIncomplete(false);
     } else if (status === 'incomplete') {
-      setIsIncomplete(true);
       setIsComplete(false);
       setIsTarget(false);
     } else if (status === 'target') {
       setIsTarget(true);
-      setIsIncomplete(false);
       setIsComplete(false);
     }
 
     const competencyVars = {
-      subjectId: subjectId,
+      subjectId: isEd ? edSubjectId : subjectId,
       pupilId: pupil.id,
       status: status,
       adaptation: '',
@@ -113,7 +111,7 @@ function CapabilityTile(props) {
 
     const checkCompetencyVars = {
       capability_fk: parseInt(capability.id),
-      pupilId: props.pupil.id,
+      pupilId: pupil.id,
     };
 
     const updateCompetencyVars = {
@@ -122,8 +120,8 @@ function CapabilityTile(props) {
     };
 
     const refreshCompetencyVars = {
-      pupilId: props.pupil.id,
-      subjectId: props.subjectId,
+      pupilId: pupil.id,
+      subjectId: showEdAndSubjectsTogether ? [edSubjectId, subjectId] : subjectId,
     };
 
     if (levelId) {
@@ -191,10 +189,12 @@ CapabilityTile.propTypes = {
   currentModule: PropTypes.object,
   gotCurrentLevel: PropTypes.bool,
   setGotCurrentLevel: PropTypes.func,
-  subjectId: PropTypes.string,
+  subjectId: PropTypes.number,
+  edSubjectId: PropTypes.number,
   pupil: PropTypes.object,
   currentLevelId: PropTypes.number,
   setTilesDisabled: PropTypes.func,
+  showEdAndSubjectsTogether: PropTypes.bool
 };
 
 export default CapabilityTile;

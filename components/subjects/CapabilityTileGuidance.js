@@ -19,7 +19,6 @@ function CapabilityTileGuidance({
   guidance,
   guidanceIsOpen,
   setGuidanceIsOpen,
-  setModulesData,
   capability,
   setCapability,
   ...other }) {

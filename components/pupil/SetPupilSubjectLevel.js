@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import StagesTabs from "../navigation/StagesTabs"
-import { Typography } from "@material-ui/core"
 import { Box } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import StagesTabsWithEarlyDevelopment from '../navigation/StagesTabsWithEarlyDevelopment'
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -18,18 +17,19 @@ const styles = makeStyles((theme) => ({
 
 function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...other }) {
 
-
   const classes = styles()
 
   return (
     <Box className={classes.root}>
-      <StagesTabs
+      <StagesTabsWithEarlyDevelopment
         {...other}
         pupil={pupil}
         subjectId={subjectId}
         subjectName={subjectName}
         subjectSlug={subjectSlug}
         isBaseline={true}
+        showEdAndSubjectsTogether={true}
+        getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
         getSubjectBySlugVariables={{ slug: subjectSlug }} />
     </Box>
   )
