@@ -108,8 +108,8 @@ mutation updateLevel($levelId: ID!, $status: ENUM_LEVEL_STATUS!) {
 }
 `
 
-const getCompetencies = gql`query getCompetencies($pupilId: ID!, $subjectId: [ID!]) {  
-  competencies (where: {pupil: $pupilId, subject: $subjectId}) {
+const getCompetencies = gql`query getCompetencies($pupilId: ID!, $levelId: [ID!]) {  
+  competencies (where: {pupil: $pupilId, level: $levelId}) {
     id status capability_fk    
   }
 }`
@@ -122,12 +122,11 @@ const getCompetency = gql`query getCompetency($pupilId: ID!, $capability_fk: Int
 }`
 
 const createCompetencyQuery = gql`
-mutation createCompetency($pupilId: ID!, $subjectId: ID!, $levelId: ID, $status: ENUM_COMPETENCY_STATUS!, $adaptation: String!, $capability_fk: Int!, $capability_text: String!) {
+mutation createCompetency($pupilId: ID!,  $levelId: ID, $status: ENUM_COMPETENCY_STATUS!, $adaptation: String!, $capability_fk: Int!, $capability_text: String!) {
   createCompetency(input: {
       data:{
         pupil:$pupilId,
         level: $levelId,
-        subject: $subjectId,
         status:$status,
         adaptation: $adaptation,
         capability_fk: $capability_fk,

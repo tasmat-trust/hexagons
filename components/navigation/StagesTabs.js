@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { Box } from '@material-ui/core'
-import CapabilityTiles from '../subjects/CapabilityTiles'
-import LevelStatus from '../pupil/LevelStatus'
+import LevelContent from '../pupil/LevelContent'
 import { sortModules } from '../../utils/sortLevelsAndModules'
 import CustomSuspense from '../data-fetching/CustomSuspense'
 
@@ -34,33 +33,24 @@ function a11yProps(index) {
   };
 }
 
-function StagesTabs({ modules,
+function StagesTabs({
+  modules,
   startingLevel,
-  initialCompetencies,
   pupil,
-  edSubjectId,
-  subjectId,
-  showEdAndSubjectsTogether }) {
+  ...other }) {
   const [tabValue, setTabValue] = useState(0);
-  const [competencies, setCompetencies] = useState(initialCompetencies)
+
   const [gotCurrentLevel, setGotCurrentLevel] = useState(startingLevel ? true : false) // boolean - have we got a current level
   const [currentLevelId, setCurrentLevelId] = useState(startingLevel ? startingLevel.id : 0)
   const [sortedModules, setSortedModules] = useState(modules)
   const [guidanceActive, setGuidanceActive] = useState(false)
 
-  useEffect(() => { // Set the overlays to appear once loaded
-    if (initialCompetencies) {
-      setCompetencies(initialCompetencies)
-
-    }
-  }, [initialCompetencies])
 
   useEffect(() => {
     if (modules) {
       const sortedModules = sortModules(modules)
       setSortedModules(sortedModules)
     }
-
   }, [modules])
 
   useEffect(() => {
@@ -73,7 +63,7 @@ function StagesTabs({ modules,
     } else {
       setTabValue(0)
     }
-  }, [modules, startingLevel, initialCompetencies, pupil])
+  }, [modules, startingLevel, pupil])
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -99,42 +89,26 @@ function StagesTabs({ modules,
           ))}
         </HexagonsTabs>
       </CustomSuspense>
-      {sortedModules.map((module, i) => {
-        const isEd = module.isEd ? true : false
+      {sortedModules.map((currentModule, i) => {
+        const isEd = currentModule.isEd ? true : false
         return (
           <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
-            <CustomSuspense message="Loading status">
-              <LevelStatus
+            <CustomSuspense message={`Loading ${currentModule.order}`}>
+              <LevelContent
+                pupil={pupil}
                 setGotCurrentLevel={setGotCurrentLevel}
-                setGlobalGuidanceActive={setGuidanceActive}
-                setCurrentLevelId={setCurrentLevelId}
-                currentModule={module}
-                subjectId={subjectId}
-                edSubjectId={edSubjectId}
-                pupil={pupil}
-                competencies={competencies}
-                getLevelVars={{ pupilId: pupil.id, subjectId: isEd ? edSubjectId : subjectId, moduleId: module.id }}
-                isEd={isEd}
-              />
-            </CustomSuspense>
-            <CustomSuspense message="Loading tiles">
-              <CapabilityTiles
-                showEdAndSubjectsTogether={showEdAndSubjectsTogether}
-                subjectId={subjectId}
-                edSubjectId={edSubjectId}
-                guidanceActive={guidanceActive}
-                pupil={pupil}
-                capabilities={module.capabilities}
-                competencies={competencies}
-                setCompetencies={setCompetencies}
-                currentModule={module}
                 gotCurrentLevel={gotCurrentLevel}
-                setGotCurrentLevel={setGotCurrentLevel}
+                setCurrentLevelId={setCurrentLevelId}
                 currentLevelId={currentLevelId}
-                isEd={isEd}
+                currentModule={currentModule}
+                setGuidanceActive={setGuidanceActive}
+                guidanceActive={guidanceActive}
+                competenciesVars={{ pupilId: parseInt(pupil.id), levelId: parseInt(currentLevelId) }}
+                {...other}
               />
             </CustomSuspense>
           </TabPanel>
+
         )
       })}
     </>
@@ -144,11 +118,7 @@ function StagesTabs({ modules,
 StagesTabs.propTypes = {
   modules: PropTypes.array,
   startingLevel: PropTypes.object,
-  competencies: PropTypes.array,
-  pupil: PropTypes.object,
-  subjectId: PropTypes.number,
-  edSubjectId: PropTypes.number,
-  showEdAndSubjectsTogether: PropTypes.bool
+  pupil: PropTypes.object
 }
 
 export default StagesTabs

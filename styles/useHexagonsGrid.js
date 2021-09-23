@@ -53,6 +53,7 @@ const stringStyles = makeStyles((theme) => ({
     min-width: calc(var(--s)  * 3);
   `,
   hex: `
+    transition: all 0.2s ease-out;
     width: var(--s);
     margin: var(--mv) var(--mh);
     height: calc(var(--s) *var(--r));

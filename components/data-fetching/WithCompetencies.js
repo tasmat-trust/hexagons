@@ -4,19 +4,19 @@ import useSWR from 'swr'
 
 export default function WithCompetencies(WrappedComponent) {
   function WithCompetencies({ competenciesVars, ...other }) {
-    const { data: competenciesData } = useSWR([getCompetencies, competenciesVars], { suspense: true })
-    let competencies = competenciesData.competencies
+    const { data: competenciesData } = useSWR([getCompetencies, competenciesVars])
+    let competencies = competenciesData ? competenciesData.competencies : null
     // detect duplicates
-    if (competencies.length > 0) {
+    if (competencies && competencies.length > 0) {
       const fks = competencies.map((comp) => comp.capability_fk)
       const unique = Array.from(new Set(fks))
       if (fks.length !== unique.length) {
         throw new Error('Got duplicate competencies')
       }
     }
-    return <WrappedComponent
+    return competencies ? <WrappedComponent
       initialCompetencies={competencies}
-      {...other} />
+      {...other} /> : <WrappedComponent {...other} />
   }
 
   WithCompetencies.propTypes = {

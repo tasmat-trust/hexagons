@@ -29,7 +29,7 @@ function CapabilityTiles({ capabilities, competencies, ...other }) {
                   key={`capability-${i}`}
                   initialCapability={capability}
                   competency={competency}
-                   />
+                />
               )
             })}
           </div>

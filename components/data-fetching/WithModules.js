@@ -7,7 +7,6 @@ export default function WithModules(WrappedComponent) {
     const { data: modulesData, mutate: setModulesData } = useSWR([getModules, getModulesBySubjectIdVariables], { suspense: true })
     let modules = modulesData.modules
     return <WrappedComponent
-      competenciesVars={{ pupilId: parseInt(pupil.id), subjectId: parseInt(subjectId) }}
       modules={modules}
       pupil={pupil}
       subjectId={subjectId}

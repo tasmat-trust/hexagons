@@ -53,9 +53,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
-  const capString = JSON.stringify(capabilitiesToMatch)
-  const competencies = allComps.filter((comp, i) => capString.includes(comp.capability_fk))
-  return competencies
+  if (allComps) {
+    const capString = JSON.stringify(capabilitiesToMatch)
+    const competencies = allComps.filter((comp, i) => capString.includes(comp.capability_fk))
+    return competencies
+  }
+  return null
 }
 
 function LevelStatus({ setGotCurrentLevel,
@@ -63,10 +66,8 @@ function LevelStatus({ setGotCurrentLevel,
   setCurrentLevelId,
   currentModule,
   subjectId,
-  edSubjectId,
   pupil,
   competencies,
-  isEd,
   ...other }) {
 
   const { gqlClient } = useContext(HexagonsContext)
@@ -112,7 +113,7 @@ function LevelStatus({ setGotCurrentLevel,
     if (status && subjectId && pupil && pupil.id && currentModule && currentModule.id) {
       const variables = {
         status: status,
-        subjectId: isEd ? edSubjectId : subjectId,
+        subjectId: subjectId,
         pupilId: pupil.id,
         moduleId: currentModule.id
       }
@@ -122,17 +123,18 @@ function LevelStatus({ setGotCurrentLevel,
       console.log(status, subjectId, pupil, currentModule)
       throw new Error('Something has gone wrong. Please refresh and try again.')
     }
-  }, [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId, edSubjectId, isEd])
+  }, [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId])
 
   const triggerUpdateLevel = useCallback(async (status) => {
     const variables = {
       status: status,
+      subjectId: subjectId,
       levelId: visibleLevel.id
     }
     const level = await updateLevel(gqlClient, variables)
 
     bubbleGotLevel(level)
-  }, [bubbleGotLevel, gqlClient, visibleLevel])
+  }, [bubbleGotLevel, gqlClient, visibleLevel, subjectId])
 
 
 
@@ -274,10 +276,8 @@ LevelStatus.propTypes = {
   setCurrentLevelId: PropTypes.func,
   currentModule: PropTypes.object,
   subjectId: PropTypes.number,
-  edSubjectId: PropTypes.number,
   pupil: PropTypes.object,
-  allCompetencies: PropTypes.array,
-  isEd: PropTypes.bool
+  competencies: PropTypes.array
 }
 
 export default LevelStatus

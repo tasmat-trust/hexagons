@@ -21,13 +21,10 @@ function CapabilityTile(props) {
     currentModule,
     gotCurrentLevel,
     setGotCurrentLevel,
-    subjectId,
     pupil,
     currentLevelId,
     setTilesDisabled,
-    isEd,
-    edSubjectId,
-    showEdAndSubjectsTogether,
+    subjectId,
     ...other
   } = props;
   const { gqlClient } = useContext(HexagonsContext)
@@ -77,8 +74,8 @@ function CapabilityTile(props) {
       setTilesDisabled(true);
       const variables = {
         status: 'incomplete',
-        subjectId: isEd ? edSubjectId : subjectId,
         pupilId: pupil.id,
+        subjectId: subjectId,
         moduleId: currentModule.id,
       };
       const level = await createLevel(gqlClient, variables);
@@ -101,7 +98,6 @@ function CapabilityTile(props) {
     }
 
     const competencyVars = {
-      subjectId: isEd ? edSubjectId : subjectId,
       pupilId: pupil.id,
       status: status,
       adaptation: '',
@@ -120,8 +116,7 @@ function CapabilityTile(props) {
     };
 
     const refreshCompetencyVars = {
-      pupilId: pupil.id,
-      subjectId: showEdAndSubjectsTogether ? [edSubjectId, subjectId] : subjectId,
+      pupilId: pupil.id
     };
 
     if (levelId) {
@@ -189,12 +184,10 @@ CapabilityTile.propTypes = {
   currentModule: PropTypes.object,
   gotCurrentLevel: PropTypes.bool,
   setGotCurrentLevel: PropTypes.func,
-  subjectId: PropTypes.number,
-  edSubjectId: PropTypes.number,
   pupil: PropTypes.object,
   currentLevelId: PropTypes.number,
   setTilesDisabled: PropTypes.func,
-  showEdAndSubjectsTogether: PropTypes.bool
+  subjectId: PropTypes.number
 };
 
 export default CapabilityTile;
