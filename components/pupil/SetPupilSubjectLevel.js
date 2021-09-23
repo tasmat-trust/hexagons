@@ -20,7 +20,6 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
   const classes = styles()
 
   const noEarlyDevelopmentSlugs = ['expressive-and-receptive-language', 'expressive-language', 'receptive-language']
-
   let includeEarlyDevelopment = true
   if (noEarlyDevelopmentSlugs.includes(subjectSlug)) {
     includeEarlyDevelopment = false
@@ -28,7 +27,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
 
   return (
     <Box className={classes.root}>
-      
+
       {includeEarlyDevelopment && <StagesTabsWithEarlyDevelopment
         {...other}
         pupil={pupil}

@@ -119,7 +119,7 @@ function LevelStatus({ setGotCurrentLevel,
       const level = await createLevel(gqlClient, variables)
       bubbleGotLevel(level)
     } else {
-      console.log(status, subjectId,  pupil, currentModule)
+      console.log(status, subjectId, pupil, currentModule)
       throw new Error('Something has gone wrong. Please refresh and try again.')
     }
   }, [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId, edSubjectId, isEd])
@@ -189,9 +189,9 @@ function LevelStatus({ setGotCurrentLevel,
               <ErrorBoundary alert="Failed to load levels">
                 <LevelStatusTitle
                   bubbleGotLevel={bubbleGotLevel}
-                  status={status}
                   classes={classes}
                   moduleLabel={moduleLabel}
+                  status={status}
                   moduleOrder={currentModule.order}
                   {...other}
                 />
@@ -229,7 +229,7 @@ function LevelStatus({ setGotCurrentLevel,
             <DialogButton
               label="View Summary"
               testId="view-summary-button"
-              color="secondary"
+              color="primary"
               variant="contained"
               boxTitle={`${moduleLabel} ${currentModule.order} summary`}>
               {currentModule.summary}
@@ -237,7 +237,7 @@ function LevelStatus({ setGotCurrentLevel,
             {status !== 'complete' && <Button
               data-test-id="mark-complete"
               className={classes.endButton}
-              variant="outlined"
+              variant="contained"
               color="secondary"
               onClick={completeStepHandler}>Complete this {moduleLabel}</Button>}
             {status === 'complete' && <Button
