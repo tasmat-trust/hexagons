@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug }) {
+function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug, isRainbowListingPage }) {
   const classes = useStyles()
   const router = useRouter()
   const { data: levelData } = useSWR([getLevels, getLevelVariables])
@@ -64,7 +64,10 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
 
   let linkUrl
   if (isSubjectsListing || isRainbowAwards) {
-    const basePath = 'subjects'
+    let basePath = 'subjects' // Is a core subject on a rainbow-awards page
+    if (isRainbowListingPage) {
+      basePath = 'rainbow-awards'
+    }
     linkUrl = `/${basePath}/${subjectSlug}/${activeGroupSlug}/${pupilId}`
   } else {
     linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`
@@ -95,6 +98,7 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
 }
 
 SubjectProgress.propTypes = {
+  isRainbowListingPage: PropTypes.bool,
   subjectSlug: PropTypes.string,
   titleName: PropTypes.string,
   getLevelVariables: PropTypes.object,

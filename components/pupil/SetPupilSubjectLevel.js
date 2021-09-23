@@ -3,6 +3,7 @@ import { Box } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import StagesTabsWithEarlyDevelopment from '../navigation/StagesTabsWithEarlyDevelopment'
 import StagesTabsSingleSubject from '../navigation/StagesTabsSingleSubject'
+import { useRouter } from 'next/router'
 const styles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(3),
@@ -19,9 +20,14 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
 
   const classes = styles()
 
+  const { pathname } = useRouter()
   const noEarlyDevelopmentSlugs = ['expressive-and-receptive-language', 'expressive-language', 'receptive-language']
   let includeEarlyDevelopment = true
   if (noEarlyDevelopmentSlugs.includes(subjectSlug)) {
+    includeEarlyDevelopment = false
+  }
+
+  if (pathname.includes('rainbow-awards')) {
     includeEarlyDevelopment = false
   }
 

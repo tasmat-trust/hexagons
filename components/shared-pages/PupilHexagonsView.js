@@ -4,7 +4,7 @@ import WithGroupFromSlug from '../data-fetching/WithGroupFromSlug';
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug';
 import WithUrlVariables from '../data-fetching/WithUrlVariables';
 import BreadCrumbs from '../navigation/Breadcrumbs';
-
+import { useRouter } from 'next/router';
 import SubjectMainView from '../subjects/SubjectMainView';
 import CustomHead from '../ui-globals/CustomHead';
 import PupilPicker from '../navigation/PupilPicker';
@@ -15,6 +15,12 @@ import CustomSuspense from '../data-fetching/CustomSuspense';
 
 function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
   const { orgId } = useContext(HexagonsContext)
+
+  const { pathname } = useRouter()
+  let isRainbowAwards = false;
+  if (pathname.includes('rainbow-awards')) {
+    isRainbowAwards = true
+  }
   return (
     <>
       <CustomHead titleContent={`${pupil.name} | ${groupName} | ${subjectName}`} justContent={true} />
@@ -22,6 +28,7 @@ function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, a
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}
         secondLabel={<CustomSuspense message="Loading subjects" textOnly={true}><SubjectPicker
+          isRainbowAwards={isRainbowAwards}
           currentSubjectSlug={subjectSlug}
           activeGroupSlug={activeGroupSlug}
           currentPupilId={parseInt(pupil.id)}

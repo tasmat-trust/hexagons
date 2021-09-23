@@ -6,6 +6,7 @@ import { Typography } from '@material-ui/core';
 
 import SubjectProgress from '../subjects/SubjectProgress';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -37,6 +38,11 @@ function SubjectCard({
   ...other }) // pupilId, coreSubjects, activeGroupSlug
 {
   const styles = useStyles();
+  let isRainbowListingPage = false
+  const { pathname } = useRouter()
+  if (pathname.includes('rainbow-awards')) {
+    isRainbowListingPage = true
+  }
   return (
     <Card>
       <CardContent >
@@ -49,6 +55,7 @@ function SubjectCard({
               <ErrorBoundary fallback={<p>Error rendering {pupil.name}</p>}>
                 <SubjectProgress
                   {...other} // activeGroupSlug
+                  isRainbowListingPage={isRainbowListingPage}
                   subjectSlug={subjectSlug}
                   titleName={pupil.name}
                   getLevelVariables={{ subjectId: subjectId, pupilId: pupil.id }}

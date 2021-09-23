@@ -39,6 +39,7 @@ function LevelContent({
           currentModule={currentModule}
           pupil={pupil}
           competencies={competencies}
+          subjectId={subjectId}
           getLevelVars={{ pupilId: pupil.id, subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: currentModule.id }}
           setGuidanceActive={setGuidanceActive}
         />

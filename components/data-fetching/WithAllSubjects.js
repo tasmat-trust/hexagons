@@ -34,7 +34,7 @@ export default function WithAllSubjects(WrappedComponent) {
       return aNum.localeCompare(bNum)
     });
 
-    return <WrappedComponent subjects={subjects} allSubjects={allSubjects} {...other} />
+    return <WrappedComponent subjects={subjects} isRainbowAwards={isRainbowAwards} allSubjects={allSubjects} {...other} />
   }
   WithAllSubjects.propTypes = {
     isRainbowAwards: PropTypes.bool

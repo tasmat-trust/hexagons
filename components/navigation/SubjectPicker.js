@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SubjectPicker({ currentSubjectSlug, allSubjects, activeGroupSlug, currentPupilId }) {
+function SubjectPicker({ currentSubjectSlug, allSubjects, activeGroupSlug, currentPupilId, isRainbowAwards }) {
   const classes = useStyles();
   const [subjectSlug, setSubjectSlug] = useState(currentSubjectSlug);
   const router = useRouter();
@@ -28,7 +28,6 @@ function SubjectPicker({ currentSubjectSlug, allSubjects, activeGroupSlug, curre
     const newSubjectSlug = event.target.value;
 
     const isSubjectsListing = router.asPath.includes('subjects');
-    const isRainbowAwards = router.asPath.includes('rainbow-awards')
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
       router.push(`/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`, undefined, {
@@ -43,7 +42,7 @@ function SubjectPicker({ currentSubjectSlug, allSubjects, activeGroupSlug, curre
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select subject</InputLabel>
+      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select {isRainbowAwards ? 'award' : 'subject'}</InputLabel>
       <NativeSelect value={subjectSlug} onChange={handleChange}>
         {allSubjects.map((subject, i) => (
           <option key={`subject-${i}`} value={subject.slug}>

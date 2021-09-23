@@ -12,10 +12,16 @@ import CustomHead from '../../../../components/ui-globals/CustomHead';
 import PupilPicker from '../../../../components/navigation/PupilPicker';
 import { HexagonsContext } from '../../../../components/data-fetching/HexagonsContext';
 import SubjectPicker from '../../../../components/navigation/SubjectPicker';
+import { useRouter } from 'next/router';
 
 function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
 
+  const { pathname } = useRouter()
   const { orgId } = useContext(HexagonsContext)
+  let isRainbowAwards = false;
+  if (pathname.includes('rainbow-awards')) {
+    isRainbowAwards = true
+  }
   return (
     <>
       <CustomHead titleContent={`${pupil.name} | ${subjectName} | ${groupName}`} justContent={true} />
@@ -33,6 +39,7 @@ function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, 
           groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
         />}
         fourthLabel={<SubjectPicker
+          isRainbowAwards={isRainbowAwards}
           currentSubjectSlug={subjectSlug}
           activeGroupSlug={activeGroupSlug}
           currentPupilId={parseInt(pupil.id)}
