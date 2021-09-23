@@ -43,8 +43,8 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, gro
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select from {groupName}</InputLabel>
-      <NativeSelect value={pupilId} onChange={handleChange}> 
+      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select pupil</InputLabel>
+      <NativeSelect value={pupilId} onChange={handleChange}>
         {pupils.map((pupil, i) => (
           <option key={`pupil-${i}`} value={pupil.id}>
             {pupil.name}
