@@ -12,7 +12,7 @@ function LevelTitle({ status, classes, moduleLabel, moduleOrder, initialVisibleL
   return (
     <Typography data-test-id="level-status-title" className={classes.title} variant='h2'>
       {moduleLabel} {moduleOrder}
-      {status === 'complete' && <span> &#8212; <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
+      {(status === 'complete' || status === 'incomplete') && <span> &#8212; <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
     </Typography>
   )
 }
