@@ -1,25 +1,69 @@
-import { createTeacherQuery } from '../../../queries/Teachers'
+import { createTeacherQuery, emailTeacherCredentials, singleTeacher, getServerEntropy } from '../../../queries/Teachers'
+import getPermittedDomains from '../../../utils/getPermittedDomains'
+import generatePassword from '../../../utils/generatePassword'
+import roles from '../../../utils/roles'
 
-async function createTeacher({ formData, gqlClient, orgId }) {
+async function createTeacher({ formData, gqlClient, orgId, orgs, triggerSharedState }) {
 
   const result = {}
+  const { humanOrgsArray, computerOrgsArray, error } = getPermittedDomains(orgId, orgs)
+  if (error) {
+    result.error = error.message
+    return result
+  }
+
+  let validDomain = false
+  computerOrgsArray.map((domain) => {
+    if (formData.email.includes(domain)) {
+      validDomain = true
+    }
+  })
+
+  if (!validDomain) {
+    result.error = `Email domain must be ${humanOrgsArray}`
+    return result
+  }
+
+  const data = await gqlClient.request(singleTeacher, { email: formData.email })
+  if (data) {
+    if (data.users.length > 0) {
+      result.error = 'A user with that email address already exists.'
+      return result
+    }
+  }
+
+  const password = generatePassword()
 
   const variables = {
-    role: "1",
+    role: formData.role,
     username: formData.username,
     email: formData.email,
     orgId: orgId,
-    password: 'someverylongandsecurepassword',
+    password: password,
     groupId: formData.groups,
     confirmed: true
   }
+
   try {
     const data = await gqlClient.request(createTeacherQuery, variables)
     if (data) {
+      triggerSharedState.update()
+      const roleName = roles.filter((role) => role.id === parseInt(formData.role))[0].name
+      console.log(roleName)
+      const emailTeacherVariables = {
+        email: formData.email,
+        role: roleName.toLowerCase(),
+        username: formData.username,
+        loginUrl: `${window.location.href.split('/manage/teachers')[0]}/login`,
+        password: password
+      }
+      await gqlClient.request(emailTeacherCredentials, emailTeacherVariables)
       result.success = true
+      result.successMessage = `${formData.username}'s account has been created and an email with login instructions has been sent to them at ${formData.email}.`
+
     }
   } catch (e) {
-    resut.error = e.message
+    result.error = e.message
     console.error(e)
   }
 

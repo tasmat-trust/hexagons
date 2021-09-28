@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
 
 // Get all users with roles and groups
-const allSubjectsQuery = gql`query{
+const allSubjectsQuery = gql`query getSubjects{
   subjects {
   	name slug isCore isChildOf isEarlyDevelopment isRainbowAwards
   }
@@ -21,7 +21,7 @@ const getCoreSubjects = gql`query getCoreSubjects {
 
 
 
-const getSingleSubjectBySlug = gql`query getSubject($slug: String!) {  
+const getSingleSubjectBySlug = gql`query getSingleSubjectBySlug($slug: String!) {  
   subjects (where: { slug: $slug}) { 
      id name slug
   }
@@ -38,6 +38,18 @@ const getCapability = gql`query getCapability($id: ID!) {
 }`
 
 const getModules = gql`query getModules($subjectId: ID!) {  
+  modules (where: {subject: $subjectId}) { 
+    order id level summary guidance, 
+    capabilities {
+      text id,
+        guidance {
+          text
+        }
+    }
+  }
+}`
+
+const getEdModules = gql`query getEdModules($subjectId: ID!) {  
   modules (where: {subject: $subjectId}) { 
     order id level summary guidance, 
     capabilities {
@@ -140,6 +152,7 @@ export {
   getSingleSubjectBySlug,
   allSubjectsQuery,
   getModules,
+  getEdModules,
   createGuidanceQuery, 
   getCapability
 }

@@ -14,9 +14,15 @@ import createGroup from '../forms/handlers/createGroup'
 import createGuidance from '../forms/handlers/createGuidance'
 import Alert from "@material-ui/lab/Alert";
 import { HexagonsContext } from "../data-fetching/HexagonsContext";
-
+import { getAllOrgs } from "../../queries/Organizations";
+import roles from '../../utils/roles'
+import { SingleSelect } from "./SingleSelect";
+import Loading from "../ui-globals/Loading";
 function AddNew(props) {
-  const { updateHandler,
+  const {
+    orgs,
+    roles,
+    updateHandler,
     modelname,
     triggerSharedState,
     nameFieldName,
@@ -27,7 +33,9 @@ function AddNew(props) {
     capabilityId,
     successCallback } = props
 
+  const [loading, setLoading] = useState(false)
   const [selectValue, setSelectValue] = useState([]);
+  const [role, setRole] = useState([])
   const [nameValue, setNameValue] = useState('');
   const [textValue, setTextValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -37,9 +45,9 @@ function AddNew(props) {
 
   const { gqlClient, orgId } = useContext(HexagonsContext)
 
-
   async function handleForm(event) {
     event.preventDefault()
+    setLoading(true)
     setErrorValue(false)
     setSuccessValue(false)
     let formData = {}
@@ -58,30 +66,35 @@ function AddNew(props) {
       formData.name = event.target['name'].value
     }
     if (selectItems) {
-      const groups = event.target['select-chip'].value.split(',');
+      const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
-
-
+    if (roles) {
+      formData.role = role;
+    }
 
     const formResult = await updateHandler({
+      orgs,
       formData,
       gqlClient,
       orgId,
       triggerSharedState,
       capabilityId
     })
+
     if (formResult.error) {
       handleError(formResult.error)
       if (formResult.success) {
         resetForm('Data saved successfully. Please refresh.')
       }
     } else if (formResult.success) {
-      resetForm(`${modelname} saved successfully.`)
+      const message = formResult.successMessage ? formResult.successMessage : `${modelname} saved successfully.`
+      resetForm(message)
       if (successCallback) {
         successCallback(formResult)
       }
     }
+    setLoading(false)
   }
 
   function handleError(message) {
@@ -96,47 +109,52 @@ function AddNew(props) {
     setEmailValue('')
     setTimeout(() => {
       setSuccessValue('')
-    }, 1500)
+    }, 2500)
   }
 
   return (
     <form id={`new-${modelname}`} onSubmit={handleForm}>
       {errorValue && <Alert data-test-id="error" severity="error">{errorValue}</Alert>}
       {successValue && <Alert data-test-id="success" severity="success">{successValue}</Alert>}
+      {loading && <Loading message="Submitting form..." />}
+      {!loading && (
+        <>
+          <FormControl fullWidth required margin="normal">
+            {includeName && <TextField
+              id={nameFieldName ? nameFieldName : 'name'}
+              label="Name"
+              value={nameValue}
+              required
+              onChange={(event) => setNameValue(event.target.value)}
+            />}
+            {includeText && <TextField
+              id='text'
+              label='Text'
+              value={textValue}
+              onChange={(event) => setTextValue(event.target.value)}
+            />}
+          </FormControl>
+          {includeEmail && (
+            <FormControl fullWidth required margin="normal">
+              <TextField
+                id="email"
+                label="Email address"
+                value={emailValue}
+                required
+                onChange={(event) => setEmailValue(event.target.value)}
+              />
+            </FormControl>
+          )}
 
-      <FormControl fullWidth required margin="normal">
-        {includeName && <TextField
-          id={nameFieldName ? nameFieldName : 'name'}
-          label="Name"
-          value={nameValue}
-          required
-          onChange={(event) => setNameValue(event.target.value)}
-        />}
-        {includeText && <TextField
-          id='text'
-          label='Text'
-          value={textValue}
-          onChange={(event) => setTextValue(event.target.value)}
-        />}
-      </FormControl>
-      {includeEmail && (
-        <FormControl fullWidth required margin="normal">
-          <TextField
-            id="email"
-            label="Email address"
-            value={emailValue}
-            required
-            onChange={(event) => setEmailValue(event.target.value)}
-          />
-        </FormControl>
+          {roles && <SingleSelect itemLabel="Role" selectItems={roles} selectValue={role} setSelectValue={setRole} />}
+          {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
+          <FormControl margin="normal">
+            <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="secondary">
+              Add new {modelname}
+            </Button>
+          </FormControl>
+        </>
       )}
-      {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
-      <FormControl margin="normal">
-        <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="secondary">
-          Add new {modelname}
-        </Button>
-      </FormControl>
-
     </form>
   )
 }
@@ -164,6 +182,10 @@ function AddNewGuidance(props) {
   )
 }
 
+function AddNewTeacher(props) {
+  const { data } = useSWR(getAllOrgs, { suspense: true })
+  return <AddNew orgs={data.organizations} roles={roles}  {...props} />
+}
 
 function AddNewUserWithGroups(props) {
   const { variables, userType } = props
@@ -171,14 +193,18 @@ function AddNewUserWithGroups(props) {
   const groups = groupsData.groups
   return (
     <>
-      {userType === 'teacher' && <AddNew
-        {...props}
-        modelname="user"
-        updateHandler={createTeacher}
-        nameFieldName={'username'}
-        includeName={true}
-        includeEmail={true}
-        selectItems={groups} />}
+      {userType === 'teacher' &&
+
+        <AddNewTeacher
+          {...props}
+          modelname="user"
+          updateHandler={createTeacher}
+          nameFieldName={'username'}
+          includeName={true}
+          includeEmail={true}
+          selectItems={groups} />
+
+      }
       {userType === 'pupil' && <AddNew
         {...props}
         modelname="pupil"

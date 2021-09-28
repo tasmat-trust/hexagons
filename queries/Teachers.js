@@ -1,5 +1,13 @@
 import { gql } from 'graphql-request'
 
+const singleTeacher = gql`
+query getTeacher($email: String!) {
+  users (where: {email: $email}) {
+    id
+  }
+}
+`
+
 // Get all users with roles and groups
 const allTeachers = gql`query getTeachers($orgId: Int!) {  
     users (where: {organization: $orgId}) { 
@@ -11,7 +19,7 @@ const allTeachers = gql`query getTeachers($orgId: Int!) {
           name
       }
       groups {
-          name
+          name id
       }
     }
   }`
@@ -35,8 +43,7 @@ mutation createUser(
     organization:$orgId,
     password: $password,
     confirmed: $confirmed
-  }  
-}) {  
+  }}) {  
   user { 
     organization { id }
     groups { id } 
@@ -55,7 +62,7 @@ mutation updateUser($userId: ID!, $groupIds: [ID]) {
     user {
       username
       groups {
-        name
+        name id
       }
     }
   }
@@ -80,7 +87,31 @@ mutation updateUser($userId: ID!, $roleId: ID!) {
 }
 `
 
+const emailTeacherCredentials = gql`
+mutation createUserPasswordGenerator(
+  $email: String!, 
+  $username: String!, 
+  $loginUrl: String!, 
+  $password: String!,
+  $role: String!
+) 
+{createUserPasswordGenerator(input: {
+  data: {
+      email: $email,
+      username: $username,
+      loginUrl: $loginUrl,
+      password: $password,
+      role: $role
+  }})
+  {userPasswordGenerator {
+    email
+  }}
+}
+`
+
 export {
+  singleTeacher,
+  emailTeacherCredentials,
   updateTeacherGroups,
   updateTeacherRole,
   createTeacherQuery,

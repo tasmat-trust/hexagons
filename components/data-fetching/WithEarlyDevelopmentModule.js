@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import { getModules } from '../../queries/Subjects'
+import { getEdModules } from '../../queries/Subjects'
 import useSWR from 'swr';
 
 export default function WithEarlyDevelopmentModule(WrappedComponent) {
   function WithEarlyDevelopmentModule({ getEdModulesBySubjectIdVariables, modules, edSubjectId, ...other }) {
-    const { data: edModulesData } = useSWR([getModules, getEdModulesBySubjectIdVariables], { suspense: true })
+    const { data: edModulesData } = useSWR([getEdModules, getEdModulesBySubjectIdVariables], { suspense: true })
     let module = edModulesData.modules[0]
     module.isEd = true
     const mergedModules = [module, ...modules]

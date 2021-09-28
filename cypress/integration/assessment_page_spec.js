@@ -7,121 +7,52 @@ context('Assessment page', () => {
 
 
     let getSubject = {
-      body: {
-        data: { subjects: [{ id: '1', name: 'Number', slug: 'number' }] },
-      },
-    };
+      body: { "data": { "subjects": [{ "id": "9", "name": "Number", "slug": "number" }] } }
+    }
 
     let getGroup = {
-      body: { data: { groups: [{ name: 'Group A', id: '1' }] } },
-    };
+      body: { "data": { "groups": [{ "name": "Class 2", "id": "244" }] } }
+    }
 
     let getPupil = {
-      body: {
-        data: {
-          pupils: [
-            {
-              name: 'Amelia Banks',
-              id: '2',
-              groups: [{ name: 'Group A' }],
-              organization: { school_type: 'primary' },
-            },
-          ],
-        },
-      },
+      body: { "data": { "pupils": [{ "name": "Jenny Roebottom", "id": "154", "groups": [{ "name": "Class 2" }, { "name": "Class 3" }, { "name": "Class 5" }, { "name": "Form 3" }, { "name": "EFL" }, { "name": "FSM" }], "organization": { "school_type": "secondary" } }] } }
+    }
+
+    let getSubjects = {
+      body: { "data": { "subjects": [{ "name": "Computing Skills", "slug": "computing-skills", "isCore": true, "isChildOf": "Computing", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Music", "slug": "music", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "PSHE", "slug": "pshe", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "PE", "slug": "pe", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "RE", "slug": "re", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Early Development", "slug": "early-development", "isCore": false, "isChildOf": null, "isEarlyDevelopment": true, "isRainbowAwards": false }, { "name": "Online Safety", "slug": "online-safety", "isCore": false, "isChildOf": "Computing", "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "Geography", "slug": "geography", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Investigation Skills", "slug": "investigation-skills", "isCore": false, "isChildOf": "Science", "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "DT", "slug": "dt", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Biology", "slug": "biology", "isCore": false, "isChildOf": "Science", "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "Art", "slug": "art", "isCore": null, "isChildOf": null, "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Physics", "slug": "physics", "isCore": false, "isChildOf": "Science", "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "Chemistry", "slug": "chemistry", "isCore": false, "isChildOf": "Science", "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "Food Technology", "slug": "food-technology", "isCore": false, "isChildOf": null, "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "Being a good communicator", "slug": "being-a-good-communicator", "isCore": false, "isChildOf": null, "isEarlyDevelopment": false, "isRainbowAwards": true }, { "name": "Being a good friend", "slug": "being-a-good-friend", "isCore": false, "isChildOf": null, "isEarlyDevelopment": false, "isRainbowAwards": true }, { "name": "Being healthy", "slug": "being-healthy", "isCore": false, "isChildOf": null, "isEarlyDevelopment": false, "isRainbowAwards": true }, { "name": "Being independent", "slug": "being-independent", "isCore": false, "isChildOf": null, "isEarlyDevelopment": false, "isRainbowAwards": true }, { "name": "Being safe", "slug": "being-safe", "isCore": false, "isChildOf": null, "isEarlyDevelopment": false, "isRainbowAwards": true }, { "name": "Expressive Language", "slug": "expressive-language", "isCore": true, "isChildOf": "Communication", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Number", "slug": "number", "isCore": true, "isChildOf": "Maths", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Reading", "slug": "reading", "isCore": true, "isChildOf": "English", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Receptive Language", "slug": "receptive-language", "isCore": false, "isChildOf": "Communication", "isEarlyDevelopment": false, "isRainbowAwards": false }, { "name": "Primary Science", "slug": "primary-science", "isCore": true, "isChildOf": "Science", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "SS&M", "slug": "ssandm", "isCore": true, "isChildOf": "Maths", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "U&A", "slug": "uanda", "isCore": true, "isChildOf": "Maths", "isEarlyDevelopment": null, "isRainbowAwards": null }, { "name": "Writing", "slug": "writing", "isCore": true, "isChildOf": "English", "isEarlyDevelopment": null, "isRainbowAwards": null }] } }
+    }
+
+    let getPupils = {
+      body: { "data": { "pupils": [{ "name": "Jenny Roebottom", "id": "154", "groups": [{ "name": "Class 2", "slug": "class-2" }, { "name": "Class 3", "slug": "class-3" }, { "name": "Class 5", "slug": "class-5" }, { "name": "Form 3", "slug": "form-3" }, { "name": "EFL", "slug": "efl" }, { "name": "FSM", "slug": "fsm" }] }, { "name": "Amy Johnson", "id": "165", "groups": [{ "name": "Class 2", "slug": "class-2" }] }, { "name": "Imogen Banana", "id": "166", "groups": [{ "name": "Class 2", "slug": "class-2" }] }, { "name": "Jamie Jones", "id": "170", "groups": [{ "name": "Class 1", "slug": "class-1" }, { "name": "Class 2", "slug": "class-2" }, { "name": "Class 3", "slug": "class-3" }] }] } }
     };
 
     let getLevels = {
-      body: {
-        data: {
-          levels: [
-            {
-              id: '1',
-              status: 'incomplete',
-              module: {
-                level: 'step',
-                order: 1,
-                capabilities: [
-                  { text: 'adsdfsdf', order: 0, id: '1' },
-                  { text: 'sdfsdfsdf', order: 1, id: '2' },
-                  { text: 'sdfsdf', order: 3, id: '3' },
-                  { text: 'sdfsdfsdf', order: 2, id: '4' },
-                ],
-              },
-              competencies: [
-                { status: 'complete', capability_fk: 1 },
-                { status: 'complete', capability_fk: 2 },
-                { status: 'complete', capability_fk: 4 },
-                { status: 'incomplete', capability_fk: 3 },
-              ],
-            },
-          ],
-        },
-      },
-    };
+      body: {"data":{"levels":[{"id":"754","status":"incomplete","module":{"level":"step","order":2,"capabilities":[{"text":"I can take ‘one’ in a learned situation eg a biscuit.","order":0,"id":"1480"},{"text":"I understand 1:1 correspondence in everyday situations with adult prompting. ","order":1,"id":"1481"},{"text":"I understand the concept of ‘many’. ","order":2,"id":"1482"},{"text":"I can watch and listen to an adult demonstrating use of number names in everyday situations. ","order":3,"id":"1483"},{"text":"I understand the concept of ‘few’. ","order":4,"id":"1484"},{"text":"I can join in with familiar number rhymes and songs.","order":5,"id":"1485"},{"text":"I can indicate one object.","order":6,"id":"1486"},{"text":"I can experience 1:1 correspondence in everyday","order":7,"id":"1487"},{"text":"I can use number names in everyday situations.","order":8,"id":"1488"},{"text":"I can indicate two objects.","order":9,"id":"1489"},{"text":"I can touch objects one at a time as an adult counts.","order":10,"id":"1490"},{"text":"I can indicate which group contains ‘lots’.","order":11,"id":"1491"},{"text":"I can indicate which group contains ‘one’.","order":12,"id":"1492"},{"text":"I can make sets of one and lots of objects with support. ","order":13,"id":"1493"},{"text":"I can demonstrate an understanding of 1:1 correspondence in everyday situations.","order":14,"id":"1494"}]},"competencies":[{"status":"complete","capability_fk":1480},{"status":"complete","capability_fk":1483}]}]}}
 
-    let getPupils = {
-      body: {
-        data: {
-          pupils: [
-            { name: 'Amelia Banks', id: '2', groups: [{ name: 'Group A' }] },
-            { name: 'Amadeus Foley', id: '5', groups: [{ name: 'Group A' }] },
-            { name: 'Ali B', id: '6', groups: [{ name: 'Group A' }] },
-          ],
-        },
-      },
-    };
+    }
+
+    let getSingleSubjectBySlug = {
+      body: { "data": { "subjects": [{ "id": "21", "name": "Early Development", "slug": "early-development" }] } }
+    }
 
     let getModules = {
-      body: {
-        data: {
-          modules: [
-            {
-              order: 1,
-              id: '1',
-              level: 'step',
-              summary: 'asasdasd',
-              guidance: 'asdasfdsf',
-              capabilities: [
-                { text: 'adsdfsdf', id: '1' },
-                { text: 'sdfsdfsdf', id: '2' },
-                { text: 'sdfsdf', id: '3' },
-                { text: 'sdfsdfsdf', id: '4' },
-              ],
-            },
-          ],
-        },
-      },
-    };
+      body: { "data": { "modules": [{ "order": 4, "id": "111", "level": "step", "summary": null, "guidance": null, "capabilities": [{ "text": "I can join in rote counting beyond 10.", "id": "1451", "guidance": [] }, { "text": "I can estimate a small number and check by counting.", "id": "1452", "guidance": [] }, { "text": "I can write numerals 0 – 5 (with some inaccuracies).", "id": "1453", "guidance": [] }, { "text": "I am beginning to recognise numerals 0 – 10.", "id": "1454", "guidance": [] }, { "text": "I can recognise that the number of objects in a set is not affected by their size and position.", "id": "1455", "guidance": [] }, { "text": "I am beginning to count objects to 10 including objects placed randomly.", "id": "1456", "guidance": [] }, { "text": "I can count onwards from a small number to 10.", "id": "1457", "guidance": [] }, { "text": "I am beginning to estimate a small number and check by counting. ", "id": "1458", "guidance": [] }, { "text": "I can, with an adult prompt, combine two small sets and count the total.", "id": "1459", "guidance": [] }, { "text": "I can with an adult, take away a number of objects from a set and count the remainder.", "id": "1460", "guidance": [] }, { "text": "I can, in a practical setting, add one or take away one from a set.", "id": "1461", "guidance": [] }] }, { "order": 6, "id": "109", "level": "step", "summary": null, "guidance": null, "capabilities": [{ "text": "I can give equivalent amounts to 10p.", "id": "1422", "guidance": [] }, { "text": "I can count in steps in 2s forwards and backwards.", "id": "1406", "guidance": [] }, { "text": "I can use number bonds up to 10 to solve mental calculations involving addition.", "id": "1401", "guidance": [] }, { "text": "I can use money to solve problems up to 20.", "id": "1416", "guidance": [] }, { "text": "I can count in steps in 5s forwards and backwards.", "id": "1407", "guidance": [] }, { "text": "I can count in steps in 10s forwards and backwards.", "id": "1408", "guidance": [] }, { "text": "I can write numbers up to 20 in different cross curricular contexts.", "id": "1405", "guidance": [] }, { "text": "I know that the 5 in 15 is 5 ones.", "id": "1421", "guidance": [] }, { "text": "I am beginning to give equivalent amounts to 20p.", "id": "1423", "guidance": [] }, { "text": "I can answer a range of addition and subtraction problems.              ", "id": "1412", "guidance": [] }, { "text": "I know number bonds up to 10.  ", "id": "1400", "guidance": [] }, { "text": "I can estimate quantities up to 20.", "id": "1419", "guidance": [] }, { "text": "I can investigate number patterns like counting in 3s.", "id": "1418", "guidance": [] }, { "text": "I can find missing numbers up to 20.", "id": "1417", "guidance": [] }, { "text": "I can solve problems with numbers up to 20.", "id": "1399", "guidance": [] }, { "text": "I know that the 1 in 15 is 10.", "id": "1420", "guidance": [] }, { "text": "I can use my number skills to collect data and record it in a pictogram or block graph.", "id": "1415", "guidance": [] }, { "text": "I know that 0 is none or zero.", "id": "1413", "guidance": [] }, { "text": "I can recognise even numbers up to 20.", "id": "1403", "guidance": [] }, { "text": "I can rote count to 100 in 10s.", "id": "1398", "guidance": [] }, { "text": "I can recognise and read numbers up to 20 in different cross curricular contexts.", "id": "1404", "guidance": [] }, { "text": "I am beginning to understand place value in 2 digit numbers.", "id": "1409", "guidance": [] }, { "text": "I can use +   –   =  in my written calculations.", "id": "1410", "guidance": [] }, { "text": "I can use <   >  in my written calculations.", "id": "1411", "guidance": [] }, { "text": "I can use number bonds up to 10 to solve mental calculations involving subtraction.", "id": "1414", "guidance": [] }, { "text": "I can rote count to 100 in 1s.", "id": "1397", "guidance": [] }, { "text": "I can recognise odd numbers up to 20.", "id": "1402", "guidance": [] }] }, { "order": 5, "id": "110", "level": "step", "summary": null, "guidance": null, "capabilities": [{ "text": "I can read most numbers to 10.", "id": "1425", "guidance": [] }, { "text": "I can begin to record numbers to 10.", "id": "1427", "guidance": [] }, { "text": "I can solve addition problems by counting on.", "id": "1443", "guidance": [] }, { "text": "I can observe number relationships and patterns in the environment and use them to derive facts.", "id": "1430", "guidance": [] }, { "text": "I can count repeated groups of the same size.", "id": "1436", "guidance": [] }, { "text": "I can find the position of an object using ordinal numbers up the 5th", "id": "1441", "guidance": [] }, { "text": "I can select two groups of objects to make a given total of objects.", "id": "1432", "guidance": [] }, { "text": "I can begin to use the vocabulary ‘add’ and ‘take away’ in practical situations.", "id": "1433", "guidance": [] }, { "text": "I can count in fives.   ", "id": "1449", "guidance": [] }, { "text": "I can share objects into equal groups and count how many in each group.", "id": "1437", "guidance": [] }, { "text": "I can find one more or one less than a number from 1 – 10.", "id": "1431", "guidance": [] }, { "text": "I can count in twos. ", "id": "1428", "guidance": [] }, { "text": "I can subtract from a set and count the remainder.", "id": "1435", "guidance": [] }, { "text": "I can count in tens.", "id": "1450", "guidance": [] }, { "text": "I can label sets with numerals 0 – 10.", "id": "1426", "guidance": [] }, { "text": "I can read and order ordinal numbers.", "id": "1440", "guidance": [] }, { "text": "I know addition means combining groups of objects. ", "id": "1447", "guidance": [] }, { "text": "I can count objects reliably to 10 including objects placed randomly.", "id": "1424", "guidance": [] }, { "text": "I know subtraction means taking objects away from a group.", "id": "1448", "guidance": [] }, { "text": "I can combine two sets and count the total.", "id": "1434", "guidance": [] }, { "text": "I can solve addition problems involving numbers   up to 10.", "id": "1439", "guidance": [] }, { "text": "I can use objects to find the difference between two numbers.", "id": "1445", "guidance": [] }, { "text": "I can find numbers to 10 on a number line.", "id": "1444", "guidance": [] }, { "text": "I can use language such as ‘more’ or ‘less’ to compare two numbers.", "id": "1429", "guidance": [] }, { "text": "I can find the position of an object using ordinal numbers up the 10th", "id": "1442", "guidance": [] }, { "text": "I can count out objects arranged in different ways and know the amount will be the same", "id": "1446", "guidance": [] }, { "text": "I can solve subtraction problems involving numbers up to 10.", "id": "1438", "guidance": [] }] }, { "order": 3, "id": "106", "level": "stage", "summary": null, "guidance": null, "capabilities": [{ "text": "I can order unit fractions with a common denominator", "id": "1310", "guidance": [] }, { "text": "I can subtract numbers up to 3 digits using formal columnar methods", "id": "1307", "guidance": [] }, { "text": "I can add fractions with common denominators", "id": "1308", "guidance": [] }, { "text": "I can use inverse operations to check answers", "id": "1324", "guidance": [] }, { "text": "I can solve problems, using number facts and/or place value", "id": "1326", "guidance": [] }, { "text": "I can count on from 0 in multiples of 4 and 8", "id": "1300", "guidance": [] }, { "text": "I can add and subtract ones, tens and hundreds to a 3-digit number mentally.", "id": "1303", "guidance": [] }, { "text": "I can compare and order numbers up to 1000", "id": "1302", "guidance": [] }, { "text": "I can understand and count in tenths", "id": "1311", "guidance": [] }, { "text": "I can subtract fractions with common denominators", "id": "1314", "guidance": [] }, { "text": "I can write and calculate mathematical statements for x using known facts for 2 digit and 1 digit numbers using mental  methods", "id": "1319", "guidance": [] }, { "text": "I can write and calculate mathematical statements for x using known facts for 2 digit and 1 digit numbers using written methods.", "id": "1320", "guidance": [] }, { "text": "I can show equivalent fractions using diagrams", "id": "1312", "guidance": [] }, { "text": "I can estimate the answer to a calculation", "id": "1323", "guidance": [] }, { "text": "I can compare unit fractions with a common denominator", "id": "1309", "guidance": [] }, { "text": "I can read and write numbers up to a thousand in words", "id": "1316", "guidance": [] }, { "text": "I can read and write numbers up to a thousand in numerals", "id": "1317", "guidance": [] }, { "text": "I can Write and calculate mathematical statements for x using known facts for 2 digit and 1 digit numbers using written methods.", "id": "1322", "guidance": [] }, { "text": "I can add and subtract amounts of money to give change, using £ and p in practical contexts ", "id": "1325", "guidance": [] }, { "text": "I can recognise and find fractions of sets of objects", "id": "1313", "guidance": [] }, { "text": "I can add numbers with up to 3 digits using columnar addition", "id": "1306", "guidance": [] }, { "text": "I can recall and use x and ÷ facts  for the 3, 4 and 8 multiplication tables", "id": "1315", "guidance": [] }, { "text": "I can find 10 or 100 more than a 3 digit number", "id": "1304", "guidance": [] }, { "text": "I can find 10 or 100 less than a 3 digit number", "id": "1305", "guidance": [] }, { "text": "I can Write and calculate mathematical statements for ÷ using known facts for 2 digit and 1 digit numbers using mental methods", "id": "1321", "guidance": [] }, { "text": "I can count on from 0 in multiples of 50 and 100", "id": "1301", "guidance": [] }, { "text": "I can recognise the value of each digit in a 3-digit number", "id": "1318", "guidance": [] }] }, { "order": 4, "id": "105", "level": "stage", "summary": null, "guidance": null, "capabilities": [{ "text": "Solve two step problems in context.", "id": "1291", "guidance": [] }, { "text": "Understand place value up to 10000.", "id": "1279", "guidance": [] }, { "text": "Read Roman numerals 1-100 and know that the number system changed over time to include 0.", "id": "1281", "guidance": [] }, { "text": "Recognise and write decimal equivalents to 1/4, 1/2, 3/4. Tenths and hundredths.", "id": "1296", "guidance": [] }, { "text": "Use column methods for addition and subtraction up to 4 digits.", "id": "1284", "guidance": [] }, { "text": "Count back in stated multiples including negative numbers and through 0.", "id": "1282", "guidance": [] }, { "text": "Interpret and present discrete and continuous data using appropriate graphical methods, including bar charts and time graphs.", "id": "1298", "guidance": [] }, { "text": "Count up and down in hundredths", "id": "1294", "guidance": [] }, { "text": "Use the rules of arithmetic to multiply and divide (associative, commutative and distributive).", "id": "1289", "guidance": [] }, { "text": "Solve comparison, sum and difference problems using information presented in bar charts, pictograms, tables and other graphs.", "id": "1299", "guidance": [] }, { "text": "Recognise and show, using diagrams, families of common equivalent fractions.", "id": "1292", "guidance": [] }, { "text": "Round, compare and order decimals to 2.d.p.", "id": "1297", "guidance": [] }, { "text": "Find non- unit fractions of quantities.", "id": "1293", "guidance": [] }, { "text": "Multiply two-digit and three-digit numbers by a one-digit number using formal written layout.", "id": "1290", "guidance": [] }, { "text": "Count in multiples of 6, 7, 9, 25 and 1000.", "id": "1280", "guidance": [] }, { "text": "Use place value, known and derived facts to multiply and divide mentally.", "id": "1288", "guidance": [] }, { "text": "Estimate answers and use inverse to check calculations.", "id": "1285", "guidance": [] }, { "text": "Recall multiplication and division facts for multiplication tables up to 12 x 12.", "id": "1287", "guidance": [] }, { "text": "Solve two-step problems in different contexts, deciding which methods to use and explain reasoning.", "id": "1286", "guidance": [] }, { "text": "Round numbers to the nearest 10, 100 and 1000.", "id": "1283", "guidance": [] }, { "text": "Add and subtract fractions with the same denominator within one whole e.g. 5/6 + 1/6.", "id": "1295", "guidance": [] }] }, { "order": 2, "id": "107", "level": "stage", "summary": null, "guidance": null, "capabilities": [{ "text": "I can recognise, find, name and write ¾ of a length, shape, set of objects or quantity", "id": "1372", "guidance": [] }, { "text": "I can solve problems involving multiplication and division using mental methods including problems in contexts.", "id": "1367", "guidance": [] }, { "text": "I can solve problems involving multiplication and division using repeated addition including problems in contexts.", "id": "1366", "guidance": [] }, { "text": "I can recall and use division facts for the 10 x table, including recognising odd and even numbers.", "id": "1355", "guidance": [] }, { "text": "I can write simple fractions for example, ½  of 6 = 3", "id": "1373", "guidance": [] }, { "text": "I can recognise the inverse relationship between addition and subtraction.", "id": "1346", "guidance": [] }, { "text": "I can solve problems involving multiplication and division involving multiplication including problems              in contexts.", "id": "1364", "guidance": [] }, { "text": "I can recall and use multiplication facts for the 10 x table, including recognising odd and even numbers.", "id": "1352", "guidance": [] }, { "text": "I can compare and order numbers from 0 up to 100; use <, > and = signs.", "id": "1331", "guidance": [] }, { "text": "I can calculate mathematical statements for division within the multiplication tables.  ", "id": "1359", "guidance": [] }, { "text": "I can recognise the place value of each digit in a two-digit number (tens, ones).", "id": "1328", "guidance": [] }, { "text": "I can solve problems involving multiplication and division using materials and arrays including problems in contexts.", "id": "1365", "guidance": [] }, { "text": "I can recognise, find, name and write ¼ of a length, shape, set of objects or quantity.", "id": "1369", "guidance": [] }, { "text": "I can recall and use division facts for the 2 x table, including recognising odd and even numbers.", "id": "1353", "guidance": [] }, { "text": "I can recall and use division facts for the 5 x table, including recognising odd and even numbers.", "id": "1354", "guidance": [] }, { "text": "I can read and write numbers to at least 100 in numerals and in words.", "id": "1334", "guidance": [] }, { "text": "I can recognise, find, name and write 1/3 of a length, shape, set of objects or quantity.", "id": "1368", "guidance": [] }, { "text": "I can solve problems with addition and subtraction involving measures using concrete objects and pictorial representations.", "id": "1348", "guidance": [] }, { "text": "I can subtract numbers using concrete objects, pictorial representations,    and mentally, including a two-digit number and ones.", "id": "1336", "guidance": [] }, { "text": "I can show that addition of two numbers can be done in any order (commutative) ", "id": "1338", "guidance": [] }, { "text": "I can use place value and number facts to solve problems.", "id": "1342", "guidance": [] }, { "text": "I can recall and use multiplication facts for the 2 x table, including recognising odd and even numbers.", "id": "1350", "guidance": [] }, { "text": "I can interpret and construct simple tally charts, pictogrames, block diagrames and simple tables.", "id": "1363", "guidance": [] }, { "text": "I can solve problems with addition and subtraction involving quantities using concrete objects and pictorial representations.", "id": "1349", "guidance": [] }, { "text": "I can recognise, find, name and write 2/4 of a length, shape, set of objects or quantity", "id": "1370", "guidance": [] }, { "text": "I can recognise the equivalence of 2/4  and ½.", "id": "1371", "guidance": [] }, { "text": "I can solve problems with addition and subtraction by applying my increasing knowledge of mental methods.", "id": "1340", "guidance": [] }, { "text": "I can calculate mathematical statements for multiplication within the multiplication tables.", "id": "1361", "guidance": [] }, { "text": "I can   subtract numbers using concrete objects, pictorial representations,  and mentally, including a two digit number and tens.", "id": "1333", "guidance": [] }, { "text": "I can write mathematical statements for multiplication within the multiplication tables using the multiplication (×),   and equals (=) signs.", "id": "1362", "guidance": [] }, { "text": "I can count in steps of 2, 3, and 5 from 0, and in tens from any number, forward and backward.", "id": "1327", "guidance": [] }, { "text": "I can add numbers using concrete objects, pictorial representations, and mentally, including a two-digit number and ones.", "id": "1335", "guidance": [] }, { "text": "I can add numbers using concrete objects, pictorial representations, and mentally, including three one-digit numbers.", "id": "1341", "guidance": [] }, { "text": "I can identify, represent and estimate numbers using different representations, including the number line.", "id": "1330", "guidance": [] }, { "text": "I can solve problems involving multiplication and division using multiplication and division facts including problems in contexts.", "id": "1356", "guidance": [] }, { "text": "I can write mathematical statements for division within the multiplication tables using the division (÷) and equals (=)     ", "id": "1360", "guidance": [] }, { "text": "I can recall and use addition and subtraction facts to 20 fluently, and derive and use related facts up to 100.", "id": "1337", "guidance": [] }, { "text": "I can add and subtract numbers   using concrete objects, pictorial representations, and mentally, including two two-digit   numbers.      ", "id": "1329", "guidance": [] }, { "text": "I can solve problems with addition and subtraction by applying my increasing knowledge of written methods.", "id": "1344", "guidance": [] }, { "text": "I can solve problems with addition and subtraction involving numbers using concrete objects and pictorial representations. ", "id": "1347", "guidance": [] }, { "text": "I know that division of one number by another cannot be done in any order.", "id": "1358", "guidance": [] }, { "text": "I can subtract numbers using concrete objects, pictorial representations, and mentally, including three one-digit numbers.", "id": "1345", "guidance": [] }, { "text": "I know that multiplication of two numbers can be done in any order (commutative).", "id": "1357", "guidance": [] }, { "text": "I can recall and use multiplication facts for the 5 x table, including recognising odd and even numbers.", "id": "1351", "guidance": [] }, { "text": "I can add numbers using concrete objects, pictorial representations, and mentally, including a two-digit number and tens.", "id": "1332", "guidance": [] }, { "text": "I can use the inverse relationship between addition and subtraction to check calculations and solve missing number problems.", "id": "1343", "guidance": [] }, { "text": "I can show that subtraction of one number from another cannot be done in any order.", "id": "1339", "guidance": [] }] }, { "order": 3, "id": "112", "level": "step", "summary": null, "guidance": null, "capabilities": [{ "text": "I can create sets of 3.", "id": "1467", "guidance": [] }, { "text": "I can join in rote counting to 5. ", "id": "1466", "guidance": [] }, { "text": "I can respond to key vocabulary eg number, how many, count, same number as etc.", "id": "1477", "guidance": [] }, { "text": "I can match sets of numerals to 5.", "id": "1474", "guidance": [] }, { "text": "I can demonstrate an understanding of the concept of more / less.", "id": "1465", "guidance": [] }, { "text": "I can recognise numbers 1 – 3.", "id": "1476", "guidance": [] }, { "text": "I can join in rote counting to 10.", "id": "1470", "guidance": [] }, { "text": "I can ‘purchase’ an item in value up to 5p, by counting out in 1p coins.", "id": "1471", "guidance": [] }, { "text": "I can compare sets to identify more.", "id": "1478", "guidance": [] }, { "text": "I can count five objects either in a line or arranged randomly.", "id": "1464", "guidance": [] }, { "text": "I can join in rote counting to 5.", "id": "1469", "guidance": [] }, { "text": "I can indicate one to five using fingers.", "id": "1462", "guidance": [] }, { "text": "I can make an identical set of numbers to 5.", "id": "1475", "guidance": [] }, { "text": "I can compare sets to identify less.", "id": "1479", "guidance": [] }, { "text": "I can demonstrate an awareness of none / zero / nothing / nil.", "id": "1468", "guidance": [] }, { "text": "I can take part in number activities reciting numbers one to five.", "id": "1463", "guidance": [] }, { "text": "I can count reliably to 5.", "id": "1473", "guidance": [] }, { "text": "I can make sets of up to 5 on request.", "id": "1472", "guidance": [] }] }, { "order": 1, "id": "108", "level": "stage", "summary": null, "guidance": null, "capabilities": [{ "text": "I can read and write numbers from 1 to 20 in words.", "id": "1379", "guidance": [] }, { "text": "I can recognise, find and name a quarter as one of four equal parts of an object.", "id": "1392", "guidance": [{ "text": "sdfdsf" }] }, { "text": "I can count to and across 100, backwards beginning with 0 or 1, or from any given number", "id": "1376", "guidance": [] }, { "text": "I can write mathematical statements involving addition (+), subtraction (–) and  equals (=) signs", "id": "1380", "guidance": [] }, { "text": "I can count to and across 100, forwards beginning with 0 or 1, or from any given number.", "id": "1374", "guidance": [] }, { "text": "I can read and interpret mathematical     statements involving addition (+), subtraction (–) and equals (=) signs.", "id": "1384", "guidance": [] }, { "text": "I can count in multiples of twos.", "id": "1389", "guidance": [] }, { "text": "I can recognise, find and name a quarter as one of four equal parts of a shape.", "id": "1395", "guidance": [] }, { "text": "I can solve one-step problems involving division, by calculating the answer using concrete objects, pictorial representations and arrays with the support of the teacher.", "id": "1390", "guidance": [] }, { "text": "I can count in multiples of fives.", "id": "1393", "guidance": [] }, { "text": "I can add and subtract one-digit and two-digit numbers to 20, including zero.", "id": "1382", "guidance": [] }, { "text": "I can identify one less given a starting number.", "id": "1386", "guidance": [] }, { "text": "I can solve one-step problems that involve addition and subtraction by doing missing number problems.", "id": "1381", "guidance": [] }, { "text": "I can read and write numbers from 1 to 20 in numerals.", "id": "1387", "guidance": [] }, { "text": "I can solve one-step problems involving multiplication by calculating the answer using concrete objects, pictorial representations and arrays with the support of the teacher.", "id": "1394", "guidance": [] }, { "text": "I can count in multiples of tens.", "id": "1388", "guidance": [] }, { "text": "I can solve one-step problems that involve addition and subtraction, using concrete objects and pictorial representations. ", "id": "1383", "guidance": [] }, { "text": "I can identify one more given a starting number.", "id": "1385", "guidance": [] }, { "text": "I can identify and represent numbers using objects and pictorial representations including the number line. ", "id": "1377", "guidance": [] }, { "text": "I can use the language of: equal to, more than, less than (fewer), most, least.", "id": "1378", "guidance": [] }, { "text": "I can represent and use number bonds and related subtraction facts within 20.", "id": "1391", "guidance": [] }, { "text": "I can count, read and write numbers to 100 in numerals. ", "id": "1375", "guidance": [] }, { "text": "I can recognise, find and name a quarter as one of four equal parts of a quantity.", "id": "1396", "guidance": [] }] }, { "order": 5, "id": "104", "level": "stage", "summary": null, "guidance": null, "capabilities": [{ "text": "I can multiply and divide whole numbers and decimals by 10, 100 and 1000.", "id": "1267", "guidance": [] }, { "text": "I can solve comparison, sum and difference problems using information presented in a line graph.                           ", "id": "1277", "guidance": [] }, { "text": "I can multiply proper fractions and mixed numbers by whole numbers, supported by materials and diagrams.", "id": "1273", "guidance": [] }, { "text": "I can convert mixed number and improper fractions.                   ", "id": "1272", "guidance": [] }, { "text": "I can solve problems with all 4 operations involving using knowledge of cube, squares, multiples, scaling and simple rates.                                                          ", "id": "1269", "guidance": [] }, { "text": "I can multiply and divide numbers up to 4 digits using written calculations. Interpret remainder in a context.", "id": "1265", "guidance": [] }, { "text": "I know, use and understand the properties of numbers including – multiples, factors, prime numbers, prime factors and composite numbers.", "id": "1264", "guidance": [] }, { "text": "I can solve multi-step problems in different contexts, including decimals, deciding which methods to use and explain reasoning.", "id": "1263", "guidance": [] }, { "text": "I can complete, read and interpret", "id": "1278", "guidance": [] }, { "text": "I can recognise and use square and cube numbers and associated notation.", "id": "1268", "guidance": [] }, { "text": "I can add and subtract mentally using increasingly large numbers.", "id": "1262", "guidance": [] }, { "text": "I understand place value up to 1000000.", "id": "1256", "guidance": [] }, { "text": "I can round, order and compare decimals to 3.d.p. ", "id": "1274", "guidance": [] }, { "text": "I can add and subtract fraction with dominators that are multiples of the same number.                           ", "id": "1271", "guidance": [] }, { "text": "I can identify, name and write equivalent fractions including decimals of a given fraction, represented visually, including tenths and hundredths.                            ", "id": "1270", "guidance": [] }, { "text": "I can recognise % symbol and explain as a fraction with denominator 100.                                                               ", "id": "1275", "guidance": [] }, { "text": "I can count forwards or backwards in steps of powers of 10 for any given number up to 1000000.", "id": "1257", "guidance": [] }, { "text": "I can round numbers up to 100000.", "id": "1259", "guidance": [] }, { "text": "I understand negative numbers in context.", "id": "1258", "guidance": [] }, { "text": "I can solve problems which require knowing percentage and decimal equivalents of ½, ¼, 1/5, 2/5, 4/5 and those with a denominator of a multiple of 10 or 25.     ", "id": "1276", "guidance": [] }, { "text": "I can use column methods for addition and subtraction using numbers with than 4 digits.", "id": "1260", "guidance": [] }, { "text": "I can multiply and divide numbers mentally drawing upon known facts.", "id": "1266", "guidance": [] }, { "text": "I can estimate answers and use inverse and rounding to check accuracy of calculations.", "id": "1261", "guidance": [] }] }, { "order": 2, "id": "113", "level": "step", "summary": null, "guidance": null, "capabilities": [{ "text": "I can take ‘one’ in a learned situation eg a biscuit.", "id": "1480", "guidance": [] }, { "text": "I understand 1:1 correspondence in everyday situations with adult prompting. ", "id": "1481", "guidance": [] }, { "text": "I understand the concept of ‘many’. ", "id": "1482", "guidance": [] }, { "text": "I can watch and listen to an adult demonstrating use of number names in everyday situations. ", "id": "1483", "guidance": [] }, { "text": "I understand the concept of ‘few’. ", "id": "1484", "guidance": [] }, { "text": "I can join in with familiar number rhymes and songs.", "id": "1485", "guidance": [] }, { "text": "I can indicate one object.", "id": "1486", "guidance": [] }, { "text": "I can experience 1:1 correspondence in everyday", "id": "1487", "guidance": [] }, { "text": "I can use number names in everyday situations.", "id": "1488", "guidance": [] }, { "text": "I can indicate two objects.", "id": "1489", "guidance": [] }, { "text": "I can touch objects one at a time as an adult counts.", "id": "1490", "guidance": [] }, { "text": "I can indicate which group contains ‘lots’.", "id": "1491", "guidance": [] }, { "text": "I can indicate which group contains ‘one’.", "id": "1492", "guidance": [] }, { "text": "I can make sets of one and lots of objects with support. ", "id": "1493", "guidance": [] }, { "text": "I can demonstrate an understanding of 1:1 correspondence in everyday situations.", "id": "1494", "guidance": [] }] }, { "order": 6, "id": "103", "level": "stage", "summary": null, "guidance": null, "capabilities": [{ "text": "I can round any whole number to a required degree of accuracy.", "id": "1235", "guidance": [] }, { "text": "I can express missing number problems algebraically.", "id": "1251", "guidance": [] }, { "text": "I can multiply (proper fractions) and divide (by whole numbers) and write answers in simplest form.", "id": "1247", "guidance": [] }, { "text": "I can multiply multi-digit numbers up to 4 digits by a two-digit whole number using the formal written method of long multiplication.                                            ", "id": "1237", "guidance": [] }, { "text": "I can perform mental calculations, including with mixed operations and large numbers.", "id": "1240", "guidance": [] }, { "text": "I can enumerate possibilities of combinations of two variables.", "id": "1253", "guidance": [] }, { "text": "I can use all 4 operations to solve problems involving fractions and decimals (including mixed numbers)                          Calculate decimal fraction equivalents e.g. 3/8 = 0.375.", "id": "1244", "guidance": [] }, { "text": "I can solve multi-step problems in different contexts, including decimals, deciding which methods to use and explain reasoning.", "id": "1239", "guidance": [] }, { "text": "I can simplify, compare, and order fractions, including fractions > 1 .                                                                    ", "id": "1243", "guidance": [] }, { "text": "I can divide numbers up to 4 digits by a two-digit whole number using the formal written method of long division, and interpret remainders as appropriate.", "id": "1238", "guidance": [] }, { "text": "I can solve number and practical problems that involve all of the above.", "id": "1236", "guidance": [] }, { "text": "I can add and subtract fractions with different denominators and mixed numbers, using the concept of equivalent fractions.", "id": "1246", "guidance": [] }, { "text": "I can identify common factors, common multiples and prime numbers.", "id": "1242", "guidance": [] }, { "text": "I understand place value; recognise the value of each digit up to 10000000 and be able to read and write them; round, order and compare.", "id": "1233", "guidance": [] }, { "text": "I can calculate and interpret the mean as an average.", "id": "1255", "guidance": [] }, { "text": "I can multiply one-digit numbers with up to two decimal places by whole numbers.", "id": "1248", "guidance": [] }, { "text": "I can recall and use equivalences between fractions, decimals and percentages.", "id": "1245", "guidance": [] }, { "text": "I can use simple formulae.", "id": "1249", "guidance": [] }, { "text": "I can use negative numbers in context and calculate intervals across zero.", "id": "1234", "guidance": [] }, { "text": "I can find pairs of numbers that satisfy an equation with two unknowns.", "id": "1252", "guidance": [] }, { "text": "I can interpret and construct pie charts and line graphs and use these to solve problems.", "id": "1254", "guidance": [] }, { "text": "I can use estimation to check answers to calculations and determine, in the context of a problem an appropriate degree of accuracy.", "id": "1241", "guidance": [] }, { "text": "I can generate and describe linear number sequences.", "id": "1250", "guidance": [] }] }] } }
+    }
 
-    let getCompetencies = {
-      body: {
-        data: {
-          competencies: [
-            { status: 'complete', capability_fk: 1 },
-            { status: 'complete', capability_fk: 2 },
-            { status: 'complete', capability_fk: 4 },
-            { status: 'incomplete', capability_fk: 3 },
-          ],
-        },
-      },
-    };
-
-    let getCompetency = {
-      body: { data: { competencies: [{ id: '2' }] } },
-    };
+    let getEdModules = {
+      data: { "data": { "modules": [{ "order": 1, "id": "121", "level": "step", "summary": "Early development", "guidance": null, "capabilities": [{ "text": "sdfsdfg", "id": "1610", "guidance": [] }, { "text": "fdgegherth", "id": "1611", "guidance": [] }, { "text": "rthrth", "id": "1612", "guidance": [] }] }] } }
+    }
 
     let getLevel = {
-      body: { data: { levels: [{ id: '1', status: 'incomplete' }] } },
-    };
+      data: { "data": { "levels": [{ "id": "750", "status": "incomplete", "competencies": [{ "id": "1475", "status": "complete", "capability_fk": 1610 }, { "id": "1476", "status": "target", "capability_fk": 1611 }, { "id": "1477", "status": "target", "capability_fk": 1612 }] }] } }
+    }
 
-    let updateLevel = {
-      body: { data: { updateLevel: { level: { id: '1', status: 'complete' } } } },
-    };
+    let getCompetencies = {
+      data: { "data": { "competencies": [] } }
+    }
 
-    let updateCompetency = {
-      body: { data: { updateCompetency: { competency: { id: '2' } } } },
-    };
+
+
 
     cy.intercept(
       {
@@ -129,150 +60,95 @@ context('Assessment page', () => {
         url: 'http://localhost:1337/graphql',
       },
       (req) => {
+
         aliasQuery(req, 'getSubject');
         aliasQuery(req, 'getGroup');
         aliasQuery(req, 'getPupil');
-        aliasQuery(req, 'getLevels');
+        aliasQuery(req, 'getSubjects');
         aliasQuery(req, 'getPupils');
+        aliasQuery(req, 'getLevels');
+        aliasQuery(req, 'getSingleSubjectBySlug');
         aliasQuery(req, 'getModules');
-        aliasQuery(req, 'getCompetency');
-        aliasQuery(req, 'getCompetencies');
+        aliasQuery(req, 'getEdModules');
         aliasQuery(req, 'getLevel');
-        aliasQuery(req, 'updateCompetency');
+        aliasQuery(req, 'getCompetencies');
 
-        if (hasOperationName(req, 'getSubject')) { 
+
+        if (hasOperationName(req, 'getSubject')) {
           req.reply(getSubject);
           return;
         }
+
         if (hasOperationName(req, 'getGroup')) {
           req.reply(getGroup);
           return;
         }
+
         if (hasOperationName(req, 'getPupil')) {
           req.reply(getPupil);
           return;
         }
-        if (hasOperationName(req, 'getLevels')) {
-          req.reply(getLevels);
+
+        if (hasOperationName(req, 'getSubjects')) {
+          req.reply(getSubjects);
           return;
         }
+
         if (hasOperationName(req, 'getPupils')) {
           req.reply(getPupils);
           return;
         }
+
+        if (hasOperationName(req, 'getLevels')) {
+          req.reply(getLevels);
+          return;
+        }
+
+        if (hasOperationName(req, 'getSingleSubjectBySlug')) {
+          req.reply(getSingleSubjectBySlug);
+          return;
+        }
+
         if (hasOperationName(req, 'getModules')) {
           req.reply(getModules);
           return;
         }
-        if (hasOperationName(req, 'getCompetency')) {
-          req.reply(getCompetency);
+
+        if (hasOperationName(req, 'getEdModules')) {
+          req.reply(getModules);
+          return;
+        }
+
+        if (hasOperationName(req, 'getLevel')) {
+          req.reply(getLevel);
           return;
         }
         if (hasOperationName(req, 'getCompetencies')) {
           req.reply(getCompetencies);
           return;
         }
-        if (hasOperationName(req, 'getLevel')) {
-          req.reply(getLevel);
-          return;
-        }
-        if (hasOperationName(req, 'updateLevel')) {
-          req.reply(updateLevel);
-          return;
-        }
 
-        if (hasOperationName(req, 'updateCompetency')) {
-          req.reply(updateCompetency);
-          return;
-        }
       }
     );
 
-    
+
   });
 
   describe('assessment functionality', () => {
     beforeEach(() => {
       cy.visit('/subjects/number/group-a/2');
-      cy.wait('@gqlgetModulesQuery');
-      cy.wait('@gqlgetPupilQuery');
-      cy.wait('@gqlgetCompetenciesQuery');
-      cy.wait('@gqlgetLevelQuery');
+ 
       cy.waitForSpinners()
     });
 
-    it('allows steps to be marked complete', () => {
-      let updatedCompetencies = {
-        body: {
-          data: {
-            competencies: [
-              { status: 'complete', capability_fk: 1 },
-              { status: 'complete', capability_fk: 2 },
-              { status: 'complete', capability_fk: 4 },
-              { status: 'complete', capability_fk: 3 },
-            ],
-          },
-        },
-      };
+    it('Shows page', () => {
+
       cy.waitForSpinners()
+      cy.get('[data-test-id=title]').should('be.visible')
+      // cy.get('[data-test-id=hex-3]').click();
 
-      cy.get('[data-test-id=hex-3]').click();
-      cy.wait('@gqlgetCompetencyQuery');
-      cy.wait('@gqlupdateCompetencyQuery');
-      cy.intercept(
-        {
-          method: 'POST',
-          url: 'http://localhost:1337/graphql',
-        },
-        (req) => {
-          aliasQuery(req, 'getCompetencies');
-          if (hasOperationName(req, 'getCompetencies')) {
-            req.reply(updatedCompetencies);
-            return;
-          }
-        }
-      );
-      cy.wait('@gqlgetCompetenciesQuery'); // Needs to use different fixture
-      cy.wait('@gqlgetLevelQuery');
-      // cy.get('[data-test-id=level-status-status]').contains('complete');
-      cy.get('[data-test-id=percent-complete-label]').contains('100');
-      // cy.get('[data-test-id=mark-incomplete]').contains('Mark Step incomplete');
-    });
-  });
-
-  describe('subjects pathway', () => {
-    beforeEach(() => {
-      cy.visit('/subjects/number/group-a/2');
-    });
-    it('shows a view summary button', () => {
-      cy.get('[data-test-id=view-summary-button]').should('be.visible');
     });
 
-    it('displays correct breadcrumbs for given URL', () => {
-      cy.get('[data-test-id=first-crumb]').contains('Subjects');
-      cy.get('[data-test-id=second-crumb]').contains('Number');
-      cy.get('[data-test-id=third-crumb]').contains('Group A');
-      cy.get('[data-test-id=fourth-crumb]').contains('Amelia Banks');
-    });
 
-    it('shows the level marked as incomplete', () => {
-      cy.get('[data-test-id=level-status-title]').should('be.visible');
-      cy.get('[data-test-id=level-status-title]').contains('Step 1');
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
-      cy.get('[data-test-id=percent-complete-label]').contains('75');
-      cy.get('[data-test-id=mark-complete]').contains('Complete this Step');
-    });
-  });
-
-  describe('pupils pathway', () => {
-    beforeEach(() => {
-      cy.visit('/pupils/group-a/2/number');
-    });
-    it('displays correct breadcrumbs for given URL', () => {
-      cy.get('[data-test-id=first-crumb]').contains('Pupils');
-      cy.get('[data-test-id=second-crumb]').contains('Group A');
-      cy.get('[data-test-id=third-crumb]').contains('Amelia Banks');
-      cy.get('[data-test-id=fourth-crumb]').contains('Number');
-    });
   });
 });

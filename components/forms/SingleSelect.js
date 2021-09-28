@@ -56,7 +56,7 @@ function SingleSelect({ selectItems, selectValue, setSelectValue, itemLabel }) {
         value={selectValue}
         className={classes.selectEmpty}
         onChange={(event) => setSelectValue(event.target.value)}
-        input={<Input id="select-chip" />}
+        input={<Input id="select-single-chip" />}
         renderValue={() => {
           const chosenItem = selectItems.filter(item => item.id === selectValue)
           return (

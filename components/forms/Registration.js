@@ -13,7 +13,7 @@ import Loading from '../ui-globals/Loading';
 import handleApiLoginErrors from './handlers/handleApiLoginErrors';
 import handleCredentialErrors from './handlers/handleCredentialErrors';
 
-
+import getPermittedDomains from '../../utils/getPermittedDomains';
 
 const RegistrationForm = ({ orgs }) => {
 
@@ -43,23 +43,7 @@ const RegistrationForm = ({ orgs }) => {
     setFieldError(null)
   }
 
-  function getPermittedDomains(orgId) {
-    let hArray = ''
-    let cArray = []
-    try {
-      const org = orgs.filter((org) => org.id === orgId)[0] 
-      const domains = org.email_domains.split(',')
-      cArray = domains.map((domain) => domain.split(" ").join(""))
-      hArray = cArray.map((domain,i) => `${domain}${i+1!==cArray.length ? ' or ' :''}`)
-    } catch (e) {
-      console.error(e)
-      setError('Error getting domain from organisation. Please check with person in charge.')
-    }
-    return {
-      humanOrgsArray: hArray.toString().replace(/,/g,''),
-      computerOrgsArray: cArray
-    }
-  }
+
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -76,12 +60,17 @@ const RegistrationForm = ({ orgs }) => {
       return
     }
 
-    const { humanOrgsArray, computerOrgsArray } = getPermittedDomains(orgValue)
-    
-    const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError, humanOrgsArray, computerOrgsArray)
+    const { humanOrgsArray, computerOrgsArray, error } = getPermittedDomains(orgValue, orgs)
 
-    if (gotErrs) {
+    if (error) {
+      setError(error.message)
       return
+    } else {
+      const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError, humanOrgsArray, computerOrgsArray)
+
+      if (gotErrs) {
+        return
+      }
     }
 
     if (passwordValue.toLowerCase() !== passwordValue) {

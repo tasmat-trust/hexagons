@@ -11,9 +11,12 @@ import { updateTeacherGroups, updateTeacherRole } from "../../queries/Teachers"
 import handleStrapiError from "../data-fetching/handleStrapiError"
 import { HexagonsContext } from "../data-fetching/HexagonsContext";
 import { Alert } from "@material-ui/lab";
+import roles from '../../utils/roles'
+import Loading from "../ui-globals/Loading";
 
 function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
 
+  const [loading, setLoading] = useState(false)
   const [selectValue, setSelectValue] = useState([]);
   const [errorValue, setErrorValue] = useState(false)
   const [successValue, setSuccessValue] = useState(false)
@@ -21,16 +24,17 @@ function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
 
   async function handleForm(event) {
     event.preventDefault()
+    setLoading(true)
     let formData = {
       shouldOverwrite: shouldOverwrite
     }
     if (selectItems && isGroups) {
-      const groups = event.target['select-chip'].value.split(',');
+      const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
 
     if (selectItems && !isGroups) {
-      const role = event.target['select-chip'].value;
+      const role = event.target['select-single-chip'].value;
       formData.role = role;
     }
 
@@ -40,6 +44,7 @@ function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
     } else if (formResult[0].success) {
       resetForm(`${modelname} saved successfully.`)
     }
+    setLoading(false)
   }
 
   function resetForm(message) {
@@ -54,25 +59,26 @@ function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
     <form id={`assign-to-${modelname}`} onSubmit={handleForm}>
       {errorValue && <Alert data-test-id="error" severity="error">{errorValue}</Alert>}
       {successValue && <Alert data-test-id="success" severity="success">{successValue}</Alert>}
-      {selectItems && isGroups && <MultipleSelect itemsLabel='Groups' selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
-
-      {selectItems && !isGroups && <SingleSelect itemLabel="Roles" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
-
-      {isGroups && (
+      {loading && <Loading message="Submitting form..." />}
+      {!loading && (<>
+        {selectItems && isGroups && <MultipleSelect itemsLabel='Groups' selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
+        {selectItems && !isGroups && <SingleSelect itemLabel="Roles" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
+        {isGroups && (
+          <FormControl margin="normal">
+            <FormControlLabel margin="normal"
+              control={<Checkbox checked={shouldOverwrite} onChange={() => setShouldOverwrite(!shouldOverwrite)} name="shouldOverwrite" />}
+              label="Overwrite existing groups?"
+            />
+          </FormControl>
+        )}
         <FormControl margin="normal">
-          <FormControlLabel margin="normal"
-            control={<Checkbox checked={shouldOverwrite} onChange={() => setShouldOverwrite(!shouldOverwrite)} name="shouldOverwrite" />}
-            label="Overwrite existing groups?"
-          />
+          <Button data-test-id={`assign-to-${modelname}`} fullWidth type="submit" variant="contained" color="primary">
+            Assign {modelname}
+          </Button>
         </FormControl>
-      )}
+      </>)}
 
 
-      <FormControl margin="normal">
-        <Button data-test-id={`assign-to-${modelname}`} fullWidth type="submit" variant="contained" color="primary">
-          Assign {modelname}
-        </Button>
-      </FormControl>
     </form>
   )
 }
@@ -94,7 +100,6 @@ function AssignGroupsToUser(props) {
       } else {
         newUser.groups = formData.groups
       }
-
       const res = await assignToGroups(newUser)
       return res
     }))
@@ -162,7 +167,7 @@ function AssignRoleToUser(props) {
     }
   }
 
-  const roles = [{ name: 'Teacher', id: 1 }, { name: 'Leader', id: 3 }]
+
   return (
     <AssignTo {...props} selectItems={roles} updateModel={handleAssignToRoles} isGroups={false} />
   )
