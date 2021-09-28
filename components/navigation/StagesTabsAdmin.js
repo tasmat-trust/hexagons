@@ -44,8 +44,6 @@ function StagesTabsAdmin({ modules,
   const [tabValue, setTabValue] = useState(0);
   const [sortedModules, setSortedModules] = useState(modules)
 
-  console.log(sortedModules)
-
   useEffect(() => {
     if (modules) {
       const sortedModules = sortModules(modules)

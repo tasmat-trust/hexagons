@@ -33,6 +33,8 @@ function AddNew(props) {
   const [emailValue, setEmailValue] = useState('');
   const [errorValue, setErrorValue] = useState(false)
   const [successValue, setSuccessValue] = useState(false)
+
+
   const { gqlClient, orgId } = useContext(HexagonsContext)
 
 
@@ -56,7 +58,7 @@ function AddNew(props) {
       formData.name = event.target['name'].value
     }
     if (selectItems) {
-      const groups = event.target['select-multiple-chip'].value.split(',');
+      const groups = event.target['select-chip'].value.split(',');
       formData.groups = groups;
     }
 
@@ -92,12 +94,15 @@ function AddNew(props) {
     setNameValue('')
     setTextValue('')
     setEmailValue('')
+    setTimeout(() => {
+      setSuccessValue('')
+    }, 1500)
   }
 
   return (
     <form id={`new-${modelname}`} onSubmit={handleForm}>
       {errorValue && <Alert data-test-id="error" severity="error">{errorValue}</Alert>}
-      {successValue && <Alert data-test-id="error" severity="success">{successValue}</Alert>}
+      {successValue && <Alert data-test-id="success" severity="success">{successValue}</Alert>}
 
       <FormControl fullWidth required margin="normal">
         {includeName && <TextField

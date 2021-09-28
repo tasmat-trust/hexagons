@@ -24,14 +24,7 @@ function SingleSelectWithSubjects(WrappedComponent) {
 function SingleSelect({ selectItems, selectValue, setSelectValue, itemLabel }) {
 
 
-  function getStyles(name, selectValue, theme) {
-    return {
-      fontWeight:
-        selectValue.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
-  }
+
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -54,31 +47,26 @@ function SingleSelect({ selectItems, selectValue, setSelectValue, itemLabel }) {
       margin="normal"
       className={classes.formControl}
     >
-      <InputLabel id="demo-mutiple-chip-label">{itemLabel}</InputLabel>
+      <InputLabel id="demo-single-chip-label">{itemLabel}</InputLabel>
       <Select
         data-test-id="multi-select"
-        labelId="demo-mutiple-chip-label"
-        id="demo-mutiple-chip"
-        multiple
+        labelId="demo-single-chip-label"
+        id="demo-single-chip"
         fullWidth
         value={selectValue}
         className={classes.selectEmpty}
         onChange={(event) => setSelectValue(event.target.value)}
-        input={<Input id="select-multiple-chip" />}
-        renderValue={(selected) => (
-          <div className={classes.chips}>
-            {selected.map((value) => {
-              const chosenItem = selectItems.filter(item => item.id === value)
-              return (
-                <Chip key={`option-${value}`} label={chosenItem[0].name} className={classes.chip} />
-              )
-            })}
-          </div>
-        )}
+        input={<Input id="select-chip" />}
+        renderValue={() => {
+          const chosenItem = selectItems.filter(item => item.id === selectValue)
+          return (
+            <Chip label={chosenItem[0].name} className={classes.chip} />
+          )
+        }}
         MenuProps={MenuProps}
       >
         {selectItems.map((item) => (
-          <MenuItem key={`option-${item.id}`} value={item.id} style={getStyles(item, selectValue, theme)}>
+          <MenuItem key={`option-${item.id}`} value={item.id}>
             {item.name}
           </MenuItem>
         ))}

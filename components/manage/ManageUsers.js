@@ -1,12 +1,12 @@
 import DialogButton from "../ui-globals/DialogButton"
 import { AddNewUserWithGroups } from '../forms/AddNew'
-import { AssignGroupsToUser } from '../forms/AssignTo'
+import { AssignGroupsToUser, AssignRoleToUser } from '../forms/AssignTo'
 import UsersGrid from "../layout/data-tables/UsersGrid"
 import { Box, Typography, Paper } from "@material-ui/core"
 import useAdminPage from "../../styles/useAdminPage"
 import { useState, memo, useContext } from "react"
 import { HexagonsContext } from "../data-fetching/HexagonsContext"
-
+import CustomSuspense from '../data-fetching/CustomSuspense'
 function ManageUsersHeader(props) {
 
   const { classes, multiAddVisible, userType } = props
@@ -25,7 +25,9 @@ function ManageUsersHeader(props) {
             label="Assign role"
             text={`Assign roles to ${userType}s`}
             modelname="group">
-
+            <AssignRoleToUser
+              {...props}
+              modelname="role" />
           </DialogButton>
         )}
 
@@ -38,10 +40,12 @@ function ManageUsersHeader(props) {
             label="Assign groups"
             text={`Assign ${userType}s to groups`}
             modelname="group">
-            <AssignGroupsToUser
-              {...props}
-              modelname="group"
-              variables={{ orgId: orgId }} />
+            <CustomSuspense message="Loading groups">
+              <AssignGroupsToUser
+                {...props}
+                modelname="group"
+                variables={{ orgId: orgId }} />
+            </CustomSuspense>
           </DialogButton>
         )}
         <DialogButton
@@ -52,11 +56,13 @@ function ManageUsersHeader(props) {
           label={`New ${userType}`}
           text={`Add a new ${userType} and assign them groups. You can always assign groups later.`}
           modelname={userType === 'teacher' ? 'user' : 'pupil'}>
-          <AddNewUserWithGroups
-            {...props}
-            modelname={userType === 'teacher' ? 'user' : 'pupil'}
-            variables={{ orgId: orgId }}
-          />
+          <CustomSuspense message="Loading groups">
+            <AddNewUserWithGroups
+              {...props}
+              modelname={userType === 'teacher' ? 'user' : 'pupil'}
+              variables={{ orgId: orgId }}
+            />
+          </CustomSuspense>
         </DialogButton>
       </Box >
     </>

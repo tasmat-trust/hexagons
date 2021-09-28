@@ -5,7 +5,7 @@ describe('Manage Pupils with no existing groups', () => {
     cy.login(('Teacher'))
 
     let groupResponse = {
-      body: { "response": null }
+      body: { "data": { "groups": [] } }
     }
 
     let pupilResponse = {

@@ -51,7 +51,7 @@ export default function MultipleSelect({ selectItems, selectValue, setSelectValu
         value={selectValue}
         className={classes.selectEmpty}
         onChange={(event) => setSelectValue(event.target.value)}
-        input={<Input id="select-multiple-chip" />}
+        input={<Input id="select-chip" />}
         renderValue={(selected) => (
           <div className={classes.chips}>
             {selected.map((value) => {
