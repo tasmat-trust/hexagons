@@ -8,11 +8,26 @@ export const hasOperationName = (req, operationName) => {
   )
 }
 
+
+export const hasVariable = (req, variableName, variableValue) => {
+  const { body } = req
+  return (
+    body.hasOwnProperty('variables') && body.variables[variableName] === variableValue
+  )
+}
+
 // Alias query if operationName matches
 export const aliasQuery = (req, operationName) => {
   if (hasOperationName(req, operationName)) {
     req.alias = `gql${operationName}Query`
-  } 
+  }
+}
+
+// Alias query if operationName matches + specify variables
+export const aliasQueryByVariable = (req, operationName, variableName, variableValue) => {
+  if (hasOperationName(req, operationName) && hasVariable(req, variableName, variableValue)) {
+    req.alias = `gql${operationName}Query`
+  }
 }
 
 // Alias mutation if operationName matches

@@ -46,7 +46,7 @@ function SubjectCard({
   return (
     <Card>
       <CardContent >
-        <Typography className={styles.title} component='h2' variant='h3'>
+        <Typography data-test-id="subject-card-title" className={styles.title} component='h2' variant='h3'>
           {groupName} - {subjectName}
         </Typography>
         <ul className={styles.ul}>
