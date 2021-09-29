@@ -40,7 +40,7 @@ describe('Manage Pupils with no existing groups', () => {
   })
 
   it('shows manage pupil interface to Teachers', () => {
-    cy.assertManageUserPageVisible()
+    cy.assertManagePupilPageVisible()
   })
 
 })
@@ -81,7 +81,7 @@ describe('Manage Pupils Page', () => {
   })
 
   it('shows manage pupil interface to Teachers', () => {
-    cy.assertManageUserPageVisible()
+    cy.assertManagePupilPageVisible()
   })
 
   it('shows assign groups button when more than one pupil is selected', () => {
