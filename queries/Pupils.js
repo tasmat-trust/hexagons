@@ -61,7 +61,7 @@ const getPupilById = gql`query getPupil($id: ID, $orgId: ID!) {
 }`
 
 
-const getPupilsByGroup = gql`query getPupils($groupId: ID!, $orgId: ID!) {  
+const getPupilsByGroup = gql`query getAllPupilsByGroup($groupId: ID!, $orgId: ID!) {  
   pupils (where: {groups: $groupId, organization: $orgId}) { 
     name id, groups (where: {organization: $orgId}){
       name slug
@@ -69,7 +69,7 @@ const getPupilsByGroup = gql`query getPupils($groupId: ID!, $orgId: ID!) {
   }
 }`
 
-const getLevels = gql`query getLevels($subjectId: ID!, $pupilId: ID!) {  
+const getLevels = gql`query getAllLevels($subjectId: ID!, $pupilId: ID!) {  
   levels (where: {subject: $subjectId, pupil: $pupilId}) { 
     id status,
     module {

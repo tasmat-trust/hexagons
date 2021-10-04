@@ -43,7 +43,7 @@ function SubjectPicker({ currentSubjectSlug, allSubjects, activeGroupSlug, curre
   return (
     <FormControl className={classes.formControl}>
       <InputLabel htmlFor="age-native-helper" className={classes.label}>Select {isRainbowAwards ? 'award' : 'subject'}</InputLabel>
-      <NativeSelect value={subjectSlug} onChange={handleChange}>
+      <NativeSelect data-test-id="select-subject" value={subjectSlug} onChange={handleChange}>
         {allSubjects.map((subject, i) => (
           <option key={`subject-${i}`} value={subject.slug}>
             {subject.name}
