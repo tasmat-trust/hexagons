@@ -39,7 +39,7 @@ describe('Manage Pupils page', () => {
     cy.createGroup()
   })
 
-  it('shows manage teacher interface to Teachers', () => {
+  it('shows manage teacher interface to Leaders', () => {
     cy.assertManageTeacherPageVisible()
   })
 

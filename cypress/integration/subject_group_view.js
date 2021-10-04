@@ -16,7 +16,7 @@ let getCoreSubjects = {
   body: { "data": { "subjects": [{ "id": "12", "name": "Computing Skills", "slug": "computing-skills" }, { "id": "10", "name": "Expressive Language", "slug": "expressive-language" }, { "id": "9", "name": "Number", "slug": "number" }, { "id": "6", "name": "Reading", "slug": "reading" }, { "id": "16", "name": "Primary Science", "slug": "primary-science" }, { "id": "14", "name": "SS&M", "slug": "ssandm" }, { "id": "15", "name": "U&A", "slug": "uanda" }, { "id": "7", "name": "Writing", "slug": "writing" }] } }
 }
 
-let getPupils = {
+let getAllPupilsByGroup = {
   body: { "data": { "pupils": [{ "name": "Jenny Roebottom", "id": "154", "groups": [{ "name": "Class 2", "slug": "class-2" }, { "name": "Class 3", "slug": "class-3" }, { "name": "Class 5", "slug": "class-5" }, { "name": "Form 3", "slug": "form-3" }, { "name": "EFL", "slug": "efl" }, { "name": "FSM", "slug": "fsm" }] }, { "name": "Amy Johnson", "id": "165", "groups": [{ "name": "Class 2", "slug": "class-2" }] }, { "name": "Imogen Banana", "id": "166", "groups": [{ "name": "Class 2", "slug": "class-2" }] }, { "name": "Jamie Jones", "id": "170", "groups": [{ "name": "Class 1", "slug": "class-1" }, { "name": "Class 2", "slug": "class-2" }, { "name": "Class 3", "slug": "class-3" }] }] } }
 }
 
@@ -59,9 +59,9 @@ describe('Subject by group page', () => {
           req.reply(getCoreSubjects)
         }
 
-        aliasQuery(req, 'getPupils')
-        if (hasOperationName(req, 'getPupils')) {
-          req.reply(getPupils)
+        aliasQuery(req, 'getAllPupilsByGroup')
+        if (hasOperationName(req, 'getAllPupilsByGroup')) {
+          req.reply(getAllPupilsByGroup)
         }
 
         aliasQuery(req, 'getLevelsForOverview')
