@@ -4,7 +4,7 @@ export default function handleErrors(error, setError, setLoading) {
   let connectionErrorMessage = 'Please check your internet connection and try again.'
   let unknownError = 'An unknown error has occurred. Please check and try again.'
   let econnrefused = 'The authentication server is down.'
-  let notifiedDeveloperMessage = ` If the problem persists, please email ${process.env.NEXT_PUBLIC_API_URL_REMOTE}`
+  let notifiedDeveloperMessage = ` If the problem persists, please email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`
 
   if (!error.response) {
     console.log(error);

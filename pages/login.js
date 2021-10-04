@@ -3,6 +3,8 @@ import { Paper, Typography } from '@material-ui/core'
 import Link from 'next/link'
 import useLoginLogoutPages from '../styles/useLoginLogoutPages'
 import CustomHead from '../components/ui-globals/CustomHead'
+import { withSession } from '../components/auth/session';
+import redirectLoggedInSession from '../components/auth/redirectLoggedInSession'
 
 export default function LoginPage(props) {
   const classes = useLoginLogoutPages();
@@ -17,3 +19,7 @@ export default function LoginPage(props) {
     </>
   )
 }
+
+export const getServerSideProps = withSession((ctx) => {
+  return redirectLoggedInSession(ctx)
+})

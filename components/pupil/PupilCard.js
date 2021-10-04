@@ -47,7 +47,8 @@ function PupilCard({
   onwardHref,
   pupilName,
   pupilGroups,
-  ...other }) // pupilId, coreSubjects, activeGroupSlug
+  pupilId,
+  ...other }) //  coreSubjects, activeGroupSlug
 {
   const styles = useStyles();
   const baseHref = '/pupils'
@@ -60,7 +61,7 @@ function PupilCard({
               <a>{pupilName}</a>
             </Link>}
           </Typography>
-          <ul className={styles.groupUl}>
+          <ul className={styles.groupUl} data-test-id={`groups-list-pupil-${pupilId}`}>
             {pupilGroups && pupilGroups.map((group, i) => (
               <ErrorBoundary key={`pupil-group-${i}`} fallback={<p>Error loading {group.name}</p>}>
                 <li className={styles.groupLi}>
@@ -74,6 +75,7 @@ function PupilCard({
             ))}
           </ul>
           <CoreSubjectsProgress
+            pupilId={pupilId}
             {...other}
           />
         </ErrorBoundary>

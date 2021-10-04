@@ -84,6 +84,22 @@ const getLevels = gql`query getLevels($subjectId: ID!, $pupilId: ID!) {
   }
 }`
 
+const getLevelsForOverview = gql`query getLevelsForOverview($subjectId: ID!, $pupilId: ID!) {  
+  levels (where: {subject: $subjectId, pupil: $pupilId}) { 
+    status,
+    module {
+      level order
+      capabilities {
+        id
+      }
+    }
+    competencies {
+      status
+    }
+  }
+}`
+
+
 const getLevel = gql`query getLevel($subjectId: ID!, $pupilId: ID!, $moduleId: ID!) {  
   levels (where: {subject: $subjectId, pupil: $pupilId, module: $moduleId}) { 
     id status,
@@ -195,6 +211,7 @@ export {
   getLevel,
   deleteLevel,
   getLevels,
+  getLevelsForOverview,
   updateLevelQuery,
   getPupilById,
   getPupilsByGroup,

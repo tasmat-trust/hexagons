@@ -27,3 +27,7 @@ Run `npm run dev` and the project will run.
 ## Custom scripts
 
 Please browse [./package.json](package.json) scripts to learn how to run tests and lint the project; however, a Continuous Integration pipeline (see [./.github/workflows/main.yml](.github/workflows/main.yml)) runs tests automatically on every push to the `main` branch, and a husky pre-commit hook will lint all staged files before committing.
+
+## Disable registration
+
+If you wish to only allow Leader accounts to create new teachers, you can disable registration by adding environment variable NEXT_PUBLIC_DISABLE_REGISTRATION=true. To enable registration, remove the environment variable.
