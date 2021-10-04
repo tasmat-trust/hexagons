@@ -46,6 +46,7 @@ function DialogButton({ startIcon, className, testId, variant, color, label, box
       {isHexagon && <ButtonBase
         className={className}
         onClick={handleOpen}
+        data-test-id={testId}
       >
         {content}
       </ButtonBase>}
