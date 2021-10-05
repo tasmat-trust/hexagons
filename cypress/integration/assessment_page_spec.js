@@ -2,7 +2,8 @@ import { hasOperationName, aliasQuery, aliasQueryByVariable, hasVariable } from 
 
 
 const earlyDevelopmentFirstCompetencyText = 'sdsfdsdfsfdsfdsfd'
-
+const existingGuidance = 'Some guidance on how to do this lesson'
+const newGuidanceText = 'Some new guidance'
 
 
 context('Assessment page', () => {
@@ -35,6 +36,10 @@ context('Assessment page', () => {
       body: { "data": { "levels": [] } }
     }
 
+    let getModules = {
+      body: { "data": { "modules": [{ "order": 2, "id": "123", "level": "step", "summary": "sdf", "guidance": null, "capabilities": [{ "text": "sfdsdf", "id": "1617", "guidance": [] }, { "text": "sfdsdf", "id": "1618", "guidance": [] }, { "text": "sdfsfd", "id": "1619", "guidance": [] }] }] } }
+    }
+
 
     cy.intercept(
       {
@@ -49,7 +54,7 @@ context('Assessment page', () => {
         aliasQuery(req, 'getSubjects');
         aliasQuery(req, 'getAllPupilsByGroup');
         aliasQuery(req, 'getAllLevels');
-
+        aliasQuery(req, 'getModules');
 
         if (hasOperationName(req, 'getSingleSubjectBySlug')) {
           req.reply(getSingleSubjectBySlug);
@@ -81,13 +86,17 @@ context('Assessment page', () => {
           return;
         }
 
+        if (hasOperationName(req, 'getModules')) {
+          req.reply(getModules);
+          return;
+        }
+
       }
     );
 
-
   });
 
-  describe('assessment functionality', () => {
+  describe('With Early Development', () => {
 
     beforeEach(() => {
       let getSingleSubjectBySlugEd = {
@@ -95,12 +104,10 @@ context('Assessment page', () => {
 
       }
 
-      let getModules = {
-        body: { "data": { "modules": [{ "order": 2, "id": "123", "level": "step", "summary": "sdf", "guidance": null, "capabilities": [{ "text": "sdfsdf", "id": "1617", "guidance": [] }, { "text": "sfdsdf", "id": "1618", "guidance": [] }, { "text": "sdfsfd", "id": "1619", "guidance": [] }] }] } }
-      }
+
 
       let getEdModules = {
-        body: { "data": { "modules": [{ "order": 1, "id": "121", "level": "step", "summary": "Early development", "guidance": null, "capabilities": [{ "text": earlyDevelopmentFirstCompetencyText, "id": "1610", "guidance": [] }, { "text": "fdgegherth", "id": "1611", "guidance": [] }, { "text": "rthrth", "id": "1612", "guidance": [] }] }] } }
+        body: { "data": { "modules": [{ "order": 1, "id": "121", "level": "step", "summary": "Early development", "guidance": null, "capabilities": [{ "text": earlyDevelopmentFirstCompetencyText, "id": "1610", "guidance": [] }, { "text": "fdgegherth", "id": "1611", "guidance": [] }, { "text": "rthrth", "id": "1612", "guidance": [{ "text": existingGuidance }] }] }] } }
       }
 
       let getLevel = {
@@ -118,19 +125,13 @@ context('Assessment page', () => {
         },
         (req) => {
 
-          aliasQueryByVariable(req, 'getSingleSubjectBySlug', 'slug', 'early-development');
-          aliasQuery(req, 'getModules');
+          aliasQuery(req, 'getSingleSubjectBySlug');
           aliasQuery(req, 'getEdModules');
           aliasQuery(req, 'getLevel');
           aliasQuery(req, 'getCompetencies');
 
           if (hasOperationName(req, 'getSingleSubjectBySlug') && hasVariable(req, 'slug', 'early-development')) {
             req.reply(getSingleSubjectBySlugEd);
-            return;
-          }
-
-          if (hasOperationName(req, 'getModules')) {
-            req.reply(getModules);
             return;
           }
 
@@ -148,37 +149,139 @@ context('Assessment page', () => {
             return;
           }
         })
-      cy.visit('/subjects/art/class-2/154');
-      cy.waitForSpinners()
-      cy.waitForSpinners()
-      cy.waitForSpinners()
+
     });
 
+    describe('Subject route', () => {
+      beforeEach(() => {
+        cy.visit('/subjects/art/class-2/154');
+        cy.waitForSpinners()
+        cy.waitForSpinners()
+        cy.waitForSpinners()
 
-    it('Shows page with correct breadcrumbs', () => {
-      cy.get('[data-test-id=first-crumb]').contains('Subjects')
-      cy.get('[data-test-id=third-crumb]').contains('Class 2')
-    });
-
-    it('Lets user choose a different subject from the breadcrumbs', () => {
-      cy.get('[data-test-id=select-subject] select').select('number');
-      cy.location().should((loc) => {
-        expect(loc.pathname).to.eq('/subjects/number/class-2/154')
       })
-    });
+      it('Shows page with correct breadcrumbs', () => {
+        cy.get('[data-test-id=first-crumb]').contains('Subjects')
+        cy.get('[data-test-id=third-crumb]').contains('Class 2')
+      });
 
-    it('Lets user choose a different pupil from the breadcrumbs', () => {
-      cy.get('[data-test-id=select-pupil] select').select('165');
-      cy.location().should((loc) => {
-        expect(loc.pathname).to.eq('/subjects/art/class-2/165')
+      it('Lets user choose a different subject from the breadcrumbs', () => {
+        cy.get('[data-test-id=select-subject] select').select('Number').should('have.value', 'number');
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.eq('/subjects/number/class-2/154')
+        })
+      });
+
+      it('Lets user choose a different pupil from the breadcrumbs', () => {
+        cy.get('[data-test-id=select-pupil] select').select('Amy Johnson').should('have.value', '165');
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.eq('/subjects/art/class-2/165')
+        })
+      });
+
+      it('Displays Early Development as Step 1', () => {
+        cy.get('[data-test-id=hex-1]').contains(earlyDevelopmentFirstCompetencyText)
+      });
+    })
+
+    describe('Pupil route', () => {
+      beforeEach(() => {
+        cy.visit('/pupils/class-2/art/154');
+        cy.waitForSpinners()
+        cy.waitForSpinners()
+        cy.waitForSpinners()
       })
-    });
+      it('Shows page with correct breadcrumbs', () => {
+        cy.get('[data-test-id=first-crumb]').contains('Pupils')
+        cy.get('[data-test-id=second-crumb]').contains('Class 2')
+      });
 
-    it('Displays Early Development as Step 1', () => {
-      cy.get('[data-test-id=hex-1]').contains(earlyDevelopmentFirstCompetencyText)
-    });
+      it('Lets user choose a different subject from the breadcrumbs', () => {
+        cy.get('[data-test-id=select-subject] select').select('Number').should('have.value', 'number');
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.eq('/pupils/class-2/154/number')
+        })
+      });
 
+      it('Lets user choose a different pupil from the breadcrumbs', () => {
+        cy.get('[data-test-id=select-pupil] select').select('Amy Johnson').should('have.value', '165');
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.eq('/pupils/class-2/165/art')
+        })
+      });
+    })
 
+    describe('Add Guidance', () => {
+      beforeEach(() => {
 
-  });
+        let createGuidance = {
+          body: { "data": { "createGuidance": { "guidance": { "text": newGuidanceText, "id": "92" } } } }
+        }
+
+        cy.intercept(
+          {
+            method: 'POST',
+            url: 'http://localhost:1337/graphql',
+          },
+          (req) => {
+
+            aliasQuery(req, 'createGuidance');
+
+            if (hasOperationName(req, 'createGuidance')) {
+              req.reply(createGuidance);
+              return;
+            }
+          })
+
+        cy.visit('/subjects/art/class-2/154');
+        cy.get('[data-test-id=hex-3]').should('exist')
+      })
+      it('Lets user put page into guidance mode', () => {
+        cy.get('[data-test-id=view-guidance-button]').contains('Add / View Guidance')
+        cy.startGuidanceMode()
+        cy.get('[data-test-id=view-guidance-button]').contains('Go back to assessment')
+      })
+      it('Shows a popup with existing guidance and a form to add new', () => {
+        cy.startGuidanceMode()
+        cy.get('[data-test-id=hex-3]').click()
+        cy.get('[data-test-id=existing-guidance-panel').contains(existingGuidance)
+        cy.get('[data-test-id=add-new-guidance-tab]').click()
+        cy.get('[data-test-id=add-new-guidance').contains('Add new guidance')
+      })
+      it("Lets teachers add guidance when there is already guidance present", () => {
+        cy.get('[data-test-id=guidance-lightbulb-hex-3').should('exist')
+        cy.startGuidanceMode()
+        cy.get('[data-test-id=hex-3]').should('exist')
+        cy.get('[data-test-id=hex-3]').click()
+        cy.get('[data-test-id=add-new-guidance-tab]').click()
+        cy.waitForSpinners()
+        cy.get('[data-test-id=text-field]').clear()
+        cy.get('[data-test-id=text-field]').type(newGuidanceText)
+
+        cy.assertGuidanceFormSubmitSuccess()
+
+        cy.get('[data-test-id=view-guidance-tab]').click()
+        cy.get('[data-test-id=guidance-1]').should('exist')
+        cy.get('[data-test-id=guidance-1]').contains(newGuidanceText)
+      })
+
+      it("Lets teachers add guidance when no existing guidance", () => {
+        cy.get('[data-test-id=guidance-lightbulb-hex-2').should('not.exist')
+        cy.startGuidanceMode()
+        cy.get('[data-test-id=hex-2]').click()
+        cy.waitForSpinners()
+        cy.get('[data-test-id=text-field]').clear()
+        cy.get('[data-test-id=text-field]').type(newGuidanceText)
+
+        cy.assertGuidanceFormSubmitSuccess()
+
+        cy.get('[data-test-id=view-guidance-tab]').click()
+        cy.get('[data-test-id=guidance-0]').should('exist')
+        cy.get('[data-test-id=guidance-0]').contains(newGuidanceText)
+
+        cy.get('[data-test-id=close-guidance-popup]').click()
+        cy.get('[data-test-id=guidance-lightbulb-hex-2').should('exist')
+      })
+    })
+  })
 });

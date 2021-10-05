@@ -138,7 +138,7 @@ function CapabilityTile(props) {
   }
 
   return (
-    <div className={`${styles.hex} ${styles[`hex_${competencyStatus}`]}`}>
+    <div data-test-id={`${hexId}-${competencyStatus}`} className={`${styles.hex} ${styles[`hex_${competencyStatus}`]}`}>
       <div className={`${styles.hexIn}`}>
         <div className={`${styles.hexContent}`}>
           <>
@@ -148,7 +148,7 @@ function CapabilityTile(props) {
             ></div>
             <ButtonBase data-test-id={hexId} className={styles.button} onClick={() => handleUpdate()}>
               {capability.guidance.length > 0 && (
-                <div className={styles.lightbulb}>
+                <div data-test-id={`guidance-lightbulb-${hexId}`} className={styles.lightbulb}>
                   <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />
                 </div>
               )}

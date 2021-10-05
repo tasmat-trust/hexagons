@@ -128,8 +128,10 @@ function AddNew(props) {
               onChange={(event) => setNameValue(event.target.value)}
             />}
             {includeText && <TextField
+              data-test-id="text-field"
               id='text'
               label='Text'
+              required
               value={textValue}
               onChange={(event) => setTextValue(event.target.value)}
             />}

@@ -73,13 +73,13 @@ function CapabilityTileGuidance({
 
         <AppBar position="static">
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-            {gotGuidance && <Tab label="Guidance" {...a11yProps(0)} />}
-            <Tab label="Add new" {...a11yProps(gotGuidance ? 1 : 0)} />
+            {gotGuidance && <Tab label="Guidance" data-test-id="view-guidance-tab" {...a11yProps(0)} />}
+            <Tab data-test-id="add-new-guidance-tab" label="Add new" {...a11yProps(gotGuidance ? 1 : 0)} />
           </Tabs>
         </AppBar>
 
-        {gotGuidance && <TabPanel value={value} index={0}>
-          {guidance.map((g, i) => <p key={`guidance-${i}`}>{g.text}</p>)}
+        {gotGuidance && <TabPanel data-test-id="existing-guidance-panel" value={value} index={0}>
+          {guidance.map((g, i) => <p data-test-id={`guidance-${i}`} key={`guidance-${i}`}>{g.text}</p>)}
         </TabPanel>}
         <TabPanel value={value} index={gotGuidance ? 1 : 0}>
           <AddNewGuidance
@@ -91,7 +91,6 @@ function CapabilityTileGuidance({
               setTimeout(() => {
                 setCapability(newCap)
               }, 1000)
-              
             }}
           />
         </TabPanel>
@@ -101,7 +100,7 @@ function CapabilityTileGuidance({
 
       </TabsDialogContent>
       <DialogActions>
-        <Button data-test-id={`guidance-popup`} onClick={handleClose} color="primary">
+        <Button data-test-id={`close-guidance-popup`} onClick={handleClose} color="primary">
           Close
         </Button>
       </DialogActions>

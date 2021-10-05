@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 import './manage-user-commands';
+import './assessment-commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

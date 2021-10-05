@@ -202,6 +202,7 @@ function LevelStatus({ setGotCurrentLevel,
           </Box>
           <Box>
             <DialogButton
+              modelname="guidance"
               startIcon={<LightbulbIcon viewBox="0 0 100 125" />}
               label={guidanceActive ? 'Go back to assessment' : 'Add / View Guidance'}
               testId="view-guidance-button"
