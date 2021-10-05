@@ -33,6 +33,9 @@ const getCapability = gql`query getCapability($id: ID!) {
     text id,
     guidance {
           text
+          users_permissions_user {
+            username
+          }
         }
   }
 }`
@@ -43,7 +46,10 @@ const getModules = gql`query getModules($subjectId: ID!) {
     capabilities {
       text id,
         guidance {
-          text
+          text created_at,
+          users_permissions_user {
+            username
+          }
         }
     }
   }
@@ -55,7 +61,10 @@ const getEdModules = gql`query getEdModules($subjectId: ID!) {
     capabilities {
       text id,
         guidance {
-          text
+          text created_at,
+          users_permissions_user {
+            username
+          }
         }
     }
   }
@@ -64,18 +73,17 @@ const getEdModules = gql`query getEdModules($subjectId: ID!) {
 
 
 const createModuleQuery = gql`
-mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!, $summary: String, $guidance: String) {
+mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!, $summary: String) {
     createModule(input: {
       data:{
         level:$level,
         order:$order,
         subject: $subject,
-        summary: $summary,
-        guidance: $guidance
+        summary: $summary
         }
       }) {
       module {
-        level order id summary guidance
+        level order id summary
         subject {
           name id
         }
@@ -128,15 +136,19 @@ mutation DeleteModule($id: ID!) {
 }`
 
 const createGuidanceQuery = gql`
-mutation createGuidance($text: String!, $capability: ID!) {
+mutation createGuidance($text: String!, $capability: ID!, $userId: ID!) {
   createGuidance(input: {
     data: {
-      text: $text,
-      capability: $capability
+      text: $text,      
+      capability: $capability,
+      users_permissions_user: $userId
     }
   }) {
     guidance {
-      text id
+      text id created_at,
+      users_permissions_user {
+        username
+      }
     }
   }
 }
@@ -153,6 +165,6 @@ export {
   allSubjectsQuery,
   getModules,
   getEdModules,
-  createGuidanceQuery, 
+  createGuidanceQuery,
   getCapability
 }

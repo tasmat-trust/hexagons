@@ -1,12 +1,13 @@
 import { createGuidanceQuery } from '../../../queries/Subjects'
 
-async function createGuidance({ formData, gqlClient, capabilityId }) {
+async function createGuidance({ formData, gqlClient, capabilityId, userId }) {
 
   const result = {}
 
   const variables = {
     text: formData.text,
-    capability: capabilityId
+    capability: capabilityId,
+    userId: userId
   }
   try {
     const data = await gqlClient.request(createGuidanceQuery, variables)

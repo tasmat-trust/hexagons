@@ -22,6 +22,7 @@ function AddNew(props) {
   const {
     orgs,
     roles,
+    userId,
     updateHandler,
     modelname,
     triggerSharedState,
@@ -78,6 +79,7 @@ function AddNew(props) {
       formData,
       gqlClient,
       orgId,
+      userId,
       triggerSharedState,
       capabilityId
     })

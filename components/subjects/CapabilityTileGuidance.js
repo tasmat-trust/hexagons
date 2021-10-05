@@ -1,9 +1,10 @@
 import { PropTypes } from "prop-types"
-import { Dialog, DialogContent, DialogActions, Button } from "@material-ui/core"
+import { Dialog, DialogContent, DialogActions, Button, List, ListItem, ListItemText } from "@material-ui/core"
 import { AppBar, Tabs, Tab, Typography, Box } from "@material-ui/core"
 import { useState } from "react"
 import { AddNewGuidance } from "../forms/AddNew"
-import { withStyles } from "@material-ui/styles"
+import { withStyles, makeStyles } from "@material-ui/styles"
+import extractDate from "../../utils/extractDate"
 
 const TabsDialogContent = withStyles({
   root: {
@@ -13,6 +14,17 @@ const TabsDialogContent = withStyles({
     padding: '0px'
   }
 })(DialogContent)
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: '36ch',
+    backgroundColor: theme.palette.background.paper,
+  },
+  inline: {
+    display: 'inline',
+  },
+}));
 
 
 function CapabilityTileGuidance({
@@ -24,6 +36,8 @@ function CapabilityTileGuidance({
   ...other }) {
 
   const [value, setValue] = useState(0)
+
+  const classes = useStyles();
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -79,11 +93,21 @@ function CapabilityTileGuidance({
         </AppBar>
 
         {gotGuidance && <TabPanel data-test-id="existing-guidance-panel" value={value} index={0}>
-          {guidance.map((g, i) => <p data-test-id={`guidance-${i}`} key={`guidance-${i}`}>{g.text}</p>)}
+          <List className={classes.root}>
+            {guidance.map((g, i) => {
+
+              const created_at = extractDate(g.created_at)
+              return (
+                <ListItem key={`guidance-${i}`} alignItems="flexStart">
+                  <ListItemText data-test-id={`guidance-${i}`} primary={g.text} secondary={`${g.users_permissions_user.username} - ${created_at}`} />
+                </ListItem>
+              )
+            })}
+          </List>
         </TabPanel>}
         <TabPanel value={value} index={gotGuidance ? 1 : 0}>
           <AddNewGuidance
-            {...other} // capabilityId
+            {...other} // capabilityId, userId
             successCallback={(formResult) => {
               // refresh capability
               const newCap = JSON.parse(JSON.stringify(capability))

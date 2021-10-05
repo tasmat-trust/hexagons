@@ -36,10 +36,9 @@ function a11yProps(index) {
 function StagesTabs({
   modules,
   startingLevel,
-  pupil,
+  pupil, 
   ...other }) {
-  const [tabValue, setTabValue] = useState(0);
-
+  const [tabValue, setTabValue] = useState(0); 
   const [gotCurrentLevel, setGotCurrentLevel] = useState(startingLevel ? true : false) // boolean - have we got a current level
   const [currentLevelId, setCurrentLevelId] = useState(startingLevel ? startingLevel.id : 0)
   const [sortedModules, setSortedModules] = useState(modules)

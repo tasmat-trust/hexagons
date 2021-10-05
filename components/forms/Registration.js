@@ -5,6 +5,10 @@ import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
 import Select from '@material-ui/core/Select';
 
+import { InputAdornment, IconButton } from '@material-ui/core'
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
 
 import { Button, FormControl, InputLabel, TextField } from '@material-ui/core';
@@ -30,6 +34,8 @@ const RegistrationForm = ({ orgs }) => {
   const [emailValue, setEmailValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
   const [usernameValue, setUsernameValue] = useState('')
+
+  const [showPassword, setShowPassword] = useState(false)
 
 
   function handleChangeSelect(event) {
@@ -174,6 +180,7 @@ const RegistrationForm = ({ orgs }) => {
             }} />
 
           <TextField
+            type={showPassword ? 'text' : 'password'}
             error={fieldError === 'password'}
             className={classes.input}
             value={passwordValue}
@@ -181,6 +188,20 @@ const RegistrationForm = ({ orgs }) => {
             label="Password"
             helperText="Please choose four random words as your password and ensure it is lowercase and doesn't include any special characters or numbers"
             variant="filled"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    onMouseDown={(event) => event.preventDefault()}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
             onChange={(ev) => {
               clearErrors()
               setPasswordValue(ev.target.value)
@@ -198,7 +219,8 @@ const RegistrationForm = ({ orgs }) => {
             </Button>
           </FormControl>
         </form>
-      )}
+      )
+      }
     </>
   );
 };

@@ -5,7 +5,9 @@ import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
-
+import { InputAdornment, IconButton } from '@material-ui/core'
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Button, FormControl, TextField } from '@material-ui/core';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
@@ -14,7 +16,7 @@ import handleApiLoginErrors from './handlers/handleApiLoginErrors';
 import handleCredentialErrors from './handlers/handleCredentialErrors';
 
 const LoginForm = (props) => {
- 
+
   const router = useRouter();
   const classes = useLoginLogoutPages();
   const [error, setError] = useState(null);
@@ -24,13 +26,15 @@ const LoginForm = (props) => {
   const [emailValue, setEmailValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
 
+  const [showPassword, setShowPassword] = useState(false)
+
   const clearErrors = () => {
     setError(null)
     setFieldError(null)
   }
 
   const onSubmit = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     const gotErrs = handleCredentialErrors(emailValue, passwordValue, setError, setFieldError)
     if (gotErrs) {
       return
@@ -74,6 +78,7 @@ const LoginForm = (props) => {
             }} />
 
           <TextField
+            type={showPassword ? 'text' : 'password'}
             className={classes.input}
             value={passwordValue}
             fullWidth
@@ -81,6 +86,20 @@ const LoginForm = (props) => {
             id="password"
             label="Password"
             variant="filled"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    onMouseDown={(event) => event.preventDefault()}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
             onChange={(ev) => {
               clearErrors()
               setPasswordValue(ev.target.value)

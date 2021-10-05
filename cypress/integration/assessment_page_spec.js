@@ -104,11 +104,10 @@ context('Assessment page', () => {
 
       }
 
-
-
       let getEdModules = {
-        body: { "data": { "modules": [{ "order": 1, "id": "121", "level": "step", "summary": "Early development", "guidance": null, "capabilities": [{ "text": earlyDevelopmentFirstCompetencyText, "id": "1610", "guidance": [] }, { "text": "fdgegherth", "id": "1611", "guidance": [] }, { "text": "rthrth", "id": "1612", "guidance": [{ "text": existingGuidance }] }] }] } }
+        body: { "data": { "modules": [{ "order": 1, "id": "121", "level": "step", "summary": "Early development", "guidance": null, "capabilities": [{ "text": earlyDevelopmentFirstCompetencyText, "id": "1610", "guidance": [] }, { "text": "fdgegherth", "id": "1611", "guidance": [] }, { "text": "rthrth", "id": "1612", "guidance": [{ "text": existingGuidance, "created_at": "2021-10-05T14:21:10.655Z", "users_permissions_user": { "username": "natalie" } }] }] }] } }
       }
+
 
       let getLevel = {
         body: { "data": { "levels": [{ "id": "750", "status": "incomplete", "competencies": [{ "id": "1475", "status": "complete", "capability_fk": 1610 }, { "id": "1476", "status": "target", "capability_fk": 1611 }, { "id": "1477", "status": "target", "capability_fk": 1612 }] }] } }
@@ -215,7 +214,7 @@ context('Assessment page', () => {
       beforeEach(() => {
 
         let createGuidance = {
-          body: { "data": { "createGuidance": { "guidance": { "text": newGuidanceText, "id": "92" } } } }
+          body: { "data": { "createGuidance": { "guidance": { "text": newGuidanceText, "id": "93", "created_at": "2021-10-05T15:21:10.655Z", "users_permissions_user": { "username": "natalie" } } } } }
         }
 
         cy.intercept(

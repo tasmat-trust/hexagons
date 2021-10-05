@@ -16,12 +16,13 @@ function LevelContent({
   currentLevelId,
   currentModule,
   setGuidanceActive,
-  guidanceActive
+  guidanceActive,
+  user
 }) {
 
   const [competencies, setCompetencies] = useState(initialCompetencies)
 
- 
+
 
   useEffect(() => { // Set the overlays to appear once loaded
     if (initialCompetencies) {
@@ -45,7 +46,8 @@ function LevelContent({
         />
       </CustomSuspense>
       <CustomSuspense message="Loading tiles">
-        <CapabilityTiles 
+        <CapabilityTiles
+          userId={user.id}
           guidanceActive={guidanceActive}
           pupil={pupil}
           capabilities={currentModule.capabilities}
@@ -66,7 +68,7 @@ LevelContent.propTypes = {
   isEd: PropTypes.bool,
   pupil: PropTypes.object,
   initialCompetencies: PropTypes.array,
-  subjectId: PropTypes.number, 
+  subjectId: PropTypes.number,
   setGotCurrentLevel: PropTypes.func,
   gotCurrentLevel: PropTypes.bool,
   setCurrentLevelId: PropTypes.func,
