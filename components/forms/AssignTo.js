@@ -66,7 +66,11 @@ function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
         {isGroups && (
           <FormControl margin="normal">
             <FormControlLabel margin="normal"
-              control={<Checkbox checked={shouldOverwrite} onChange={() => setShouldOverwrite(!shouldOverwrite)} name="shouldOverwrite" />}
+              control={<Checkbox
+                data-test-id="overwrite-groups"
+                checked={shouldOverwrite}
+                onChange={() => setShouldOverwrite(!shouldOverwrite)}
+                name="shouldOverwrite" />}
               label="Overwrite existing groups?"
             />
           </FormControl>

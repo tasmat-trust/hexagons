@@ -49,7 +49,6 @@ function SingleSelect({ selectItems, selectValue, setSelectValue, itemLabel }) {
     >
       <InputLabel id="demo-single-chip-label">{itemLabel}</InputLabel>
       <Select
-        data-test-id="multi-select"
         labelId="demo-single-chip-label"
         id="demo-single-chip"
         fullWidth

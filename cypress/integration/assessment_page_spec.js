@@ -40,59 +40,15 @@ context('Assessment page', () => {
       body: { "data": { "modules": [{ "order": 2, "id": "123", "level": "step", "summary": "sdf", "guidance": null, "capabilities": [{ "text": "sfdsdf", "id": "1617", "guidance": [] }, { "text": "sfdsdf", "id": "1618", "guidance": [] }, { "text": "sdfsfd", "id": "1619", "guidance": [] }] }] } }
     }
 
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: 'http://localhost:1337/graphql',
-      },
-      (req) => {
-
-        aliasQuery(req, 'getSingleSubjectBySlug');
-        aliasQuery(req, 'getGroup');
-        aliasQuery(req, 'getPupil');
-        aliasQuery(req, 'getSubjects');
-        aliasQuery(req, 'getAllPupilsByGroup');
-        aliasQuery(req, 'getAllLevels');
-        aliasQuery(req, 'getModules');
-
-        if (hasOperationName(req, 'getSingleSubjectBySlug')) {
-          req.reply(getSingleSubjectBySlug);
-          return;
-        }
-
-        if (hasOperationName(req, 'getGroup')) {
-          req.reply(getGroup);
-          return;
-        }
-
-        if (hasOperationName(req, 'getPupil')) {
-          req.reply(getPupil);
-          return;
-        }
-
-        if (hasOperationName(req, 'getSubjects')) {
-          req.reply(getSubjects);
-          return;
-        }
-
-        if (hasOperationName(req, 'getAllPupilsByGroup')) {
-          req.reply(getAllPupilsByGroup);
-          return;
-        }
-
-        if (hasOperationName(req, 'getAllLevels')) {
-          req.reply(getAllLevels);
-          return;
-        }
-
-        if (hasOperationName(req, 'getModules')) {
-          req.reply(getModules);
-          return;
-        }
-
-      }
-    );
+    cy.mockGraphQL([
+      { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlug },
+      { query: 'getGroup', data: getGroup },
+      { query: 'getPupil', data: getPupil },
+      { query: 'getSubjects', data: getSubjects },
+      { query: 'getAllPupilsByGroup', data: getAllPupilsByGroup },
+      { query: 'getAllLevels', data: getAllLevels },
+      { query: 'getModules', data: getModules }
+    ])
 
   });
 
@@ -117,37 +73,12 @@ context('Assessment page', () => {
         body: { "data": { "competencies": [{ "id": "1475", "status": "complete", "capability_fk": 1610 }, { "id": "1476", "status": "target", "capability_fk": 1611 }, { "id": "1477", "status": "target", "capability_fk": 1612 }] } }
       }
 
-      cy.intercept(
-        {
-          method: 'POST',
-          url: 'http://localhost:1337/graphql',
-        },
-        (req) => {
-
-          aliasQuery(req, 'getSingleSubjectBySlug');
-          aliasQuery(req, 'getEdModules');
-          aliasQuery(req, 'getLevel');
-          aliasQuery(req, 'getCompetencies');
-
-          if (hasOperationName(req, 'getSingleSubjectBySlug') && hasVariable(req, 'slug', 'early-development')) {
-            req.reply(getSingleSubjectBySlugEd);
-            return;
-          }
-
-          if (hasOperationName(req, 'getEdModules')) {
-            req.reply(getEdModules);
-            return;
-          }
-
-          if (hasOperationName(req, 'getLevel')) {
-            req.reply(getLevel);
-            return;
-          }
-          if (hasOperationName(req, 'getCompetencies')) {
-            req.reply(getCompetencies);
-            return;
-          }
-        })
+      cy.mockGraphQL([
+        { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlugEd, variable: { key: 'slug', value: 'early-development' } },
+        { query: 'getEdModules', data: getEdModules },
+        { query: 'getLevel', data: getLevel },
+        { query: 'getCompetencies', data: getCompetencies },
+      ])
 
     });
 
@@ -217,20 +148,9 @@ context('Assessment page', () => {
           body: { "data": { "createGuidance": { "guidance": { "text": newGuidanceText, "id": "93", "created_at": "2021-10-05T15:21:10.655Z", "users_permissions_user": { "username": "natalie" } } } } }
         }
 
-        cy.intercept(
-          {
-            method: 'POST',
-            url: 'http://localhost:1337/graphql',
-          },
-          (req) => {
-
-            aliasQuery(req, 'createGuidance');
-
-            if (hasOperationName(req, 'createGuidance')) {
-              req.reply(createGuidance);
-              return;
-            }
-          })
+        cy.mockGraphQL([
+          { query: 'createGuidance', data: createGuidance }
+        ])
 
         cy.visit('/subjects/art/class-2/154');
         cy.get('[data-test-id=hex-3]').should('exist')

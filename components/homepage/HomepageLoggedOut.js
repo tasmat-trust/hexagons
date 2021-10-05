@@ -1,6 +1,5 @@
 import { Button, ImageList, ImageListItem } from "@material-ui/core"
-import Image from 'next/image'
-import { useLoginLogout } from '../auth/session'
+import Image from 'next/image' 
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -23,8 +22,7 @@ const styles = makeStyles((theme) => ({
 
 
 
-export default function HomepageLoggedIn(props) {
-  const { login } = useLoginLogout(props)
+export default function HomepageLoggedIn(props) { 
   const classes = styles()
   return (
     <section className={classes.homepage}>

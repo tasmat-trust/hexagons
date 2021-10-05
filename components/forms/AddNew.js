@@ -70,7 +70,12 @@ function AddNew(props) {
       const groups = event.target['select-multiple-chip'].value.split(',');
       formData.groups = groups;
     }
-    if (roles) {
+    if (roles && role.length === 0) {
+      setErrorValue('Please choose a role')
+      setLoading(false)
+      return
+    }
+    if (roles && role) {
       formData.role = role;
     }
 
@@ -150,7 +155,11 @@ function AddNew(props) {
             </FormControl>
           )}
 
-          {roles && <SingleSelect itemLabel="Role" selectItems={roles} selectValue={role} setSelectValue={setRole} />}
+          {roles && <SingleSelect
+            itemLabel="Role"
+            selectItems={roles}
+            selectValue={role}
+            setSelectValue={setRole} />}
           {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
           <FormControl margin="normal">
             <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="secondary">

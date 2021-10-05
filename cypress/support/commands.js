@@ -9,6 +9,38 @@
 // ***********************************************
 //
 //
+
+import { hasOperationName, aliasQuery, hasVariable } from '../utils/graphql-test-utils'
+
+Cypress.Commands.add('mockGraphQL', (mocks) => {
+  cy.intercept({
+    method: 'POST',
+    url: 'http://localhost:1337/graphql'
+  },
+    (req) => {
+      // Get requests
+      mocks.forEach(mock => {
+
+        aliasQuery(req, mock.query)
+
+        if (mock.variable) {
+          if (hasOperationName(req, mock.query) && hasVariable(req, mock.variable.key, mock.variable.value)) {
+            req.reply(mock.data);
+            return;
+          }
+        } else {
+          if (hasOperationName(req, mock.query)) {
+            req.reply(mock.data)
+          }
+        }
+
+
+      });
+    }
+  )
+})
+
+
 // -- This is a parent command --
 Cypress.Commands.add('login', (role) => {
 

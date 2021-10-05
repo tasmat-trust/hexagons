@@ -183,7 +183,7 @@ function Loading({ message, testId, textOnly }) {
   const classes = useStyles()
   return (
     <>
-      <div data-test-id={testId} className={`${classes.loading} loading-spinner`}>
+      <div data-test-id={testId ? testId : 'loading'} className={`${classes.loading} loading-spinner`}>
         {!textOnly && (
           <div className={classes.wrapper}>
             <section className={classes.container}>
