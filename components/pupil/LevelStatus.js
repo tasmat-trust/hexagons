@@ -15,12 +15,12 @@ import CustomSuspense from '../data-fetching/CustomSuspense'
 
 const useStyles = makeStyles((theme) => ({
   level: {
-    marginTop: theme.spacing(2),
+    marginTop: 0,
     marginBottom: theme.spacing(2)
   },
   info: {
     border: 'solid 1px',
-    padding: '6px',
+    padding: '0px 6px 2px',
     borderRadius: '5px'
   },
   complete: {
@@ -36,18 +36,48 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main
   },
   header: {
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
+  emDash: {
+    '@media (max-width: 900px)': { 
+    }
+  },
+  titleBox: {
+
+    display: 'flex',
+    justifyContent: 'space-between'
+
+  },
+
   title: {
-    flexGrow: 0,
     fontFamily: theme.typography.secondaryFamily,
-    marginRight: theme.spacing(2)
+    lineHeight: '1.5',
+    fontSize: 'clamp(1.5rem, 3vw, 3rem)',
+    marginBottom: theme.spacing(1)
+  },
+  guidanceBox: {
+    '@media (max-width: 900px)': {
+
+    }
+  },
+  actionsBox: {
+    '@media (max-width: 900px)': {
+
+    }
   },
   endButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    '@media (max-width: 600px)': {
+      
+    }
+  },
+  icon: {
+    '@media (max-width: 600px)': {
+      display: 'none'
+    }
   }
 }));
 
@@ -185,26 +215,46 @@ function LevelStatus({ setGotCurrentLevel,
     <Fade in={readyToShow}>
 
       <Box className={classes.level}>
-        <Box className={classes.header}>
-          <Box>
-            <CustomSuspense message="Loading level" textOnly={true}>
-              <ErrorBoundary alert="Failed to load levels">
-                <LevelStatusTitle
-                  bubbleGotLevel={bubbleGotLevel}
-                  classes={classes}
-                  moduleLabel={moduleLabel}
-                  status={status}
-                  moduleOrder={currentModule.order}
-                  {...other}
-                />
-              </ErrorBoundary>
-            </CustomSuspense>
+
+
+
+        <Box className={classes.titleBox}>
+          <CustomSuspense message="Loading level" textOnly={true}>
+            <ErrorBoundary alert="Failed to load levels">
+              <LevelStatusTitle
+                bubbleGotLevel={bubbleGotLevel}
+                classes={classes}
+                moduleLabel={moduleLabel}
+                status={status}
+                moduleOrder={currentModule.order}
+                {...other}
+              />
+
+            </ErrorBoundary>
+          </CustomSuspense>
+          <Typography className={classes.title} data-test-id="percent-complete-label" variant="h2" color="textPrimary">{`${Math.round(
+            visiblePercentComplete,
+          )}%`}</Typography>
+
+        </Box>
+        <Box display="flex" alignItems="center">
+          <Box width="100%">
+            <LinearProgress
+              color="secondary"
+              variant="determinate"
+              value={status === 'complete' ? 100 : visiblePercentComplete} />
           </Box>
-          <Box>
+        </Box>
+        <Box className={classes.header}>
+
+
+
+
+          <Box className={classes.guidanceBox}>
             <DialogButton
               modelname="guidance"
-              startIcon={<LightbulbIcon viewBox="0 0 100 125" />}
-              label={guidanceActive ? 'Go back to assessment' : 'Add / View Guidance'}
+              startIcon={<LightbulbIcon className={classes.icon} viewBox="0 0 100 125" />}
+              label={guidanceActive ? 'Go back' : 'Guidance'}
               testId="view-guidance-button"
               color={guidanceActive ? 'secondary' : 'primary'}
               onClose={() => {
@@ -228,43 +278,33 @@ function LevelStatus({ setGotCurrentLevel,
 
             </DialogButton>
           </Box>
-          <Box>
+
+          <Box className={classes.actionsBox}>
             <DialogButton
-              label="View Summary"
+              label="Summary"
               testId="view-summary-button"
               color="primary"
               variant="contained"
               boxTitle={`${moduleLabel} ${currentModule.order} summary`}>
               {currentModule.summary}
             </DialogButton>
+
             {status !== 'complete' && <Button
               data-test-id="mark-complete"
               className={classes.endButton}
               variant="contained"
               color="secondary"
-              onClick={completeStepHandler}>Complete this {moduleLabel}</Button>}
+              onClick={completeStepHandler}>Complete</Button>}
             {status === 'complete' && <Button
               data-test-id="mark-incomplete"
               className={classes.endButton}
               variant="outlined"
               color="secondary"
-              onClick={markActiveHandler}>Mark {moduleLabel} incomplete</Button>}
+              onClick={markActiveHandler}>Incomplete</Button>}
 
           </Box>
         </Box>
-        <Box display="flex" alignItems="center">
-          <Box width="100%" mr={1}>
-            <LinearProgress
-              color="secondary"
-              variant="determinate"
-              value={status === 'complete' ? 100 : visiblePercentComplete} />
-          </Box>
-          <Box minWidth={35}>
-            <Typography data-test-id="percent-complete-label" variant="body2" color="textSecondary">{`${Math.round(
-              visiblePercentComplete,
-            )}%`}</Typography>
-          </Box>
-        </Box>
+
       </Box>
 
     </Fade>

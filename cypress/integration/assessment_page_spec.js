@@ -156,9 +156,9 @@ context('Assessment page', () => {
         cy.get('[data-test-id=hex-3]').should('exist')
       })
       it('Lets user put page into guidance mode', () => {
-        cy.get('[data-test-id=view-guidance-button]').contains('Add / View Guidance')
+        cy.get('[data-test-id=view-guidance-button]').contains('Guidance')
         cy.startGuidanceMode()
-        cy.get('[data-test-id=view-guidance-button]').contains('Go back to assessment')
+        cy.get('[data-test-id=view-guidance-button]').contains('Go back')
       })
       it('Shows a popup with existing guidance and a form to add new', () => {
         cy.startGuidanceMode()

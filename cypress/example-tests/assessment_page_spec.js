@@ -247,7 +247,7 @@ context('Assessment page', () => {
       cy.wait('@gqlgetLevelQuery');
       // cy.get('[data-test-id=level-status-status]').contains('complete');
       cy.get('[data-test-id=percent-complete-label]').contains('100');
-      // cy.get('[data-test-id=mark-incomplete]').contains('Mark Step incomplete');
+      // cy.get('[data-test-id=mark-incomplete]').contains('Mark incomplete');
     });
   });
 
@@ -271,7 +271,7 @@ context('Assessment page', () => {
       cy.get('[data-test-id=level-status-title]').contains('Step 1');
       cy.get('[data-test-id=level-status-status]').contains('incomplete');
       cy.get('[data-test-id=percent-complete-label]').contains('75');
-      cy.get('[data-test-id=mark-complete]').contains('Complete this Step');
+      cy.get('[data-test-id=mark-complete]').contains('Complete Step');
     });
   });
 

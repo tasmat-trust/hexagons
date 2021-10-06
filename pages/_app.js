@@ -111,7 +111,7 @@ function MyApp({ Component, pageProps }) {
 
                   {!isServer ? (
                     <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
-                      <Suspense fallback={<Loading message="Loading with top level Suspense" />}>
+                      <Suspense fallback={<Loading message="Hexagonalising" />}>
                         <Component  {...pageProps} setLoading={setLoading} />
                       </Suspense>
                     </ErrorBoundary>

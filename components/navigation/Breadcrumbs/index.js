@@ -6,8 +6,19 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => ({
   bc: {
     padding: theme.spacing(1),
+    '@media(max-width: 600px)': {
+      padding: 0
+    },
     '& ol': {
+      '@media(max-width: 600px)': {
+        justifyContent: 'center'
+      },
       justifyContent: 'center'
+    },
+    '& li': {
+      '@media(max-width: 600px)': {
+        marginBottom: theme.spacing(3)
+      }
     }
   },
   clear: {

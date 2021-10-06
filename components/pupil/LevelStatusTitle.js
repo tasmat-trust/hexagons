@@ -7,12 +7,14 @@ function LevelTitle({ status, classes, moduleLabel, moduleOrder, initialVisibleL
 
   useEffect(() => {
     if (initialVisibleLevel) {
-      bubbleGotLevel(initialVisibleLevel)    }
+      bubbleGotLevel(initialVisibleLevel)
+    }
   }, [initialVisibleLevel, bubbleGotLevel])
   return (
     <Typography data-test-id="level-status-title" className={classes.title} variant='h2'>
-      {moduleLabel} {moduleOrder}
-      {(status === 'complete' || status === 'incomplete') && <span> &#8212; <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
+      <span>{moduleLabel} {moduleOrder}</span>
+      
+      {(status === 'complete' || status === 'incomplete') && <span> <span className={classes.emDash}>&#8212;</span> <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
     </Typography>
   )
 }

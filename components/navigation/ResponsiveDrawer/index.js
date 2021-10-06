@@ -48,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     width: '100%',
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingTop: theme.spacing(3),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   navBoxes: {
     display: 'flex',

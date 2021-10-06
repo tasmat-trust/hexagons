@@ -7,7 +7,7 @@ const stringStyles = makeStyles((theme) => ({
   `,
   main: `
     display: flex;
-    --s: 16rem; /* size */
+    --s: 21vw; /* size */
     --r: 0.9; /* ratio */
     /* clip-path */
     --h: 0.25;

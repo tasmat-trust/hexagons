@@ -5,6 +5,7 @@ import theme from '../styles/theme'
 export const HexagonsTabs = withStyles({
   root: {
     borderBottom: '1px solid #e8e8e8',
+    marginBottom: theme.spacing(2)
   },
   indicator: {
     backgroundColor: theme.palette.primary.light,
