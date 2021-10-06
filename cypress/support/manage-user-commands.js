@@ -6,13 +6,6 @@ Cypress.Commands.add('assertManagePupilPageVisible', () => {
   cy.get('[data-test-id=new-group]').should('be.visible')
 })
 
-Cypress.Commands.add('assertManageTeacherPageVisible', () => {
-  cy.get('[data-test-id=title]').should('be.visible')
-  cy.get('[data-test-id=notification]').should('be.visible')
-  cy.get('[data-test-id=new-teacher]').should('be.visible')
-  cy.get('[data-test-id=new-group]').should('be.visible')
-})
-
 Cypress.Commands.add('selectMultipleUsers', () => {
   cy.get('[data-id="109"]').click()
   cy.get('[data-id="110"]').click()
@@ -37,4 +30,12 @@ Cypress.Commands.add('createPupilWithoutGroups', () => {
   cy.get('[data-test-id=add-new-pupil]').click();
   cy.get('[data-test-id="close-pupil-popup"]').click();
   cy.wait('@gqlcreatePupilQuery').its('request.url').should('include', '/graphql')
+})
+
+Cypress.Commands.add('createGroupAssertError', (attemptedGroupName) => {
+  cy.get('[data-test-id=new-group]').click()
+  cy.get('#name').clear()
+  cy.get('#name').type(attemptedGroupName)
+  cy.get('[data-test-id=add-new-group]').click()
+  cy.get('[data-test-id=error]').should('exist')
 })

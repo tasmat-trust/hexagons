@@ -17,9 +17,13 @@ export const hasVariable = (req, variableName, variableValue) => {
 }
 
 // Alias query if operationName matches
-export const aliasQuery = (req, operationName) => {
+export const aliasQuery = (req, operationName, i) => {
   if (hasOperationName(req, operationName)) {
-    req.alias = `gql${operationName}Query`
+    if (i) {
+      req.alias = `gql${operationName}${i}Query`
+    } else {
+      req.alias = `gql${operationName}Query`
+    }
   }
 }
 

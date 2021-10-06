@@ -43,6 +43,31 @@ function AddNew(props) {
   const [errorValue, setErrorValue] = useState(false)
   const [successValue, setSuccessValue] = useState(false)
 
+  function validateNames(value) {
+    let response = {
+    }
+    const illegalCharacters = ['!', '"', "£", "$", "^", "&", "<", ">", "*", "|", "~", "#", "{", "}", ";", ":"]
+    if (value.length > 16) {
+      response.error = {
+        message: 'Names must contain fewer than 16 characters.'
+      }
+
+      return response
+    }
+
+    const gotIllegal = illegalCharacters.filter(char => value.includes(char))
+    if (gotIllegal.length > 0) {
+      response.error = {
+        message: "Names must not include any illegal characters."
+      }
+
+      return response
+    }
+
+    response.success = true
+    return response
+  }
+
 
   const { gqlClient, orgId } = useContext(HexagonsContext)
 
@@ -51,6 +76,7 @@ function AddNew(props) {
     setLoading(true)
     setErrorValue(false)
     setSuccessValue(false)
+
     let formData = {}
 
     if (event.target['text']) {
@@ -64,7 +90,13 @@ function AddNew(props) {
       formData.username = event.target['username'].value
     }
     if (event.target['name']) {
-      formData.name = event.target['name'].value
+      const gotValidName = validateNames(nameValue)
+      if (gotValidName.error) {
+        setErrorValue(gotValidName.error.message)
+        setLoading(false)
+        return
+      }
+      formData.name = nameValue
     }
     if (selectItems) {
       const groups = event.target['select-multiple-chip'].value.split(',');

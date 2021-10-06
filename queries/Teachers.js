@@ -9,7 +9,7 @@ query getTeacher($email: String!) {
 `
 
 // Get all users with roles and groups
-const allTeachers = gql`query getTeachers($orgId: Int!) {  
+const allTeachers = gql`query getAllTeachers($orgId: Int!) {  
     users (where: {organization: $orgId}) { 
       username email id 
       organization {

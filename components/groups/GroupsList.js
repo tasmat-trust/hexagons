@@ -54,7 +54,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
   }
 
   return (
-    <ul className={classes.ul}>
+    <ul data-test-id="group-list" className={classes.ul}>
       {sortedGroups.map((group, i) => {
 
         let linkUrl
