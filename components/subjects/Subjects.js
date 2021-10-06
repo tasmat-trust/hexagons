@@ -7,7 +7,7 @@ import WithAllSubjects from '../data-fetching/WithAllSubjects';
 
 const styles = makeStyles((theme) => ({
   box: {
-    marginTop: theme.spacing(2)
+    marginTop: '-8px'
   }
 }))
 

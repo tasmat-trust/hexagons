@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useAdminPage = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing(4)
+    paddingTop: theme.spacing(1)
   },
   paper: {
     padding: theme.spacing(2),

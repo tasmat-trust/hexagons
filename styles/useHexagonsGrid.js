@@ -7,7 +7,8 @@ const stringStyles = makeStyles((theme) => ({
   `,
   main: `
     display: flex;
-    --s: 21vw; /* size */
+    width: 100vw;
+    --s:  clamp(9.5rem, 24vw, 18rem);
     --r: 0.9; /* ratio */
     /* clip-path */
     --h: 0.25;
@@ -15,13 +16,13 @@ const stringStyles = makeStyles((theme) => ({
     --hc: calc(clamp(0,var(--h), 0.5) * var(--s));
     --vc: calc(clamp(0,var(--v), 0.5) * var(--s) * var(--r));
     /*margin */
-    --mv: 4px; /* vertical */
-    --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 8px);
+    --mv: 3px; /* vertical */
+    --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 6px);
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
   `,
   main_wide: `
     display: flex; 
-    --s: 16rem; /* size */
+    --s: clamp(10.5rem, 19vw, 30rem); 
     --r: 1.05; /* ratio */
     /* clip-path */
     --h: 0.5;
@@ -34,22 +35,18 @@ const stringStyles = makeStyles((theme) => ({
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
   `,
   main_wide_smaller: `
-    --s: 10rem;
+     --s: clamp(10.5rem, 19vw, 30rem); 
   `,
   container: `
-    position: relative;
-    width: 110vw;
+    position: relative; 
     font-size: 0;
-    margin-left: -6vw; 
-    //padding-bottom: calc(var(--s) *var(--r) + var(--mv));
-    min-width: calc(var(--s)  * 3);
+    margin: 0 auto;   
   `,
   container_wide: `
     position: relative;
-    width: 110vw;
+    width: 100vw;
     font-size: 0;
-    margin-left: -1vw; 
-    //padding-bottom: calc(var(--s) *var(--r) + var(--mv));
+    margin-left: 0vw;  
     min-width: calc(var(--s)  * 3);
   `,
   hex: `
@@ -93,7 +90,7 @@ const stringStyles = makeStyles((theme) => ({
     float: left;
     color: white;
     text-decoration: none;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-family: ${theme.typography.secondaryFamily};
     font-weight: normal;
   `,
@@ -110,6 +107,7 @@ const stringStyles = makeStyles((theme) => ({
     width: 100%;
     height: 100%;
     float: left;
+    font-size: clamp(0.8rem, 1.4vw, 1.4rem);
   `,
   button: `
     width: 100%;
@@ -162,31 +160,24 @@ const jssStyles = makeStyles((theme) => ({
     }
   },
   container: {
-    [theme.breakpoints.down('xs')]: {
-      maxWidth: '140%',
-      minWidth: '140%',
-      marginLeft: '-20vw',
-    },
     '&::before': {
       content: "''",
       width: "calc(var(--s)/2 + var(--mh))",
       float: "left",
-      height: "300vh",
+      height: "calc(100% + 200px)",
       "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
     }
   },
+
   container_wide: {
     [theme.breakpoints.down('xs')]: {
-      minWidth: '130%',
-      width: '130%',
-      marginLeft: '-3rem',
+      margin: '0 auto',
     },
     '&::before': {
       content: "''",
       width: "calc(var(--s)/2 + var(--mh))",
-      float: "left",
-      minHeight: "100vh",
-      height: "100%",
+      float: "left", 
+      height: "calc(100% + 200px)",
       "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
     }
   }
