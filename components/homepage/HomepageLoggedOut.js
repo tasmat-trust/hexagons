@@ -94,7 +94,7 @@ export default function HomepageLoggedIn(props) {
 
 
 
-          <p className={classes.secondPara}>This app has been created as a result of the collaboration between the staff of Torfield School and Saxon Mount School (Torfield and Saxon Mount Academy Trust) and app designers <a href="https://danny.is/" title="Danny Smith">Danny Smith</a> (initial design) and <a href="https://www.aliblackwell.com" title="Alasdair Blackwell: App Designer and Developer">Alasdair Blackwell</a> (design and development).</p>
+          <p className={classes.secondPara}>This app has been created as a result of the collaboration between the staff of Torfield School and Saxon Mount School (<a href="http://torfield-saxonmount.com/">Torfield and Saxon Mount Academy Trust</a>) and app designers <a href="https://danny.is/" title="Danny Smith">Danny Smith</a> (initial design) and <a href="https://www.aliblackwell.com" title="Alasdair Blackwell: App Designer and Developer">Alasdair Blackwell</a> (design and development).</p>
           <p className={classes.secondPara}>We are grateful to the DfE via the Hastings Opportunity Area for funding enabling TASMAT to initiate this project.</p>
           <div className={classes.fundingLogosContainer}>
             <div>
