@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core'
 import LevelContent from '../pupil/LevelContent'
 import { sortModules } from '../../utils/sortLevelsAndModules'
 import CustomSuspense from '../data-fetching/CustomSuspense'
+import getRainbowLabel from '../../utils/getRainbowLabel'
 
 import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs'
 
@@ -34,11 +35,12 @@ function a11yProps(index) {
 }
 
 function StagesTabs({
+  isRa,
   modules,
   startingLevel,
-  pupil, 
+  pupil,
   ...other }) {
-  const [tabValue, setTabValue] = useState(0); 
+  const [tabValue, setTabValue] = useState(0);
   const [gotCurrentLevel, setGotCurrentLevel] = useState(startingLevel ? true : false) // boolean - have we got a current level
   const [currentLevelId, setCurrentLevelId] = useState(startingLevel ? startingLevel.id : 0)
   const [sortedModules, setSortedModules] = useState(modules)
@@ -80,16 +82,19 @@ function StagesTabs({
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          {sortedModules.map((module, i) => (
-            <HexagonsTab
-              key={`link-${i}`}
-              label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
-              {...a11yProps(i)} />
-          ))}
+          {sortedModules.map((module, i) => {
+            const standardLabel = `${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`
+            const label = isRa ? getRainbowLabel(i) : standardLabel
+            return (
+              <HexagonsTab
+                key={`link-${i}`}
+                label={label}
+                {...a11yProps(i)} />
+            )
+          })}
         </HexagonsTabs>
       </CustomSuspense>
       {sortedModules.map((currentModule, i) => {
-        const isEd = currentModule.isEd ? true : false
         return (
           <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
             <CustomSuspense message={`Loading ${currentModule.order}`}>
@@ -115,6 +120,7 @@ function StagesTabs({
 }
 
 StagesTabs.propTypes = {
+  isRa: PropTypes.bool,
   modules: PropTypes.array,
   startingLevel: PropTypes.object,
   pupil: PropTypes.object

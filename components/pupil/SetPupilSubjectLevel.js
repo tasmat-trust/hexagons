@@ -19,6 +19,7 @@ const styles = makeStyles((theme) => ({
 function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...other }) {
 
   const classes = styles()
+  let isRa = false
 
   const { pathname } = useRouter()
   const noEarlyDevelopmentSlugs = ['expressive-and-receptive-language', 'expressive-language', 'receptive-language']
@@ -29,6 +30,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
 
   if (pathname.includes('rainbow-awards')) {
     includeEarlyDevelopment = false
+    isRa = true
   }
 
   return (
@@ -36,6 +38,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
 
       {includeEarlyDevelopment && <StagesTabsWithEarlyDevelopment
         {...other}
+        isRa={isRa}
         pupil={pupil}
         subjectId={subjectId}
         subjectName={subjectName}
@@ -46,6 +49,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
 
       {!includeEarlyDevelopment && <StagesTabsSingleSubject
         {...other}
+        isRa={isRa}
         pupil={pupil}
         subjectId={subjectId}
         subjectName={subjectName}

@@ -11,6 +11,9 @@ import { purple } from '@material-ui/core/colors';
 import { useRouter } from "next/router"
 import getCurrentLevel from '../../utils/getCurrentLevel'
 import ErrorBoundary from '../data-fetching/ErrorBoundary'
+import getRainbowLabel from '../../utils/getRainbowLabel'
+
+
 // Uses styled components to customise Reach Slider component
 // https://reach.tech/styling/
 const StyledSlider = styled(Slider)`
@@ -48,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, activeGroupSlug, isRainbowListingPage }) {
+function SubjectProgress({ titleName, subjectSlug, isPupilCard, getLevelVariables, pupilId, activeGroupSlug, isRainbowListingPage }) {
   const classes = useStyles()
   const router = useRouter()
   const { data: levelData } = useSWR([getLevelsForOverview, getLevelVariables])
@@ -73,6 +76,16 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
     linkUrl = `/pupils/${activeGroupSlug}/${pupilId}/${subjectSlug}`
   }
 
+  let label = ''
+
+  if (level) {
+    if (isRainbowAwards && !isPupilCard) {
+      label = getRainbowLabel(parseInt(level.module.order) - 1)
+    } else {
+      label = `${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`
+    }
+  }
+
   return (
     <ErrorBoundary alert="Error in SubjectProgress component">
       {level && (
@@ -80,7 +93,7 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
           {router && router.asPath && <Typography component="h3" variant="h6" className={classes.flexy}>
 
             <Link href={linkUrl}><a>{titleName}</a></Link>
-            <Chip color="secondary" size="small" label={`${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`} />
+            <Chip color="secondary" size="small" label={label} />
 
             <span className={classes.span}>{level.percentComplete}%</span>
           </Typography>}
@@ -98,6 +111,7 @@ function SubjectProgress({ titleName, subjectSlug, getLevelVariables, pupilId, a
 }
 
 SubjectProgress.propTypes = {
+  isPupilCard: PropTypes.bool,
   isRainbowListingPage: PropTypes.bool,
   subjectSlug: PropTypes.string,
   titleName: PropTypes.string,

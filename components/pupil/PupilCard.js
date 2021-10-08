@@ -75,6 +75,7 @@ function PupilCard({
             ))}
           </ul>
           <CoreSubjectsProgress
+            isPupilCard={true}
             pupilId={pupilId}
             {...other}
           />

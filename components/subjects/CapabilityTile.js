@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types';
-import { stringStyles } from '../../styles/useHexagonsGrid';
+import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
 import { ButtonBase } from '@material-ui/core';
 import { useState, useEffect, useContext } from 'react';
 import createCompetency from '../forms/handlers/createCompetency';
@@ -12,6 +12,7 @@ import Image from 'next/image'
 
 function CapabilityTile(props) {
   const styles = stringStyles();
+  const jStyles = jssStyles()
   const {
     guidanceActive,
     hexId,
@@ -146,7 +147,7 @@ function CapabilityTile(props) {
               className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
                 }`}
             ></div>
-            <ButtonBase data-test-id={hexId} className={styles.button} onClick={() => handleUpdate()}>
+            <ButtonBase data-test-id={hexId} className={`${styles.button} ${jStyles.button}`} onClick={() => handleUpdate()}>
               {capability.guidance.length > 0 && (
                 <div data-test-id={`guidance-lightbulb-${hexId}`} className={styles.lightbulb}>
                   <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />

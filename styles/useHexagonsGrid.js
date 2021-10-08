@@ -128,6 +128,14 @@ const stringStyles = makeStyles((theme) => ({
 }))
 
 const jssStyles = makeStyles((theme) => ({
+  button: {
+    borderTop: 'solid transparent 5px',
+    borderBottom: 'solid transparent 5px',
+    '&:focus': {
+      borderTop: 'solid rgba(0,0,0,.5) 5px',
+      borderBottom: 'solid rgba(0,0,0,.5) 5px'
+    }
+  },
   hex: {
     '&:hover': {
       background: theme.palette.info.dark,
