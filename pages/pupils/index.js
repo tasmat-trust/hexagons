@@ -4,13 +4,14 @@ import { withSession } from '../../components/auth/session'
 import checkSession from '../../components/auth/checkSession'
 import LastActiveGroup from '../../components/groups/LastActiveGroup';
 import CustomHead from '../../components/ui-globals/CustomHead';
-
+import { useState } from 'react';
 function Index(props) {
+  const [groupLabel, setGroupLabel] = useState()
   return (
     <>
       <CustomHead titleContent="Pupils" />
-      <BreadCrumbs {...props} firstLabel="Pupils" />
-      <LastActiveGroup {...props} />
+      <BreadCrumbs {...props} firstLabel="Pupils" secondLabel={groupLabel} />
+      <LastActiveGroup {...props} setParentGroupBreadcumbLabel={setGroupLabel} />
     </>
   )
 }

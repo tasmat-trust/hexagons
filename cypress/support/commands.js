@@ -10,7 +10,7 @@
 //
 //
 
-import { hasOperationName, aliasQuery, hasVariable } from '../utils/graphql-test-utils'
+import { hasOperationName, aliasQuery, aliasQueryByVariable, hasVariable } from '../utils/graphql-test-utils'
 
 Cypress.Commands.add('mockGraphQL', (mocks) => {
   cy.intercept({
@@ -21,15 +21,17 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
       // Get requests
       mocks.forEach(mock => {
 
-        aliasQuery(req, mock.query)
+
 
         if (mock.variable) {
           if (hasOperationName(req, mock.query) && hasVariable(req, mock.variable.key, mock.variable.value)) {
+            aliasQueryByVariable(req, mock.query, mock.variable.key, mock.variable.value)
             req.reply(mock.data);
             return;
           }
         } else {
           if (hasOperationName(req, mock.query)) {
+            aliasQuery(req, mock.query)
             req.reply(mock.data)
           }
         }

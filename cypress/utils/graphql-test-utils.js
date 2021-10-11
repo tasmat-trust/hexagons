@@ -30,7 +30,7 @@ export const aliasQuery = (req, operationName, i) => {
 // Alias query if operationName matches + specify variables
 export const aliasQueryByVariable = (req, operationName, variableName, variableValue) => {
   if (hasOperationName(req, operationName) && hasVariable(req, variableName, variableValue)) {
-    req.alias = `gql${operationName}Query`
+    req.alias = `gql${operationName}${variableName}Query`
   }
 }
 

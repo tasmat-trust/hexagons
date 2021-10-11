@@ -11,9 +11,18 @@ export default function WithGroupFromSlug(WrappedComponent) {
     const { query } = useRouter();
     const { orgId } = useContext(HexagonsContext)
     const { data: groupsData } = useSWR([getSingleGroup, groupFromSlugVariables], { suspense: true });
-    const currentGroup = groupsData.groups[0];
-    const groupId = currentGroup.id;
-    const groupName = currentGroup.name;
+
+    let groupId, groupName
+
+    if (groupsData.groups.length > 0) {
+      const currentGroup = groupsData.groups[0];
+      groupId = currentGroup.id;
+      groupName = currentGroup.name;
+    } else {
+      groupName = ''
+      groupId = 0
+    }
+
     return (
       <WrappedComponent
         {...other}
@@ -22,6 +31,7 @@ export default function WithGroupFromSlug(WrappedComponent) {
         pupilsByGroupVariables={{ groupId: groupId, orgId: orgId }}
       />
     );
+
   }
 
   WithGroupFromSlug.propTypes = {

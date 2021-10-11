@@ -1,9 +1,9 @@
 
 import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'
-import SubjectChooserView from '../../../components/shared-pages/SubjectChooserView'
+import SubjectPupilChooserView from '../../../components/shared-pages/SubjectPupilChooserView'
 
-const Subject = (props) => <SubjectChooserView {...props} firstLabel="Subjects" firstSlug="subjects" />
+const Subject = (props) => <SubjectPupilChooserView {...props} firstLabel="Subjects" firstSlug="subjects" />
 
 export default Subject
 

@@ -2,21 +2,13 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useContext } from 'react';
 import PupilsAndGroups from './PupilsAndGroups';
 import SubjectsAndGroups from './SubjectsAndGroups'
-import { makeStyles } from '@material-ui/core';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
-const styles = makeStyles((theme) => ({
-  title: {
-    'font-family': theme.typography.secondaryFamily
-  }
-}))
-
-function LastActiveGroup({ user, isHomepage, ...other }) {
+function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...other }) {
   const [activeGroupSlug, setActiveGroupSlug] = useState();
   const [activeGroupName, setActiveGroupName] = useState();
   const [activeGroupId, setActiveGroupId] = useState();
-  const { orgId } = useContext(HexagonsContext)
-  const classes = styles()
+  const { orgId } = useContext(HexagonsContext) 
 
   useEffect(() => {
     if (window.localStorage) {
@@ -25,9 +17,10 @@ function LastActiveGroup({ user, isHomepage, ...other }) {
       const savedGroupId = window.localStorage.getItem('active-group-id');
       savedGroupSlug && setActiveGroupSlug(savedGroupSlug);
       savedGroupName && setActiveGroupName(savedGroupName);
+      savedGroupName && setParentGroupBreadcumbLabel && setParentGroupBreadcumbLabel(savedGroupName)
       savedGroupId && setActiveGroupId(savedGroupId);
     }
-  }, []);
+  }, [setParentGroupBreadcumbLabel]);
   return (
     <>
       {isHomepage && <SubjectsAndGroups
@@ -53,6 +46,7 @@ function LastActiveGroup({ user, isHomepage, ...other }) {
 }
 
 LastActiveGroup.propTypes = {
+  setParentGroupBreadcumbLabel: PropTypes.func,
   isHomepage: PropTypes.bool,
   user: PropTypes.object,
 };

@@ -32,6 +32,19 @@ let getLevelsForOverviewByPupilId = {
 describe('Subject by group page', () => {
   beforeEach(() => {
     cy.login(('Teacher'))
+    localStorage.setItem('active-group-slug', 'class-1')
+    localStorage.setItem('active-group-id', '241')
+    localStorage.setItem('active-group-name', 'Class 1')
+
+    // cy.mockGraphQL([
+    //   { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlug },
+    //   { query: 'getGroups', data: getGroupsByOrgId },
+    //   { query: 'getGroups', data: getGroupsByTeacherId, variable: { key: 'teacherId', value: 76 } },
+    //   { query: 'getLevelsForOverview', data: getLevelsForOverviewByPupilId, variable: { key: 'pupilId', value: "154" } },
+    //   { query: 'getCoreSubjects', data: getCoreSubjects },
+    //   { query: 'getAllPupilsByGroup', data: getAllPupilsByGroup },
+    //   { query: 'getLevelsForOverview', data: getLevelsForOverview },
+    // ])
 
     cy.intercept({
       method: 'POST',
@@ -44,8 +57,8 @@ describe('Subject by group page', () => {
           req.reply(getSingleSubjectBySlug)
         }
 
-        aliasQueryByVariable(req, 'getGroups', 'teacherID', 3)
-        if (hasOperationName(req, 'getGroups') && hasVariable(req, 'teacherID', 3)) {
+        aliasQueryByVariable(req, 'getGroups', 'teacherID', 76)
+        if (hasOperationName(req, 'getGroups') && hasVariable(req, 'teacherID', 76)) {
           req.reply(getGroupsByTeacherId)
         }
 

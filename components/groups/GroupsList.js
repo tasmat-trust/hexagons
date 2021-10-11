@@ -8,7 +8,7 @@ import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import sortByName from '../../utils/sortByName';
 
-function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActiveGroupSlug, setActiveGroupName, setActiveGroupId }) {
+function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
 
 
   const router = useRouter()
@@ -21,20 +21,6 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
   useEffect(() => {
     if (setGroupsData && setSharedState) setSharedState({ update: setGroupsData })
   }, [setSharedState, setGroupsData])
-
-  useEffect(() => {
-
-    if (!window.localStorage.getItem('active-group-slug')) {
-      if (!getMyGroups  && groupsData && groupsData.groups.length > 0) {
-        // No active group so let's get the first group
-        setActiveGroupSlug && setActiveGroupSlug(groupsData.groups[0].slug)
-        setActiveGroupName && setActiveGroupName(groupsData.groups[0].name)
-        setActiveGroupId && setActiveGroupId(groupsData.groups[0].id)
-      } 
-    }
-
-
-  }, [getMyGroups, groupsData, setActiveGroupSlug, setActiveGroupName, setActiveGroupId])
 
 
   const groups = groupsData.groups
@@ -67,7 +53,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
         return (
           <li className={classes.listItem} key={`group-${i}`}>
             <Link href={linkUrl} className={classes.groupBox_link}>
-              <a onClick={(e) => storeRecentGroup(e, group, linkUrl)}>
+              <a data-test-id={`${group.slug}-link`} onClick={(e) => storeRecentGroup(e, group, linkUrl)}>
                 {group.name}
               </a>
             </Link>
@@ -81,10 +67,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups, setActive
 GroupsList.propTypes = {
   getGroupsVariables: PropTypes.object,
   setSharedState: PropTypes.func,
-  getMyGroups: PropTypes.bool,
-  setActiveGroupSlug: PropTypes.func,
-  setActiveGroupName: PropTypes.func,
-  setActiveGroupId: PropTypes.func
+  getMyGroups: PropTypes.bool
 }
 
 export default GroupsList

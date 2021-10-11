@@ -5,8 +5,11 @@ import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlu
 import WithUrlVariables from '../data-fetching/WithUrlVariables'
 import CustomSuspense from '../data-fetching/CustomSuspense'
 import CustomHead from '../ui-globals/CustomHead'
+import { useState } from 'react'
 
 function Index({ firstLabel, firstSlug, subjectName, ...other }) {
+
+  const [groupLabel, setGroupLabel] = useState()
 
   return (
     <>
@@ -14,9 +17,12 @@ function Index({ firstLabel, firstSlug, subjectName, ...other }) {
       <BreadCrumbs
         firstLabel={firstLabel}
         firstHref={`/${firstSlug}`}
-        secondLabel={subjectName} />
+        secondLabel={subjectName}
+        thirdLabel={groupLabel}
+      />
       <CustomSuspense message="Loading groups">
         <LastActiveGroup
+          setParentGroupBreadcumbLabel={setGroupLabel}
           shouldShowGroupBySubject={true}
           subjectName={subjectName}
           {...other} />
