@@ -22,7 +22,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...o
   let isRa = false
 
   const { pathname } = useRouter()
-  const noEarlyDevelopmentSlugs = ['expressive-and-receptive-language', 'expressive-language', 'receptive-language']
+  const noEarlyDevelopmentSlugs = ['expressive-and-receptive-language', 'expressive-language', 'receptive-language', 'early-development']
   let includeEarlyDevelopment = true
   if (noEarlyDevelopmentSlugs.includes(subjectSlug)) {
     includeEarlyDevelopment = false

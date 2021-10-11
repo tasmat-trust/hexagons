@@ -14,11 +14,21 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function CoreSubjectsProgress({ pupilId, coreSubjects, ...other }) {
+function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...other }) {
   const classes = useStyles()
+  let subjects = []
+  if (schoolType === 'secondary') {
+    subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment && subject.slug !== 'primary-science')
+  } else {
+    if (edLevel.status === 'incomplete') {
+      subjects = coreSubjects.filter((subject) => subject.isEarlyDevelopment || subject.isExpressiveAndReceptiveLanguage)
+    } else {
+      subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment)
+    }
+  }
   return (
     <ul className={classes.root}>
-      {coreSubjects.map((subject, i) => (
+      {subjects.map((subject, i) => (
         <ErrorBoundary key={`subject-${i}`} fallback={<p>Error rendering {subject.name}</p>}>
           <li className={classes.li}>
             <SubjectProgress
@@ -37,6 +47,8 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, ...other }) {
 }
 
 CoreSubjectsProgress.propTypes = {
+  schoolType: PropTypes.string,
+  edLevel: PropTypes.object,
   pupilId: PropTypes.string,
   coreSubjects: PropTypes.array
 }

@@ -96,6 +96,7 @@ function LevelStatus({ setGotCurrentLevel,
   setCurrentLevelId,
   currentModule,
   subjectId,
+  edSubjectId,
   pupil,
   competencies,
   ...other }) {
@@ -143,7 +144,7 @@ function LevelStatus({ setGotCurrentLevel,
     if (status && subjectId && pupil && pupil.id && currentModule && currentModule.id) {
       const variables = {
         status: status,
-        subjectId: subjectId,
+        subjectId: currentModule.isEd ? edSubjectId : subjectId,
         pupilId: pupil.id,
         moduleId: currentModule.id
       }

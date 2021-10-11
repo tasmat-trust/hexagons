@@ -138,13 +138,12 @@ const getCompetency = gql`query getCompetency($pupilId: ID!, $capability_fk: Int
 }`
 
 const createCompetencyQuery = gql`
-mutation createCompetency($pupilId: ID!,  $levelId: ID, $status: ENUM_COMPETENCY_STATUS!, $adaptation: String!, $capability_fk: Int!, $capability_text: String!) {
+mutation createCompetency($pupilId: ID!,  $levelId: ID!, $status: ENUM_COMPETENCY_STATUS!, $capability_fk: Int!, $capability_text: String!) {
   createCompetency(input: {
       data:{
         pupil:$pupilId,
         level: $levelId,
         status:$status,
-        adaptation: $adaptation,
         capability_fk: $capability_fk,
         capability_text: $capability_text
         }
@@ -186,6 +185,45 @@ mutation DeleteLevel($id: ID!) {
   }
 }`
 
+const deleteCompetency = gql`
+mutation DeleteCompetency($id: ID!) {
+  deleteCompetency(input: {
+    where: {
+      id: $id
+    }
+  }) {
+    competency {
+      id
+    }
+  }
+}`
+
+const deletePupil = gql`
+mutation DeletePupil($id: ID!) {
+  deletePupil(input: {
+    where: {
+      id: $id
+    }
+  }) {
+    pupil {
+      id
+    }
+  }
+}`
+
+const getForDeletionCompetencies = gql`query getCompetencies($pupilId: ID!) {  
+  competencies (where: {pupil: $pupilId}) {
+    id 
+  }
+}`
+
+const getForDeletionLevels = gql`query getLevels($pupilId: ID!) {  
+  levels (where: {pupil: $pupilId}) {
+    id 
+  }
+}`
+
+
 const createLevelQuery = gql`
 mutation createLevel($pupilId: ID!, $moduleId: ID!, $subjectId:ID!, $status: ENUM_LEVEL_STATUS!) {
   createLevel(input: {
@@ -210,6 +248,10 @@ export {
   createCompetencyQuery,
   getLevel,
   deleteLevel,
+  deletePupil,
+  deleteCompetency,
+  getForDeletionCompetencies,
+  getForDeletionLevels,
   getLevels,
   getLevelsForOverview,
   updateLevelQuery,

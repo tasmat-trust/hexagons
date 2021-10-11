@@ -15,7 +15,7 @@ const allRainbowAwardsQuery = gql`query getRainbowAwardsSubjects{
 
 const getCoreSubjects = gql`query getCoreSubjects {  
   subjects (where: { isCore: true}) { 
-     id name slug
+     id name slug isEarlyDevelopment isExpressiveAndReceptiveLanguage
   }
 }`
 

@@ -75,10 +75,7 @@ function MyApp({ Component, pageProps }) {
 
   const hexagonsGlobals = {
     gqlClient, orgId
-  }
-
-
-  
+  } 
 
   return (
     <>
@@ -112,7 +109,7 @@ function MyApp({ Component, pageProps }) {
                   {!isServer ? (
                     <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
                       <Suspense fallback={<Loading message="Hexagonalising" />}>
-                        <Component  {...pageProps} setLoading={setLoading} />
+                        <Component  {...pageProps} orgType setLoading={setLoading} />
                       </Suspense>
                     </ErrorBoundary>
                   ) : (

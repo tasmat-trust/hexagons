@@ -22,6 +22,7 @@ function Index({ firstLabel, firstSlug, user, subjectName, groupName, ...other }
         groupName={groupName}
         subjectName={subjectName}
         userId={user.id}
+        schoolType={user.organization.school_type}
       />
     </>
   )

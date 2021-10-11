@@ -41,6 +41,7 @@ function LevelContent({
           pupil={pupil}
           competencies={competencies}
           subjectId={subjectId}
+          edSubjectId={edSubjectId}
           getLevelVars={{ pupilId: pupil.id, subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: currentModule.id }}
           setGuidanceActive={setGuidanceActive}
         />
@@ -58,6 +59,7 @@ function LevelContent({
           setGotCurrentLevel={setGotCurrentLevel}
           currentLevelId={currentLevelId}
           subjectId={subjectId}
+          edSubjectId={edSubjectId}
         />
       </CustomSuspense>
     </>

@@ -7,6 +7,8 @@ import useAdminPage from "../../styles/useAdminPage"
 import { useState, memo, useContext } from "react"
 import { HexagonsContext } from "../data-fetching/HexagonsContext"
 import CustomSuspense from '../data-fetching/CustomSuspense'
+import DeletePupil from '../forms/DeletePupil'
+
 function ManageUsersHeader(props) {
 
   const { classes, multiAddVisible, userType } = props
@@ -15,6 +17,21 @@ function ManageUsersHeader(props) {
     <>
       <Box className={classes.box}>
         <Typography variant="h4" component="h2" className={classes.title} data-test-id="title">All {userType}s</Typography>
+
+        {multiAddVisible && userType === 'pupil' && (
+          <DialogButton
+            variant='outlined'
+            color='primary'
+            testId="delete-pupil"
+            className={classes.button}
+            label="Delete pupil"
+            modelname="pupil">
+            <DeletePupil
+              {...props}
+              pupilId={props.selectedUsers[0]}
+            />
+          </DialogButton>
+        )}
 
         {multiAddVisible && userType === 'teacher' && (
           <DialogButton
@@ -90,6 +107,7 @@ function ManageUsers(props) {
         classes={classes}
         allUsers={allUsers}
         selectedUsers={selectedUsers}
+        setSharedState={setMutateUsers}
         triggerSharedState={mutateUsers}
         multiAddVisible={multiAddVisible}
       />

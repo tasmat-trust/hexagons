@@ -30,8 +30,8 @@ const allGroups = gql`query getGroups($orgId: Int!) {
     }
   }`
 
-const myGroups = gql`query getGroups($teacherId: ID!) {  
-  groups (where: {users: $teacherId}) { 
+const myGroups = gql`query getGroups($teacherId: ID!, $orgId: Int!) {  
+  groups (where: {users: $teacherId, organization: $orgId}) { 
     name slug id
   }
 }`

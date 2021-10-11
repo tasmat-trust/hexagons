@@ -18,6 +18,7 @@ function Index({ user, activeGroupSlug, groupName, ...other }) {
       <PupilsAndGroups
         {...other}
         userId={user.id}
+        schoolType={user.organization.school_type} 
         groupName={groupName}
         activeGroupSlug={activeGroupSlug}
       />

@@ -9,7 +9,6 @@ function GroupsMenu({ userId, ...other }) {
 
   const classes = useAdminPage()
   const { orgId } = useContext(HexagonsContext)
-
   return (
     <>
       <Grid container spacing={3}>

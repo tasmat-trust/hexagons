@@ -26,6 +26,7 @@ function CapabilityTile(props) {
     currentLevelId,
     setTilesDisabled,
     subjectId,
+    edSubjectId,
     ...other
   } = props;
   const { gqlClient } = useContext(HexagonsContext)
@@ -76,7 +77,7 @@ function CapabilityTile(props) {
       const variables = {
         status: 'incomplete',
         pupilId: pupil.id,
-        subjectId: subjectId,
+        subjectId: currentModule.isEd ? edSubjectId : subjectId,
         moduleId: currentModule.id,
       };
       const level = await createLevel(gqlClient, variables);

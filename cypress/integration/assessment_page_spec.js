@@ -1,6 +1,3 @@
-import { hasOperationName, aliasQuery, aliasQueryByVariable, hasVariable } from '../utils/graphql-test-utils';
-
-
 const earlyDevelopmentFirstCompetencyText = 'sdsfdsdfsfdsfdsfd'
 const existingGuidance = 'Some guidance on how to do this lesson'
 const newGuidanceText = 'Some new guidance'

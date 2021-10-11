@@ -47,9 +47,9 @@ function AddNew(props) {
     let response = {
     }
     const illegalCharacters = ['!', '"', "£", "$", "^", "&", "<", ">", "*", "|", "~", "#", "{", "}", ";", ":"]
-    if (value.length > 16) {
+    if (value.length > 30) {
       response.error = {
-        message: 'Names must contain fewer than 16 characters.'
+        message: 'Names must contain fewer than 30 characters.'
       }
 
       return response

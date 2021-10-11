@@ -50,7 +50,10 @@ function LinkOrLabel(props) {
 
 LinkOrLabel.propTypes = {
   href: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   testId: PropTypes.string,
 };
 
@@ -83,11 +86,20 @@ function BreadCrumbs(props) {
 BreadCrumbs.propTypes = {
   firstLabel: PropTypes.string,
   firstHref: PropTypes.string,
-  secondLabel: PropTypes.string,
+  secondLabel: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   secondHref: PropTypes.string,
-  thirdLabel: PropTypes.string,
+  thirdLabel: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   thirdHref: PropTypes.string,
-  fourthLabel: PropTypes.string,
+  fourthLabel: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   fourthHref: PropTypes.string,
 };
 

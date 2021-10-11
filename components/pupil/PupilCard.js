@@ -8,6 +8,7 @@ import Link from "next/link"
 
 import { Chip, Typography } from "@material-ui/core"
 import CoreSubjectsProgress from "./CoreSubjectsProgress"
+import CoreSubjectsProgressWithEarlyDevelopment from "./CoreSubjectsProgressWithEarlyDevelopment"
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 
 
@@ -48,10 +49,14 @@ function PupilCard({
   pupilName,
   pupilGroups,
   pupilId,
+  schoolType,
   ...other }) //  coreSubjects, activeGroupSlug
 {
   const styles = useStyles();
   const baseHref = '/pupils'
+
+
+
   return (
     <Card>
       <CardContent>
@@ -74,11 +79,19 @@ function PupilCard({
               </ErrorBoundary>
             ))}
           </ul>
-          <CoreSubjectsProgress
+          {schoolType === 'secondary' && <CoreSubjectsProgress
             isPupilCard={true}
+            schoolType={schoolType}
             pupilId={pupilId}
             {...other}
-          />
+          />}
+          {schoolType === 'primary' && <CoreSubjectsProgressWithEarlyDevelopment
+            isPupilCard={true}
+            pupilId={pupilId}
+            schoolType={schoolType}
+            getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
+            {...other}
+          />}
         </ErrorBoundary>
       </CardContent>
 
@@ -87,6 +100,7 @@ function PupilCard({
 }
 
 PupilCard.propTypes = {
+  schoolType: PropTypes.string,
   baseHref: PropTypes.string,
   onwardHref: PropTypes.string,
   pupilName: PropTypes.string,

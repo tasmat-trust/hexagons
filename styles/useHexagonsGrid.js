@@ -22,7 +22,7 @@ const stringStyles = makeStyles((theme) => ({
   `,
   main_wide: `
     display: flex; 
-    --s: clamp(10.5rem, 19vw, 30rem); 
+    --s: clamp(10.5rem, 19vw, 20rem); 
     --r: 1.05; /* ratio */
     /* clip-path */
     --h: 0.5;
@@ -35,7 +35,7 @@ const stringStyles = makeStyles((theme) => ({
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
   `,
   main_wide_smaller: `
-     --s: clamp(10.5rem, 19vw, 30rem); 
+     --s: clamp(10.5rem, 19vw, 20rem); 
   `,
   container: `
     position: relative; 
@@ -148,7 +148,6 @@ const jssStyles = makeStyles((theme) => ({
   },
   main_wide_smaller: {
     '& .hrxLink': {
-      fontSize: '1rem'
     }
   },
   main_wide: {

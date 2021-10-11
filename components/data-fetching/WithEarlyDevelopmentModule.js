@@ -3,14 +3,22 @@ import { getEdModules } from '../../queries/Subjects'
 import useSWR from 'swr';
 
 export default function WithEarlyDevelopmentModule(WrappedComponent) {
-  function WithEarlyDevelopmentModule({ getEdModulesBySubjectIdVariables, modules, edSubjectId, ...other }) {
+  function WithEarlyDevelopmentModule({ getEdModulesBySubjectIdVariables, pupilId, modules, edSubjectId, ...other }) {
     const { data: edModulesData } = useSWR([getEdModules, getEdModulesBySubjectIdVariables], { suspense: true })
     let module = edModulesData.modules[0]
     module.isEd = true
-    const mergedModules = [module, ...modules]
+    let mergedModules = []
+    if (modules && modules.length > 0) {
+      mergedModules = [module, ...modules]
+    } else {
+      mergedModules.push(module)
+    }
+
     return <WrappedComponent
       edModule={module}
       edSubjectId={edSubjectId}
+      pupilId={pupilId}
+      getEdLevelVariables={{ subjectId: edSubjectId, moduleId: module.id, pupilId: pupilId }}
       modules={mergedModules}
       {...other} />
   }

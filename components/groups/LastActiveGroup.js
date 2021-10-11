@@ -33,7 +33,9 @@ function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...ot
       />}
       {!isHomepage && <PupilsAndGroups
         {...other}
+
         userId={user.id}
+        schoolType={user.organization.school_type}
         groupName={activeGroupName}
         activeGroupSlug={activeGroupSlug}
         pupilsByGroupVariables={{ groupId: activeGroupId, orgId: orgId }}
