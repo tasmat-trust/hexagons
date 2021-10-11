@@ -16,7 +16,7 @@ context('Assessment page', () => {
       body: { "data": { "subjects": [{ "id": "13", "name": "Art", "slug": "art" }] } }
     }
 
-    let getGroup = {
+    let getSingleGroup = {
       body: { "data": { "groups": [{ "name": "Class 2", "id": "244" }] } }
     }
 
@@ -42,7 +42,7 @@ context('Assessment page', () => {
 
     cy.mockGraphQL([
       { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlug },
-      { query: 'getGroup', data: getGroup },
+      { query: 'getSingleGroup', data: getSingleGroup },
       { query: 'getPupil', data: getPupil },
       { query: 'getSubjects', data: getSubjects },
       { query: 'getAllPupilsByGroup', data: getAllPupilsByGroup },

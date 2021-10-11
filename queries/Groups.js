@@ -17,7 +17,7 @@ mutation createNewGroup($name: String!, $orgId: ID!) {
     }      
 }`
 
-const getSingleGroup = gql`query getGroup($orgId: Int!, $slug: String!) {  
+const getSingleGroup = gql`query getSingleGroup($orgId: Int!, $slug: String!) {  
   groups (where: {organization: $orgId, slug: $slug}) { 
     name id
   }

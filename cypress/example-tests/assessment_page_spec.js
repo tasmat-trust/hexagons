@@ -12,7 +12,7 @@ context('Assessment page', () => {
       },
     };
 
-    let getGroup = {
+    let getSingleGroup = {
       body: { data: { groups: [{ name: 'Group A', id: '1' }] } },
     };
 
@@ -137,7 +137,7 @@ context('Assessment page', () => {
       (req) => {
         aliasQuery(req, 'getSubject');
         aliasQuery(req, 'getSubjects');
-        aliasQuery(req, 'getGroup');
+        aliasQuery(req, 'getSingleGroup');
         aliasQuery(req, 'getPupil');
         aliasQuery(req, 'getLevels');
         aliasQuery(req, 'getPupils');
@@ -155,8 +155,8 @@ context('Assessment page', () => {
           req.reply(getSubjects);
           return;
         }
-        if (hasOperationName(req, 'getGroup')) {
-          req.reply(getGroup);
+        if (hasOperationName(req, 'getSingleGroup')) {
+          req.reply(getSingleGroup);
           return;
         }
         if (hasOperationName(req, 'getPupil')) {

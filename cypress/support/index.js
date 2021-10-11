@@ -17,6 +17,7 @@
 import './commands';
 import './manage-user-commands';
 import './assessment-commands';
+import './groups-commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
