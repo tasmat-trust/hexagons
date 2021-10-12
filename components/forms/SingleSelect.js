@@ -2,7 +2,7 @@ import { InputLabel, Select, Input } from "@material-ui/core"
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { allSubjects } from '../../queries/Subjects'
+import { allSubjectsQuery } from '../../queries/Subjects'
 
 // Design
 import useFormStyles from '../../styles/useFormStyles';
@@ -12,7 +12,7 @@ import useSWR from "swr";
 
 function SingleSelectWithSubjects(WrappedComponent) {
   return function SingleSelectWithSubjects(props) {
-    const { data: subjectsData, mutate: setSubjectsData } = useSWR(allSubjects, { suspense: true })
+    const { data: subjectsData, mutate: setSubjectsData } = useSWR(allSubjectsQuery, { suspense: true })
     return (
       <WrappedComponent {...props} selectItems={subjectsData.subjects} />
     )
