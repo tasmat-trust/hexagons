@@ -23,9 +23,10 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
     if (edLevel.status === 'incomplete') {
       subjects = coreSubjects.filter((subject) => subject.isEarlyDevelopment || subject.isExpressiveAndReceptiveLanguage)
     } else {
-      subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment)
+      subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment && subject.slug !== 'investigation-skills')
     }
   }
+  console.log(subjects, coreSubjects)
   return (
     <ul className={classes.root}>
       {subjects.map((subject, i) => (
