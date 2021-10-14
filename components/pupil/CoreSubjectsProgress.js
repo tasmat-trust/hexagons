@@ -26,7 +26,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
       subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment && subject.slug !== 'investigation-skills')
     }
   }
-  console.log(subjects, coreSubjects)
+
   return (
     <ul className={classes.root}>
       {subjects.map((subject, i) => (

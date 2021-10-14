@@ -41,9 +41,7 @@ export default function Home() {
           <p>We’ve also made the website text as simple as possible to understand.</p>
           <p>
             <Link href="https://mcmw.abilitynet.org.uk/">
-              <a rel="external" class="govuk-link">
-                AbilityNet
-              </a>
+              <a rel="external">AbilityNet</a>
             </Link>{' '}
             has advice on making your device easier to use if you have a disability.
           </p>
@@ -59,7 +57,7 @@ export default function Home() {
           </p>
 
           <h2 id="technical-information-about-this-websites-accessibility">
-            Technical information about this app's accessibility
+            Technical information about this app{"'"}s accessibility
           </h2>
 
           <p>
@@ -71,9 +69,9 @@ export default function Home() {
 
           <p>
             This website is fully compliant with the{' '}
-            <a rel="external" href="https://www.w3.org/TR/WCAG21/" class="govuk-link">
-              Web Content Accessibility Guidelines version 2.1
-            </a>{' '}
+            <Link href="https://www.w3.org/TR/WCAG21/">
+              <a rel="external">Web Content Accessibility Guidelines version 2.1</a>
+            </Link>{' '}
             AA standard.
           </p>
         </Paper>

@@ -150,7 +150,7 @@ function LevelStatus({
         throw new Error('Something has gone wrong. Please refresh and try again.');
       }
     },
-    [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId]
+    [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId, edSubjectId]
   );
 
   const triggerUpdateLevel = useCallback(

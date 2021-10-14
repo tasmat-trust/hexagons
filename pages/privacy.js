@@ -17,7 +17,7 @@ export default function Home() {
           <p>
             Users of this app are subject to the privacy policy of their school or trust. The app
             makes use of no tracking cookies or anything that might compromise the privacy of the
-            app's users.
+            app{"'"}s users.
           </p>
           <p>The app fully complies with the data protection principles under the GDPR</p>
           <p>
@@ -32,7 +32,7 @@ export default function Home() {
             organisation that uses Hexagons is provided with their own database, database server and
             app server on cloud computing infrastructure that they administrate. This ensures that
             no users of the system from other organisations could gain access to other
-            organisations' data through bugs in the codebase.
+            organisations{"'"} data through bugs in the codebase.
           </p>
           <p>
             Each Hexagons installation is given a list of domains from which it will accept user
