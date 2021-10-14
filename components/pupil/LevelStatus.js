@@ -275,6 +275,7 @@ function LevelStatus({
 
           <Box className={classes.actionsBox}>
             <DialogButton
+              modelname="summary"
               title={`View ${moduleLabel} ${currentModule.order} summary`}
               label="Summary"
               testId="view-summary-button"
@@ -287,6 +288,7 @@ function LevelStatus({
 
             {status !== 'complete' && (
               <Button
+                title={`Mark ${moduleLabel} complete`}
                 data-test-id="mark-complete"
                 className={classes.endButton}
                 variant="contained"
@@ -298,6 +300,7 @@ function LevelStatus({
             )}
             {status === 'complete' && (
               <Button
+                title={`Mark ${moduleLabel} incomplete`}
                 data-test-id="mark-incomplete"
                 className={classes.endButton}
                 variant="outlined"
