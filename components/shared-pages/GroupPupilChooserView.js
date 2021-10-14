@@ -6,13 +6,14 @@ import WithUrlVariables from '../data-fetching/WithUrlVariables'
 import CustomHead from '../ui-globals/CustomHead'
 import PupilsAndGroups from '../groups/PupilsAndGroups'
 
-function Index({ firstLabel, firstSlug, user, subjectName, groupName, ...other }) {
+function Index({ firstLabel, firstSlug, firstModel, user, subjectName, groupName, ...other }) {
 
   return (
     <>
       <CustomHead titleContent={`${groupName} | ${subjectName} | ${firstLabel}`} justContent={true} />
       <BreadCrumbs
         firstLabel={firstLabel}
+        firstModel={firstModel}
         firstHref={`/${firstSlug}`}
         secondLabel={subjectName}
         thirdLabel={groupName}

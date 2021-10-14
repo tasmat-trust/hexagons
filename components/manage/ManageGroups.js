@@ -19,6 +19,7 @@ export default function ManageGroups(props) {
       <Box className={classes.box}>
         <Typography variant="h4" component="h2" className={classes.title}>Groups</Typography>
         <DialogButton
+          title="Create new group"
           className={classes.button}
           label="New group"
           testId="new-group"

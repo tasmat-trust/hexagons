@@ -10,7 +10,7 @@ import { Button, ButtonBase } from '@material-ui/core';
 
 import { PropTypes } from "prop-types";
 
-function DialogButton({ startIcon, className, testId, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose, onClose }) {
+function DialogButton({ startIcon, title, className, testId, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose, onClose }) {
 
   const [open, setOpen] = useState(false);
 
@@ -35,7 +35,7 @@ function DialogButton({ startIcon, className, testId, variant, color, label, box
         variant={variant}
         color={color}
         className={className}
-
+        title={title}
         startIcon={startIcon}
         data-test-id={testId}
         // startIcon={<AddIcon />}
@@ -47,6 +47,7 @@ function DialogButton({ startIcon, className, testId, variant, color, label, box
         className={className}
         onClick={handleOpen}
         data-test-id={testId}
+        title={title}
       >
         {content}
       </ButtonBase>}
@@ -65,7 +66,7 @@ function DialogButton({ startIcon, className, testId, variant, color, label, box
           {children}
         </DialogContent>
         <DialogActions>
-          <Button data-test-id={`close-${modelname}-popup`} onClick={handleClose} color="primary">
+          <Button title={`Close ${modelname} popup`} data-test-id={`close-${modelname}-popup`} onClick={handleClose} color="primary">
             Close
           </Button>
         </DialogActions>

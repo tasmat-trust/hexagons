@@ -26,7 +26,8 @@ function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, a
       <CustomHead titleContent={`${pupil.name} | ${groupName} | ${subjectName}`} justContent={true} />
       <BreadCrumbs
         firstLabel={firstLabel}
-        firstHref={`/${firstSlug}`}
+        firstModel="back to Hexagons Subject view"
+        firstHref={firstSlug}
         secondLabel={<CustomSuspense message="Loading subjects" textOnly={true}><SubjectPicker
           isRainbowAwards={isRainbowAwards}
           currentSubjectSlug={subjectSlug}
@@ -34,6 +35,7 @@ function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, a
           currentPupilId={parseInt(pupil.id)}
         /></CustomSuspense>}
         thirdLabel={groupName}
+        thirdModel="group"
         thirdHref={`/${firstSlug}/${subjectSlug}/${activeGroupSlug}`}
         fourthLabel={<CustomSuspense message="Loading pupils" textOnly={true}><PupilPicker
           {...other}

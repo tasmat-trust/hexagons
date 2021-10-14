@@ -8,7 +8,7 @@ function SubjectTiles({ isNarrow, subjects, ...other }) {
   return (
     <div className={styles.wrapper}>
       <div className={`${styles.main_wide} ${pseudoStyles.main_wide} ${isNarrow ? `${styles.main_wide_smaller} ${pseudoStyles.main_wide_smaller}` : ''}`}>
-        <div className={`${styles.container_wide}  ${pseudoStyles.container_wide}`}>
+        <div role="region" aria-live="polite" className={`${styles.container_wide}  ${pseudoStyles.container_wide}`}>
           {subjects.map((subject, i) => {
             return (
               <SubjectTile key={`tile-${i}`} subject={subject} {...other} />

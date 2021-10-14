@@ -17,11 +17,11 @@ function PupilsAndGroups({ activeGroupSlug, groupName, ...other }) {
   return (
     <>
       <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4} xl={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={3} xl={2}>
             <GroupsMenu orgId={orgId} {...other} />
           </Grid>
-          <Grid item xs={12} md={8} xl={10}>
+          <Grid item xs={12} md={9} xl={10}>
             <ErrorBoundary alert="Error rendering PupilsByGroup">
               <CustomSuspense message="Loading group">
                 {groupName && <PupilsByGroup

@@ -5,6 +5,8 @@ module.exports = {
   images: {
     domains: [
       'localhost',
+      'tasmat-backend.hexagons.app',
+      'stm-backend.hexagons.app',
       'strapi-bfxo.onrender.com',
       'backend.hexagons.app',
       'hexagons-backend-znrzh.ondigitalocean.app',

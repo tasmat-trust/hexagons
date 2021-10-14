@@ -6,13 +6,17 @@ import createCompetency from '../forms/handlers/createCompetency';
 import createLevel from '../forms/handlers/createLevel';
 import useTileStyles from '../../styles/useTileStyles';
 import CapabilityTileContent from './CapabilityTileContent';
-import CapabilityTileGuidance from './CapabilityTileGuidance'
+import CapabilityTileGuidance from './CapabilityTileGuidance';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
-import Image from 'next/image'
+import Image from 'next/image';
+
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Loading from '../ui-globals/Loading';
 
 function CapabilityTile(props) {
   const styles = stringStyles();
-  const jStyles = jssStyles()
+  const jStyles = jssStyles();
   const {
     guidanceActive,
     hexId,
@@ -29,20 +33,20 @@ function CapabilityTile(props) {
     edSubjectId,
     ...other
   } = props;
-  const { gqlClient } = useContext(HexagonsContext)
+  const { gqlClient } = useContext(HexagonsContext);
   const [isComplete, setIsComplete] = useState(false);
   const [isTarget, setIsTarget] = useState(false);
-  const [competencyStatus, setCompetencyStatus] = useState(null);
+  const [competencyStatus, setCompetencyStatus] = useState('incomplete');
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
-  const [guidanceIsOpen, setGuidanceIsOpen] = useState(false)
-  const [capability, setCapability] = useState(initialCapability)
+  const [guidanceIsOpen, setGuidanceIsOpen] = useState(false);
+  const [capability, setCapability] = useState(initialCapability);
   const tileStyles = useTileStyles();
 
   useEffect(() => {
     if (initialCapability) {
-      setCapability(initialCapability)
+      setCapability(initialCapability);
     }
-  }, [initialCapability, setCapability])
+  }, [initialCapability, setCapability]);
 
   useEffect(() => {
     let initialIsIncomplete = !competency;
@@ -52,10 +56,8 @@ function CapabilityTile(props) {
     setIsComplete(initialIsComplete);
     setIsTarget(initialIsTarget);
     competency && competency.status && setCompetencyStatus(competency.status);
-    !competency && setCompetencyStatus('incomplete')
+    !competency && setCompetencyStatus('incomplete');
   }, [competency, competencyStatus]);
-
-
 
   function handleUpdate() {
     if (!guidanceActive) {
@@ -66,9 +68,8 @@ function CapabilityTile(props) {
       let levelId = currentLevelId;
       handleStatus(levelId, status);
     } else {
-      setGuidanceIsOpen(true)
+      setGuidanceIsOpen(true);
     }
-
   }
 
   async function handleStatus(levelId, status) {
@@ -118,7 +119,7 @@ function CapabilityTile(props) {
     };
 
     const refreshCompetencyVars = {
-      pupilId: pupil.id
+      pupilId: pupil.id,
     };
 
     if (levelId) {
@@ -139,18 +140,41 @@ function CapabilityTile(props) {
     }
   }
 
+  let buttonTitle = 'Set as complete'
+  if (competencyStatus === 'target') buttonTitle = 'Set as incomplete'
+  if (competencyStatus === 'complete') buttonTitle =  'Set as target'
+
   return (
-    <div data-test-id={`${hexId}-${competencyStatus}`} className={`${styles.hex} ${styles[`hex_${competencyStatus}`]}`}>
+    <div
+      data-test-id={`${hexId}-${competencyStatus}`}
+      className={`${styles.hex} ${jStyles.hex} ${styles[`hex_${competencyStatus}`]}`}
+    >
       <div className={`${styles.hexIn}`}>
-        <div className={`${styles.hexContent}`}>
+        <div
+          role="region"
+          aria-live="polite"
+          className={`${styles.hexContent} ${jStyles.hexContent}`}
+        >
           <>
             <div
-              className={`${tileStyles.buttonBlocker} ${tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
-                }`}
+              className={`${tileStyles.buttonBlocker} ${
+                tileStyles[`buttonBlocker_${buttonIsDisabled ? 'visible' : 'hidden'}`]
+              }`}
             ></div>
-            <ButtonBase data-test-id={hexId} className={`${styles.button} ${jStyles.button}`} onClick={() => handleUpdate()}>
+            <ButtonBase
+              aria-busy={buttonIsDisabled ? true : false}
+              data-test-id={hexId}
+              className={`${styles.button} ${jStyles.button}`}
+              onClick={() => handleUpdate()}
+              title={buttonTitle}
+            >
               {capability.guidance.length > 0 && (
-                <div data-test-id={`guidance-lightbulb-${hexId}`} className={styles.lightbulb}>
+                <div
+                  data-test-id={`guidance-lightbulb-${hexId}`}
+                  className={`${styles.lightbulb} ${
+                    guidanceActive ? styles.lightbulbOn : styles.lightbulbOff
+                  }`}
+                >
                   <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />
                 </div>
               )}
@@ -158,19 +182,39 @@ function CapabilityTile(props) {
                 text={capability.text}
                 className={`${styles.hexContent_inner}`}
               />
-
+              <div
+                visibility="hidden"
+                style={{ display: 'none' }}
+                id={`#tile-info-${hexId}`}
+                aria-hidden="true"
+              ></div>
+              <div
+                className={`${styles.tileInfo} ${
+                  guidanceActive ? styles.lightbulbOff : styles.lightbulbOn
+                }`}
+              >
+                {buttonIsDisabled && <Loading textOnly={true} message="Saving" />}
+                {competencyStatus === 'target' && !buttonIsDisabled && (
+                  <TrackChangesIcon titleAccess="Is current target" role="img" />
+                )}
+                {competencyStatus === 'complete' && !buttonIsDisabled && (
+                  <CheckCircleIcon titleAccess="Is complete" role="img" />
+                )}
+              </div>
+              <div aria-hidden="true" className="buttonFocusVisible"></div>
             </ButtonBase>
-            {guidanceIsOpen && <CapabilityTileGuidance
-              {...other}
-              capability={capability}
-              setCapability={setCapability}
-              capabilityId={capability.id}
-              guidanceIsOpen={guidanceIsOpen}
-              setGuidanceIsOpen={setGuidanceIsOpen}
-              guidance={capability.guidance}
-            />}
+            {guidanceIsOpen && (
+              <CapabilityTileGuidance
+                {...other}
+                capability={capability}
+                setCapability={setCapability}
+                capabilityId={capability.id}
+                guidanceIsOpen={guidanceIsOpen}
+                setGuidanceIsOpen={setGuidanceIsOpen}
+                guidance={capability.guidance}
+              />
+            )}
           </>
-
         </div>
       </div>
     </div>
@@ -189,7 +233,7 @@ CapabilityTile.propTypes = {
   pupil: PropTypes.object,
   currentLevelId: PropTypes.number,
   setTilesDisabled: PropTypes.func,
-  subjectId: PropTypes.number
+  subjectId: PropTypes.number,
 };
 
 export default CapabilityTile;

@@ -53,7 +53,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
         return (
           <li className={classes.listItem} key={`group-${i}`}>
             <Link href={linkUrl} className={classes.groupBox_link}>
-              <a data-test-id={`${group.slug}-link`} onClick={(e) => storeRecentGroup(e, group, linkUrl)}>
+              <a title={`Choose ${group.name} group`} data-test-id={`${group.slug}-link`} onClick={(e) => storeRecentGroup(e, group, linkUrl)}>
                 {group.name}
               </a>
             </Link>

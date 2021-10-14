@@ -3,7 +3,7 @@ import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'
 import SubjectPupilChooserView from '../../../components/shared-pages/SubjectPupilChooserView'
 
-const Subject = (props) => <SubjectPupilChooserView {...props} firstLabel="Rainbow Awards" firstSlug="rainbow-awards" />
+const Subject = (props) => <SubjectPupilChooserView {...props} firstLabel="Rainbow Awards" firstModel="Rainbow Award" firstSlug="rainbow-awards" />
 
 export default Subject
 

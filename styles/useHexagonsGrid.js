@@ -8,7 +8,7 @@ const stringStyles = makeStyles((theme) => ({
   main: `
     display: flex;
     width: 100vw;
-    --s:  clamp(9.5rem, 24vw, 18rem);
+    --s:  clamp(12.5rem, 24vw, 22rem);
     --r: 0.9; /* ratio */
     /* clip-path */
     --h: 0.25;
@@ -19,6 +19,7 @@ const stringStyles = makeStyles((theme) => ({
     --mv: 3px; /* vertical */
     --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 6px);
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
+    padding-bottom: calc(var(--s) * (var(--r) * 1.2));
   `,
   main_wide: `
     display: flex; 
@@ -31,8 +32,9 @@ const stringStyles = makeStyles((theme) => ({
     --vc: calc(clamp(0,var(--v), 0.5) * var(--s) * var(--r));
     /*margin */
     --mv: 4px; /* vertical */
-    --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 2px);
+    --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 1px);
     --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
+    padding-bottom: calc(var(--s) * (var(--r) * 1.2));
   `,
   main_wide_smaller: `
      --s: clamp(10.5rem, 19vw, 20rem); 
@@ -107,73 +109,100 @@ const stringStyles = makeStyles((theme) => ({
     width: 100%;
     height: 100%;
     float: left;
-    font-size: clamp(0.8rem, 1.4vw, 1.4rem);
+    font-size: clamp(0.6rem, 1.4vw, 1.4rem);
   `,
   button: `
     width: 100%;
     height: 100%;
-    font-size: inherit;
+    font-size: 1em;
     float: left;
   `,
   lightbulb: `
     position: absolute !important;
-    opacity: 50%;
     top: 5%;
     right: 25%;
+  `,
+  lightbulbOn: `
+    opacity: 100%;
+  `,
+  lightbulbOff: `
+    opacity: 50%;
   `,
   hexContent_inner: `
     width: 70%;
     margin: 0px auto;
-  `
-}))
+  `,
+  tileInfo: `
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  `,
+  icon: `
+    font-size: 1.4em;
+  `,
+}));
 
 const jssStyles = makeStyles((theme) => ({
+  main: {
+    '@media (max-width: 460px)': {
+      display: 'block',
+    },
+  },
   button: {
-    borderTop: 'solid transparent 5px',
-    borderBottom: 'solid transparent 5px',
+    '& .buttonFocusVisible': {
+      display: 'none',
+      position: 'absolute',
+      top: '0rem',
+      width: '100%',
+      height: '0.25em',
+      background: theme.palette.secondary.dark,
+    },
     '&:focus': {
-      borderTop: 'solid rgba(0,0,0,.5) 5px',
-      borderBottom: 'solid rgba(0,0,0,.5) 5px'
-    }
+      '& .buttonFocusVisible': {
+        display: 'block',
+      },
+    },
   },
   hex: {
-    '&:hover': {
-      background: theme.palette.info.dark,
-    }
+    '@media (max-width: 460px)': {
+      marginBottom: '1em',
+    },
   },
   hex_nonCore: {
     '& .hrxLink': {
-      color: theme.palette.text.primary
-    }
+      color: theme.palette.text.primary,
+    },
   },
   main_wide_smaller: {
-    '& .hrxLink': {
-    }
+    '& .hrxLink': {},
   },
   main_wide: {
     [theme.breakpoints.down('xs')]: {
       '--s': '8rem',
       '--mv': '2px',
       '--mh': 'calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 1px)',
-      '--f': 'calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 1px)'
-    }
+      '--f': 'calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 1px)',
+    },
   },
+  hexContent: {},
   hexLink: {
     '&:hover': {
-      textDecoration: 'none'
+      textDecoration: 'none',
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: '1rem'
-    }
+      fontSize: '1rem',
+    },
   },
   container: {
     '&::before': {
       content: "''",
-      width: "calc(var(--s)/2 + var(--mh))",
-      float: "left",
-      height: "calc(100% + 200px)",
-      "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
-    }
+      width: 'calc(var(--s)/2 + var(--mh))',
+      float: 'left',
+      height: 'calc(100% + 400px)',
+      'shape-outside': 'repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))',
+    },
   },
 
   container_wide: {
@@ -182,16 +211,12 @@ const jssStyles = makeStyles((theme) => ({
     },
     '&::before': {
       content: "''",
-      width: "calc(var(--s)/2 + var(--mh))",
-      float: "left", 
-      height: "calc(100% + 200px)",
-      "shape-outside": "repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))"
-    }
-  }
-
+      width: 'calc(var(--s)/2 + var(--mh))',
+      float: 'left',
+      height: 'calc(100% + 400px)',
+      'shape-outside': 'repeating-linear-gradient(#0000 0 calc(var(--f) - 2px),#000  0 var(--f))',
+    },
+  },
 }));
 
-export {
-  stringStyles,
-  jssStyles
-}
+export { stringStyles, jssStyles };

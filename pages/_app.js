@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 
+import { Alert } from '@material-ui/lab';
 import MainNavItems from '../components/navigation/MainNavItems';
 import SettingNavItems from '../components/navigation/SettingNavItems';
 import OrgPicker from '../components/navigation/OrgPicker';
 import ResponsiveDrawer from '../components/navigation/ResponsiveDrawer';
 
-import { Suspense } from 'react'
-import ErrorBoundary from '../components/data-fetching/ErrorBoundary'
+import CustomSuspense from '../components/data-fetching/CustomSuspense';
+import ErrorBoundary from '../components/data-fetching/ErrorBoundary';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -22,17 +23,18 @@ import Loading from '../components/ui-globals/Loading';
 import { useState } from 'react';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
-import { AnimateSharedLayout } from "framer-motion"
-import { motion } from "framer-motion"
+import { AnimateSharedLayout } from 'framer-motion';
+import { motion } from 'framer-motion';
+import Footer from '../components/layout/Footer';
 
 // Data fetching
-import { GraphQLClient } from 'graphql-request'
-import { SWRConfig } from 'swr'
+import { GraphQLClient } from 'graphql-request';
+import { SWRConfig } from 'swr';
 import { getOrgIdFromSession } from '../utils';
 
 import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
 
-const isServer = typeof window === "undefined";
+const isServer = typeof window === 'undefined';
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
@@ -56,10 +58,10 @@ function MyApp({ Component, pageProps }) {
 
   const headers = pageProps.user
     ? {
-      headers: {
-        Authorization: `Bearer ${pageProps.user.strapiToken}`,
-      },
-    }
+        headers: {
+          Authorization: `Bearer ${pageProps.user.strapiToken}`,
+        },
+      }
     : {};
 
   const gqlClient = new GraphQLClient(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, headers);
@@ -68,14 +70,15 @@ function MyApp({ Component, pageProps }) {
     const data = await gqlClient.request(query, variables);
     return data;
   };
-  let orgId = 0
+  let orgId = 0;
   if (pageProps.user) {
-    orgId = getOrgIdFromSession(pageProps.user)
+    orgId = getOrgIdFromSession(pageProps.user);
   }
 
   const hexagonsGlobals = {
-    gqlClient, orgId
-  } 
+    gqlClient,
+    orgId,
+  };
 
   return (
     <>
@@ -102,20 +105,28 @@ function MyApp({ Component, pageProps }) {
                     refreshInterval: 0,
                     fetcher: fetcher,
                     revalidateOnFocus: false,
-                    revalidateOnReconnect: false
+                    revalidateOnReconnect: false,
                   }}
                 >
+                  <div style={{ flexGrow: 1 }}>
+                    {!isServer ? (
+                      <ErrorBoundary
+                        fallback={
+                          <Alert severity="error">
+                            Could not fetch data. Please check your connection.
+                          </Alert>
+                        }
+                      >
+                        <CustomSuspense message="Hexagonalising">
+                          <Component {...pageProps} orgType setLoading={setLoading} />
+                        </CustomSuspense>
+                      </ErrorBoundary>
+                    ) : (
+                      <Loading message="Loading from server" />
+                    )}
+                  </div>
 
-                  {!isServer ? (
-                    <ErrorBoundary fallback={<p>Could not fetch data. Please check your connection.</p>}>
-                      <Suspense fallback={<Loading message="Hexagonalising" />}>
-                        <Component  {...pageProps} orgType setLoading={setLoading} />
-                      </Suspense>
-                    </ErrorBoundary>
-                  ) : (
-                    <Loading message="Loading from server" />
-                  )}
-
+                  <Footer />
                 </SWRConfig>
               </ResponsiveDrawer>
             </HexagonsContext.Provider>

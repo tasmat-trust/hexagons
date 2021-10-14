@@ -1,29 +1,29 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Link from "next/link"
+import Link from 'next/link';
+import sortByName from '../../utils/sortByName';
 
-
-import { Chip, Typography } from "@material-ui/core"
-import CoreSubjectsProgress from "./CoreSubjectsProgress"
-import CoreSubjectsProgressWithEarlyDevelopment from "./CoreSubjectsProgressWithEarlyDevelopment"
+import { Chip, Typography } from '@material-ui/core';
+import CoreSubjectsProgress from './CoreSubjectsProgress';
+import CoreSubjectsProgressWithEarlyDevelopment from './CoreSubjectsProgressWithEarlyDevelopment';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
-
 
 const useStyles = makeStyles((theme) => ({
   groupUl: {
     listStyle: 'none',
     padding: '0',
-    margin: '0'
+    margin: '0',
   },
   groupLi: {
     listStyle: 'none',
-    display: 'inline',
-    marginRight: '0.5em',
+    display: 'inline-block',
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
     '&:last-child::after': {
-      content: "''"
+      content: "''",
     },
   },
   bullet: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     transform: 'scale(0.8)',
   },
   pupilTitle: {
-    fontFamily: theme.typography.secondaryFamily
+    fontFamily: theme.typography.secondaryFamily,
   },
   title: {
     fontSize: 14,
@@ -42,61 +42,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-function PupilCard({
-  onwardHref,
-  pupilName,
-  pupilGroups,
-  pupilId,
-  schoolType,
-  ...other }) //  coreSubjects, activeGroupSlug
-{
+function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ...other }) {
+  //  coreSubjects, activeGroupSlug
   const styles = useStyles();
-  const baseHref = '/pupils'
+  const baseHref = '/pupils';
 
-
+  const sortedGroups = pupilGroups ? sortByName(pupilGroups) : null;
 
   return (
     <Card>
-      <CardContent>
+      <CardContent role="region" aria-live="polite">
         <ErrorBoundary fallback={<p>Error loading {pupilName}</p>}>
-          <Typography className={styles.pupilTitle} component='h2' variant='h4'>
-            {onwardHref && <Link href={onwardHref} >
-              <a>{pupilName}</a>
-            </Link>}
+          <Typography className={styles.pupilTitle} component="h2" variant="h4">
+            {onwardHref && (
+              <Link href={onwardHref}>
+                <a>{pupilName}</a>
+              </Link>
+            )}
           </Typography>
           <ul className={styles.groupUl} data-test-id={`groups-list-pupil-${pupilId}`}>
-            {pupilGroups && pupilGroups.map((group, i) => (
-              <ErrorBoundary key={`pupil-group-${i}`} fallback={<p>Error loading {group.name}</p>}>
-                <li className={styles.groupLi}>
-                  <Link href={`${baseHref}/${group.slug}`}>
-                    <a>
-                      <Chip clickable={true} color="primary" size="small" label={group.name} variant="outlined" />
-                    </a>
-                  </Link>
-                </li>
-              </ErrorBoundary>
-            ))}
+            {sortedGroups &&
+              sortedGroups.map((group, i) => (
+                <ErrorBoundary
+                  key={`pupil-group-${i}`}
+                  fallback={<p>Error loading {group.name}</p>}
+                >
+                  <li className={styles.groupLi}>
+                    <Link href={`${baseHref}/${group.slug}`}>
+                      <a>
+                        <Chip clickable={true} size="small" label={group.name} />
+                      </a>
+                    </Link>
+                  </li>
+                </ErrorBoundary>
+              ))}
           </ul>
-          {schoolType === 'secondary' && <CoreSubjectsProgress
-            isPupilCard={true}
-            schoolType={schoolType}
-            pupilId={pupilId}
-            {...other}
-          />}
-          {schoolType === 'primary' && <CoreSubjectsProgressWithEarlyDevelopment
-            isPupilCard={true}
-            pupilId={pupilId}
-            schoolType={schoolType}
-            getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
-            {...other}
-          />}
+          {schoolType === 'secondary' && (
+            <CoreSubjectsProgress
+              isPupilCard={true}
+              schoolType={schoolType}
+              pupilId={pupilId}
+              {...other}
+            />
+          )}
+          {schoolType === 'primary' && (
+            <CoreSubjectsProgressWithEarlyDevelopment
+              isPupilCard={true}
+              pupilId={pupilId}
+              schoolType={schoolType}
+              getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
+              {...other}
+            />
+          )}
         </ErrorBoundary>
       </CardContent>
-
-    </Card >
-  )
+    </Card>
+  );
 }
 
 PupilCard.propTypes = {
@@ -104,7 +105,7 @@ PupilCard.propTypes = {
   baseHref: PropTypes.string,
   onwardHref: PropTypes.string,
   pupilName: PropTypes.string,
-  pupilGroups: PropTypes.array
-}
+  pupilGroups: PropTypes.array,
+};
 
-export default PupilCard
+export default PupilCard;

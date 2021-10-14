@@ -18,7 +18,7 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, sho
   if (pupilsData.pupils.length === 0) return <p>No pupils in {groupName}.</p>
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {shouldShowGroupBySubject && <Grid item xs={12} md={12}>
           <ErrorBoundary alert="Error with SubjectCard">
             <CustomSuspense message="Loading pupils by subject">

@@ -21,6 +21,9 @@ const useLoginLogoutPages = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.grey[600]
   },
+  container: {
+    flexGrow: 1
+  },
   paper: {
     "@media(max-width:600px)": {
       padding: theme.spacing(2),

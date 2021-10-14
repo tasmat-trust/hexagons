@@ -7,7 +7,7 @@ function PupilSubjectsView(props) {
   return (
     <>
       <div className={classes.root}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item md={12} xs={12}>
             <Subjects classes={classes} {...props} />
           </Grid>

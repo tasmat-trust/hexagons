@@ -7,7 +7,7 @@ import CustomSuspense from '../data-fetching/CustomSuspense'
 import CustomHead from '../ui-globals/CustomHead'
 import { useState } from 'react'
 
-function Index({ firstLabel, firstSlug, subjectName, ...other }) {
+function Index({ firstLabel, firstSlug, firstModel, subjectName, ...other }) {
 
   const [groupLabel, setGroupLabel] = useState()
 
@@ -16,6 +16,7 @@ function Index({ firstLabel, firstSlug, subjectName, ...other }) {
       <CustomHead titleContent={`${subjectName} | ${firstLabel}`} />
       <BreadCrumbs
         firstLabel={firstLabel}
+        firstModel={firstModel}
         firstHref={`/${firstSlug}`}
         secondLabel={subjectName}
         thirdLabel={groupLabel}

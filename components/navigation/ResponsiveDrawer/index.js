@@ -1,8 +1,7 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -11,10 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box'
+import Box from '@material-ui/core/Box';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useLoginLogout } from '../../auth/session'
-import { motion } from "framer-motion"
+import { useLoginLogout } from '../../auth/session';
+import { motion } from 'framer-motion';
 const drawerWidth = 240;
 import { useRouter } from 'next/router';
 import LogoIcon from '../../ui-globals/LogoIcon';
@@ -22,20 +21,21 @@ import LogoIcon from '../../ui-globals/LogoIcon';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    minHeight: '100vh'
   },
   mainBar: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   title: {
     'font-family': theme.typography.secondaryFamily,
   },
   titleLink: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   hexagons: {
     marginLeft: theme.spacing(1),
-    marginTop: '-2px'
+    marginTop: '-2px',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -51,30 +51,31 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column'
   },
   navBoxes: {
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    minHeight: '100vh'
+    minHeight: '100vh',
   },
   topBox: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   settingsTitle: {
-    padding: `${theme.spacing(1)}px 0 0 ${theme.spacing(2)}px`
-  }
+    padding: `${theme.spacing(1)}px 0 0 ${theme.spacing(2)}px`,
+  },
 }));
 
 function ResponsiveDrawer(props) {
   const { window, children, MainNavItems, SettingNavItems, OrgPicker, user } = props;
-  const router = useRouter()
+  const router = useRouter();
   const classes = useStyles();
   const theme = useTheme();
-  const { login, logout } = useLoginLogout(props)
+  const { login, logout } = useLoginLogout(props);
 
-  const [isOpen, setIsOpen] = useState(false)
-
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setIsOpen(!isOpen);
@@ -82,7 +83,6 @@ function ResponsiveDrawer(props) {
 
   const drawer = (
     <div className={classes.toolbar}>
-
       <Box className={classes.navBoxes}>
         <OrgPicker user={props.user} />
         <Box className={classes.topBox}>
@@ -98,7 +98,6 @@ function ResponsiveDrawer(props) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar position="fixed">
         <Toolbar className={classes.mainBar}>
           {user && (
@@ -116,21 +115,25 @@ function ResponsiveDrawer(props) {
             <Link href="/">
               <a className={classes.titleLink}>
                 <LogoIcon fontSize="medium" color="secondary" viewBox="0 0 32 32" />
-                <span className={classes.hexagons}>
-                  Hexagons
-                </span>
+                <span className={classes.hexagons}>Hexagons</span>
               </a>
             </Link>
           </Typography>
 
-          {!user && <>
-            <Button data-test-id="login-button" color="inherit" onClick={() => login()}>Login</Button>
-
-          </>}
-          {user && <>
-            <Button data-test-id="logout-button" color="inherit" onClick={() => logout()}>Logout</Button>
-          </>}
-
+          {!user && (
+            <>
+              <Button data-test-id="login-button" color="inherit" onClick={() => login()}>
+                Login
+              </Button>
+            </>
+          )}
+          {user && (
+            <>
+              <Button data-test-id="logout-button" color="inherit" onClick={() => logout()}>
+                Logout
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <nav aria-label="Hexagons navigation">
@@ -164,7 +167,7 @@ function ResponsiveDrawer(props) {
           },
           animate: {
             opacity: 1,
-          }
+          },
         }}
       >
         <div className={classes.toolbar} />

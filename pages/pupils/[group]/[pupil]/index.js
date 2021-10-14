@@ -16,8 +16,8 @@ function Index({ groupName, activeGroupSlug, pupil, ...other }) {
       <CustomHead titleContent={`${pupil.name} | ${groupName} | Subjects`} />
       <BreadCrumbs
         firstLabel="Pupils"
-        firstHref="/pupils"
         secondLabel={groupName}
+        secondModel="group"
         secondHref={`/pupils/${activeGroupSlug}`}
         thirdLabel={pupil.name}
       />

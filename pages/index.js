@@ -9,15 +9,12 @@ export default function Home(props) {
   return (
     <>
       <CustomHead titleContent="Hexagons" justContent={true} />
-      <div className="container">
-        {props.user && <HomepageLoggedIn {...props} />}
-        {!props.user && <HomepageLoggedOut {...props} />}
-      </div>
+      {props.user && <HomepageLoggedIn {...props} />}
+      {!props.user && <HomepageLoggedOut {...props} />}
     </>
   );
 }
 
 export const getServerSideProps = withSession((ctx) => {
-  return allowPublicSession(ctx)
-})
-
+  return allowPublicSession(ctx);
+});

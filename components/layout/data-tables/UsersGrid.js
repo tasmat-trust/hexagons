@@ -42,7 +42,7 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
     valueGetter: (params) => {
       if (params.row.groups) {
         const sortedGroups = sortByName(params.row.groups)
-        return sortedGroups.map((group) => `${group.name}`)
+        return sortedGroups.map((group) => ` ${group.name}`)
       } else {
         return ''
       }
