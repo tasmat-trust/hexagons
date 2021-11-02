@@ -1,23 +1,40 @@
 import Alert from '@material-ui/lab/Alert';
 import React from 'react'
+import handleStrapiError from './handleStrapiError';
+import { withRouter } from 'next/router'
+
+import axios from 'axios';
+
 // Error boundaries currently have to be classes.
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
-  static getDerivedStateFromError(error) {
+
+
+
+  static getDerivedStateFromError(e) {
+    const response = handleStrapiError(e)
     return {
       hasError: true,
-      error
+      error: response.error,
+      errorBody: response.errorBody
     };
   }
+
+  componentDidCatch() {
+    if (this.state.errorBody && this.state.errorBody.extensions.exception.output.statusCode === 401) {
+      axios.post('/api/logout').then(() => {
+        this.props.router.push('/login')
+      });
+    }
+  }
+
   render() {
-    if (this.props.alert && this.state.hasError) {
-      return <Alert severity="error">{this.props.alert} - {this.state.error.message}</Alert>
+    if (this.state.error && this.state.hasError) {
+      return <Alert severity="error">{this.state.error}</Alert>
     }
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
+
     return this.props.children;
   }
 }
 
-export default ErrorBoundary
+export default withRouter(ErrorBoundary)
