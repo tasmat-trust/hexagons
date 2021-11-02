@@ -12,6 +12,7 @@ import createPupil from '../forms/handlers/createPupil'
 import createTeacher from '../forms/handlers/createTeacher'
 import createGroup from '../forms/handlers/createGroup'
 import createGuidance from '../forms/handlers/createGuidance'
+import updateCapabilityText from '../forms/handlers/updateCapabilityText'
 import Alert from "@material-ui/lab/Alert";
 import { HexagonsContext } from "../data-fetching/HexagonsContext";
 import { getAllOrgs } from "../../queries/Organizations";
@@ -25,11 +26,13 @@ function AddNew(props) {
     userId,
     updateHandler,
     modelname,
+    actionName,
     triggerSharedState,
     nameFieldName,
     includeName,
     includeEmail,
     includeText,
+    initialTextValue,
     selectItems,
     capabilityId,
     successCallback } = props
@@ -38,7 +41,7 @@ function AddNew(props) {
   const [selectValue, setSelectValue] = useState([]);
   const [role, setRole] = useState([])
   const [nameValue, setNameValue] = useState('');
-  const [textValue, setTextValue] = useState('');
+  const [textValue, setTextValue] = useState(initialTextValue ? initialTextValue : '');
   const [emailValue, setEmailValue] = useState('');
   const [errorValue, setErrorValue] = useState(false)
   const [successValue, setSuccessValue] = useState(false)
@@ -195,7 +198,7 @@ function AddNew(props) {
           {selectItems && <MultipleSelect itemsLabel="Groups" selectItems={selectItems} selectValue={selectValue} setSelectValue={setSelectValue} />}
           <FormControl margin="normal">
             <Button data-test-id={`add-new-${modelname}`} fullWidth type="submit" variant="contained" color="secondary">
-              Add new {modelname}
+              {actionName ? actionName : 'Add new'} {modelname}
             </Button>
           </FormControl>
         </>
@@ -223,6 +226,20 @@ function AddNewGuidance(props) {
       includeText={true}
       updateHandler={createGuidance}
       modelname="guidance"
+    />
+  )
+}
+
+function AddNewCapabilityText(props) {
+  return (
+    <AddNew
+      {...props}
+      capabilityId={props.capability.id}
+      initialTextValue={props.capability.text}
+      includeText={true} 
+      actionName='Edit'
+      updateHandler={updateCapabilityText}
+      modelname="capability"
     />
   )
 }
@@ -264,5 +281,6 @@ function AddNewUserWithGroups(props) {
 export {
   AddNewUserWithGroups,
   AddNewGroup,
-  AddNewGuidance
+  AddNewGuidance,
+  AddNewCapabilityText
 }

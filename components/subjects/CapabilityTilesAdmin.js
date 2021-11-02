@@ -35,7 +35,7 @@ function CapabilityTiles({ capabilities, ...other }) {
   )
 }
 
-CapabilityTiles.propTypes = {
+CapabilityTiles.propTypes = { 
   capabilities: PropTypes.array,
   competencies: PropTypes.array
 }

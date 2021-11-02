@@ -88,6 +88,7 @@ function StagesTabsAdmin({ modules,
           />
           <CustomSuspense message="Loading tiles">
             <CapabilityTilesAdmin
+              setModulesData={setModulesData}
               subjectId={subjectId}
               capabilities={module.capabilities}
               currentModule={module}

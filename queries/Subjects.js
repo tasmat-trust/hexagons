@@ -109,6 +109,21 @@ mutation createCapability($text: String!, $order: Int!, $module: ID!) {
     }      
 }`
 
+const updateCapabilityTextQuery = gql`
+mutation updateCapability($text: String!, $capability: ID!) {
+  updateCapability(
+    input: {
+      where: {id: $capability},
+      data: { text: $text}
+    }
+  ) {
+    capability {
+      text id
+    }
+  }
+}
+`
+
 const deleteCapabilityQuery = gql`
 mutation DeleteCapability($id: ID!) {
   deleteCapability(input: {
@@ -159,6 +174,7 @@ export {
   getCoreSubjects,
   deleteCapabilityQuery,
   createCapabilityQuery,
+  updateCapabilityTextQuery,
   deleteModuleQuery,
   createModuleQuery,
   getSingleSubjectBySlug,

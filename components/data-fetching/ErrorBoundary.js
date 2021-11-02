@@ -13,6 +13,8 @@ class ErrorBoundary extends React.Component {
 
   static getDerivedStateFromError(e) {
     const response = handleStrapiError(e)
+    
+    console.log(response)
     return {
       hasError: true,
       error: response.error,
@@ -21,7 +23,7 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch() {
-    if (this.state.errorBody && this.state.errorBody.extensions.exception.output.statusCode === 401) {
+    if (this.state.errorBody && this.state.errorBody.extensions && this.state.errorBody.extensions.exception.output.statusCode === 401) {
       axios.post('/api/logout').then(() => {
         this.props.router.push('/login')
       });
