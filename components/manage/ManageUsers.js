@@ -11,7 +11,7 @@ import DeletePupil from '../forms/DeletePupil';
 
 function ManageUsersHeader(props) {
   const { classes, multiAddVisible, userType } = props;
-  const { orgId } = useContext(HexagonsContext);
+  const { orgId, role } = useContext(HexagonsContext);
   return (
     <>
       <Box className={classes.box}>
@@ -19,9 +19,9 @@ function ManageUsersHeader(props) {
           All {userType}s
         </Typography>
 
-        {multiAddVisible && userType === 'pupil' && (
+        {multiAddVisible && userType === 'pupil' && role === 'Leader' && (
           <DialogButton
-            title="Create new pupil"
+            title="Delete pupil"
             variant="outlined"
             color="primary"
             testId="delete-pupil"

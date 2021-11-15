@@ -75,9 +75,17 @@ function MyApp({ Component, pageProps }) {
     orgId = getOrgIdFromSession(pageProps.user);
   }
 
+  let role = 'public'
+  if (pageProps.user) {
+    role = pageProps.user.role.name
+  }
+
+   
+
   const hexagonsGlobals = {
     gqlClient,
     orgId,
+    role
   };
 
   return (

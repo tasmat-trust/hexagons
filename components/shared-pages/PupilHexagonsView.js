@@ -26,8 +26,8 @@ function Subject({ firstLabel, firstSlug, subjectName, subjectSlug, groupName, a
       <CustomHead titleContent={`${pupil.name} | ${groupName} | ${subjectName}`} justContent={true} />
       <BreadCrumbs
         firstLabel={firstLabel}
-        firstModel="back to Hexagons Subject view"
-        firstHref={firstSlug}
+        firstModel={`back to ${isRainbowAwards ? 'Rainbow Awards' : 'Subject'} overview`}
+        firstHref={`/${firstSlug}`}
         secondLabel={<CustomSuspense message="Loading subjects" textOnly={true}><SubjectPicker
           isRainbowAwards={isRainbowAwards}
           currentSubjectSlug={subjectSlug}
