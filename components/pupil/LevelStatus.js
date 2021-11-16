@@ -82,14 +82,14 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
 }
 
 function LevelStatus({
-  setGotCurrentLevel,
   setGlobalGuidanceActive,
-  setCurrentLevelId,
   currentModule,
   subjectId,
   edSubjectId,
   pupil,
   competencies,
+  levelId,
+  setLevelId,
   ...other
 }) {
   const { gqlClient } = useContext(HexagonsContext);
@@ -97,7 +97,7 @@ function LevelStatus({
   const classes = useStyles();
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0);
 
-  const [visibleLevel, setVisibleLevel] = useState(null);
+ 
   const [status, setStatus] = useState('notstarted');
   const [readyToShow, setReadyToShow] = useState(false);
 
@@ -110,14 +110,10 @@ function LevelStatus({
 
   const bubbleGotLevel = useCallback(
     (level) => {
-      if (level && level.id) {
-        setVisibleLevel(level);
-        setGotCurrentLevel(true);
-        setCurrentLevelId(parseInt(level.id));
-        setStatus(level.status ? level.status : 'notstarted');
-      }
+      setLevelId(parseInt(level.id));
+      setStatus(level && level.status ? level.status : 'notstarted');
     },
-    [setCurrentLevelId, setVisibleLevel, setGotCurrentLevel]
+    [setLevelId, setStatus]
   );
 
   useEffect(() => {
@@ -132,7 +128,7 @@ function LevelStatus({
     if (percentComplete === 100) {
       completeStep();
     }
-  }, [visibleLevel, bubbleGotLevel, completeStep, currentModule, thisLevelCompetencies]);
+  }, [completeStep, currentModule, thisLevelCompetencies]);
 
   const triggerCreateLevel = useCallback(
     async (status) => {
@@ -158,13 +154,12 @@ function LevelStatus({
       const variables = {
         status: status,
         subjectId: subjectId,
-        levelId: visibleLevel.id,
+        levelId: levelId,
       };
       const level = await updateLevel(gqlClient, variables);
-
       bubbleGotLevel(level);
     },
-    [bubbleGotLevel, gqlClient, visibleLevel, subjectId]
+    [bubbleGotLevel, gqlClient, levelId, subjectId]
   );
 
   function completeStepHandler(e) {
@@ -179,18 +174,18 @@ function LevelStatus({
 
   const completeStep = useCallback(() => {
     if (status && status !== 'complete') {
-      if (visibleLevel) {
+      if (levelId) {
         triggerUpdateLevel('complete');
       } else {
         //create level and mark as complete
         triggerCreateLevel('complete');
       }
     }
-  }, [status, visibleLevel, triggerUpdateLevel, triggerCreateLevel]);
+  }, [status, levelId, triggerUpdateLevel, triggerCreateLevel]);
 
   async function markActive() {
     if (status === 'complete') {
-      if (visibleLevel) {
+      if (levelId) {
         // Mark current level as incomplete
         triggerUpdateLevel('incomplete');
       } else {
@@ -318,13 +313,13 @@ function LevelStatus({
 }
 
 LevelStatus.propTypes = {
-  setGotCurrentLevel: PropTypes.func,
   setGlobalGuidanceActive: PropTypes.func,
-  setCurrentLevelId: PropTypes.func,
   currentModule: PropTypes.object,
   subjectId: PropTypes.number,
   pupil: PropTypes.object,
   competencies: PropTypes.array,
+  levelId: PropTypes.number,
+  setLevelId: PropTypes.func,
 };
 
 export default LevelStatus;

@@ -23,13 +23,12 @@ function CapabilityTile(props) {
     initialCapability,
     competency,
     setCompetencies,
-    currentModule,
-    gotCurrentLevel,
-    setGotCurrentLevel,
-    pupil,
-    currentLevelId,
+    currentModule, 
+    pupil, 
     setTilesDisabled,
     subjectId,
+    levelId,
+    setLevelId,
     edSubjectId,
     ...other
   } = props;
@@ -65,15 +64,15 @@ function CapabilityTile(props) {
       setButtonIsDisabled(true);
       let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
       setCompetencyStatus(status); // Optimistic update
-      let levelId = currentLevelId;
-      handleStatus(levelId, status);
+      handleStatus(status);
     } else {
       setGuidanceIsOpen(true);
     }
   }
 
-  async function handleStatus(levelId, status) {
-    if (!gotCurrentLevel && !currentLevelId) {
+  async function handleStatus(status) {
+    let levelIdToUpdate;
+    if (!levelId || levelId === 0) {
       setTilesDisabled(true);
       const variables = {
         status: 'incomplete',
@@ -85,8 +84,10 @@ function CapabilityTile(props) {
       if (!level) {
         return;
       }
-      levelId = level.id;
-      setGotCurrentLevel(true);
+      levelIdToUpdate = parseInt(level.id)
+      setLevelId(levelIdToUpdate);
+    } else {
+      levelIdToUpdate = levelId
     }
 
     if (status === 'complete') {
@@ -122,9 +123,9 @@ function CapabilityTile(props) {
       pupilId: pupil.id,
     };
 
-    if (levelId) {
-      competencyVars.levelId = levelId;
-      refreshCompetencyVars.levelId = levelId;
+    if (levelIdToUpdate) {
+      competencyVars.levelId = levelIdToUpdate;
+      refreshCompetencyVars.levelId = levelIdToUpdate;
       const finished = await createCompetency(
         gqlClient,
         competencyVars,
@@ -227,13 +228,13 @@ CapabilityTile.propTypes = {
   capability: PropTypes.object,
   competency: PropTypes.object,
   setCompetencies: PropTypes.func,
-  currentModule: PropTypes.object,
-  gotCurrentLevel: PropTypes.bool,
-  setGotCurrentLevel: PropTypes.func,
+  currentModule: PropTypes.object, 
   pupil: PropTypes.object,
-  currentLevelId: PropTypes.number,
+  levelId: PropTypes.number,
+  setLevelId: PropTypes.func,
   setTilesDisabled: PropTypes.func,
   subjectId: PropTypes.number,
+  edSubjectId: PropTypes.number
 };
 
 export default CapabilityTile;

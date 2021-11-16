@@ -32,19 +32,19 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
       router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
-        shallow: false,
+        shallow: true,
       });
     } else {
       router.push(`/pupils/${activeGroupSlug}/${newPupilId}/${subjectSlug}`, undefined, {
-        shallow: false,
+        shallow: true,
       });
     }
     setPupilId(newPupilId);
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select pupil</InputLabel>
-      <NativeSelect data-test-id="select-pupil" value={pupilId} onChange={handleChange}>
+      <InputLabel htmlFor="pupil-picker" className={classes.label}>Select pupil</InputLabel>
+      <NativeSelect id="pupil-picker" data-test-id="select-pupil" value={pupilId} onChange={handleChange}>
         {pupils.map((pupil, i) => (
           <option key={`pupil-${i}`} value={pupil.id}>
             {pupil.name}

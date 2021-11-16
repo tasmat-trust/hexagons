@@ -4,8 +4,11 @@ import useSWR from 'swr';
 
 export default function WithModules(WrappedComponent) {
   function WithModules({ getModulesBySubjectIdVariables, pupil, subjectId, ...other }) {
-    const { data: modulesData, mutate: setModulesData } = useSWR([getModules, getModulesBySubjectIdVariables], { suspense: true })
-    let modules = modulesData.modules
+    const { data: modulesData, mutate: setModulesData } = useSWR([getModules, getModulesBySubjectIdVariables])
+    let modules = []
+    if (modulesData) {
+      modules = modulesData.modules
+    }
     return <WrappedComponent
       modules={modules}
       pupil={pupil}

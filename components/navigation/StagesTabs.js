@@ -38,14 +38,23 @@ function StagesTabs({
   isRa,
   modules,
   startingLevel,
+  noStartingLevel,
   pupil,
   ...other }) {
   const [tabValue, setTabValue] = useState(0);
-  const [gotCurrentLevel, setGotCurrentLevel] = useState(startingLevel ? true : false) // boolean - have we got a current level
-  const [currentLevelId, setCurrentLevelId] = useState(startingLevel ? startingLevel.id : 0)
   const [sortedModules, setSortedModules] = useState(modules)
   const [guidanceActive, setGuidanceActive] = useState(false)
 
+  const startingLevelId = startingLevel ? parseInt(startingLevel.id) : 0;
+  const [levelId, setLevelId] = useState(startingLevelId)
+
+  useEffect(() => {
+    // ensure levelId resets
+    if (noStartingLevel) {
+      setLevelId(0)
+    }
+
+  }, [noStartingLevel])
 
   useEffect(() => {
     if (modules) {
@@ -59,18 +68,17 @@ function StagesTabs({
       const activeModule = modules.map((module, i) => module.order === startingLevel.module.order && module.level === startingLevel.module.level)
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
       setTabValue(startingIndex)
-      setCurrentLevelId(startingLevel.id)
-      setGotCurrentLevel(true)
     } else {
       setTabValue(0)
     }
   }, [modules, startingLevel, pupil])
 
   const handleChange = (event, newValue) => {
-    setTabValue(newValue);
-    setGotCurrentLevel(false)
-    setCurrentLevelId(0)
+    setTabValue(newValue); 
+    setLevelId(0) // We don't know what the level will be but we don't want it using the old level
   };
+
+  
 
   return (
     <>
@@ -100,14 +108,12 @@ function StagesTabs({
             <CustomSuspense message={`Loading ${currentModule.order}`}>
               <LevelContent
                 pupil={pupil}
-                setGotCurrentLevel={setGotCurrentLevel}
-                gotCurrentLevel={gotCurrentLevel}
-                setCurrentLevelId={setCurrentLevelId}
-                currentLevelId={currentLevelId}
+                levelId={levelId}
+                setLevelId={setLevelId}
                 currentModule={currentModule}
                 setGuidanceActive={setGuidanceActive}
                 guidanceActive={guidanceActive}
-                competenciesVars={{ pupilId: parseInt(pupil.id), levelId: parseInt(currentLevelId) }}
+                competenciesVars={{ pupilId: parseInt(pupil.id), levelId: levelId ? levelId : 0 }}
                 {...other}
               />
             </CustomSuspense>

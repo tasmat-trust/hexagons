@@ -10,10 +10,8 @@ function LevelContent({
   initialCompetencies,
   edSubjectId,
   subjectId,
-  setGotCurrentLevel,
-  gotCurrentLevel,
-  setCurrentLevelId,
-  currentLevelId,
+  levelId,
+  setLevelId,
   currentModule,
   setGuidanceActive,
   guidanceActive,
@@ -21,8 +19,6 @@ function LevelContent({
 }) {
 
   const [competencies, setCompetencies] = useState(initialCompetencies)
-
-
 
   useEffect(() => { // Set the overlays to appear once loaded
     if (initialCompetencies) {
@@ -34,9 +30,9 @@ function LevelContent({
     <>
       <CustomSuspense message="Loading status">
         <LevelStatus
-          setGotCurrentLevel={setGotCurrentLevel}
           setGlobalGuidanceActive={setGuidanceActive}
-          setCurrentLevelId={setCurrentLevelId}
+          levelId={levelId}
+          setLevelId={setLevelId}
           currentModule={currentModule}
           pupil={pupil}
           competencies={competencies}
@@ -54,10 +50,9 @@ function LevelContent({
           capabilities={currentModule.capabilities}
           competencies={competencies}
           setCompetencies={setCompetencies}
-          currentModule={currentModule}
-          gotCurrentLevel={gotCurrentLevel}
-          setGotCurrentLevel={setGotCurrentLevel}
-          currentLevelId={currentLevelId}
+          currentModule={currentModule} 
+          levelId={levelId}
+          setLevelId={setLevelId}
           subjectId={subjectId}
           edSubjectId={edSubjectId}
         />
@@ -71,13 +66,11 @@ LevelContent.propTypes = {
   pupil: PropTypes.object,
   initialCompetencies: PropTypes.array,
   subjectId: PropTypes.number,
-  setGotCurrentLevel: PropTypes.func,
-  gotCurrentLevel: PropTypes.bool,
-  setCurrentLevelId: PropTypes.func,
-  currentLevelId: PropTypes.number,
   module: PropTypes.object,
   setGuidanceActive: PropTypes.func,
-  guidanceActive: PropTypes.bool
+  guidanceActive: PropTypes.bool,
+  levelId: PropTypes.number,
+  setLevelId: PropTypes.func,
 }
 
 export default WithCompetencies(LevelContent)

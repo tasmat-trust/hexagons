@@ -1,22 +1,40 @@
-import PropTypes from 'prop-types'
-import { Typography } from "@material-ui/core"
-import { useState, useEffect } from 'react'
-import WithLevel from '../data-fetching/WithLevel'
+import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
+import { useState, useEffect } from 'react';
+import WithLevel from '../data-fetching/WithLevel';
 
-function LevelTitle({ status, classes, moduleLabel, moduleOrder, initialVisibleLevel, bubbleGotLevel }) {
+function LevelTitle({
+  status,
+  classes,
+  moduleLabel,
+  moduleOrder,
+  initialVisibleLevel,
+  bubbleGotLevel,
+}) {
 
   useEffect(() => {
     if (initialVisibleLevel) {
-      bubbleGotLevel(initialVisibleLevel)
+      bubbleGotLevel(initialVisibleLevel);
     }
-  }, [initialVisibleLevel, bubbleGotLevel])
+  }, [initialVisibleLevel, bubbleGotLevel]);
   return (
-    <Typography data-test-id="level-status-title" className={classes.title} variant='h2'>
-      <span>{moduleLabel} {moduleOrder}</span>
-      
-      {(status === 'complete' || status === 'incomplete') && <span> <span className={classes.emDash}>&#8212;</span> <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}> {status}</span></span>}
+    <Typography data-test-id="level-status-title" className={classes.title} variant="h2">
+      <span>
+        {moduleLabel} {moduleOrder}
+      </span>
+
+      {(status === 'complete' || status === 'incomplete') && (
+        <span>
+          {' '}
+          <span className={classes.emDash}>&#8212;</span>{' '}
+          <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}>
+            {' '}
+            {status}
+          </span>
+        </span>
+      )}
     </Typography>
-  )
+  );
 }
 
 LevelTitle.propTypes = {
@@ -26,7 +44,7 @@ LevelTitle.propTypes = {
   moduleOrder: PropTypes.number,
   status: PropTypes.string,
   checkedStatus: PropTypes.bool,
-  classes: PropTypes.object
-}
+  classes: PropTypes.object,
+};
 
-export default WithLevel(LevelTitle)
+export default WithLevel(LevelTitle);

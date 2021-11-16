@@ -31,19 +31,19 @@ function SubjectPicker({ currentSubjectSlug, subjects, activeGroupSlug, currentP
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
       router.push(`/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`, undefined, {
-        shallow: false,
+        shallow: true,
       });
     } else {
       router.push(`/pupils/${activeGroupSlug}/${currentPupilId}/${newSubjectSlug}`, undefined, {
-        shallow: false,
+        shallow: true,
       });
     }
     setSubjectSlug(newSubjectSlug);
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="age-native-helper" className={classes.label}>Select {isRainbowAwards ? 'award' : 'subject'}</InputLabel>
-      <NativeSelect data-test-id="select-subject" value={subjectSlug} onChange={handleChange}>
+      <InputLabel htmlFor="subject-picker" className={classes.label}>Select {isRainbowAwards ? 'award' : 'subject'}</InputLabel>
+      <NativeSelect id="subject-picker" data-test-id="select-subject" value={subjectSlug} onChange={handleChange}>
         <optgroup label="Subjects">
           {subjects.map((subject, i) => (
             <>

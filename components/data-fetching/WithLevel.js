@@ -34,7 +34,7 @@ export default function WithLevel(WrappedComponent) {
     }
     return (
       <>
-        {!correctLevel && <WrappedComponent {...other} />}
+        {!correctLevel && <WrappedComponent {...other}  />}
         {correctLevel && <WrappedComponent initialVisibleLevel={correctLevel} {...other} />}
       </>
     )
