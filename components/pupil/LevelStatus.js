@@ -278,7 +278,7 @@ function LevelStatus({
               variant="contained"
               boxTitle={`${moduleLabel} ${currentModule.order} summary`}
             >
-              {currentModule.summary}
+              <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
             </DialogButton>
 
             {status !== 'complete' && (

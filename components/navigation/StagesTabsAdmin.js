@@ -1,16 +1,17 @@
-import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
-import { Box } from '@material-ui/core'
-import AddCapabilities from '../forms/AddCapabilities'
-import CapabilityTilesAdmin from '../subjects/CapabilityTilesAdmin'
-import DeleteModule from '../forms/DeleteModule'
-import WithModulesAdmin from '../data-fetching/WithModulesAdmin'
-import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug'
-import { sortModules } from '../../utils/sortLevelsAndModules'
- 
-import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs'
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Box } from '@material-ui/core';
+import AddCapabilities from '../forms/AddCapabilities';
+import CapabilityTilesAdmin from '../subjects/CapabilityTilesAdmin';
+import DeleteModule from '../forms/DeleteModule';
+import WithModulesAdmin from '../data-fetching/WithModulesAdmin';
+import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug';
+import { sortModules } from '../../utils/sortLevelsAndModules';
 
-import CustomSuspense from '../data-fetching/CustomSuspense'
+import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
+
+import CustomSuspense from '../data-fetching/CustomSuspense';
+import ManageSummary from '../manage/ManageSummary';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,11 +23,7 @@ function TabPanel(props) {
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box>{children}</Box>}
     </div>
   );
 }
@@ -38,31 +35,25 @@ function a11yProps(index) {
   };
 }
 
-function StagesTabsAdmin({ modules,
-  setModulesData,
-  subjectId }) {
+function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
   const [tabValue, setTabValue] = useState(0);
-  const [sortedModules, setSortedModules] = useState(modules)
+  const [sortedModules, setSortedModules] = useState(modules);
 
   useEffect(() => {
     if (modules) {
-      const sortedModules = sortModules(modules)
-      setSortedModules(sortedModules)
+      const sortedModules = sortModules(modules);
+      setSortedModules(sortedModules);
     }
-  }, [modules])
+  }, [modules]);
 
   const handleChange = (event, newValue) => {
-    setTabValue(newValue);  
+    setTabValue(newValue);
   };
-
 
   return (
     <>
-      <AddCapabilities
-        setModulesData={setModulesData}
-        subjectId={subjectId} />
+      <AddCapabilities setModulesData={setModulesData} subjectId={subjectId} />
       <CustomSuspense message="Loading tabs">
-
         <HexagonsTabs
           value={tabValue}
           onChange={handleChange}
@@ -74,7 +65,8 @@ function StagesTabsAdmin({ modules,
             <HexagonsTab
               key={`link-${i}`}
               label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
-              {...a11yProps(0)} />
+              {...a11yProps(0)}
+            />
           ))}
         </HexagonsTabs>
       </CustomSuspense>
@@ -85,6 +77,11 @@ function StagesTabsAdmin({ modules,
             setModulesData={setModulesData}
             currentStage={module}
             subjectId={subjectId}
+          />
+          <ManageSummary
+            setModulesData={setModulesData}
+            summaryText={module.summary}
+            moduleId={module.id}
           />
           <CustomSuspense message="Loading tiles">
             <CapabilityTilesAdmin
@@ -97,7 +94,7 @@ function StagesTabsAdmin({ modules,
         </TabPanel>
       ))}
     </>
-  )
+  );
 }
 
 StagesTabsAdmin.propTypes = {
@@ -105,7 +102,7 @@ StagesTabsAdmin.propTypes = {
   startingLevel: PropTypes.object,
   setModulesData: PropTypes.func,
   competencies: PropTypes.array,
-  subjectId: PropTypes.string
-}
+  subjectId: PropTypes.string,
+};
 
-export default WithSingleSubjectFromSlug(WithModulesAdmin(StagesTabsAdmin))
+export default WithSingleSubjectFromSlug(WithModulesAdmin(StagesTabsAdmin));
