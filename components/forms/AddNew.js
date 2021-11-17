@@ -46,7 +46,9 @@ function AddNew(props) {
   const [role, setRole] = useState([]);
   const [nameValue, setNameValue] = useState('');
   const [textValue, setTextValue] = useState(initialTextValue ? initialTextValue : '');
-  const [textAreaValue, setTextAreaValue] = useState(initialTextAreaValue ? initialTextAreaValue : '');
+  const [textAreaValue, setTextAreaValue] = useState(
+    initialTextAreaValue ? initialTextAreaValue : ''
+  );
   const [emailValue, setEmailValue] = useState('');
   const [errorValue, setErrorValue] = useState(false);
   const [successValue, setSuccessValue] = useState(false);
@@ -218,6 +220,7 @@ function AddNew(props) {
             )}
             {includeTextArea && (
               <TextareaAutosize
+                style={{ width: 500 }}
                 data-test-id="textarea-field"
                 id="textarea"
                 label="Text"
@@ -238,8 +241,6 @@ function AddNew(props) {
               />
             </FormControl>
           )}
-
-
 
           {roles && (
             <SingleSelect

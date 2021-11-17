@@ -14,7 +14,7 @@ function ManageSummary({ summaryText, moduleId, setModulesData }) {
     <>
       <h3>Summary:</h3>
       <ButtonBase onClick={handleShowHideSummary} title="edit">
-        <div style={{ whiteSpace: 'pre', textAlign: 'left' }}>{summaryText}</div>
+        <div style={{ whiteSpace: 'pre-wrap', fontSize: '1.1rem', textAlign: 'left', width: '40rem', maxWidth: '90vw', marginBottom: '2rem' }}>{summaryText}</div>
       </ButtonBase>
       {manageSummaryIsOpen && (
         <Dialog
