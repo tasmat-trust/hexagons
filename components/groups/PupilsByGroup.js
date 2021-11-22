@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import SubjectCard from '../pupil/SubjectCard';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import CustomSuspense from '../data-fetching/CustomSuspense';
+import sortByName from '../../utils/sortByName';
 
 function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter()
@@ -16,6 +17,7 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, sho
   const isRainbowAwards = router.asPath.includes('rainbow-awards')
 
   if (pupilsData.pupils.length === 0) return <p>No pupils in {groupName}.</p>
+  const sortedPupils = sortByName(pupilsData.pupils)
   return (
     <>
       <Grid container spacing={2}>
@@ -26,7 +28,7 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, sho
                 {...other}
                 groupName={groupName}
                 activeGroupSlug={activeGroupSlug}
-                pupils={pupilsData.pupils}
+                pupils={sortedPupils}
               />
             </CustomSuspense>
           </ErrorBoundary>
@@ -34,7 +36,7 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, sho
 
 
 
-        {pupilsData.pupils.map((p, i) => {
+        {sortedPupils.map((p, i) => {
           let linkUrl
           if (isSubjectsListing || isRainbowAwards) {
             const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'

@@ -52,7 +52,7 @@ describe('Manage Pupils Page', () => {
 
 
     let groupResponse = {
-      body: { "data": { "groups": [{ "name": "Class 2", "slug": "class-2", "id": "42" }, { "name": "Class 3", "slug": "class-3", "id": "43" }, { "name": "Class 4", "slug": "class-4", "id": "44" }] } }
+      body: { "data": { "groups": [{ "name": "Class 2", "slug": "class-2", "id": "42" }, { "name": "D1", "slug": "d-1", "id": "46" }, { "name": "Class 3", "slug": "class-3", "id": "43" }, { "name": "Class 4", "slug": "class-4", "id": "44" }, { "name": "A1", "slug": "a-1", "id": "45" }, { "name": "D12", "slug": "d-12", "id": "46" }, { "name": "D2", "slug": "d-2", "id": "47" }] } }
     }
 
     let pupilResponse = {
@@ -103,6 +103,13 @@ describe('Manage Pupils Page', () => {
     cy.get('[data-test-id=add-new-pupil]').click();
     cy.get('[data-test-id="close-pupil-popup"]').click();
     cy.wait('@gqlcreatePupilQuery').its('request.url').should('include', '/graphql')
+  })
+
+  it('Displays groups alphabetically in list and sorts 1,2,12 correctly', () => {
+    cy.get('[data-test-id=new-pupil]').click();
+    cy.get('[data-test-id="multi-select"]').click();
+    cy.get('ul[aria-labelledby="mutiple-chip-label"] li:first-child').contains('A1');
+    cy.get('ul[aria-labelledby="mutiple-chip-label"] li:last-child').contains('D12');
   })
 
   it('Lets Teacher create new pupils without groups', () => {

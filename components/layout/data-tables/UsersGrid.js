@@ -52,7 +52,7 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
   return (
     <div style={{ height: 800, width: '100%' }}>
       <DataGrid
-        rows={userType === 'teacher' ? state.users : state.pupils}
+        rows={sortByName(userType === 'teacher' ? state.users : state.pupils)}
         columns={columns}
         checkboxSelection
         onSelectionModelChange={(newSelection) => {

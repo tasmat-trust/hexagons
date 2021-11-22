@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 // Design
 import useFormStyles from '../../styles/useFormStyles';
 import { useTheme } from '@material-ui/core/styles';
+import sortByName from "../../utils/sortByName";
 
 export default function MultipleSelect({ selectItems, selectValue, setSelectValue, itemsLabel }) {
 
@@ -34,6 +35,8 @@ export default function MultipleSelect({ selectItems, selectValue, setSelectValu
   const classes = useFormStyles();
   const theme = useTheme();
 
+  const sortedSelectItems = sortByName(selectItems)
+
 
   return (
     <FormControl
@@ -41,11 +44,10 @@ export default function MultipleSelect({ selectItems, selectValue, setSelectValu
       margin="normal"
       className={classes.formControl}
     >
-      <InputLabel id="demo-mutiple-chip-label">{itemsLabel}</InputLabel>
+      <InputLabel id="mutiple-chip-label">{itemsLabel}</InputLabel>
       <Select
         data-test-id="multi-select"
-        labelId="demo-mutiple-chip-label"
-        id="demo-mutiple-chip"
+        labelId="mutiple-chip-label"
         multiple
         fullWidth
         value={selectValue}
