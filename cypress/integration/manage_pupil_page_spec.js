@@ -39,7 +39,7 @@ describe('Manage Pupils Page: Teacher', () => {
       { query: 'createPupil' },
       { query: 'createNewGroup' },
       { query: 'updatePupil'},
-      { query: 'getGroups', data: getGroupsEmpty },
+      { query: 'getGroups', data: getGroups },
       { query: 'getPupilsWithGroups', data: getPupils },
     ]);
 
