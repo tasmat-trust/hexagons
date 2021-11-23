@@ -23,7 +23,7 @@ const useGlobalStyles = makeStyles((theme) => ({
       '& li a': {
         color: theme.palette.text.secondary
       }
-    },
+    }
   },
 }));
 

@@ -1,0 +1,613 @@
+{
+  "data": {
+    "modules": [
+      {
+        "order": 2,
+        "id": "442",
+        "level": "step",
+        "summary": "With help, pupils begin to assemble components provided for an activity [for example, placing bricks together]. They contribute to activities by coactively grasping and moving simple tools, [for example, a glue spreader]. They explore options within a limited range of materials [for example, adding grapes or chopped apple to a fruit salad]. Pupils use a basic tool, with support [for example, pushing a roller]. They demonstrate preferences for products, materials and ingredients [for example, selecting a preferred filling for a sandwich].",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can make marks with a variety of materials. ",
+            "id": "7310",
+            "guidance": []
+          },
+          { "text": "I can make marks using a variety of tools.", "id": "7311", "guidance": [] },
+          {
+            "text": "I can make choices of food in food tech (e.g. making a fruit salad).",
+            "id": "7312",
+            "guidance": []
+          },
+          {
+            "text": "With help I can put objects together e.g. bricks.",
+            "id": "7313",
+            "guidance": []
+          },
+          {
+            "text": "I can explore objects by stacking, dismantling, rolling and pushing. ",
+            "id": "7314",
+            "guidance": []
+          },
+          {
+            "text": "I can explore objects by rolling, squeezing and feeling them. ",
+            "id": "7315",
+            "guidance": []
+          },
+          {
+            "text": "I can construct using multiple parts (e.g. train set).",
+            "id": "7316",
+            "guidance": []
+          },
+          {
+            "text": "I can explore materials by folding, screwing, ripping, bending, scrunching and wetting them. ",
+            "id": "7317",
+            "guidance": []
+          },
+          { "text": "I am beginning to explain what I am doing.", "id": "7318", "guidance": [] },
+          { "text": "I can match objects to pictures. ", "id": "7319", "guidance": [] },
+          { "text": "I can construct a model with junk. ", "id": "7320", "guidance": [] },
+          {
+            "text": "I can organise objects (e.g. line up train carriages).",
+            "id": "7321",
+            "guidance": []
+          },
+          { "text": "I can use glue. ", "id": "7322", "guidance": [] },
+          { "text": "I can thread eg beads on a rod. ", "id": "7323", "guidance": [] },
+          {
+            "text": "I can make objects move (e.g. roll cars down a slope).",
+            "id": "7324",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "id": "443",
+        "level": "step",
+        "summary": "Pupils recognise familiar products and explore the different parts they are made from. They watch others using a basic tool and copy the actions [for example, preparing a surface with a glass paper block]. They begin to offer responses to making activities [for example, suggesting the colour or shape of a product]. Pupils operate familiar products, with support, and explore how they work. They use basic tools or equipment in simple processes, chosen in negotiation with staff [for example, in cutting or shaping materials]. They begin to communicate preferences in their designing and making [for example, adding selected felt shapes to fabric].",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can construct an object from multiple parts. ",
+            "id": "7325",
+            "guidance": []
+          },
+          {
+            "text": "I can make a choice and express a preference for specific equipment. ",
+            "id": "7326",
+            "guidance": []
+          },
+          {
+            "text": "I can co-operate in the construction of a model by selecting items. ",
+            "id": "7327",
+            "guidance": []
+          },
+          { "text": "I can use glue to join materials.", "id": "7328", "guidance": [] },
+          {
+            "text": "I am beginning to begin to design and plan by discussing what I am doing/making. ",
+            "id": "7329",
+            "guidance": []
+          },
+          { "text": "I can put together pieces to make a model. ", "id": "7330", "guidance": [] },
+          { "text": "I can learn a skill by watching and copying.", "id": "7331", "guidance": [] },
+          {
+            "text": "I can explore modelling material with tools and create different shapes using a range of techniques like rolling, flattening, stretching.",
+            "id": "7332",
+            "guidance": []
+          },
+          {
+            "text": "I can make a choice from a range of different sized boxes and containers (junk modelling). ",
+            "id": "7333",
+            "guidance": []
+          },
+          {
+            "text": "I can select appropriately and use basic tools for cutting and shaping.",
+            "id": "7334",
+            "guidance": []
+          },
+          {
+            "text": "I can choose appropriate materials from a selection of junk or resources.",
+            "id": "7335",
+            "guidance": []
+          },
+          {
+            "text": "I can find objects made from a given material. ",
+            "id": "7336",
+            "guidance": []
+          },
+          { "text": "I can use tools with support.", "id": "7337", "guidance": [] },
+          {
+            "text": "I can construct simple models using a range of different materials. ",
+            "id": "7338",
+            "guidance": []
+          },
+          {
+            "text": "I can choose from a range of materials when I am designing my work.",
+            "id": "7339",
+            "guidance": []
+          },
+          {
+            "text": "I am starting to talk about my preferences in my design.",
+            "id": "7340",
+            "guidance": []
+          },
+          {
+            "text": "I can explore ways of developing or improving a model.",
+            "id": "7341",
+            "guidance": []
+          },
+          {
+            "text": "I know some safety issues associated with tools.",
+            "id": "7342",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "id": "444",
+        "level": "step",
+        "summary": "Pupils explore familiar products and communicate views about them when prompted. With help, they manipulate a wider range of basic tools in making activities [for example, joining components together to make their intended product]. They begin to contribute to decisions about what they will do and how [for example, communicating their approval of certain features of a process].",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can use a range of comparative terms when designing and making.",
+            "id": "7343",
+            "guidance": []
+          },
+          { "text": "I can talk about my work and say what I like.", "id": "7344", "guidance": [] },
+          {
+            "text": "I can use other ways of joining materials – tape, string. ",
+            "id": "7345",
+            "guidance": []
+          },
+          {
+            "text": "I can look at familiar objects and know what they are made from (wood, metal, plastic, glass).",
+            "id": "7346",
+            "guidance": []
+          },
+          { "text": "I can talk about what I am going to do. ", "id": "7347", "guidance": [] },
+          {
+            "text": "I can talk about how I am going to do something.",
+            "id": "7348",
+            "guidance": []
+          },
+          { "text": "I am becoming more careful when using tools.", "id": "7349", "guidance": [] },
+          {
+            "text": "I can discuss why things are made from certain materials. ",
+            "id": "7350",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "id": "445",
+        "level": "step",
+        "summary": "Pupils begin to generate ideas for purposeful designs and recognise characteristics of familiar products. They show that, with help, they can create products for a use and purpose, using their practical ideas. They begin to use models, pictures and words to describe what they want to do with increasing confidence and to greater effect. They begin to explain what they are making and which tools they are using. They use tools and manipulate materials with help, where needed. They begin to talk about their own and other people’s work in simple terms and describe how a product works. They may need some guidance to achieve this.",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can talk about the features of familiar objects (e.g. cars).",
+            "id": "7351",
+            "guidance": []
+          },
+          {
+            "text": "I can think of an idea and develop it into a design.",
+            "id": "7352",
+            "guidance": []
+          },
+          {
+            "text": "I can explain what I am making and what I am using.",
+            "id": "7353",
+            "guidance": []
+          },
+          { "text": "I can use a range of tools with little help.", "id": "7354", "guidance": [] },
+          { "text": "I can make my ideas work with some help.", "id": "7355", "guidance": [] },
+          {
+            "text": "I can compare my design with my completed work.",
+            "id": "7356",
+            "guidance": []
+          },
+          {
+            "text": "I can collect materials that could be used in my design.",
+            "id": "7357",
+            "guidance": []
+          },
+          {
+            "text": "I can include pictures and words in my design. ",
+            "id": "7358",
+            "guidance": []
+          },
+          { "text": "I can describe how something works. ", "id": "7359", "guidance": [] }
+        ]
+      },
+      {
+        "order": 6,
+        "id": "446",
+        "level": "step",
+        "summary": "Pupils generate ideas for purposeful designs and recognise characteristics of familiar products. They show that, with help, they can create products for a use and purpose, using their practical ideas. They use models, pictures and words to describe what they want to do. They explain what they are making and which tools they are using. They use tools and manipulate materials with help, where needed. They talk about their own and other people’s work in simple terms and describes how a product works.",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can identify the features of a familiar object that I think are most important.",
+            "id": "7360",
+            "guidance": []
+          },
+          {
+            "text": "I can identify the bits of my plan that are harder to achieve without help.",
+            "id": "7361",
+            "guidance": []
+          },
+          {
+            "text": "I can select materials and tools from a choice that will help me and know what each simple tool is designed to do.",
+            "id": "7362",
+            "guidance": []
+          },
+          {
+            "text": "I can take an idea and describe, with reference to key features, what the finished object will look like.",
+            "id": "7363",
+            "guidance": []
+          },
+          {
+            "text": "I can create a plan with annotated (labels)drawings.",
+            "id": "7364",
+            "guidance": []
+          },
+          {
+            "text": "I can use simple tools safely and to good effect with some prompting.",
+            "id": "7365",
+            "guidance": []
+          },
+          {
+            "text": "I can use my drawing when making the object and identify what has changed.",
+            "id": "7366",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 1,
+        "id": "447",
+        "level": "stage",
+        "summary": "Pupils generate ideas based on their investigations of products. They use models, pictures and words to describe their designs. They plan what to do next based on their experience of working with materials and components. They select appropriate tools, techniques and materials, explaining their choices. They assemble, join and combine materials and components in a variety of ways to make functional products. They recognise what they have done well and suggest things they could do better in the future.",
+        "guidance": null,
+        "capabilities": [
+          { "text": "I can design using pictures and text. ", "id": "7367", "guidance": [] },
+          {
+            "text": "I can use means of collecting data to support choices – ask the views of others. ",
+            "id": "7368",
+            "guidance": []
+          },
+          {
+            "text": "I can look at made and designed objects and say what I like/dislike about them giving simple reasons.",
+            "id": "7369",
+            "guidance": []
+          },
+          {
+            "text": "I can recognise similar features in a range of objects. ",
+            "id": "7370",
+            "guidance": []
+          },
+          { "text": "I can plan what to do next. ", "id": "7371", "guidance": [] },
+          {
+            "text": "I can plan and make a product and evaluate my work in terms of how well it suited the purpose. ",
+            "id": "7372",
+            "guidance": []
+          },
+          {
+            "text": "I can identify which parts of my model/product worked well and which did not.",
+            "id": "7373",
+            "guidance": []
+          },
+          {
+            "text": "I can use a range of cutting, shaping and joining tools demonstrating due attention to safety and appropriate choice. ",
+            "id": "7374",
+            "guidance": []
+          },
+          {
+            "text": "I can develop problem solving skills when things don’t work well.",
+            "id": "7375",
+            "guidance": []
+          },
+          {
+            "text": "I can make choices, express preferences and select tools giving reason for my choice. ",
+            "id": "7376",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "id": "448",
+        "level": "stage",
+        "summary": "Pupils begin to generate ideas and recognise that their designs have to meet a range of different needs and users. With support they clarify ideas when asked and use words, labelled sketches and models to communicate the details of their designs. They begin to think ahead about the order of their work and make realistic plans for achieving their aims. They choose appropriate tools, equipment, components and techniques to make their functional products. They begin to apply their knowledge and understanding of the nature of materials to cut, shape and join them with some accuracy. After reflecting on the design and make process and their products, they identify some improvements. They may need some support to achieve this.",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can evaluate my work as it progresses and make improvements. ",
+            "id": "7377",
+            "guidance": []
+          },
+          { "text": "I can include models in my design.", "id": "7378", "guidance": [] },
+          { "text": "I can use tools with increasing accuracy. ", "id": "7379", "guidance": [] },
+          { "text": "I can include labelled drawings in my design.", "id": "7380", "guidance": [] },
+          {
+            "text": "I can develop a plan that reflects the views and needs of others. ",
+            "id": "7381",
+            "guidance": []
+          },
+          {
+            "text": "I can plan by thinking ahead about the order of my work.",
+            "id": "7382",
+            "guidance": []
+          },
+          {
+            "text": "I can choose the most appropriate tools, equipment and materials for my plan. ",
+            "id": "7383",
+            "guidance": []
+          },
+          {
+            "text": "I can choose the most appropriate techniques for my plan.",
+            "id": "7384",
+            "guidance": []
+          },
+          {
+            "text": "I can reflect on my completed work and say where changes have led to improvements. ",
+            "id": "7385",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "id": "449",
+        "level": "stage",
+        "summary": "Pupils generate ideas and recognise that their designs have to meet a range of different needs and users. They clarify ideas when asked and use words, labelled sketches and models to communicate the details of their designs. They think ahead about the order of their work and make realistic plans for achieving their aims. They choose appropriate tools, equipment, components and techniques to make their functional products. They apply their knowledge and understanding of the nature of materials to cut, shape and join them with some accuracy. After reflecting on the design and make process and their products, they identify some improvements.",
+        "guidance": null,
+        "capabilities": [
+          { "text": "I am confident and careful when using tools.", "id": "7386", "guidance": [] },
+          {
+            "text": "I can develop a plan that matches a set of requirements that are very specific.",
+            "id": "7387",
+            "guidance": []
+          },
+          {
+            "text": "I can select materials and tools by drawing on my past experiences with some prompts.",
+            "id": "7388",
+            "guidance": []
+          },
+          {
+            "text": "I can draw on what I know to comment on existing products eg  key features, materials.",
+            "id": "7389",
+            "guidance": []
+          },
+          {
+            "text": "I can follow a designing and making process and take care to complete each part before moving on.",
+            "id": "7390",
+            "guidance": []
+          },
+          {
+            "text": "I can evaluate my finished work with attention to detail – joins, finish, strength and efficiency.",
+            "id": "7391",
+            "guidance": []
+          },
+          {
+            "text": "I can be patient when designing and know this is an important part of the process.",
+            "id": "7392",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "id": "450",
+        "level": "stage",
+        "summary": "Pupils begin to generate ideas by collecting and using information. They begin to take users’ views about aesthetic and technical issues into account as they respond to briefs. With support they begin to communicate alternative ideas using words, labelled sketches and models, showing that they are aware of constraints. They begin to use some ideas from others’ designing to inform their own work. With some support they produce step-by-step plans and then select and work with a range of tools and equipment. They begin to apply their knowledge and understanding of materials, ingredients and components, and work with them with some accuracy, paying attention to quality of finish and to function. With some support they identify what is working well and what could be improved to overcome technical problems. With support they begin to reflect on their designs as they develop, recognising the significance of knowledge and previous experience.",
+        "guidance": null,
+        "capabilities": [
+          { "text": "I can find out what people want.", "id": "7393", "guidance": [] },
+          {
+            "text": "I can say what a product has to be like and take it into account.",
+            "id": "7394",
+            "guidance": []
+          },
+          { "text": "I can show I have referred to requirements.", "id": "7395", "guidance": [] },
+          {
+            "text": "I can consider who, where, when, recyclable, renewable.",
+            "id": "7396",
+            "guidance": []
+          },
+          { "text": "I can take account of resources.", "id": "7397", "guidance": [] },
+          { "text": "I can create realistic and relevant ideas.", "id": "7398", "guidance": [] },
+          { "text": "I can measure and mark accurately (some).", "id": "7399", "guidance": [] },
+          {
+            "text": "I can make simple statements about existing products.",
+            "id": "7400",
+            "guidance": []
+          },
+          {
+            "text": "I can show I have checked the requirements are met.",
+            "id": "7401",
+            "guidance": []
+          },
+          { "text": "I can join/combine with accuracy.", "id": "7402", "guidance": [] },
+          { "text": "I can finish surfaces with accuracy.", "id": "7403", "guidance": [] },
+          { "text": "I can name some mechanical systems.", "id": "7404", "guidance": [] },
+          { "text": "I can order the main stages.", "id": "7405", "guidance": [] },
+          { "text": "I can name some components used in circuits.", "id": "7406", "guidance": [] },
+          {
+            "text": "I can give examples of mechanical systems and how they work.",
+            "id": "7407",
+            "guidance": []
+          },
+          {
+            "text": "I can give examples of how to make strong structures.",
+            "id": "7408",
+            "guidance": []
+          },
+          {
+            "text": "I can give examples of simple electric circuits.",
+            "id": "7409",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "id": "451",
+        "level": "stage",
+        "summary": "Pupils generate ideas by collecting and using information. They take users’ views about aesthetic and technical issues into account as they respond to briefs. They communicate alternative ideas using words, labelled sketches and models, showing that they are aware of constraints. They use some ideas from others’ designing to inform their own work. They produce step-by-step plans and then select and work with a range of tools and equipment. They apply their knowledge and understanding of materials, ingredients and components, and work with them with some accuracy, paying attention to quality of finish and to function. They identify what is working well and what could be improved to overcome technical problems. They reflect on their designs as they develop, recognising the significance of knowledge and previous experience.",
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can safely prepare some savoury dishes, some using heat.",
+            "id": "7410",
+            "guidance": []
+          },
+          { "text": "I can prepare food using various skills.", "id": "7411", "guidance": [] },
+          { "text": "I can model ideas.", "id": "7412", "guidance": [] },
+          { "text": "I can explain how my design works.", "id": "7413", "guidance": [] },
+          {
+            "text": "I can explain the strengths/ weaknesses of my design.",
+            "id": "7414",
+            "guidance": []
+          },
+          { "text": "I can develop ideas by talking.", "id": "7415", "guidance": [] },
+          { "text": "I can explain tool choices correctly.", "id": "7416", "guidance": [] },
+          { "text": "I can use a wider range of materials.", "id": "7417", "guidance": [] },
+          { "text": "I can use a range of drawing styles.", "id": "7418", "guidance": [] },
+          { "text": "I can use CAD simply to communicate ideas.", "id": "7419", "guidance": [] },
+          {
+            "text": "I can describe briefly the purpose of the product.",
+            "id": "7420",
+            "guidance": []
+          },
+          {
+            "text": "I can consider the quality, materials, construction of products.",
+            "id": "7421",
+            "guidance": []
+          },
+          {
+            "text": "I can explain how I have taken account of what people want.",
+            "id": "7422",
+            "guidance": []
+          },
+          {
+            "text": "I can use other’ views when identifying strengths/ weaknesses.",
+            "id": "7423",
+            "guidance": []
+          },
+          {
+            "text": "I can make informed judgements about products.",
+            "id": "7424",
+            "guidance": []
+          },
+          { "text": "I can show understanding of the brief.", "id": "7425", "guidance": [] },
+          { "text": "I can follow safety and hygiene procedures.", "id": "7426", "guidance": [] },
+          { "text": "I can select suitable tools and equipment.", "id": "7427", "guidance": [] },
+          {
+            "text": "I can select suitable materials for their obvious properties.",
+            "id": "7428",
+            "guidance": []
+          },
+          {
+            "text": "I can give examples of the science used in DT.",
+            "id": "7429",
+            "guidance": []
+          },
+          {
+            "text": "I can give examples of materials combined for different properties.",
+            "id": "7430",
+            "guidance": []
+          },
+          { "text": "I can give examples of the maths used in DT.", "id": "7431", "guidance": [] },
+          {
+            "text": "I can explain the difference between function & aesthetics.",
+            "id": "7432",
+            "guidance": []
+          },
+          {
+            "text": "I can identify input/process/output of simple systems. ",
+            "id": "7433",
+            "guidance": []
+          },
+          { "text": "I can use correct technical vocab in context.", "id": "7434", "guidance": [] }
+        ]
+      },
+      {
+        "order": 6,
+        "id": "452",
+        "level": "stage",
+        "summary": "Pupils develop ideas by drawing on and using various sources of information. They clarify their ideas through discussion, drawing and modelling, showing understanding of aesthetic and economic dimensions. They respond to briefs showing understanding of how culture and society are reflected in familiar products when developing and communicating their own ideas. They show that they are aware of constraints as they apply knowledge and understanding of materials, ingredients and techniques. They use understanding of others’ designing as they develop their work. They work from their own detailed plans, modifying them where appropriate. They work with a range of tools, materials, ingredients, equipment, components and processes with some precision. They check their work as it develops, solve technical problems and show some evidence of creativity as they modify their approach in the light of progress. They test and evaluate their products, showing that they understand the situations in which the products will function.",
+        "guidance": null,
+        "capabilities": [
+          { "text": "I can consider wider constraints.", "id": "7435", "guidance": [] },
+          {
+            "text": "I can use research to create innovative ideas.",
+            "id": "7436",
+            "guidance": []
+          },
+          {
+            "text": "I can research using different methods eg interview.",
+            "id": "7437",
+            "guidance": []
+          },
+          {
+            "text": "I can make informed decisions about more complex products.",
+            "id": "7438",
+            "guidance": []
+          },
+          {
+            "text": "I can consider issues of innovation, sustainability, lifecycle.",
+            "id": "7439",
+            "guidance": []
+          },
+          {
+            "text": "I can start to solve making problems for myself.",
+            "id": "7440",
+            "guidance": []
+          },
+          {
+            "text": "I can give examples of movement changes caused by mechanical systems.",
+            "id": "7441",
+            "guidance": []
+          },
+          { "text": "I can create step by step plans.", "id": "7442", "guidance": [] },
+          { "text": "I can evaluate against a range of criteria.", "id": "7443", "guidance": [] },
+          {
+            "text": "I can explain simply and give eg of how food is processed for use.",
+            "id": "7444",
+            "guidance": []
+          },
+          { "text": "I can present needs as requirements.", "id": "7445", "guidance": [] },
+          {
+            "text": "I can give more detail about the job of the food we eat – nutrients etc.",
+            "id": "7446",
+            "guidance": []
+          },
+          { "text": "I can produce tool lists.", "id": "7447", "guidance": [] },
+          {
+            "text": "I can consider the making process and the quality.",
+            "id": "7448",
+            "guidance": []
+          },
+          {
+            "text": "I can give examples of how adapting recipes changes taste, texture etc.",
+            "id": "7449",
+            "guidance": []
+          },
+          { "text": "I can make products involving multiple steps.", "id": "7450", "guidance": [] },
+          {
+            "text": "I can explain in simple terms, how the seasons affect what food is available.",
+            "id": "7451",
+            "guidance": []
+          },
+          { "text": "I can identify more detailed needs.", "id": "7452", "guidance": [] },
+          { "text": "I can say how criteria are met or not.", "id": "7453", "guidance": [] }
+        ]
+      }
+    ]
+  }
+}

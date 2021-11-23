@@ -219,15 +219,18 @@ function AddNew(props) {
               />
             )}
             {includeTextArea && (
-              <TextareaAutosize
-                style={{ width: 500 }}
-                data-test-id="textarea-field"
-                id="textarea"
-                label="Text"
-                required
-                defaultValue={textAreaValue}
-                onChange={(event) => setTextAreaValue(event.target.value)}
-              />
+              <>
+                <label for="textarea">Text*</label>
+                <TextareaAutosize
+                  style={{ width: 500 }}
+                  data-test-id="textarea-field"
+                  id="textarea"
+                  label="Text"
+                  required
+                  defaultValue={textAreaValue}
+                  onChange={(event) => setTextAreaValue(event.target.value)}
+                />
+              </>
             )}
           </FormControl>
           {includeEmail && (

@@ -1,11 +1,10 @@
 export default function sortByName(list) {
   list.sort((a, b) => {
     if (a.name) {
-      return a.name.localeCompare(b.name, 'en', {numeric: true})
+      return a.name.localeCompare(b.name, 'en', { numeric: true });
     } else if (a.username) {
-      return a.username.localeCompare(b.username, 'en', {numeric: true})
-
+      return a.username.localeCompare(b.username, 'en', { numeric: true });
     }
   });
-  return list
+  return list;
 }

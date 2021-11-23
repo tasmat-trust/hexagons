@@ -1,0 +1,13 @@
+{
+  "body": {
+    "data": {
+      "subjects": [
+        { "name": "Being a good communicator", "slug": "being-a-good-communicator" },
+        { "name": "Being a good friend", "slug": "being-a-good-friend" },
+        { "name": "Being healthy", "slug": "being-healthy" },
+        { "name": "Being independent", "slug": "being-independent" },
+        { "name": "Being safe", "slug": "being-safe" }
+      ]
+    }
+  }
+}
