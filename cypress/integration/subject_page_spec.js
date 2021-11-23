@@ -1,24 +1,13 @@
-import { hasOperationName, aliasQuery } from '../utils/graphql-test-utils';
+ 
 import getSubjects from '../fixtures/getSubjects.json';
 import getRainbowAwardsSubjects from '../fixtures/getRainbowAwardsSubjects.json';
 
 describe('Subjects main page ', () => {
   beforeEach(() => {
     cy.login('Teacher');
-
-    cy.intercept(
-      {
-        method: 'POST',
-        url: 'http://localhost:1337/graphql',
-      },
-      (req) => {
-        // Get requests
-        aliasQuery(req, 'getSubjects');
-        if (hasOperationName(req, 'getSubjects')) {
-          req.reply(getSubjects);
-        }
-      }
-    );
+    cy.mockGraphQL([
+      { query: 'getSubjects', data: getSubjects }
+    ]);
     cy.visit('/subjects');
     cy.waitForSpinners();
   });
@@ -58,19 +47,9 @@ describe('Rainbow Awards main page ', () => {
   beforeEach(() => {
     cy.login('Teacher');
 
-    cy.intercept(
-      {
-        method: 'POST',
-        url: 'http://localhost:1337/graphql',
-      },
-      (req) => {
-        // Get requests
-        aliasQuery(req, 'getRainbowAwardsSubjects');
-        if (hasOperationName(req, 'getRainbowAwardsSubjects')) {
-          req.reply(getRainbowAwardsSubjects);
-        }
-      }
-    );
+    cy.mockGraphQL([
+      { query: 'getRainbowAwardsSubjects', data: getRainbowAwardsSubjects }
+    ]);
     cy.visit('/rainbow-awards');
     cy.waitForSpinners();
   });

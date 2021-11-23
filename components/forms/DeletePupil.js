@@ -34,7 +34,7 @@ function DeletePupil({ pupilId, triggerSharedState }) {
         {loading && <Loading message="Deleting pupil" />}
         {success && <Alert>Pupil deleted successfully</Alert>}
         {error && <Alert severity="error">Error deleting pupil. Please refresh and try again.</Alert>}
-        {!loading && (<Button data-test-id={`delete-pupil`} fullWidth type="submit" variant="contained" color="primary">
+        {!loading && (<Button data-test-id={`definitely-delete-pupil`} fullWidth type="submit" variant="contained" color="primary">
           Delete pupil
         </Button>)}
       </FormControl>

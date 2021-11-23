@@ -32,19 +32,25 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
             hasVariable(req, mock.variable.key, mock.variable.value)
           ) {
             aliasQueryByVariable(req, mock.query, mock.variable.key, mock.variable.value);
-            req.reply(mock.data);
+            if (mock.data) {
+              req.reply(mock.data);
+            }
             return;
           }
         } else if (mock.isOneOfManySimilar) {
           if (hasOperationName(req, mock.query)) {
             aliasQuery(req, mock.query, i);
-            req.reply(mock.data);
+            if (mock.data) {
+              req.reply(mock.data);
+            }
             return;
           }
         } else {
           if (hasOperationName(req, mock.query)) {
             aliasQuery(req, mock.query);
-            req.reply(mock.data);
+            if (mock.data) {
+              req.reply(mock.data);
+            }
             return;
           }
         }
