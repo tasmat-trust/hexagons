@@ -220,7 +220,7 @@ function AddNew(props) {
             )}
             {includeTextArea && (
               <>
-                <label for="textarea">Text*</label>
+                <label htmlFor="textarea">Text*</label>
                 <TextareaAutosize
                   style={{ width: 500 }}
                   data-test-id="textarea-field"
