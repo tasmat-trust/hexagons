@@ -8,10 +8,25 @@ import Typography from '@material-ui/core/Typography';
 
 import { Button, ButtonBase } from '@material-ui/core';
 
-import { PropTypes } from "prop-types";
+import { PropTypes } from 'prop-types';
 
-function DialogButton({ startIcon, title, className, testId, variant, color, label, boxTitle, content, text, children, modelname, isHexagon, bubbleHandleClose, onClose }) {
-
+function DialogButton({
+  startIcon,
+  title,
+  className,
+  testId,
+  variant,
+  color,
+  label,
+  boxTitle,
+  content,
+  text,
+  children,
+  modelname,
+  isHexagon,
+  bubbleHandleClose,
+  onClose,
+}) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -21,56 +36,60 @@ function DialogButton({ startIcon, title, className, testId, variant, color, lab
   const handleClose = () => {
     setOpen(false);
     if (onClose) {
-      onClose()
+      onClose();
     }
-
   };
 
-  bubbleHandleClose && bubbleHandleClose(handleClose)
+  bubbleHandleClose && bubbleHandleClose(handleClose);
 
   return (
     <>
-
-      {!isHexagon && <Button
-        variant={variant}
-        color={color}
-        className={className}
-        title={title}
-        startIcon={startIcon}
-        data-test-id={testId}
-        // startIcon={<AddIcon />}
-        onClick={handleOpen}
-      >
-        {label}
-      </Button>}
-      {isHexagon && <ButtonBase
-        className={className}
-        onClick={handleOpen}
-        data-test-id={testId}
-        title={title}
-      >
-        {content}
-      </ButtonBase>}
+      {!isHexagon && (
+        <Button
+          variant={variant}
+          color={color}
+          className={className}
+          title={title}
+          startIcon={startIcon}
+          data-test-id={testId}
+          // startIcon={<AddIcon />}
+          onClick={handleOpen}
+        >
+          {label}
+        </Button>
+      )}
+      {isHexagon && (
+        <ButtonBase className={className} onClick={handleOpen} data-test-id={testId} title={title}>
+          {content}
+        </ButtonBase>
+      )}
 
       <Dialog
+        data-test-id={`${testId}-popup`}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-
         <DialogContent>
-          {boxTitle && <Typography gutterBottom={true} id="form-dialog-title" variant="h2" component="h4">{boxTitle}</Typography>}
-          <DialogContentText>
-            {text}
-          </DialogContentText>
+          {boxTitle && (
+            <Typography gutterBottom={true} id="form-dialog-title" variant="h2" component="h4">
+              {boxTitle}
+            </Typography>
+          )}
+          <DialogContentText>{text}</DialogContentText>
           {children}
         </DialogContent>
         <DialogActions>
-          <Button title={`Close ${modelname} popup`} data-test-id={`close-${modelname}-popup`} onClick={handleClose} color="primary">
+          <Button
+            title={`Close ${modelname} popup`}
+            data-test-id={`close-${modelname}-popup`}
+            onClick={handleClose}
+            color="primary"
+          >
             Close
           </Button>
         </DialogActions>
-      </Dialog >
+      </Dialog>
     </>
   );
 }
@@ -88,7 +107,7 @@ DialogButton.propTypes = {
   children: PropTypes.string, // Content to display in button
   modelname: PropTypes.string, // For test id
   isHexagon: PropTypes.bool, // Will this be appearing inside hexagon?
-  bubbleHandleClose: PropTypes.func // function to call when it closes
-}
+  bubbleHandleClose: PropTypes.func, // function to call when it closes
+};
 
-export default DialogButton
+export default DialogButton;

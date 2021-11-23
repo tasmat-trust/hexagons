@@ -13,6 +13,8 @@ import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 
+import Alert from '@material-ui/lab/Alert';
+
 const useStyles = makeStyles((theme) => ({
   level: {
     marginTop: 0,
@@ -96,10 +98,11 @@ function LevelStatus({
 
   const classes = useStyles();
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0);
+  const [actualPercentComplete, setActualPercentComplete] = useState(0);
 
- 
   const [status, setStatus] = useState('notstarted');
   const [readyToShow, setReadyToShow] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
 
   const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage';
 
@@ -118,6 +121,7 @@ function LevelStatus({
 
   useEffect(() => {
     const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
+    setActualPercentComplete(percentComplete);
     const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete;
     setVisiblePercentComplete(percentCompleteWithShortcuts);
   }, [thisLevelCompetencies, currentModule.capabilities, status]);
@@ -125,6 +129,7 @@ function LevelStatus({
   useEffect(() => {
     setReadyToShow(true);
     const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
+    setActualPercentComplete(percentComplete);
     if (percentComplete === 100) {
       completeStep();
     }
@@ -184,6 +189,13 @@ function LevelStatus({
   }, [status, levelId, triggerUpdateLevel, triggerCreateLevel]);
 
   async function markActive() {
+    if (actualPercentComplete === 100) {
+      setAlertMessage(
+        `Please remove some individual competencies and then mark this ${currentModule.level} as incomplete.`
+      );
+      return;
+    }
+
     if (status === 'complete') {
       if (levelId) {
         // Mark current level as incomplete
@@ -293,6 +305,7 @@ function LevelStatus({
                 Complete
               </Button>
             )}
+
             {status === 'complete' && (
               <Button
                 title={`Mark ${moduleLabel} incomplete`}
@@ -307,6 +320,17 @@ function LevelStatus({
             )}
           </Box>
         </Box>
+
+        {alertMessage && (
+          <Alert
+            data-test-id="level-status-alert"
+            onClose={() => {
+              setAlertMessage(false);
+            }}
+          >
+            {alertMessage}
+          </Alert>
+        )}
       </Box>
     </Fade>
   );
