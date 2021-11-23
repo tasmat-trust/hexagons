@@ -343,8 +343,8 @@ context('Assessment page', () => {
     });
 
     it('allows a level to be marked as complete without ticking off all competencies', () => {
-      cy.get('[data-test-id="mark-complete"]').click();
       cy.get('[data-test-id=level-status-status]').contains('incomplete');
+      cy.get('[data-test-id="mark-complete"]').click();
       cy.wait('@gqlupdateLevelQuery').its('request.url').should('include', '/graphql');
       cy.get('[data-test-id=level-status-status]').contains('complete');
       cy.get('[data-test-id=percent-complete-label]').contains('100');
