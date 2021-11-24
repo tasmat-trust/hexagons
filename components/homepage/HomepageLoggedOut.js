@@ -32,7 +32,7 @@ export default function HomepageLoggedIn(props) {
   return (
     <section className={publicClasses.content}>
       <Paper className={publicClasses.paper}>
-        <h2 className={publicClasses.welcome}>Welcome to Hexagons</h2>
+        <h2 className={publicClasses.welcome} data-test-id="public-welcome">Welcome to Hexagons</h2>
         <p className={publicClasses.openingPara}>
           The Hexagons App is an assessment tool designed for learners with SEND and the
           professionals who support them. It facilitates the tracking of small steps of progress in
@@ -51,12 +51,12 @@ export default function HomepageLoggedIn(props) {
           <a href="mailto:nshuttleworth@tasmat.org.uk">nshuttleworth@tasmat.org.uk</a>
         </p>
         <Link href="mailto:nshuttleworth@tasmat.org.uk">
-          <Button className={publicClasses.button} variant="contained" color="secondary">
+          <Button data-test-id="get-in-touch" className={publicClasses.button} variant="contained" color="secondary">
             Get in touch
           </Button>
         </Link>
 
-        <div className={classes.schoolLogosContainer}>
+        <div className={classes.schoolLogosContainer} data-test-id="school-logos">
           <img
             className={classes.schoolLogo}
             src="/logos/torfield-school.png"
@@ -95,7 +95,7 @@ export default function HomepageLoggedIn(props) {
           We are grateful to the DfE via the Hastings Opportunity Area for funding enabling TASMAT
           to initiate this project.
         </p>
-        <div className={classes.fundingLogosContainer}>
+        <div className={classes.fundingLogosContainer} data-test-id="funder-logos">
           <div>
             <img
               className={classes.fundingLogo}

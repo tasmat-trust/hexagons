@@ -1,17 +1,11 @@
-import PropTypes from 'prop-types';
-import BreadCrumbs from '../navigation/Breadcrumbs';
 import LastActiveGroup from '../groups/LastActiveGroup';
 
-function HomepageLoggedIn({ user, ...other }) {
+function HomepageLoggedIn(props) {
   return (
     <>
-      <LastActiveGroup isHomepage={true} user={user} {...other} />
+      <LastActiveGroup isHomepage={true} {...props} />
     </>
   );
 }
-
-HomepageLoggedIn.propTypes = {
-  user: PropTypes.object,
-};
 
 export default HomepageLoggedIn;

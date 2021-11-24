@@ -3,7 +3,6 @@ import { Grid } from '@material-ui/core';
 import Subjects from '../subjects/Subjects';
 import GroupsMenu from './GroupsMenu';
 import useAdminPage from '../../styles/useAdminPage';
-import CustomSuspense from '../data-fetching/CustomSuspense';
 import { useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 

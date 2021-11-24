@@ -13,7 +13,7 @@ function GroupsMenu({ userId, ...other }) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Paper role="region" aria-live="polite" variant="outlined" className={classes.paper}>
-            <Box className={classes.box}>
+            <Box className={classes.box} data-test-id="my-groups">
               <Typography
                 data-test-id="title"
                 variant="h4"
@@ -34,7 +34,7 @@ function GroupsMenu({ userId, ...other }) {
         </Grid>
         <Grid item xs={12}>
           <Paper role="region" aria-live="polite" variant="outlined" className={classes.paper}>
-            <Box className={classes.box}>
+            <Box className={classes.box} data-test-id="all-groups">
               <Typography variant="h4" component="h2" className={classes.title}>
                 All groups
               </Typography>

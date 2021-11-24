@@ -16,7 +16,7 @@ function Subjects({ linkTo, ...other }) {
   const router = useRouter();
   const onwardHref = linkTo ? linkTo : router.asPath;
   return (
-    <Box className={classes.box}>
+    <Box className={classes.box} data-test-id="subject-tiles-container">
       <SubjectTiles {...other} onwardHref={onwardHref} />
     </Box>
   );

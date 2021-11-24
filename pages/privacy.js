@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <CustomHead titleContent="Accessibility" />
 
-      <section className={classes.content}>
+      <section className={classes.content} data-test-id="privacy-statement">
         <Paper className={classes.paper}>
           <h2 className={classes.welcome}>Privacy and Security statement for Hexagons App</h2>
           <p>
