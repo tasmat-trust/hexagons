@@ -221,6 +221,7 @@ function LevelStatus({
           <CustomSuspense message="Loading level" textOnly={true}>
             <ErrorBoundary alert="Failed to load levels">
               <LevelStatusTitle
+                levelTitle={levelTitle}
                 bubbleGotLevel={bubbleGotLevel}
                 classes={classes}
                 status={status} 
