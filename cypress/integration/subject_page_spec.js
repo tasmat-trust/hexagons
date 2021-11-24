@@ -1,6 +1,5 @@
  
 import getSubjects from '../fixtures/getSubjects.json';
-import getRainbowAwardsSubjects from '../fixtures/getRainbowAwardsSubjects.json';
 
 describe('Subjects main page ', () => {
   beforeEach(() => {
@@ -43,25 +42,3 @@ describe('Subjects main page ', () => {
   });
 });
 
-describe('Rainbow Awards main page ', () => {
-  beforeEach(() => {
-    cy.login('Teacher');
-
-    cy.mockGraphQL([
-      { query: 'getRainbowAwardsSubjects', data: getRainbowAwardsSubjects }
-    ]);
-    cy.visit('/rainbow-awards');
-    cy.waitForSpinners();
-  });
-
-  it('Shows Rainbow Awards breadcrumb', () => {
-    cy.get('[data-test-id=first-crumb]').contains('Rainbow Awards');
-  });
-
-  it('Lets user visit Rainbow Award category by clicking Hexagon', () => {
-    cy.get('[data-test-id=subject-button-being-a-good-communicator]').click();
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq('/rainbow-awards/being-a-good-communicator');
-    });
-  });
-});

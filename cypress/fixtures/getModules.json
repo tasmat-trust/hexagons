@@ -1,0 +1,20 @@
+{
+  "body": {
+    "data": {
+      "modules": [
+        {
+          "order": 2,
+          "id": "123",
+          "level": "step",
+          "summary": "sdf",
+          "guidance": null,
+          "capabilities": [
+            { "text": "sfdsdf", "id": "1617", "guidance": [] },
+            { "text": "sfdsdf", "id": "1618", "guidance": [] },
+            { "text": "sdfsfd", "id": "1619", "guidance": [] }
+          ]
+        }
+      ]
+    }
+  }
+}

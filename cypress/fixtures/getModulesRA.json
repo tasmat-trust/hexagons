@@ -1,0 +1,355 @@
+{
+  "data": {
+    "modules": [
+      {
+        "order": 1,
+        "id": "253",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I am learning to accept an adult washing my hands.",
+            "id": "5139",
+            "guidance": []
+          },
+          {
+            "text": "I am learning to accept having my pull up being changed by an adult.",
+            "id": "5140",
+            "guidance": []
+          },
+          { "text": "I am learning to try and explore new foods.", "id": "5141", "guidance": [] },
+          {
+            "text": "I am learning to join in with physical activities. ",
+            "id": "5142",
+            "guidance": []
+          },
+          {
+            "text": "I am learning to sit on the toilet for the count of 20 (and not put my hands down the toilet).",
+            "id": "5143",
+            "guidance": []
+          },
+          {
+            "text": "I am learning to engage with songs that teach routine.",
+            "id": "5144",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "id": "254",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can take part in physical activities at playtimes e.g. dance club.",
+            "id": "5145",
+            "guidance": []
+          },
+          {
+            "text": "I can indicate to an adult when I need to be changed.",
+            "id": "5146",
+            "guidance": []
+          },
+          {
+            "text": "I can wash my hands after the toilet, before dinner etc.",
+            "id": "5147",
+            "guidance": []
+          },
+          { "text": "I can accept an adult brushing my teeth.", "id": "5148", "guidance": [] },
+          {
+            "text": "I can sign / give symbols for my needs e.g. hungry, thirsty, unwell.",
+            "id": "5149",
+            "guidance": []
+          },
+          {
+            "text": "I can taste, touch and smell new or different foods.",
+            "id": "5150",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "id": "255",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          { "text": "I can wash my own hands and teeth.", "id": "5151", "guidance": [] },
+          {
+            "text": "I am beginning to understand which foods are healthy.",
+            "id": "5152",
+            "guidance": []
+          },
+          { "text": "I can begin to accept help when I am hurt.", "id": "5153", "guidance": [] },
+          { "text": "I can actively engage on play equipment. ", "id": "5154", "guidance": [] },
+          {
+            "text": "I can complete up to 5 minutes aqua-aerobics in the pool.",
+            "id": "5155",
+            "guidance": []
+          },
+          { "text": "I can drink 1 glass of water a day at school.", "id": "5156", "guidance": [] }
+        ]
+      },
+      {
+        "order": 4,
+        "id": "256",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I eat a variety of foods and snacks at school.",
+            "id": "5157",
+            "guidance": []
+          },
+          {
+            "text": "I know that some foods are healthy and some are not.",
+            "id": "5158",
+            "guidance": []
+          },
+          { "text": "I drink 3 cups of water at school a day.", "id": "5159", "guidance": [] },
+          { "text": "I can move independently in the water.", "id": "5160", "guidance": [] },
+          {
+            "text": "I can participate in physical play in the playground. ",
+            "id": "5161",
+            "guidance": []
+          },
+          { "text": "I am willing to try new foods.", "id": "5162", "guidance": [] }
+        ]
+      },
+      {
+        "order": 5,
+        "id": "257",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can try different food at dinner and snack times.",
+            "id": "5163",
+            "guidance": []
+          },
+          {
+            "text": "I can indicate to adults when I am hungry or thirsty.",
+            "id": "5164",
+            "guidance": []
+          },
+          {
+            "text": "I can indicate the correct clothing to be worn in different weather.",
+            "id": "5165",
+            "guidance": []
+          },
+          {
+            "text": "I can sort a variety of healthy food from unhealthy.",
+            "id": "5166",
+            "guidance": []
+          },
+          {
+            "text": "I can use buoyancy aids to help me move about in the water. ",
+            "id": "5167",
+            "guidance": []
+          },
+          {
+            "text": "I can join in with physical play indoors and outdoors.",
+            "id": "5168",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 6,
+        "id": "258",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can show when my nose needs wiping or blowing.",
+            "id": "5169",
+            "guidance": []
+          },
+          {
+            "text": "I am prepared to try a range of healthy foods. ",
+            "id": "5170",
+            "guidance": []
+          },
+          {
+            "text": "I can take part in physical exercise without complaining. ",
+            "id": "5171",
+            "guidance": []
+          },
+          {
+            "text": "I am beginning to move with decreasing reliance on buoyancy aids in the pool.",
+            "id": "5172",
+            "guidance": []
+          },
+          {
+            "text": "I am beginning to accept that I need to go to bed at a certain time.",
+            "id": "5173",
+            "guidance": []
+          },
+          {
+            "text": "I am able to wear clothing appropriate to the weather or temperature. ",
+            "id": "5174",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 7,
+        "id": "259",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          { "text": "I can try healthy foods.", "id": "5175", "guidance": [] },
+          { "text": "I know that exercise makes my body healthy.", "id": "5176", "guidance": [] },
+          { "text": "I can clean my teeth. ", "id": "5177", "guidance": [] },
+          { "text": "I can wash my hands without prompting.", "id": "5178", "guidance": [] },
+          {
+            "text": "I can identify when I feel happy, sad, pleased or cross. ",
+            "id": "5179",
+            "guidance": []
+          },
+          { "text": "I can follow instructions to bath or shower. ", "id": "5180", "guidance": [] }
+        ]
+      },
+      {
+        "order": 8,
+        "id": "260",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          { "text": "I can select healthy foods.", "id": "5181", "guidance": [] },
+          {
+            "text": "I can do 10,000 steps per day (using pedometer around school).",
+            "id": "5182",
+            "guidance": []
+          },
+          {
+            "text": "I can brush my teeth properly for 2 minutes per day. ",
+            "id": "5183",
+            "guidance": []
+          },
+          {
+            "text": "I can wash my hands before eating, after visiting the toilet etc. ",
+            "id": "5184",
+            "guidance": []
+          },
+          { "text": "I can keep myself clean.", "id": "5185", "guidance": [] },
+          {
+            "text": "I can identify when I feel happy, sad, pleased or cross.",
+            "id": "5186",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 9,
+        "id": "261",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I can distinguish between healthy and unhealthy foods.",
+            "id": "5187",
+            "guidance": []
+          },
+          {
+            "text": "I understand the need to get sufficient and regular sleep.",
+            "id": "5188",
+            "guidance": []
+          },
+          {
+            "text": "I can identify what will happen to my teeth if I don’t keep them clean.",
+            "id": "5189",
+            "guidance": []
+          },
+          {
+            "text": "I can identify what will happen to my skin if I don’t protect it from the sun.",
+            "id": "5190",
+            "guidance": []
+          },
+          {
+            "text": "I understand why it is important to keep my body and my clothes clean.",
+            "id": "5191",
+            "guidance": []
+          },
+          {
+            "text": "I understand the benefits of physical exercise and am keen to take part.",
+            "id": "5192",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 10,
+        "id": "262",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I am able to eat a healthy lunch (not too many carbs, eat savoury first etc.).",
+            "id": "5193",
+            "guidance": []
+          },
+          { "text": "I am able to wash (bath / shower).", "id": "5194", "guidance": [] },
+          {
+            "text": "I am active at break times and don’t just stand or sit around. ",
+            "id": "5195",
+            "guidance": []
+          },
+          {
+            "text": "I can drink water at break and lunch without any fuss.",
+            "id": "5196",
+            "guidance": []
+          },
+          {
+            "text": "I can make a healthy choice at lunch time and will try new fruit. ",
+            "id": "5197",
+            "guidance": []
+          },
+          {
+            "text": "I am active at home and play on other things than the computer.  ",
+            "id": "5198",
+            "guidance": []
+          }
+        ]
+      },
+      {
+        "order": 11,
+        "id": "263",
+        "level": "step",
+        "summary": null,
+        "guidance": null,
+        "capabilities": [
+          {
+            "text": "I understand why it is important to be healthy.",
+            "id": "5199",
+            "guidance": []
+          },
+          {
+            "text": "I am aware of what I eat and try to have a balanced diet.",
+            "id": "5200",
+            "guidance": []
+          },
+          { "text": "I know when I need a drink.", "id": "5201", "guidance": [] },
+          { "text": "I know when I need to use tissues.", "id": "5202", "guidance": [] },
+          {
+            "text": "I know to put my hand over my mouth when I am coughing / sneezing. ",
+            "id": "5203",
+            "guidance": []
+          },
+          { "text": "I am willing to try new healthy foods.  ", "id": "5204", "guidance": [] }
+        ]
+      }
+    ]
+  }
+}

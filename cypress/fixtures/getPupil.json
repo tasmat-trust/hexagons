@@ -1,0 +1,21 @@
+{
+  "body": {
+    "data": {
+      "pupils": [
+        {
+          "name": "Jenny Roebottom",
+          "id": "154",
+          "groups": [
+            { "name": "Class 2" },
+            { "name": "Class 3" },
+            { "name": "Class 5" },
+            { "name": "Form 3" },
+            { "name": "EFL" },
+            { "name": "FSM" }
+          ],
+          "organization": { "school_type": "secondary" }
+        }
+      ]
+    }
+  }
+}

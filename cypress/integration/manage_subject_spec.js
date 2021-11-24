@@ -1,6 +1,6 @@
 import getSubjects from '../fixtures/getSubjects.json';
 import getSingleSubjectBySlug from '../fixtures/getSingleSubjectBySlug.json';
-import getDTModules from '../fixtures/getDTModules.json';
+import getModulesDT from '../fixtures/getModulesDT.json';
 import getModulesEmpty from '../fixtures/getModulesEmpty.json';
 describe('Manage subjects page', () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('Manage individual subject with existing content', () => {
 
     cy.mockGraphQL([
       { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlug },
-      { query: 'getModules', data: getDTModules },
+      { query: 'getModules', data: getModulesDT },
       { query: 'updateModule', data: updateModule },
       { query: 'updateCapability', data: updateCapability },
     ]);

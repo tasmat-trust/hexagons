@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
-import { Box } from '@material-ui/core'
-import LevelContent from '../pupil/LevelContent'
-import { sortModules } from '../../utils/sortLevelsAndModules'
-import CustomSuspense from '../data-fetching/CustomSuspense'
-import getRainbowLabel from '../../utils/getRainbowLabel'
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Box } from '@material-ui/core';
+import LevelContent from '../pupil/LevelContent';
+import { sortModules } from '../../utils/sortLevelsAndModules';
+import CustomSuspense from '../data-fetching/CustomSuspense';
+import getRainbowLabel from '../../utils/getRainbowLabel';
 
-import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs'
+import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -18,11 +18,7 @@ function TabPanel(props) {
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box>{children}</Box>}
     </div>
   );
 }
@@ -34,51 +30,50 @@ function a11yProps(index) {
   };
 }
 
-function StagesTabs({
-  isRa,
-  modules,
-  startingLevel,
-  noStartingLevel,
-  pupil,
-  ...other }) {
+function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...other }) {
   const [tabValue, setTabValue] = useState(0);
-  const [sortedModules, setSortedModules] = useState(modules)
-  const [guidanceActive, setGuidanceActive] = useState(false)
+  const [sortedModules, setSortedModules] = useState(modules);
+  const [guidanceActive, setGuidanceActive] = useState(false);
 
   const startingLevelId = startingLevel ? parseInt(startingLevel.id) : 0;
-  const [levelId, setLevelId] = useState(startingLevelId)
+  const [levelId, setLevelId] = useState(startingLevelId);
 
   useEffect(() => {
     // ensure levelId resets
     if (noStartingLevel) {
-      setLevelId(0)
+      setLevelId(0);
     }
-
-  }, [noStartingLevel])
+  }, [noStartingLevel]);
 
   useEffect(() => {
     if (modules) {
-      const sortedModules = sortModules(modules)
-      setSortedModules(sortedModules)
+      const sortedModules = sortModules(modules);
+      setSortedModules(sortedModules);
     }
-  }, [modules])
+  }, [modules]);
 
   useEffect(() => {
     if (modules && startingLevel && startingLevel.module) {
-      const activeModule = modules.map((module, i) => module.order === startingLevel.module.order && module.level === startingLevel.module.level)
+      const activeModule = modules.map(
+        (module, i) =>
+          module.order === startingLevel.module.order && module.level === startingLevel.module.level
+      );
       const startingIndex = activeModule.indexOf(true) > -1 ? activeModule.indexOf(true) : 0;
-      setTabValue(startingIndex)
+      setTabValue(startingIndex);
     } else {
-      setTabValue(0)
+      setTabValue(0);
     }
-  }, [modules, startingLevel, pupil])
+  }, [modules, startingLevel, pupil]);
 
   const handleChange = (event, newValue) => {
-    setTabValue(newValue); 
-    setLevelId(0) // We don't know what the level will be but we don't want it using the old level
+    setTabValue(newValue);
+    setLevelId(0); // We don't know what the level will be but we don't want it using the old level
   };
 
-  
+  const getLabel = (module,i) => {
+    const standardLabel = `${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`;
+    return isRa ? getRainbowLabel(i) : standardLabel;
+  };
 
   return (
     <>
@@ -91,22 +86,18 @@ function StagesTabs({
           aria-label="scrollable auto tabs example"
         >
           {sortedModules.map((module, i) => {
-            const standardLabel = `${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`
-            const label = isRa ? getRainbowLabel(i) : standardLabel
-            return (
-              <HexagonsTab
-                key={`link-${i}`}
-                label={label}
-                {...a11yProps(i)} />
-            )
+            const label = getLabel(module,i);
+            return <HexagonsTab key={`link-${i}`} label={label} {...a11yProps(i)} />;
           })}
         </HexagonsTabs>
       </CustomSuspense>
       {sortedModules.map((currentModule, i) => {
+        const levelTitle = getLabel(module,i);
         return (
           <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
             <CustomSuspense message={`Loading ${currentModule.order}`}>
               <LevelContent
+                levelTitle={levelTitle}
                 pupil={pupil}
                 levelId={levelId}
                 setLevelId={setLevelId}
@@ -118,18 +109,17 @@ function StagesTabs({
               />
             </CustomSuspense>
           </TabPanel>
-
-        )
+        );
       })}
     </>
-  )
+  );
 }
 
 StagesTabs.propTypes = {
   isRa: PropTypes.bool,
   modules: PropTypes.array,
   startingLevel: PropTypes.object,
-  pupil: PropTypes.object
-}
+  pupil: PropTypes.object,
+};
 
-export default StagesTabs
+export default StagesTabs;

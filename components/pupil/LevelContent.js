@@ -15,7 +15,8 @@ function LevelContent({
   currentModule,
   setGuidanceActive,
   guidanceActive,
-  user
+  user,
+  levelTitle
 }) {
 
   const [competencies, setCompetencies] = useState(initialCompetencies)
@@ -32,6 +33,7 @@ function LevelContent({
         <LevelStatus
           setGlobalGuidanceActive={setGuidanceActive}
           levelId={levelId}
+          levelTitle={levelTitle}
           setLevelId={setLevelId}
           currentModule={currentModule}
           pupil={pupil}
@@ -70,6 +72,7 @@ LevelContent.propTypes = {
   setGuidanceActive: PropTypes.func,
   guidanceActive: PropTypes.bool,
   levelId: PropTypes.number,
+  levelTitle: PropTypes.string,
   setLevelId: PropTypes.func,
 }
 

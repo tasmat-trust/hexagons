@@ -6,10 +6,9 @@ import WithLevel from '../data-fetching/WithLevel';
 function LevelTitle({
   status,
   classes,
-  moduleLabel,
-  moduleOrder,
   initialVisibleLevel,
   bubbleGotLevel,
+  levelTitle
 }) {
 
   useEffect(() => {
@@ -20,7 +19,7 @@ function LevelTitle({
   return (
     <Typography data-test-id="level-status-title" className={classes.title} variant="h2">
       <span>
-        {moduleLabel} {moduleOrder}
+        {levelTitle}
       </span>
 
       {(status === 'complete' || status === 'incomplete') && (
@@ -40,8 +39,7 @@ function LevelTitle({
 LevelTitle.propTypes = {
   bubbleGotLevel: PropTypes.func,
   initialVisibleLevel: PropTypes.object,
-  moduleLabel: PropTypes.string,
-  moduleOrder: PropTypes.number,
+  levelTitle: PropTypes.string,
   status: PropTypes.string,
   checkedStatus: PropTypes.bool,
   classes: PropTypes.object,

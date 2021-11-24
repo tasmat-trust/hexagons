@@ -1,3 +1,9 @@
+import getSubjects from '../fixtures/getSubjects.json';
+import getPupil from '../fixtures/getPupil.json';
+import getSingleGroup from '../fixtures/getSingleGroup.json';
+import getAllPupilsByGroup from '../fixtures/getAllPupilsByGroup.json';
+import getAllLevelsEmpty from '../fixtures/getAllLevelsEmpty.json';
+
 const firstCompText = 'sfdsdf';
 const firstCompId = 1617;
 const secondCompId = 1618;
@@ -14,126 +20,7 @@ context('Assessment page', () => {
           subjects: [{ id: '68', name: 'Expressive Language', slug: 'expressive-language' }],
         },
       },
-    };
-
-    let getSingleGroup = {
-      body: { data: { groups: [{ name: 'Class 2', id: '244' }] } },
-    };
-
-    let getPupil = {
-      body: {
-        data: {
-          pupils: [
-            {
-              name: 'Jenny Roebottom',
-              id: '154',
-              groups: [
-                { name: 'Class 2' },
-                { name: 'Class 3' },
-                { name: 'Class 5' },
-                { name: 'Form 3' },
-                { name: 'EFL' },
-                { name: 'FSM' },
-              ],
-              organization: { school_type: 'secondary' },
-            },
-          ],
-        },
-      },
-    };
-
-    let getSubjects = {
-      body: {
-        data: {
-          subjects: [
-            {
-              name: 'Computing Skills',
-              slug: 'computing-skills',
-              isCore: true,
-              isChildOf: 'Computing',
-              isEarlyDevelopment: null,
-              isRainbowAwards: null,
-            },
-            {
-              name: 'Expressive Language',
-              slug: 'expressive-language',
-              isCore: true,
-              isChildOf: null,
-              isEarlyDevelopment: null,
-              isRainbowAwards: null,
-            },
-            {
-              name: 'Music',
-              slug: 'music',
-              isCore: null,
-              isChildOf: null,
-              isEarlyDevelopment: null,
-              isRainbowAwards: null,
-            },
-            {
-              name: 'PSHE',
-              slug: 'pshe',
-              isCore: null,
-              isChildOf: null,
-              isEarlyDevelopment: null,
-              isRainbowAwards: null,
-            },
-            {
-              name: 'PE',
-              slug: 'pe',
-              isCore: null,
-              isChildOf: null,
-              isEarlyDevelopment: null,
-              isRainbowAwards: null,
-            },
-          ],
-        },
-      },
-    };
-
-    let getAllPupilsByGroup = {
-      body: {
-        data: {
-          pupils: [
-            {
-              name: 'Jenny Roebottom',
-              id: '154',
-              groups: [
-                { name: 'Class 2', slug: 'class-2' },
-                { name: 'Class 3', slug: 'class-3' },
-                { name: 'Class 5', slug: 'class-5' },
-                { name: 'Form 3', slug: 'form-3' },
-                { name: 'EFL', slug: 'efl' },
-                { name: 'FSM', slug: 'fsm' },
-              ],
-            },
-            {
-              name: 'Amy Johnson',
-              id: '165',
-              groups: [{ name: 'Class 2', slug: 'class-2' }],
-            },
-            {
-              name: 'Imogen Banana',
-              id: '166',
-              groups: [{ name: 'Class 2', slug: 'class-2' }],
-            },
-            {
-              name: 'Jamie Jones',
-              id: '170',
-              groups: [
-                { name: 'Class 1', slug: 'class-1' },
-                { name: 'Class 2', slug: 'class-2' },
-                { name: 'Class 3', slug: 'class-3' },
-              ],
-            },
-          ],
-        },
-      },
-    };
-
-    let getAllLevels = {
-      body: { data: { levels: [] } },
-    };
+    }; 
 
     let getModules = {
       body: {
@@ -162,7 +49,7 @@ context('Assessment page', () => {
       { query: 'getPupil', data: getPupil },
       { query: 'getSubjects', data: getSubjects },
       { query: 'getAllPupilsByGroup', data: getAllPupilsByGroup },
-      { query: 'getAllLevels', data: getAllLevels },
+      { query: 'getAllLevels', data: getAllLevelsEmpty },
       { query: 'getModules', data: getModules },
     ]);
   });

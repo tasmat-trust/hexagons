@@ -224,9 +224,7 @@ function LevelStatus({
               <LevelStatusTitle
                 bubbleGotLevel={bubbleGotLevel}
                 classes={classes}
-                moduleLabel={moduleLabel}
-                status={status}
-                moduleOrder={currentModule.order}
+                status={status} 
                 {...other}
               />
             </ErrorBoundary>
