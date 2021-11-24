@@ -18,6 +18,7 @@ import {
 } from '../utils/graphql-test-utils';
 
 Cypress.Commands.add('mockGraphQL', (mocks) => {
+  let counter = 0;
   cy.intercept(
     {
       method: 'POST',
@@ -25,7 +26,7 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
     },
     (req) => {
       // Get requests
-      mocks.forEach((mock, i) => {
+      mocks.forEach((mock) => {
         if (mock.variable) {
           if (
             hasOperationName(req, mock.query) &&
@@ -39,7 +40,8 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
           }
         } else if (mock.isOneOfManySimilar) {
           if (hasOperationName(req, mock.query)) {
-            aliasQuery(req, mock.query, i);
+            counter++;
+            aliasQuery(req, mock.query, counter);
             if (mock.data) {
               req.reply(mock.data);
             }
