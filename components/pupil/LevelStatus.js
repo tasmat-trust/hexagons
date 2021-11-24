@@ -91,6 +91,7 @@ function LevelStatus({
   pupil,
   competencies,
   levelId,
+  levelTitle,
   setLevelId,
   ...other
 }) {
@@ -103,8 +104,6 @@ function LevelStatus({
   const [status, setStatus] = useState('notstarted');
   const [readyToShow, setReadyToShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
-
-  const moduleLabel = currentModule.level === 'step' ? 'Step' : 'Stage';
 
   const thisLevelCompetencies = calculateCompetenciesForThisLevel(
     competencies,
@@ -260,7 +259,7 @@ function LevelStatus({
                 }, 100);
               }}
               variant="contained"
-              boxTitle={`${moduleLabel} ${currentModule.order} summary`}
+              boxTitle={`${levelTitle} summary`}
             >
               {guidanceActive && (
                 <>
@@ -281,19 +280,19 @@ function LevelStatus({
           <Box className={classes.actionsBox}>
             <DialogButton
               modelname="summary"
-              title={`View ${moduleLabel} ${currentModule.order} summary`}
+              title={`View ${levelTitle} summary`}
               label="Summary"
               testId="view-summary-button"
               color="primary"
               variant="contained"
-              boxTitle={`${moduleLabel} ${currentModule.order} summary`}
+              boxTitle={`${levelTitle} summary`}
             >
               <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
             </DialogButton>
 
             {status !== 'complete' && (
               <Button
-                title={`Mark ${moduleLabel} complete`}
+                title={`Mark ${levelTitle} complete`}
                 data-test-id="mark-complete"
                 className={classes.endButton}
                 variant="contained"
@@ -306,7 +305,7 @@ function LevelStatus({
 
             {status === 'complete' && (
               <Button
-                title={`Mark ${moduleLabel} incomplete`}
+                title={`Mark ${levelTitle} incomplete`}
                 data-test-id="mark-incomplete"
                 className={classes.endButton}
                 variant="outlined"
@@ -341,6 +340,7 @@ LevelStatus.propTypes = {
   pupil: PropTypes.object,
   competencies: PropTypes.array,
   levelId: PropTypes.number,
+  levelTitle: PropTypes.string,
   setLevelId: PropTypes.func,
 };
 

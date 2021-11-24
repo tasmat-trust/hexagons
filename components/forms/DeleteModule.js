@@ -1,33 +1,38 @@
-import PropTypes from 'prop-types'
-import { Button } from "@material-ui/core"
+import PropTypes from 'prop-types';
+import { Button } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
-import deleteModule from './handlers/deleteModule'
+import deleteModule from './handlers/deleteModule';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import { useContext } from 'react';
 
-function DeleteModule({ setModulesData, currentStage }) {
-
-  const { gqlClient } = useContext(HexagonsContext)
+function DeleteModule({ setModulesData, currentStage, testId, moduleTitle, setLoadingMessage }) {
+  const { gqlClient } = useContext(HexagonsContext);
 
   async function handleForm(event) {
-    event.preventDefault()
-    await deleteModule(gqlClient, currentStage, setModulesData)
+    event.preventDefault();
+    setLoadingMessage(`Deleting ${moduleTitle}`);
+    await deleteModule(gqlClient, currentStage, () => {
+      setModulesData();
+      setLoadingMessage(false);
+    });
   }
 
   return (
     <form id={`new-module`} onSubmit={handleForm}>
       <FormControl margin="normal">
-        <Button data-test-id={`delete-module`} fullWidth type="submit" variant="contained" color="primary">
-          Delete module
+        <Button data-test-id={testId} fullWidth type="submit" variant="contained" color="primary">
+          Delete {moduleTitle}
         </Button>
       </FormControl>
     </form>
-  )
+  );
 }
 
 DeleteModule.propTypes = {
+  setLoadingMessage: PropTypes.func,
+  testId: PropTypes.string,
   setModulesData: PropTypes.func,
-  currentStage: PropTypes.object
-}
+  currentStage: PropTypes.object,
+};
 
-export default DeleteModule
+export default DeleteModule;

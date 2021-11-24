@@ -12,6 +12,7 @@ import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
 
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import ManageSummary from '../manage/ManageSummary';
+import Loading from '../ui-globals/Loading';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,6 +39,7 @@ function a11yProps(index) {
 function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
   const [tabValue, setTabValue] = useState(0);
   const [sortedModules, setSortedModules] = useState(modules);
+  const [loadingMessage, setLoadingMessage] = useState(false);
 
   useEffect(() => {
     if (modules) {
@@ -52,7 +54,13 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
 
   return (
     <>
-      <AddCapabilities setModulesData={setModulesData} subjectId={subjectId} />
+      <AddCapabilities
+        setModulesData={setModulesData}
+        subjectId={subjectId}
+        setLoadingMessage={setLoadingMessage}
+      />
+      {loadingMessage && <Loading message={loadingMessage} overlay={true} />}
+
       <CustomSuspense message="Loading tabs">
         <HexagonsTabs
           value={tabValue}
@@ -63,6 +71,7 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
         >
           {sortedModules.map((module, i) => (
             <HexagonsTab
+              data-test-id={`${module.level}-${module.order}-tab`}
               key={`link-${i}`}
               label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
               {...a11yProps(0)}
@@ -74,7 +83,10 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
       {sortedModules.map((module, i) => (
         <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
           <DeleteModule
+            testId={`delete-${module.level}-${module.order}`}
+            moduleTitle={`${module.level} ${module.order}`}
             setModulesData={setModulesData}
+            setLoadingMessage={setLoadingMessage}
             currentStage={module}
             subjectId={subjectId}
           />

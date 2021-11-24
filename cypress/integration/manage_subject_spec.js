@@ -29,11 +29,16 @@ describe('Manage individual subject with existing content', () => {
       data: { updateCapability: { capability: { text: 'sdfdfd', id: '7310' } } },
     };
 
+    let deleteCapability = { data: { deleteCapability: { capability: { id: '8078' } } } };
+    let deleteModule = { data: { deleteModule: { module: { id: '442' } } } };
+
     cy.mockGraphQL([
       { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlug },
       { query: 'getModules', data: getModulesDT },
       { query: 'updateModule', data: updateModule },
       { query: 'updateCapability', data: updateCapability },
+      { query: 'DeleteCapability', data: deleteCapability, isOneOfManySimilar: true },
+      { query: 'DeleteModule', data: deleteModule },
     ]);
     cy.login('Leader');
 
@@ -56,6 +61,17 @@ describe('Manage individual subject with existing content', () => {
     cy.get('[data-test-id=text-field]').type('New competency');
     cy.get('[data-test-id="add-new-capability"]').click();
     cy.wait('@gqlupdateCapabilityQuery').its('request.url').should('include', '/graphql');
+  });
+
+  it('lets leader delete module', () => {
+    cy.get('[data-test-id=stage-1-tab]').click();
+    cy.get('[data-test-id="delete-stage-1"]').click();
+    cy.get('[data-test-id=loading]').should('exist');
+    cy.wait('@gqlDeleteCapability1Query').its('request.url').should('include', '/graphql');
+    cy.wait('@gqlDeleteCapability2Query').its('request.url').should('include', '/graphql');
+    cy.wait('@gqlDeleteCapability3Query').its('request.url').should('include', '/graphql');
+    cy.wait('@gqlDeleteCapability4Query').its('request.url').should('include', '/graphql');
+    cy.wait('@gqlDeleteModuleQuery').its('request.url').should('include', '/graphql');
   });
 });
 
@@ -81,7 +97,7 @@ describe('Manage subject with no content', () => {
           capability: { text: 'sdfsfd', order: 0, module: { level: 'step', order: 2 } },
         },
       },
-    }; 
+    };
 
     cy.mockGraphQL([
       { query: 'getSingleSubjectBySlug', data: getSingleSubjectBySlug },

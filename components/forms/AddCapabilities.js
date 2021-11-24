@@ -16,7 +16,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-function AddCapabilities({ setModulesData, subjectId }) {
+function AddCapabilities({ setModulesData, subjectId, setLoadingMessage }) {
   const { gqlClient } = useContext(HexagonsContext);
   const [capabilitiesValue, setCapabilitiesValue] = useState('');
   const [orderValue, setOrderValue] = useState('');
@@ -27,6 +27,7 @@ function AddCapabilities({ setModulesData, subjectId }) {
 
   async function handleForm(event) {
     event.preventDefault();
+    setLoadingMessage('Creating module');
     let formData = {};
 
     formData.subjectId = subjectId;
@@ -45,7 +46,10 @@ function AddCapabilities({ setModulesData, subjectId }) {
     if (capabilitiesValue) {
       formData.capabilities = capabilitiesValue;
     }
-    await createModule(formData, gqlClient, setModulesData);
+    await createModule(formData, gqlClient, () => {
+      setModulesData();
+      setLoadingMessage(false);
+    });
     resetForm();
   }
 
@@ -128,6 +132,7 @@ function AddCapabilities({ setModulesData, subjectId }) {
 }
 
 AddCapabilities.propTypes = {
+  setLoadingMessage: PropTypes.func,
   setModulesData: PropTypes.func,
   subjectId: PropTypes.string,
 };

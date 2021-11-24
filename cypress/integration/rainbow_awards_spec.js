@@ -6,26 +6,26 @@ import getAllPupilsByGroup from '../fixtures/getAllPupilsByGroup.json';
 import getAllLevelsEmpty from '../fixtures/getAllLevelsEmpty.json';
 import getModulesRA from '../fixtures/getModulesRA.json';
 
-// describe('Rainbow Awards main page ', () => {
-//   beforeEach(() => {
-//     cy.login('Teacher');
+describe('Rainbow Awards main page ', () => {
+  beforeEach(() => {
+    cy.login('Teacher');
 
-//     cy.mockGraphQL([{ query: 'getRainbowAwardsSubjects', data: getRainbowAwardsSubjects }]);
-//     cy.visit('/rainbow-awards');
-//     cy.waitForSpinners();
-//   });
+    cy.mockGraphQL([{ query: 'getRainbowAwardsSubjects', data: getRainbowAwardsSubjects }]);
+    cy.visit('/rainbow-awards');
+    cy.waitForSpinners();
+  });
 
-//   it('Shows Rainbow Awards breadcrumb', () => {
-//     cy.get('[data-test-id=first-crumb]').contains('Rainbow Awards');
-//   });
+  it('Shows Rainbow Awards breadcrumb', () => {
+    cy.get('[data-test-id=first-crumb]').contains('Rainbow Awards');
+  });
 
-//   it('Lets user visit Rainbow Award category by clicking Hexagon', () => {
-//     cy.get('[data-test-id=subject-button-being-a-good-communicator]').click();
-//     cy.location().should((loc) => {
-//       expect(loc.pathname).to.eq('/rainbow-awards/being-a-good-communicator');
-//     });
-//   });
-// });
+  it('Lets user visit Rainbow Award category by clicking Hexagon', () => {
+    cy.get('[data-test-id=subject-button-being-a-good-communicator]').click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/rainbow-awards/being-a-good-communicator');
+    });
+  });
+});
 
 context('Rainbow Awards subject page', () => {
   beforeEach(() => {
