@@ -131,8 +131,8 @@ const getCompetencies = gql`query getCompetencies($pupilId: ID!, $levelId: [ID!]
 }`
 
 
-const getCompetency = gql`query getCompetency($pupilId: ID!, $capability_fk: Int!) {  
-  competencies (where: {pupil: $pupilId, capability_fk: $capability_fk}) {
+const getCompetency = gql`query getCompetency($pupilId: ID!, $capability_fk: Int!, $levelId: ID!) {  
+  competencies (where: {pupil: $pupilId, capability_fk: $capability_fk, level: $levelId}) {
     id status capability_fk   
   }
 }`

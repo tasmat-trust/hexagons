@@ -110,6 +110,7 @@ function CapabilityTile(props) {
     };
 
     const checkCompetencyVars = {
+      levelId: levelIdToUpdate,
       capability_fk: parseInt(capability.id),
       pupilId: pupil.id,
     };
