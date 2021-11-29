@@ -10,7 +10,7 @@ import ResponsiveDrawer from '../components/navigation/ResponsiveDrawer';
 
 import CustomSuspense from '../components/data-fetching/CustomSuspense';
 import ErrorBoundary from '../components/data-fetching/ErrorBoundary';
-
+import NextNprogress from 'nextjs-progressbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { create } from 'jss';
@@ -32,6 +32,7 @@ import { SWRConfig } from 'swr';
 import { getOrgIdFromSession } from '../utils';
 
 import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
+ 
 
 const isServer = typeof window === 'undefined';
 
@@ -87,11 +88,14 @@ function MyApp({ Component, pageProps }) {
     role
   };
 
+ 
+
   return (
     <>
       <Head>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
+      <NextNprogress color={theme.palette.secondary.light} />
       <AnimateSharedLayout>
         <ThemeProviderWithGlobalStyles theme={theme}>
           <StylesProvider jss={jss}>

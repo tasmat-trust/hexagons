@@ -44,7 +44,7 @@ context('Rainbow Awards subject page', () => {
 
   describe('Rainbow Awards subject page', () => {
     beforeEach(() => {
-      cy.visit('/rainbow-awards/being-healthy/class-2/154');
+      cy.visit('/rainbow-awards/being-healthy/class-1/154');
       cy.waitForSpinners();
     });
     it('Displays colours instead of Step/Stage', () => {

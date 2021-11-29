@@ -75,7 +75,7 @@ context('Assessment page', () => {
         { query: 'getCompetencies', data: getCompetenciesEmpty },
         { query: 'createLevel', data: createLevel },
       ]);
-      cy.visit('/subjects/expressive-language/class-2/154');
+      cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();
@@ -123,7 +123,7 @@ context('Assessment page', () => {
         { query: 'getCompetency', data: getCompetency },
         { query: 'updateCompetency', data: updateCompetency },
       ]);
-      cy.visit('/subjects/expressive-language/class-2/154');
+      cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();
@@ -171,7 +171,7 @@ context('Assessment page', () => {
         { query: 'getLevel', data: getLevel },
         { query: 'getCompetencies', data: getCompetencies },
       ]);
-      cy.visit('/subjects/expressive-language/class-2/154');
+      cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();
@@ -217,7 +217,7 @@ context('Assessment page', () => {
         { query: 'getCompetencies', data: getCompetencies },
         { query: 'updateLevel', data: updateLevel },
       ]);
-      cy.visit('/subjects/expressive-language/class-2/154');
+      cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();
@@ -276,7 +276,7 @@ context('Assessment page', () => {
         { query: 'getCompetencies', data: getCompetencies },
         { query: 'updateLevel', data: updateLevel },
       ]);
-      cy.visit('/subjects/expressive-language/class-2/154');
+      cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();
@@ -323,7 +323,7 @@ context('Assessment page', () => {
         { query: 'getLevel', data: getLevel },
         { query: 'getCompetencies', data: getCompetencies },
       ]);
-      cy.visit('/subjects/expressive-language/class-2/154');
+      cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();

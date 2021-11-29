@@ -111,7 +111,7 @@ context('Assessment page', () => {
 
     describe('Subject route', () => {
       beforeEach(() => {
-        cy.visit('/subjects/art/class-2/154');
+        cy.visit('/subjects/art/class-1/154');
         cy.waitForSpinners();
         cy.waitForSpinners();
         cy.waitForSpinners();
@@ -131,7 +131,7 @@ context('Assessment page', () => {
           .select('Number')
           .should('have.value', 'number');
         cy.location().should((loc) => {
-          expect(loc.pathname).to.eq('/subjects/number/class-2/154');
+          expect(loc.pathname).to.eq('/subjects/number/class-1/154');
         });
       });
 
@@ -140,7 +140,7 @@ context('Assessment page', () => {
           .select('Amy Johnson')
           .should('have.value', '165');
         cy.location().should((loc) => {
-          expect(loc.pathname).to.eq('/subjects/art/class-2/165');
+          expect(loc.pathname).to.eq('/subjects/art/class-1/165');
         });
       });
 
@@ -151,7 +151,7 @@ context('Assessment page', () => {
 
     describe('Pupil route', () => {
       beforeEach(() => {
-        cy.visit('/pupils/class-2/art/154');
+        cy.visit('/pupils/class-1/art/154');
         cy.waitForSpinners();
         cy.waitForSpinners();
         cy.waitForSpinners();
@@ -166,7 +166,7 @@ context('Assessment page', () => {
           .select('Number')
           .should('have.value', 'number');
         cy.location().should((loc) => {
-          expect(loc.pathname).to.eq('/pupils/class-2/154/number');
+          expect(loc.pathname).to.eq('/pupils/class-1/154/number');
         });
       });
 
@@ -175,7 +175,7 @@ context('Assessment page', () => {
           .select('Amy Johnson')
           .should('have.value', '165');
         cy.location().should((loc) => {
-          expect(loc.pathname).to.eq('/pupils/class-2/165/art');
+          expect(loc.pathname).to.eq('/pupils/class-1/165/art');
         });
       });
     });
@@ -199,7 +199,7 @@ context('Assessment page', () => {
 
         cy.mockGraphQL([{ query: 'createGuidance', data: createGuidance }]);
 
-        cy.visit('/subjects/art/class-2/154');
+        cy.visit('/subjects/art/class-1/154');
         cy.get('[data-test-id=hex-3]').should('exist');
       });
       it('Lets user put page into guidance mode', () => {

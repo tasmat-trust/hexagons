@@ -1,0 +1,16 @@
+{
+  "body": {
+    "data": {
+      "subjects": [
+        { "id": "12", "name": "Computing Skills", "slug": "computing-skills" },
+        { "id": "10", "name": "Expressive Language", "slug": "expressive-language" },
+        { "id": "9", "name": "Number", "slug": "number" },
+        { "id": "6", "name": "Reading", "slug": "reading" },
+        { "id": "16", "name": "Primary Science", "slug": "primary-science" },
+        { "id": "14", "name": "SS&M", "slug": "ssandm" },
+        { "id": "15", "name": "U&A", "slug": "uanda" },
+        { "id": "7", "name": "Writing", "slug": "writing" }
+      ]
+    }
+  }
+}
