@@ -92,7 +92,7 @@ function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...o
         </HexagonsTabs>
       </CustomSuspense>
       {sortedModules.map((currentModule, i) => {
-        const levelTitle = getLabel(module,i);
+        const levelTitle = getLabel(currentModule,i);
         return (
           <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
             <CustomSuspense message={`Loading ${currentModule.order}`}>

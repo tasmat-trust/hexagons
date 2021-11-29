@@ -23,8 +23,7 @@ import Loading from '../components/ui-globals/Loading';
 import { useState } from 'react';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
-import { AnimateSharedLayout } from 'framer-motion';
-import { motion } from 'framer-motion';
+import { AnimateSharedLayout } from 'framer-motion'; 
 import Footer from '../components/layout/Footer';
 
 // Data fetching

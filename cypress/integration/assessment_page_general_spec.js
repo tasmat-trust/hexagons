@@ -9,7 +9,6 @@ const earlyDevelopmentFirstCompetencyText = 'sdsfdsdfsfdsfdsfd';
 const existingGuidance = 'Some guidance on how to do this lesson';
 const newGuidanceText = 'Some new guidance';
 
-
 context('Assessment page', () => {
   beforeEach(() => {
     cy.login('Teacher');
@@ -117,6 +116,11 @@ context('Assessment page', () => {
         cy.waitForSpinners();
         cy.waitForSpinners();
       });
+
+      it('Shows correct step/stage with order as heading', () => {
+        cy.get('[data-test-id="level-status-title"]').contains('Step 1');
+      });
+
       it('Shows page with correct breadcrumbs', () => {
         cy.get('[data-test-id=first-crumb]').contains('Subjects');
         cy.get('[data-test-id=third-crumb]').contains('Class 2');
