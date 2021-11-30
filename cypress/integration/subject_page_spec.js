@@ -11,16 +11,10 @@ describe('Subjects main page ', () => {
     cy.waitForSpinners();
   });
 
-  it('Shows subjects breadcrumb', () => {
+  it('Nests subjects correctly and shows subjects breadcrumb', () => {
     cy.get('[data-test-id=first-crumb]').contains('Subjects');
-  });
-
-  it('Nests Language subjects under Communication', () => {
     cy.get('[data-test-id=parent-subject-button-communication]').click();
     cy.get('[data-test-id=subject-button-expressive-language]').should('be.visible');
-  });
-
-  it('Nests English subjects under English', () => {
     cy.get('[data-test-id=parent-subject-button-english]').click();
     cy.get('[data-test-id=subject-button-reading]').should('be.visible');
     cy.get('[data-test-id=subject-button-writing]').should('be.visible');
