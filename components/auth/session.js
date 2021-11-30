@@ -2,8 +2,13 @@ import { withIronSession, ironSession } from 'next-iron-session';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+const saltFromEnv = process.env.NEXT_PUBLIC_SECRET_COOKIE_PASSWORD;
+const password = saltFromEnv
+  ? saltFromEnv
+  : 'KDKMDKMDKMDKDMnnnnnh8dddh8h08h08h80h80h08h80h80h8h80h08h08hAB'; // hard-coded for Github Actions
+
 const sessionConfig = {
-  password: process.env.NEXT_PUBLIC_SECRET_COOKIE_PASSWORD,
+  password: password,
   cookieName: 'next-session',
   cookieOptions: {
     secure: true,
