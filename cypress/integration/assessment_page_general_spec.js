@@ -123,7 +123,7 @@ context('Assessment page', () => {
 
       it('Shows page with correct breadcrumbs', () => {
         cy.get('[data-test-id=first-crumb]').contains('Subjects');
-        cy.get('[data-test-id=third-crumb]').contains('Class 2');
+        cy.get('[data-test-id=third-crumb]').contains('Class 1');
       });
 
       it('Lets user choose a different subject from the breadcrumbs', () => {
@@ -158,7 +158,7 @@ context('Assessment page', () => {
       });
       it('Shows page with correct breadcrumbs', () => {
         cy.get('[data-test-id=first-crumb]').contains('Pupils');
-        cy.get('[data-test-id=second-crumb]').contains('Class 2');
+        cy.get('[data-test-id=second-crumb]').contains('Class 1');
       });
 
       it('Lets user choose a different subject from the breadcrumbs', () => {
