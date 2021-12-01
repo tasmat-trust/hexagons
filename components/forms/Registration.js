@@ -128,9 +128,9 @@ const RegistrationForm = ({ orgs }) => {
       {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
       {loading && <Loading data-test-id="loading" message={loading} testId='registration-loading' />}
       {success && (
-        <>
+        <Alert data-test-id="registration-success">
           Your account has been created and we have emailed you an activation link. Please check your email.
-        </>
+        </Alert>
       )}
       {!loading && !success && (
         <form method="post" action="/api/login" onSubmit={onSubmit}>

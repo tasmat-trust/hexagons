@@ -1,0 +1,14 @@
+{
+  "statusCode": 400,
+  "error": "Bad Request",
+  "message": [
+    {
+      "messages": [{ "id": "Auth.form.error.code.provide", "message": "Incorrect code provided." }]
+    }
+  ],
+  "data": [
+    {
+      "messages": [{ "id": "Auth.form.error.code.provide", "message": "Incorrect code provided." }]
+    }
+  ]
+}

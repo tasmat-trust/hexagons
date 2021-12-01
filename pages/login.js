@@ -15,7 +15,10 @@ export default function LoginPage(props) {
         <h1 className={classes.title}>Login to Hexagons</h1>
         <LoginForm {...props} />
       </Paper>
-      <Typography className={classes.secondaryAction}>
+      <Typography className={classes.secondaryAction} data-test-id="reset-password-link">
+        Forgotten password? <Link href="/reset-password">Reset password</Link>
+      </Typography>
+      <Typography className={classes.secondaryAction} data-test-id="register-link">
         Need an account? <Link href="/register">Register</Link>
       </Typography>
     </>

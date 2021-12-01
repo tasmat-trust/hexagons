@@ -17,9 +17,10 @@
 import './commands';
 import './manage-user-commands';
 import './assessment-commands';
-import './groups-commands'
+import './auth-commands';
+import './groups-commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import '@cypress/code-coverage/support'
+import '@cypress/code-coverage/support';

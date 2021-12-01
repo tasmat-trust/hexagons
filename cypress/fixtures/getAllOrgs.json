@@ -1,0 +1,14 @@
+{
+  "body": {
+    "data": {
+      "organizations": [
+        { "name": "Torfield School", "id": "1", "email_domains": "tasmat.org.uk" },
+        {
+          "name": "Saxon Mount School",
+          "id": "2",
+          "email_domains": "tasmat.org.uk,othervaliddomain.com, thirdvaliddomain.com"
+        }
+      ]
+    }
+  }
+}

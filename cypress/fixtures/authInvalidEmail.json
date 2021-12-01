@@ -1,0 +1,18 @@
+{
+  "statusCode": 400,
+  "error": "Bad Request",
+  "message": [
+    {
+      "messages": [
+        { "id": "Auth.form.error.email.format", "message": "Please provide valid email address." }
+      ]
+    }
+  ],
+  "data": [
+    {
+      "messages": [
+        { "id": "Auth.form.error.email.format", "message": "Please provide valid email address." }
+      ]
+    }
+  ]
+}
