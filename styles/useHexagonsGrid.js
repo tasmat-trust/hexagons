@@ -8,7 +8,7 @@ const stringStyles = makeStyles((theme) => ({
   main: `
     display: flex;
     width: 100vw;
-    --s:  clamp(12.5rem, 24vw, 22rem);
+    --s:  clamp(180px, 200px, 352px);
     --r: 0.9; /* ratio */
     /* clip-path */
     --h: 0.25;
@@ -18,7 +18,7 @@ const stringStyles = makeStyles((theme) => ({
     /*margin */
     --mv: 3px; /* vertical */
     --mh: calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 6px);
-    --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc) - 2px);
+    --f: calc(2 *var(--s) *var(--r) + 4 *var(--mv) - 2 *var(--vc));
     padding-bottom: calc(var(--s) * (var(--r) * 1.2));
   `,
   main_wide: `
@@ -130,6 +130,7 @@ const stringStyles = makeStyles((theme) => ({
   `,
   hexContent_inner: `
     width: 70%;
+    font-size: 13px;
     margin: 0px auto;
   `,
   tileInfo: `

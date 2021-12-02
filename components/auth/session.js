@@ -11,7 +11,7 @@ const sessionConfig = {
   password: password,
   cookieName: 'next-session',
   cookieOptions: {
-    secure: true,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
   },
 };
 

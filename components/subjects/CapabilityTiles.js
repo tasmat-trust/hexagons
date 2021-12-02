@@ -19,7 +19,11 @@ function CapabilityTiles({ capabilities, competencies, ...other }) {
           }`}
         ></div>
         <div className={`${styles.main}  ${pseudoStyles.main}`}>
-          <div role="region" aria-live="polite" className={`${styles.container}  ${pseudoStyles.container}`}>
+          <div
+            role="region"
+            aria-live="polite"
+            className={`${styles.container}  ${pseudoStyles.container}`}
+          >
             {capabilities.map((capability, i) => {
               const gotC =
                 competencies &&
