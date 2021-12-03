@@ -104,7 +104,7 @@ DialogButton.propTypes = {
   label: PropTypes.string, // Button label
   content: PropTypes.element, // Content to display inside hexagons
   text: PropTypes.string, // Text to appear above the content in the popup
-  children: PropTypes.string, // Content to display in button
+  children: PropTypes.object, // Content to display in button
   modelname: PropTypes.string, // For test id
   isHexagon: PropTypes.bool, // Will this be appearing inside hexagon?
   bubbleHandleClose: PropTypes.func, // function to call when it closes

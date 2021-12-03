@@ -21,7 +21,7 @@ function SubjectTiles({ isNarrow, subjects, ...other }) {
 }
 
 SubjectTiles.propTypes = {
-  isNarrow: PropTypes.boolean,
+  isNarrow: PropTypes.bool,
   subjects: PropTypes.array
 }
 

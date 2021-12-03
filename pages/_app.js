@@ -20,10 +20,10 @@ import templatePlugin from 'jss-plugin-template';
 import nestedPlugin from 'jss-plugin-nested';
 import theme from '../styles/theme';
 import Loading from '../components/ui-globals/Loading';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
-import { AnimateSharedLayout } from 'framer-motion'; 
+import { AnimateSharedLayout } from 'framer-motion';
 import Footer from '../components/layout/Footer';
 
 // Data fetching
@@ -32,9 +32,6 @@ import { SWRConfig } from 'swr';
 import { getOrgIdFromSession } from '../utils';
 
 import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
- 
-
-const isServer = typeof window === 'undefined';
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
@@ -47,7 +44,14 @@ function ThemeProviderWithGlobalStyles({ children }) {
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
-  React.useEffect(() => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    const isClient = typeof window !== 'undefined';
+    setIsClient(isClient);
+  }, []);
+
+  useEffect(() => {
     // Remove the server-side injected CSS.
     // WHY: https://stackoverflow.com/questions/63521538/removing-server-side-injected-css
     const jssStyles = document.querySelector('#jss-server-side');
@@ -75,20 +79,16 @@ function MyApp({ Component, pageProps }) {
     orgId = getOrgIdFromSession(pageProps.user);
   }
 
-  let role = 'public'
+  let role = 'public';
   if (pageProps.user) {
-    role = pageProps.user.role.name
+    role = pageProps.user.role.name;
   }
-
-   
 
   const hexagonsGlobals = {
     gqlClient,
     orgId,
-    role
+    role,
   };
-
- 
 
   return (
     <>
@@ -120,7 +120,7 @@ function MyApp({ Component, pageProps }) {
                   }}
                 >
                   <div style={{ flexGrow: 1 }}>
-                    {!isServer ? (
+                    {isClient ? (
                       <ErrorBoundary
                         fallback={
                           <Alert severity="error">

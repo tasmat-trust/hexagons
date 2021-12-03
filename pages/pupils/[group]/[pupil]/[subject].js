@@ -15,35 +15,41 @@ import SubjectPicker from '../../../../components/navigation/SubjectPicker';
 import { useRouter } from 'next/router';
 
 function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, ...other }) {
-
-  const { pathname } = useRouter()
-  const { orgId } = useContext(HexagonsContext)
+  const { pathname } = useRouter();
+  const { orgId } = useContext(HexagonsContext);
   let isRainbowAwards = false;
   if (pathname.includes('rainbow-awards')) {
-    isRainbowAwards = true
+    isRainbowAwards = true;
   }
   return (
     <>
-      <CustomHead titleContent={`${pupil.name} | ${subjectName} | ${groupName}`} justContent={true} />
+      <CustomHead
+        titleContent={`${pupil.name} | ${subjectName} | ${groupName}`}
+        justContent={true}
+      />
       <BreadCrumbs
         firstLabel="Pupils"
         firstHref="/pupils"
         secondLabel={groupName}
         secondHref={`/pupils/${activeGroupSlug}`}
-        thirdLabel={<PupilPicker
-          {...other}
-          currentPupilId={parseInt(pupil.id)}
-          activeGroupSlug={activeGroupSlug}
-          subjectSlug={subjectSlug}
-          groupName={groupName}
-          groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
-        />}
-        fourthLabel={<SubjectPicker
-          isRainbowAwards={isRainbowAwards}
-          currentSubjectSlug={subjectSlug}
-          activeGroupSlug={activeGroupSlug}
-          currentPupilId={parseInt(pupil.id)}
-        />}
+        thirdPicker={
+          <PupilPicker
+            {...other}
+            currentPupilId={parseInt(pupil.id)}
+            activeGroupSlug={activeGroupSlug}
+            subjectSlug={subjectSlug}
+            groupName={groupName}
+            groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
+          />
+        }
+        fourthPicker={
+          <SubjectPicker
+            isRainbowAwards={isRainbowAwards}
+            currentSubjectSlug={subjectSlug}
+            activeGroupSlug={activeGroupSlug}
+            currentPupilId={parseInt(pupil.id)}
+          />
+        }
       />
       <SubjectMainView
         {...other}

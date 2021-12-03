@@ -184,49 +184,47 @@ const useStyles = makeStyles({
 function Loading({ message, testId, textOnly }) {
   const classes = useStyles();
   return (
-    <>
-      <div
-        role="alert"
-        aria-busy="true"
-        data-test-id={testId ? testId : 'loading'}
-        className={`${classes.loading} loading-spinner`}
-      >
-        {!textOnly && (
-          <>
-            <div className={classes.wrapper}>
-              <section className={classes.container}>
-                <div className={classes.div}>
-                  <div className={`${classes.div} ${classes.nestedDiv}`}>
-                    <span className={`${classes.span} ${classes.h6}`}></span>
-                    <span className={`${classes.span} ${classes.h3}`}></span>
-                  </div>
+    <div
+      role="alert"
+      aria-busy="true"
+      data-test-id={testId ? testId : 'loading'}
+      className={`${classes.loading} loading-spinner`}
+    >
+      {!textOnly && (
+        <>
+          <div className={classes.wrapper}>
+            <section className={classes.container}>
+              <div className={classes.div}>
+                <div className={`${classes.div} ${classes.nestedDiv}`}>
+                  <span className={`${classes.span} ${classes.h6}`}></span>
+                  <span className={`${classes.span} ${classes.h3}`}></span>
                 </div>
+              </div>
 
-                <div className={classes.div}>
-                  <div className={`${classes.div} ${classes.nestedDiv}`}>
-                    <span className={`${classes.span} ${classes.h1}`}></span>
-                    <span className={`${classes.span} ${classes.h4}`}></span>
-                  </div>
+              <div className={classes.div}>
+                <div className={`${classes.div} ${classes.nestedDiv}`}>
+                  <span className={`${classes.span} ${classes.h1}`}></span>
+                  <span className={`${classes.span} ${classes.h4}`}></span>
                 </div>
+              </div>
 
-                <div className={classes.div}>
-                  <div className={`${classes.div} ${classes.nestedDiv}`}>
-                    <span className={`${classes.span} ${classes.h5}`}></span>
-                    <span className={`${classes.span} ${classes.h2}`}></span>
-                  </div>
+              <div className={classes.div}>
+                <div className={`${classes.div} ${classes.nestedDiv}`}>
+                  <span className={`${classes.span} ${classes.h5}`}></span>
+                  <span className={`${classes.span} ${classes.h2}`}></span>
                 </div>
-              </section>
-            </div>
-            <Typography className={classes.text}>{message}</Typography>
-          </>
-        )}
-        {textOnly && (
-          <Typography className={classes.text}>
-            {message} <CircularProgress size="1em" color="#000" />
-          </Typography>
-        )}
-      </div>
-    </>
+              </div>
+            </section>
+          </div>
+          <Typography className={classes.text}>{message}</Typography>
+        </>
+      )}
+      {textOnly && (
+        <Typography className={classes.text}>
+          {message} <CircularProgress size="1em" color="#000" />
+        </Typography>
+      )}
+    </div>
   );
 }
 

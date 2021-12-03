@@ -29,79 +29,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LinkOrLabel(props) {
-  const { href, label, testId, model } = props;
-  if (!href && !label) return null;
-  return (
-    <Box data-test-id={testId}>
-      {href && (
-        <Link color="inherit" href={href}>
-          <a title={`Change ${model}`}>{label}</a>
-        </Link>
-      )}
-      {!href && label && <Typography>{label}</Typography>}
-    </Box>
-  );
-}
-
-LinkOrLabel.propTypes = {
-  href: PropTypes.string,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  testId: PropTypes.string,
-};
-
 function BreadCrumbs(props) {
   const classes = useStyles();
-  const {
-    firstLabel,
-    firstModel,
-    firstHref,
-    secondLabel,
-    secondModel,
-    secondHref,
-    thirdLabel,
-    thirdModel,
-    thirdHref,
-    fourthLabel,
-    fourthModel,
-    fourthHref,
-  } = props;
+
+  function BreadcrumbContent({ order }) {
+    const href = props[`${order}Href`];
+    const model = props[`${order}Model`];
+    const label = props[`${order}Label`];
+    const picker = props[`${order}Picker`];
+    return (
+      <Box data-test-id={`${order}-crumb`}>
+        {href && (
+          <Link color="inherit" href={href}>
+            <a title={`Change ${model}`}>{label}</a>
+          </Link>
+        )}
+        {!href && label && <Typography>{label}</Typography>}
+        {picker && <>{picker}</>}
+      </Box>
+    );
+  }
+
+  BreadcrumbContent.propTypes = {
+    order: PropTypes.string,
+  };
 
   return (
     <>
       <Breadcrumbs className={classes.bc} aria-label="breadcrumb">
-        {firstLabel && (
-          <LinkOrLabel
-            testId="first-crumb"
-            href={firstHref}
-            label={firstLabel}
-            model={firstModel}
-          />
-        )}
-        {secondLabel && (
-          <LinkOrLabel
-            testId="second-crumb"
-            href={secondHref}
-            label={secondLabel}
-            model={secondModel}
-          />
-        )}
-        {thirdLabel && (
-          <LinkOrLabel
-            testId="third-crumb"
-            href={thirdHref}
-            label={thirdLabel}
-            model={thirdModel}
-          />
-        )}
-        {fourthLabel && (
-          <LinkOrLabel
-            testId="fourth-crumb"
-            href={fourthHref}
-            label={fourthLabel}
-            model={fourthModel}
-          />
-        )}
+        {(props.firstLabel || props.firstPicker) && <BreadcrumbContent order="first" />}
+        {(props.secondLabel || props.secondPicker) && <BreadcrumbContent order="second" />}
+        {(props.thirdLabel || props.thirdPicker) && <BreadcrumbContent order="third" />}
+        {(props.fourthLabel || props.fourthPicker) && <BreadcrumbContent order="fourth" />}
       </Breadcrumbs>
       <Box className={classes.clear}></Box>
     </>
@@ -110,12 +69,16 @@ function BreadCrumbs(props) {
 
 BreadCrumbs.propTypes = {
   firstLabel: PropTypes.string,
+  firstPicker: PropTypes.object,
   firstHref: PropTypes.string,
-  secondLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  secondLabel: PropTypes.string,
+  secondPicker: PropTypes.object,
   secondHref: PropTypes.string,
-  thirdLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  thirdLabel: PropTypes.string,
+  thirdPicker: PropTypes.object,
   thirdHref: PropTypes.string,
-  fourthLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  fourthLabel: PropTypes.string,
+  fourthPicker: PropTypes.object,
   fourthHref: PropTypes.string,
 };
 
