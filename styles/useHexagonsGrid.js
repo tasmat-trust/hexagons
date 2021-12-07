@@ -43,6 +43,7 @@ const stringStyles = makeStyles((theme) => ({
     position: relative; 
     font-size: 0;
     margin: 0 auto;   
+    padding-bottom: 200px;
   `,
   container_wide: `
     position: relative;
@@ -58,8 +59,8 @@ const stringStyles = makeStyles((theme) => ({
     height: calc(var(--s) *var(--r));
     display: inline-block;
     font-size: initial;
-    clip-path: polygon(var(--hc) 0, calc(100% - var(--hc)) 0, 100% var(--vc), 100% calc(100% - var(--vc)), calc(100% - var(--hc)) 100%,var(--hc) 100%, 0 calc(100% - var(--vc)), 0 var(--vc));
     background: ${theme.palette.primary.main};
+    clip-path: polygon(var(--hc) 0, calc(100% - var(--hc)) 0, 100% var(--vc), 100% calc(100% - var(--vc)), calc(100% - var(--hc)) 100%,var(--hc) 100%, 0 calc(100% - var(--vc)), 0 var(--vc));
     margin-bottom: calc(var(--mv) - var(--vc));
   `,
   hex_nonCore: `
@@ -70,6 +71,9 @@ const stringStyles = makeStyles((theme) => ({
   `,
   hex_complete: `
     background: ${theme.palette.success.light};
+  `,
+  hex_incomplete: `
+    background: ${theme.palette.primary.main};
   `,
   hex_target: `
     background: ${theme.palette.warning.light};
@@ -114,7 +118,7 @@ const stringStyles = makeStyles((theme) => ({
   button: `
     width: 100%;
     height: 100%;
-    font-size: 1em;
+    font-size: clamp(0.725rem, 1em,0.9rem);
     float: left;
   `,
   lightbulb: `
@@ -148,7 +152,8 @@ const stringStyles = makeStyles((theme) => ({
 const jssStyles = makeStyles((theme) => ({
   main: {
     '@media (max-width: 460px)': {
-      display: 'block',
+      width: '540px',
+      marginLeft: '-70px',
     },
   },
   button: {
@@ -166,11 +171,7 @@ const jssStyles = makeStyles((theme) => ({
       },
     },
   },
-  hex: {
-    '@media (max-width: 460px)': {
-      marginBottom: '1em',
-    },
-  },
+  hex: {},
   hex_nonCore: {
     '& .hrxLink': {
       color: theme.palette.text.primary,
