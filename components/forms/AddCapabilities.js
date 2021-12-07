@@ -134,7 +134,7 @@ function AddCapabilities({ setModulesData, subjectId, setLoadingMessage }) {
 AddCapabilities.propTypes = {
   setLoadingMessage: PropTypes.func,
   setModulesData: PropTypes.func,
-  subjectId: PropTypes.string,
+  subjectId: PropTypes.number,
 };
 
 export default AddCapabilities;

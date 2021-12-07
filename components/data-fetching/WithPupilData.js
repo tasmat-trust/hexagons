@@ -11,14 +11,14 @@ export default function WithPupilData(WrappedComponent) {
         {...other}
         subjectId={subjectId}
         pupil={pupil}
-        levelVariables={{ pupilId: pupil.id, subjectId: subjectId }}
+        levelVariables={{ pupilId: parseInt(pupil.id), subjectId: subjectId }}
       />
     );
   }
 
   WithPupilData.propTypes = {
     pupilVariables: PropTypes.object,
-    subjectId: PropTypes.string,
+    subjectId: PropTypes.number,
   };
 
   return WithPupilData;

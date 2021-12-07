@@ -6,7 +6,7 @@
     "develop": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --dir components --dir cypress --dir pages --dir queries --dir styles",
+    "lint": "next lint --dir components --dir cypress --dir pages --dir queries --dir styles --dir utils",
     "test:open": "cypress open",
     "test": "nyc cypress run && codecov",
     "test:basic": "cypress run",

@@ -36,7 +36,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
               {...other} // activeGroupSlug
               subjectSlug={subject.slug}
               titleName={subject.name}
-              getLevelVariables={{ subjectId: subject.id, pupilId: pupilId }}
+              getLevelVariables={{ subjectId: parseInt(subject.id), pupilId: pupilId }}
               pupilId={pupilId}
             />
           </li>
@@ -50,7 +50,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
 CoreSubjectsProgress.propTypes = {
   schoolType: PropTypes.string,
   edLevel: PropTypes.object,
-  pupilId: PropTypes.string,
+  pupilId: PropTypes.number,
   coreSubjects: PropTypes.array
 }
 

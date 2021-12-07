@@ -116,7 +116,7 @@ SubjectProgress.propTypes = {
   subjectSlug: PropTypes.string,
   titleName: PropTypes.string,
   getLevelVariables: PropTypes.object,
-  pupilId: PropTypes.string,
+  pupilId: PropTypes.number,
   activeGroupSlug: PropTypes.string
 }
 

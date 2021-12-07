@@ -40,7 +40,7 @@ function LevelContent({
           competencies={competencies}
           subjectId={subjectId}
           edSubjectId={edSubjectId}
-          getLevelVars={{ pupilId: pupil.id, subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: currentModule.id }}
+          getLevelVars={{ pupilId: parseInt(pupil.id), subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: parseInt(currentModule.id) }}
           setGuidanceActive={setGuidanceActive}
         />
       </CustomSuspense>

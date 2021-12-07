@@ -140,8 +140,8 @@ function LevelStatus({
         const variables = {
           status: status,
           subjectId: currentModule.isEd ? edSubjectId : subjectId,
-          pupilId: pupil.id,
-          moduleId: currentModule.id,
+          pupilId: parseInt(pupil.id),
+          moduleId: parseInt(currentModule.id),
         };
         const level = await createLevel(gqlClient, variables);
         bubbleGotLevel(level);
@@ -214,6 +214,8 @@ function LevelStatus({
     setGlobalGuidanceActive(guidanceActive);
   }, [guidanceActive, setGlobalGuidanceActive]);
 
+  const barValue = parseInt(status === 'complete' ? 100 : visiblePercentComplete);
+
   return (
     <Fade in={readyToShow}>
       <Box className={classes.level} role="region" aria-live="polite">
@@ -224,7 +226,7 @@ function LevelStatus({
                 levelTitle={levelTitle}
                 bubbleGotLevel={bubbleGotLevel}
                 classes={classes}
-                status={status} 
+                status={status}
                 {...other}
               />
             </ErrorBoundary>
@@ -238,11 +240,7 @@ function LevelStatus({
         </Box>
         <Box display="flex" alignItems="center">
           <Box width="100%">
-            <LinearProgress
-              color="secondary"
-              variant="determinate"
-              value={status === 'complete' ? 100 : visiblePercentComplete}
-            />
+            <LinearProgress color="secondary" variant="determinate" value={barValue} />
           </Box>
         </Box>
         <Box className={classes.header}>
@@ -262,19 +260,21 @@ function LevelStatus({
               variant="contained"
               boxTitle={`${levelTitle} summary`}
             >
-              {guidanceActive && (
-                <>
-                  <p>You are back in assessment mode for {pupil.name}</p>
-                </>
-              )}
-              {!guidanceActive && (
-                <>
-                  <p>
-                    You can now view guidance from colleagues and add your own by tapping the
-                    Hexagons
-                  </p>
-                </>
-              )}
+              <>
+                {guidanceActive && (
+                  <>
+                    <p>You are back in assessment mode for {pupil.name}</p>
+                  </>
+                )}
+                {!guidanceActive && (
+                  <>
+                    <p>
+                      You can now view guidance from colleagues and add your own by tapping the
+                      Hexagons
+                    </p>
+                  </>
+                )}
+              </>
             </DialogButton>
           </Box>
 

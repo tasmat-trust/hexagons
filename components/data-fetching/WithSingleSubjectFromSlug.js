@@ -6,7 +6,7 @@ export default function WithSingleSubjectFromSlug(WrappedComponent) {
     const { data: subjectData } = useSWR([getSingleSubjectBySlug, getSubjectBySlugVariables], { suspense: true })
 
     const subject = subjectData.subjects[0]
-    const subjectId = subject.id
+    const subjectId = parseInt(subject.id)
     const subjectName = subject.name
     const subjectSlug = subject.slug
     return (

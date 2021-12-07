@@ -20,7 +20,7 @@ export default function WithModules(WrappedComponent) {
   WithModules.propTypes = {
     getModulesBySubjectIdVariables: PropTypes.object,
     pupil: PropTypes.object,
-    subjectId: PropTypes.string
+    subjectId: PropTypes.number
   }
   return WithModules
 }

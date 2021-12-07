@@ -18,7 +18,7 @@ export default function WithEarlyDevelopmentModule(WrappedComponent) {
       edModule={module}
       edSubjectId={edSubjectId}
       pupilId={pupilId}
-      getEdLevelVariables={{ subjectId: edSubjectId, moduleId: module.id, pupilId: pupilId }}
+      getEdLevelVariables={{ subjectId: edSubjectId, moduleId: parseInt(module.id), pupilId: pupilId }}
       modules={mergedModules}
       {...other} />
   }
@@ -26,7 +26,7 @@ export default function WithEarlyDevelopmentModule(WrappedComponent) {
   WithEarlyDevelopmentModule.propTypes = {
     modules: PropTypes.array,
     getEdModulesBySubjectIdVariables: PropTypes.object,
-    edSubjectId: PropTypes.string
+    edSubjectId: PropTypes.number
   }
   return WithEarlyDevelopmentModule
 }

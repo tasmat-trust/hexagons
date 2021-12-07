@@ -23,8 +23,8 @@ function CapabilityTile(props) {
     initialCapability,
     competency,
     setCompetencies,
-    currentModule, 
-    pupil, 
+    currentModule,
+    pupil,
     setTilesDisabled,
     subjectId,
     levelId,
@@ -72,22 +72,24 @@ function CapabilityTile(props) {
 
   async function handleStatus(status) {
     let levelIdToUpdate;
+    const pupilId = parseInt(pupil.id);
+    const capabilityId = parseInt(capability.id);
     if (!levelId || levelId === 0) {
       setTilesDisabled(true);
       const variables = {
         status: 'incomplete',
-        pupilId: pupil.id,
+        pupilId: pupilId,
         subjectId: currentModule.isEd ? edSubjectId : subjectId,
-        moduleId: currentModule.id,
+        moduleId: parseInt(currentModule.id),
       };
       const level = await createLevel(gqlClient, variables);
       if (!level) {
         return;
       }
-      levelIdToUpdate = parseInt(level.id)
+      levelIdToUpdate = parseInt(level.id);
       setLevelId(levelIdToUpdate);
     } else {
-      levelIdToUpdate = levelId
+      levelIdToUpdate = levelId;
     }
 
     if (status === 'complete') {
@@ -102,17 +104,17 @@ function CapabilityTile(props) {
     }
 
     const competencyVars = {
-      pupilId: pupil.id,
+      pupilId: pupilId,
       status: status,
       adaptation: '',
-      capability_fk: parseInt(capability.id),
+      capability_fk: capabilityId,
       capability_text: capability.text,
     };
 
     const checkCompetencyVars = {
       levelId: levelIdToUpdate,
-      capability_fk: parseInt(capability.id),
-      pupilId: pupil.id,
+      capability_fk: capabilityId,
+      pupilId: pupilId,
     };
 
     const updateCompetencyVars = {
@@ -121,7 +123,7 @@ function CapabilityTile(props) {
     };
 
     const refreshCompetencyVars = {
-      pupilId: pupil.id,
+      pupilId: pupilId,
     };
 
     if (levelIdToUpdate) {
@@ -142,9 +144,9 @@ function CapabilityTile(props) {
     }
   }
 
-  let buttonTitle = 'Set as complete'
-  if (competencyStatus === 'target') buttonTitle = 'Set as incomplete'
-  if (competencyStatus === 'complete') buttonTitle =  'Set as target'
+  let buttonTitle = 'Set as complete';
+  if (competencyStatus === 'target') buttonTitle = 'Set as incomplete';
+  if (competencyStatus === 'complete') buttonTitle = 'Set as target';
 
   return (
     <div
@@ -229,13 +231,13 @@ CapabilityTile.propTypes = {
   capability: PropTypes.object,
   competency: PropTypes.object,
   setCompetencies: PropTypes.func,
-  currentModule: PropTypes.object, 
+  currentModule: PropTypes.object,
   pupil: PropTypes.object,
   levelId: PropTypes.number,
   setLevelId: PropTypes.func,
   setTilesDisabled: PropTypes.func,
   subjectId: PropTypes.number,
-  edSubjectId: PropTypes.number
+  edSubjectId: PropTypes.number,
 };
 
 export default CapabilityTile;

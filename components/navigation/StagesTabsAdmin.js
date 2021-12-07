@@ -93,7 +93,7 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
           <ManageSummary
             setModulesData={setModulesData}
             summaryText={module.summary}
-            moduleId={module.id}
+            moduleId={parseInt(module.id)}
           />
           <CustomSuspense message="Loading tiles">
             <CapabilityTilesAdmin
@@ -114,7 +114,7 @@ StagesTabsAdmin.propTypes = {
   startingLevel: PropTypes.object,
   setModulesData: PropTypes.func,
   competencies: PropTypes.array,
-  subjectId: PropTypes.string,
+  subjectId: PropTypes.number,
 };
 
 export default WithSingleSubjectFromSlug(WithModulesAdmin(StagesTabsAdmin));

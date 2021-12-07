@@ -25,7 +25,7 @@ function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...ot
         savedGroupId && setActiveGroupId(savedGroupId);
       }
     }
-  }, [setParentGroupBreadcumbLabel]);
+  }, [setParentGroupBreadcumbLabel, orgId]);
   return (
     <>
       {isHomepage && (

@@ -16,7 +16,7 @@ export default function WithGroupFromSlug(WrappedComponent) {
 
     if (groupsData.groups.length > 0) {
       const currentGroup = groupsData.groups[0];
-      groupId = currentGroup.id;
+      groupId = parseInt(currentGroup.id);
       groupName = currentGroup.name;
     } else {
       groupName = ''

@@ -52,7 +52,7 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, sho
                   {...other}
                   groupName={groupName}
                   key={i}
-                  pupilId={p.id}
+                  pupilId={parseInt(p.id)}
                   pupilName={p.name}
                   pupilGroups={p.groups}
                   activeGroupSlug={activeGroupSlug}

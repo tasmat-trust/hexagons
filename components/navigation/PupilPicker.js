@@ -26,7 +26,7 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
   const [pupilId, setPupilId] = useState(currentPupilId);
   const router = useRouter();
   const handleChange = (event) => {
-    const newPupilId = event.target.value;
+    const newPupilId = parseInt(event.target.value);
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards')
     if (isSubjectsListing || isRainbowAwards) {

@@ -50,7 +50,7 @@ export default function HomepageLoggedIn(props) {
           please contact Natalie Shuttleworth (Hexagon App Lead) at{' '}
           <a href="mailto:nshuttleworth@tasmat.org.uk">nshuttleworth@tasmat.org.uk</a>
         </p>
-        <Link href="mailto:nshuttleworth@tasmat.org.uk">
+        <Link href="mailto:nshuttleworth@tasmat.org.uk" passHref>
           <Button data-test-id="get-in-touch" className={publicClasses.button} variant="contained" color="secondary">
             Get in touch
           </Button>

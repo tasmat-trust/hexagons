@@ -2,13 +2,20 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import theme from '../../styles/theme';
 
 const useStyles = makeStyles({
   loading: {
     textAlign: 'center',
   },
   text: {
-    fontSize: '1em',
+    fontSize: '13px',
+    marginRight: theme.spacing(1)
+  },
+  textContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   wrapper: {
     width: '100%',
@@ -220,9 +227,10 @@ function Loading({ message, testId, textOnly }) {
         </>
       )}
       {textOnly && (
-        <Typography className={classes.text}>
-          {message} <CircularProgress size="1em" color="#000" />
-        </Typography>
+        <div className={classes.textContainer}>
+          <Typography className={classes.text}>{message} </Typography>
+          <CircularProgress size="1em" color="inherit" />
+        </div>
       )}
     </div>
   );
