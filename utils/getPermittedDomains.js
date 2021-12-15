@@ -17,5 +17,5 @@ export default function getPermittedDomains(orgId, orgs) {
   return {
     humanOrgsArray: hArray.toString().replace(/,/g, ''),
     computerOrgsArray: cArray
-  }
+  };
 }

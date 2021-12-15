@@ -1,6 +1,6 @@
-import { Button, Paper } from '@material-ui/core';
+import { Button, Paper } from '@mui/material';
 import Link from 'next/link';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import usePublicStyles from '../../styles/usePublicStyles';
 
 const styles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
+import { Box } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import SubjectTiles from '../subjects/SubjectTiles';
 import { useRouter } from 'next/router';
 import WithAllSubjects from '../data-fetching/WithAllSubjects';

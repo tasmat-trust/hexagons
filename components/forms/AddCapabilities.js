@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { TextField, Button } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
+import { TextField, Button } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 import createModule from '../forms/handlers/createModule';
-import { MenuItem, Select, InputLabel } from '@material-ui/core';
+import { MenuItem, Select, InputLabel } from '@mui/material';
 import { useContext, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
 const styles = makeStyles((theme) => ({

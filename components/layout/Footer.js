@@ -1,8 +1,24 @@
-import Link from 'next/link'; 
+import Link from 'next/link';
+import makeStyles from '@mui/styles/makeStyles'
+;
+const useStyles = makeStyles((theme) => ({
+  footer: {
+    width: '100%',
+    textAlign: 'center',
+    '& .flink': {
+      display: 'inline-block',
+      padding: theme.spacing(1),
+    },
+    '& li a': {
+      color: theme.palette.text.secondary,
+    },
+  },
+}));
 
 export default function Footer() {
+  const classes = useStyles();
   return (
-    <footer className="footer">
+    <footer className={classes.footer}>
       <nav>
         <ul>
           <li className="flink">

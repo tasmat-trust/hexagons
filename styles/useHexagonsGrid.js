@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const stringStyles = makeStyles((theme) => ({
   // https://cssinjs.org/jss-plugin-template/?v=v10.7.1
@@ -101,7 +101,7 @@ const stringStyles = makeStyles((theme) => ({
     font-weight: normal;
   `,
   hexButtonLink: ` 
-    margin-bottom: ${theme.spacing(1)}px;
+    margin-bottom: ${theme.spacing(1)};
   `,
   hexContent: ` 
     display: flex;
@@ -181,7 +181,7 @@ const jssStyles = makeStyles((theme) => ({
     '& .hrxLink': {},
   },
   main_wide: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       '--s': '8rem',
       '--mv': '2px',
       '--mh': 'calc(var(--mv) + (var(--s) - 2 *var(--hc)) /2 + 1px)',
@@ -193,7 +193,7 @@ const jssStyles = makeStyles((theme) => ({
     '&:hover': {
       textDecoration: 'none',
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '1rem',
     },
   },
@@ -208,7 +208,7 @@ const jssStyles = makeStyles((theme) => ({
   },
 
   container_wide: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       margin: '0 auto',
     },
     '&::before': {

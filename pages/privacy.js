@@ -2,7 +2,7 @@ import { withSession } from '../components/auth/session';
 import allowPublicSession from '../components/auth/allowPublicSession';
 import CustomHead from '../components/ui-globals/CustomHead';
 import usePublicStyles from '../styles/usePublicStyles';
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 import Link from 'next/link';
 
 export default function Home() {

@@ -1,6 +1,6 @@
-import { Button, Checkbox } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Button, Checkbox } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import MultipleSelect from './MultipleSelect';
 import { SingleSelect } from './SingleSelect';
 import { useContext, useState } from 'react';
@@ -10,7 +10,7 @@ import { updatePupilGroups } from '../../queries/Pupils';
 import { updateTeacherGroups, updateTeacherRole } from '../../queries/Teachers';
 import handleStrapiError from '../data-fetching/handleStrapiError';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import roles from '../../utils/roles';
 import Loading from '../ui-globals/Loading';
 

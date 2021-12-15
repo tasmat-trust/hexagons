@@ -1,7 +1,7 @@
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
+import { Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { PropTypes } from 'prop-types';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import theme from '../../styles/theme';
 
 const useStyles = makeStyles({

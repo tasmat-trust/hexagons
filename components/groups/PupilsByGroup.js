@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { getPupilsByGroup } from "../../queries/Pupils"
 import useSWR from 'swr';
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import PupilCard from "../pupil/PupilCard";
 import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 import { useRouter } from 'next/router';

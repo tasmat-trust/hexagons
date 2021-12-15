@@ -1,5 +1,5 @@
 import ResetPasswordForm from '../components/forms/ResetPassword';
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useLoginLogoutPages from '../styles/useLoginLogoutPages';

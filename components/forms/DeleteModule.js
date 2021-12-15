@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
+import { Button } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 import deleteModule from './handlers/deleteModule';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import { useContext } from 'react';

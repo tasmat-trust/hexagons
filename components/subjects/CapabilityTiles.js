@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import useTileStyles from '../../styles/useTileStyles';
 import CapabilityTile from './CapabilityTile';

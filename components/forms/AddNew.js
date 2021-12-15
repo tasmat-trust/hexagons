@@ -1,5 +1,5 @@
-import { TextField, Button, TextareaAutosize } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
+import { TextField, Button, TextareaAutosize } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 
 import MultipleSelect from './MultipleSelect';
 import { useContext, useState } from 'react';
@@ -13,7 +13,7 @@ import createGroup from '../forms/handlers/createGroup';
 import createGuidance from '../forms/handlers/createGuidance';
 import updateCapabilityText from '../forms/handlers/updateCapabilityText';
 import updateSummaryText from '../forms/handlers/updateSummaryText';
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import { getAllOrgs } from '../../queries/Organizations';
 import roles from '../../utils/roles';

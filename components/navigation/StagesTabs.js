@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import LevelContent from '../pupil/LevelContent';
 import { sortModules } from '../../utils/sortLevelsAndModules';
 import CustomSuspense from '../data-fetching/CustomSuspense';

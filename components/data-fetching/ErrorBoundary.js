@@ -1,4 +1,4 @@
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 import React from 'react'
 import handleStrapiError from './handleStrapiError';
 import { withRouter } from 'next/router'

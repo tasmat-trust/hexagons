@@ -1,9 +1,9 @@
 import { PropTypes } from "prop-types"
-import { Dialog, DialogContent, DialogActions, Button, List, ListItem, ListItemText } from "@material-ui/core"
-import { AppBar, Tabs, Tab, Typography, Box } from "@material-ui/core"
+import { Dialog, DialogContent, DialogActions, Button, List, ListItem, ListItemText } from "@mui/material"
+import { AppBar, Tabs, Tab, Typography, Box } from "@mui/material"
 import { useState } from "react"
 import { AddNewGuidance } from "../forms/AddNew"
-import { withStyles, makeStyles } from "@material-ui/styles"
+import { withStyles, makeStyles } from "@mui/styles"
 import extractDate from "../../utils/extractDate"
 
 const TabsDialogContent = withStyles({

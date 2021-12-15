@@ -2,16 +2,16 @@ import PropTypes from 'prop-types'
 import React from 'react';
 import axios from 'axios';
 
-import Alert from '@material-ui/lab/Alert';
-import Select from '@material-ui/core/Select';
+import Alert from '@mui/material/Alert';
+import Select from '@mui/material/Select';
 
-import { InputAdornment, IconButton } from '@material-ui/core'
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { InputAdornment, IconButton } from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
 
-import { Button, FormControl, InputLabel, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, TextField } from '@mui/material';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
 import handleApiLoginErrors from './handlers/handleApiLoginErrors';
@@ -123,106 +123,104 @@ const RegistrationForm = ({ orgs }) => {
       });
   };
 
-  return (
-    <>
-      {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
-      {loading && <Loading data-test-id="loading" message={loading} testId='registration-loading' />}
-      {success && (
-        <Alert data-test-id="registration-success">
-          Your account has been created and we have emailed you an activation link. Please check your email.
-        </Alert>
-      )}
-      {!loading && !success && (
-        <form method="post" action="/api/login" onSubmit={onSubmit}>
-          <FormControl variant="filled" fullWidth>
-            <InputLabel htmlFor="age-native-simple">School</InputLabel>
-            <Select
-              data-test-id='select-school'
-              native
-              error={fieldError === 'org'}
-              value={orgValue}
-              onBlur={clearErrors}
-              onChange={(event) => {
-                handleChangeSelect(event)
-                setError(null)
-              }}
-              name="org"
-            >
-              <option aria-label="None" value="" data-test-id="blank" />
-              {orgs.map((org, i) => <option data-test-id={`option-${i}`} key={`option-${i}`} value={org.id}>{org.name}</option>)}
-            </Select>
-          </FormControl>
-
-          <TextField
-            error={fieldError === 'username'}
-            className={classes.input}
-            value={usernameValue}
-            fullWidth
-            id="username"
-            label="Fullname"
-            variant="filled"
-            onChange={(ev) => {
-              clearErrors()
-              setUsernameValue(ev.target.value)
-            }} />
-
-          <TextField
-            error={fieldError === 'email'}
-            className={classes.input}
-            value={emailValue}
-            fullWidth id="email"
-            label="Email"
-            variant="filled"
-            helperText={`Must be an email address from your organisation.`}
-            onChange={(ev) => {
-              clearErrors()
-              setEmailValue(ev.target.value)
-            }} />
-
-          <TextField
-            type={showPassword ? 'text' : 'password'}
-            error={fieldError === 'password'}
-            className={classes.input}
-            value={passwordValue}
-            fullWidth id="password"
-            label="Password"
-            helperText="Please choose four random words as your password and ensure it is lowercase and doesn't include any special characters or numbers"
-            variant="filled"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    onMouseDown={(event) => event.preventDefault()}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              )
+  return <>
+    {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
+    {loading && <Loading data-test-id="loading" message={loading} testId='registration-loading' />}
+    {success && (
+      <Alert data-test-id="registration-success">
+        Your account has been created and we have emailed you an activation link. Please check your email.
+      </Alert>
+    )}
+    {!loading && !success && (
+      <form method="post" action="/api/login" onSubmit={onSubmit}>
+        <FormControl variant="filled" fullWidth>
+          <InputLabel htmlFor="age-native-simple">School</InputLabel>
+          <Select
+            data-test-id='select-school'
+            native
+            error={fieldError === 'org'}
+            value={orgValue}
+            onBlur={clearErrors}
+            onChange={(event) => {
+              handleChangeSelect(event)
+              setError(null)
             }}
-            onChange={(ev) => {
-              clearErrors()
-              setPasswordValue(ev.target.value)
-            }} />
+            name="org"
+          >
+            <option aria-label="None" value="" data-test-id="blank" />
+            {orgs.map((org, i) => <option data-test-id={`option-${i}`} key={`option-${i}`} value={org.id}>{org.name}</option>)}
+          </Select>
+        </FormControl>
 
-          <FormControl margin="normal">
-            <Button
-              data-test-id={`register`}
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
-              Register
-            </Button>
-          </FormControl>
-        </form>
-      )
-      }
-    </>
-  );
+        <TextField
+          error={fieldError === 'username'}
+          className={classes.input}
+          value={usernameValue}
+          fullWidth
+          id="username"
+          label="Fullname"
+          variant="filled"
+          onChange={(ev) => {
+            clearErrors()
+            setUsernameValue(ev.target.value)
+          }} />
+
+        <TextField
+          error={fieldError === 'email'}
+          className={classes.input}
+          value={emailValue}
+          fullWidth id="email"
+          label="Email"
+          variant="filled"
+          helperText={`Must be an email address from your organisation.`}
+          onChange={(ev) => {
+            clearErrors()
+            setEmailValue(ev.target.value)
+          }} />
+
+        <TextField
+          type={showPassword ? 'text' : 'password'}
+          error={fieldError === 'password'}
+          className={classes.input}
+          value={passwordValue}
+          fullWidth id="password"
+          label="Password"
+          helperText="Please choose four random words as your password and ensure it is lowercase and doesn't include any special characters or numbers"
+          variant="filled"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(event) => event.preventDefault()}
+                  edge="end"
+                  size="large">
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          onChange={(ev) => {
+            clearErrors()
+            setPasswordValue(ev.target.value)
+          }} />
+
+        <FormControl margin="normal">
+          <Button
+            data-test-id={`register`}
+            fullWidth
+            type="submit"
+            variant="contained"
+            color="secondary"
+          >
+            Register
+          </Button>
+        </FormControl>
+      </form>
+    )
+    }
+  </>;
 };
 
 RegistrationForm.propTypes = {

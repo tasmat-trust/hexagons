@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import { getLevelsForOverview } from "../../queries/Pupils"
-import { Typography } from "@material-ui/core"
+import { Typography } from "@mui/material"
 import Link from "next/link"
-import { makeStyles, Chip } from "@material-ui/core"
+import { Chip } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import "@reach/slider/styles.css"
 import styled from 'styled-components'
 import { Slider } from "@reach/slider"
-import { purple } from '@material-ui/core/colors';
+import { purple } from '@mui/material/colors';
 import { useRouter } from "next/router"
 import getCurrentLevel from '../../utils/getCurrentLevel'
 import ErrorBoundary from '../data-fetching/ErrorBoundary'

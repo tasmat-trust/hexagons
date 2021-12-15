@@ -1,12 +1,12 @@
-import { InputLabel, Select, Input } from "@material-ui/core"
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
+import { InputLabel, Select, Input } from "@mui/material"
+import Chip from '@mui/material/Chip';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 import { allSubjectsQuery } from '../../queries/Subjects'
 
 // Design
 import useFormStyles from '../../styles/useFormStyles';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
 
 import useSWR from "swr";
 

@@ -1,6 +1,6 @@
 import LoginForm from '../components/forms/Login'
 import useLoginLogoutPages from '../styles/useLoginLogoutPages'
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 import CustomHead from '../components/ui-globals/CustomHead';
 export default function AccountConfirmed(props) {
   const classes = useLoginLogoutPages();

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import AddCapabilities from '../forms/AddCapabilities';
 import CapabilityTilesAdmin from '../subjects/CapabilityTilesAdmin';
 import DeleteModule from '../forms/DeleteModule';

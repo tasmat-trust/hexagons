@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";
 import useAdminPage from "../../styles/useAdminPage";
@@ -7,7 +7,7 @@ import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 
 function PupilsAndGroups({ activeGroupSlug, groupName, ...other }) {
 

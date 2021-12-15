@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import MainNavItems from '../components/navigation/MainNavItems';
 import SettingNavItems from '../components/navigation/SettingNavItems';
 import OrgPicker from '../components/navigation/OrgPicker';
@@ -11,11 +11,15 @@ import ResponsiveDrawer from '../components/navigation/ResponsiveDrawer';
 import CustomSuspense from '../components/data-fetching/CustomSuspense';
 import ErrorBoundary from '../components/data-fetching/ErrorBoundary';
 import NextNprogress from 'nextjs-progressbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import globalStyles from '../styles/globalStyles';
+import GlobalStyles from '@mui/material/GlobalStyles';
 
 import { create } from 'jss';
-import { ThemeProvider, StylesProvider, jssPreset } from '@material-ui/core/styles';
-import useGlobalStyles from '../styles/useGlobalStyles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import StylesProvider from '@mui/styles/StylesProvider';
+import jssPreset from '@mui/styles/jssPreset';
 import templatePlugin from 'jss-plugin-template';
 import nestedPlugin from 'jss-plugin-nested';
 import theme from '../styles/theme';
@@ -33,17 +37,13 @@ import { getOrgIdFromSession } from '../utils';
 
 import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
 
+const inputGlobalStyles = <GlobalStyles styles={() => globalStyles(theme)} />;
+
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
 });
 
-function ThemeProviderWithGlobalStyles({ children }) {
-  useGlobalStyles();
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-}
-
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -97,52 +97,55 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <NextNprogress color={theme.palette.secondary.light} />
       <AnimateSharedLayout>
-        <ThemeProviderWithGlobalStyles theme={theme}>
-          <StylesProvider jss={jss}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <SkipNavLink />
-            <SkipNavContent />
-            <HexagonsContext.Provider value={hexagonsGlobals}>
-              <ResponsiveDrawer
-                {...pageProps}
-                MainNavItems={MainNavItems}
-                SettingNavItems={SettingNavItems}
-                OrgPicker={OrgPicker}
-              >
-                <SWRConfig
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            {inputGlobalStyles}
+            <StylesProvider jss={jss}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <SkipNavLink />
+              <SkipNavContent />
+              <HexagonsContext.Provider value={hexagonsGlobals}>
+                <ResponsiveDrawer
                   {...pageProps}
-                  value={{
-                    refreshInterval: 0,
-                    fetcher: fetcher,
-                    revalidateOnFocus: false,
-                    revalidateOnReconnect: false,
-                  }}
+                  MainNavItems={MainNavItems}
+                  SettingNavItems={SettingNavItems}
+                  OrgPicker={OrgPicker}
                 >
-                  <div style={{ flexGrow: 1 }}>
-                    {isClient ? (
-                      <ErrorBoundary
-                        fallback={
-                          <Alert severity="error">
-                            Could not fetch data. Please check your connection.
-                          </Alert>
-                        }
-                      >
-                        <CustomSuspense message="Hexagonalising">
-                          <Component {...pageProps} orgType setLoading={setLoading} />
-                        </CustomSuspense>
-                      </ErrorBoundary>
-                    ) : (
-                      <Loading message="Loading from server" />
-                    )}
-                  </div>
+                  <SWRConfig
+                    {...pageProps}
+                    value={{
+                      refreshInterval: 0,
+                      fetcher: fetcher,
+                      revalidateOnFocus: false,
+                      revalidateOnReconnect: false,
+                    }}
+                  >
+                    <div style={{ flexGrow: 1 }}>
+                      {isClient ? (
+                        <ErrorBoundary
+                          fallback={
+                            <Alert severity="error">
+                              Could not fetch data. Please check your connection.
+                            </Alert>
+                          }
+                        >
+                          <CustomSuspense message="Hexagonalising">
+                            <Component {...pageProps} orgType />
+                          </CustomSuspense>
+                        </ErrorBoundary>
+                      ) : (
+                        <Loading message="Loading from server" />
+                      )}
+                    </div>
 
-                  <Footer />
-                </SWRConfig>
-              </ResponsiveDrawer>
-            </HexagonsContext.Provider>
-          </StylesProvider>
-        </ThemeProviderWithGlobalStyles>
+                    <Footer />
+                  </SWRConfig>
+                </ResponsiveDrawer>
+              </HexagonsContext.Provider>
+            </StylesProvider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </AnimateSharedLayout>
     </>
   );

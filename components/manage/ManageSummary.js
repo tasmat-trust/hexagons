@@ -6,11 +6,11 @@ import {
   CardActions,
   Typography,
   IconButton,
-} from '@material-ui/core';
-import { Dialog, DialogActions, DialogContent } from '@material-ui/core';
+} from '@mui/material';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import { AddNewSummaryText } from '../forms/AddNew';
 import { useState } from 'react';
-import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from '@mui/icons-material/Edit';
 
 function ManageSummary({ summaryText, moduleId, setModulesData }) {
   const [manageSummaryIsOpen, setManageSummaryIsOpen] = useState(false);

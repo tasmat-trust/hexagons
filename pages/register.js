@@ -1,5 +1,5 @@
 import RegistrationForm from '../components/forms/Registration';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@mui/material';
 import useSWR from 'swr';
 import { getAllOrgs } from '../queries/Organizations';
 import useLoginLogoutPages from '../styles/useLoginLogoutPages';

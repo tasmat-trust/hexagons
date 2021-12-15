@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Typography from '@material-ui/core/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import Typography from '@mui/material/Typography';
 
-import { Button, ButtonBase } from '@material-ui/core';
+import { Button, ButtonBase } from '@mui/material';
 
 import { PropTypes } from 'prop-types';
 

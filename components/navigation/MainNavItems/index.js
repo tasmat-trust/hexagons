@@ -1,9 +1,9 @@
-import List from '@material-ui/core/List';
-import PeopleIcon from '@material-ui/icons/People';
-import SubjectIcon from '@material-ui/icons/Subject';
-import LooksIcon from '@material-ui/icons/Looks';
+import List from '@mui/material/List';
+import PeopleIcon from '@mui/icons-material/People';
+import SubjectIcon from '@mui/icons-material/Subject';
+import LooksIcon from '@mui/icons-material/Looks';
 import NavItem from '../NavItem';
-import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
+import EmojiSymbolsIcon from '@mui/icons-material/EmojiSymbols';
 import WithRole from '../WithRole';
 
 function MainNavItems({ role }) {

@@ -1,5 +1,5 @@
-import { withStyles } from "@material-ui/core";
-import { Tabs, Tab } from "@material-ui/core";
+import withStyles from '@mui/styles/withStyles';
+import { Tabs, Tab } from "@mui/material";
 import theme from '../styles/theme'
 
 export const HexagonsTabs = withStyles({

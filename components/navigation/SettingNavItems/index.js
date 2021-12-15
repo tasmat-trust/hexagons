@@ -1,15 +1,15 @@
-import { Typography, Box, List, Divider } from '@material-ui/core';
-import PeopleIcon from '@material-ui/icons/People';
-import SchoolIcon from '@material-ui/icons/School';
-import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Box, List, Divider } from '@mui/material';
+import PeopleIcon from '@mui/icons-material/People';
+import SchoolIcon from '@mui/icons-material/School';
+import EmojiSymbolsIcon from '@mui/icons-material/EmojiSymbols';
+import makeStyles from '@mui/styles/makeStyles';
 import NavItem from '../NavItem';
 
 import WithRole from '../WithRole';
 
 const useStyles = makeStyles((theme) => ({
   settingsTitle: {
-    padding: `${theme.spacing(1)}px 0 0 ${theme.spacing(2)}px`,
+    padding: `${theme.spacing(1)} 0 0 ${theme.spacing(2)}`,
   },
 }));
 

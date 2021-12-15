@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import Subjects from '../subjects/Subjects';
 import GroupsMenu from './GroupsMenu';
 import useAdminPage from '../../styles/useAdminPage';

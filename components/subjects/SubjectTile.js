@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
 import Link from 'next/link';
 import DialogButton from '../ui-globals/DialogButton';
-import { Button, ButtonGroup, ButtonBase } from '@material-ui/core';
+import { Button, ButtonGroup, ButtonBase } from '@mui/material';
 function SubjectTile({ subject, onwardHref }) {
   const styles = stringStyles();
   const pseudoStyles = jssStyles();

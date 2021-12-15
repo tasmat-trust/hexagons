@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import SubjectProgress from '../subjects/SubjectProgress'
-import { makeStyles } from "@material-ui/core"
+import makeStyles from '@mui/styles/makeStyles';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 const useStyles = makeStyles(() => ({
   root: {

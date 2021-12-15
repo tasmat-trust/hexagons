@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { Breadcrumbs, Typography, Box } from '@material-ui/core';
+import { Breadcrumbs, Typography, Box } from '@mui/material';
 import Link from 'next/link';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   bc: {

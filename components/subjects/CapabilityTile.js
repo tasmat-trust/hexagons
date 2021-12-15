@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
-import { ButtonBase } from '@material-ui/core';
+import { ButtonBase } from '@mui/material';
 import { useState, useEffect, useContext } from 'react';
 import createCompetency from '../forms/handlers/createCompetency';
 import createLevel from '../forms/handlers/createLevel';
@@ -10,8 +10,8 @@ import CapabilityTileGuidance from './CapabilityTileGuidance';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import Image from 'next/image';
 
-import TrackChangesIcon from '@material-ui/icons/TrackChanges';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Loading from '../ui-globals/Loading';
 
 function CapabilityTile(props) {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import StagesTabsWithEarlyDevelopment from '../navigation/StagesTabsWithEarlyDevelopment';
 import StagesTabsSingleSubject from '../navigation/StagesTabsSingleSubject';
 import { useRouter } from 'next/router';

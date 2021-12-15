@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import useAdminPage from '../../styles/useAdminPage';
 import Subjects from '../subjects/Subjects';
 

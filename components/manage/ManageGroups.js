@@ -1,5 +1,5 @@
 
-import { Paper, Box, Typography } from '@material-ui/core';
+import { Paper, Box, Typography } from '@mui/material';
 import DialogButton from '../ui-globals/DialogButton'
 import GroupsList from '../../components/groups/GroupsList'
 

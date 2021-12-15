@@ -1,5 +1,5 @@
-import { Paper } from "@material-ui/core"
-import Alert from "@material-ui/lab/Alert"
+import { Paper } from "@mui/material"
+import Alert from '@mui/material/Alert'
 import useAdminPage from "../../styles/useAdminPage"
 
 

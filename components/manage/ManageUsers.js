@@ -2,7 +2,7 @@ import DialogButton from '../ui-globals/DialogButton';
 import { AddNewUserWithGroups } from '../forms/AddNew';
 import { AssignGroupsToUser, AssignRoleToUser } from '../forms/AssignTo';
 import UsersGrid from '../layout/data-tables/UsersGrid';
-import { Box, Typography, Paper } from '@material-ui/core';
+import { Box, Typography, Paper } from '@mui/material';
 import useAdminPage from '../../styles/useAdminPage';
 import { useState, memo, useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';

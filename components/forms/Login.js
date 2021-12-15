@@ -2,13 +2,13 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
-import { InputAdornment, IconButton } from '@material-ui/core'
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Button, FormControl, TextField } from '@material-ui/core';
+import { InputAdornment, IconButton } from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Button, FormControl, TextField } from '@mui/material';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
 
@@ -56,71 +56,68 @@ const LoginForm = (props) => {
         handleApiLoginErrors(error, setError, setLoading)
       });
   };
-  return (
-    <>
-      {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
-      {loading && <Loading message={loading} testId='login-loading' />}
-      {!loading && (
-        <form method="post" action="/api/login" onSubmit={onSubmit}>
+  return <>
+    {error && <Alert data-test-id="error" className={classes.mbelow} severity="error">{error}</Alert>}
+    {loading && <Loading message={loading} testId='login-loading' />}
+    {!loading && (
+      <form method="post" action="/api/login" onSubmit={onSubmit}>
 
 
-          <TextField
-            className={classes.input}
-            value={emailValue}
+        <TextField
+          className={classes.input}
+          value={emailValue}
+          fullWidth
+          error={fieldError === 'email'}
+          id="email"
+          label="Email"
+          variant="filled"
+          onChange={(ev) => {
+            clearErrors()
+            setEmailValue(ev.target.value)
+          }} />
+
+        <TextField
+          type={showPassword ? 'text' : 'password'}
+          className={classes.input}
+          value={passwordValue}
+          fullWidth
+          error={fieldError === 'password'}
+          id="password"
+          label="Password"
+          variant="filled"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(event) => event.preventDefault()}
+                  edge="end"
+                  size="large">
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          onChange={(ev) => {
+            clearErrors()
+            setPasswordValue(ev.target.value)
+          }} />
+
+        <FormControl margin="normal">
+          <Button
+            data-test-id={`login`}
             fullWidth
-            error={fieldError === 'email'}
-            id="email"
-            label="Email"
-            variant="filled"
-            onChange={(ev) => {
-              clearErrors()
-              setEmailValue(ev.target.value)
-            }} />
-
-          <TextField
-            type={showPassword ? 'text' : 'password'}
-            className={classes.input}
-            value={passwordValue}
-            fullWidth
-            error={fieldError === 'password'}
-            id="password"
-            label="Password"
-            variant="filled"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    onMouseDown={(event) => event.preventDefault()}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-            onChange={(ev) => {
-              clearErrors()
-              setPasswordValue(ev.target.value)
-            }} />
-
-          <FormControl margin="normal">
-            <Button
-              data-test-id={`login`}
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
-              Login
-            </Button>
-          </FormControl>
-        </form>
-      )}
-    </>
-
-  );
+            type="submit"
+            variant="contained"
+            color="secondary"
+          >
+            Login
+          </Button>
+        </FormControl>
+      </form>
+    )}
+  </>;
 };
 
 export default LoginForm;

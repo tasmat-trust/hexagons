@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import { Button } from "@material-ui/core"
-import FormControl from '@material-ui/core/FormControl';
+import { Button } from "@mui/material"
+import FormControl from '@mui/material/FormControl';
 import deletePupilCompletely from './handlers/deletePupilCompletely'
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import { useContext } from 'react';
 import Loading from '../ui-globals/Loading';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import { useState } from 'react';
 
 function DeletePupil({ pupilId, triggerSharedState }) {

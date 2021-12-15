@@ -1,12 +1,12 @@
 import { PropTypes } from 'prop-types';
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
 import CapabilityTileContent from './CapabilityTileContent';
-import { IconButton, Button } from '@material-ui/core';
-import { Dialog, DialogActions, DialogContent } from '@material-ui/core';
+import { IconButton, Button } from '@mui/material';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import { AddNewCapabilityText } from '../forms/AddNew';
 import { useState } from 'react';
 
-import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from '@mui/icons-material/Edit';
 function CapabilityTile(props) {
   const styles = stringStyles();
   const jStyles = jssStyles();
@@ -29,7 +29,7 @@ function CapabilityTile(props) {
             className={`${styles.tileInfo}`}
             onClick={handleShowHideCapability}
             aria-label="Edit capability"
-          >
+            size="large">
             <EditIcon />
           </IconButton>
           {manageCapabilityIsOpen && (

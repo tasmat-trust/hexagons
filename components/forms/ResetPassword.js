@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Alert from '@material-ui/lab/Alert';
-import { InputAdornment, IconButton } from '@material-ui/core';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Typography } from '@material-ui/core';
+import Alert from '@mui/material/Alert';
+import { InputAdornment, IconButton } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Typography } from '@mui/material';
 import Link from 'next/link';
 import useLoginLogoutPages from '../../styles/useLoginLogoutPages';
-import { Button, FormControl, InputLabel, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, TextField } from '@mui/material';
 import { useState } from 'react';
 import Loading from '../ui-globals/Loading';
 import handleApiLoginErrors from './handlers/handleApiLoginErrors';
@@ -107,84 +107,82 @@ const ResetPasswordForm = ({ isEmail, code }) => {
       });
   };
 
-  return (
-    <>
-      {error && (
-        <Alert data-test-id="error" className={classes.mbelow} severity="error">
-          {error}
-        </Alert>
-      )}
-      {loading && (
-        <Loading data-test-id="loading" message={loading} testId="reset-password-loading" />
-      )}
-      {success && (
-        <Alert data-test-id={`${isEmail ? 'email' : 'password'}-success`}>{successMessage}</Alert>
-      )}
-      {!loading && !success && (
-        <form method="post" onSubmit={(e) => (isEmail ? onSubmitEmail(e) : onSubmitPassword(e))}>
-          {isEmail && (
-            <TextField
-              error={fieldError === 'email'}
-              className={classes.input}
-              value={emailValue}
-              fullWidth
-              id="email"
-              label="Enter your email"
-              variant="filled"
-              helperText={`We will email you a link to reset your password.`}
-              onChange={(ev) => {
-                clearErrors();
-                setEmailValue(ev.target.value);
-              }}
-            />
-          )}
+  return <>
+    {error && (
+      <Alert data-test-id="error" className={classes.mbelow} severity="error">
+        {error}
+      </Alert>
+    )}
+    {loading && (
+      <Loading data-test-id="loading" message={loading} testId="reset-password-loading" />
+    )}
+    {success && (
+      <Alert data-test-id={`${isEmail ? 'email' : 'password'}-success`}>{successMessage}</Alert>
+    )}
+    {!loading && !success && (
+      <form method="post" onSubmit={(e) => (isEmail ? onSubmitEmail(e) : onSubmitPassword(e))}>
+        {isEmail && (
+          <TextField
+            error={fieldError === 'email'}
+            className={classes.input}
+            value={emailValue}
+            fullWidth
+            id="email"
+            label="Enter your email"
+            variant="filled"
+            helperText={`We will email you a link to reset your password.`}
+            onChange={(ev) => {
+              clearErrors();
+              setEmailValue(ev.target.value);
+            }}
+          />
+        )}
 
-          {!isEmail && (
-            <TextField
-              type={showPassword ? 'text' : 'password'}
-              error={fieldError === 'password'}
-              className={classes.input}
-              value={passwordValue}
-              fullWidth
-              id="password"
-              label="Password"
-              helperText="Please choose four random words as your password and ensure it is lowercase and doesn't include any special characters or numbers"
-              variant="filled"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      onMouseDown={(event) => event.preventDefault()}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(ev) => {
-                clearErrors();
-                setPasswordValue(ev.target.value);
-              }}
-            />
-          )}
-          <FormControl margin="normal">
-            <Button
-              data-test-id={`reset-password`}
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
-              {isEmail ? 'Submit your email' : 'Submit new password'}
-            </Button>
-          </FormControl>
-        </form>
-      )}
-    </>
-  );
+        {!isEmail && (
+          <TextField
+            type={showPassword ? 'text' : 'password'}
+            error={fieldError === 'password'}
+            className={classes.input}
+            value={passwordValue}
+            fullWidth
+            id="password"
+            label="Password"
+            helperText="Please choose four random words as your password and ensure it is lowercase and doesn't include any special characters or numbers"
+            variant="filled"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    onMouseDown={(event) => event.preventDefault()}
+                    edge="end"
+                    size="large">
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            onChange={(ev) => {
+              clearErrors();
+              setPasswordValue(ev.target.value);
+            }}
+          />
+        )}
+        <FormControl margin="normal">
+          <Button
+            data-test-id={`reset-password`}
+            fullWidth
+            type="submit"
+            variant="contained"
+            color="secondary"
+          >
+            {isEmail ? 'Submit your email' : 'Submit new password'}
+          </Button>
+        </FormControl>
+      </form>
+    )}
+  </>;
 };
 
 ResetPasswordForm.propTypes = {

@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core"
+import { Button } from "@mui/material"
 
 export default function StagePicker(props) {
   const { stages, user, setCurrentStage } = props

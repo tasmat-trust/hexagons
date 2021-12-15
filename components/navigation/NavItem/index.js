@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import { useRouter } from 'next/router';
 
 function NavItem({ label, href, Icon, isHomeLink }) {

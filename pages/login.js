@@ -1,5 +1,5 @@
 import LoginForm from '../components/forms/Login';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@mui/material';
 import Link from 'next/link';
 import useLoginLogoutPages from '../styles/useLoginLogoutPages';
 import CustomHead from '../components/ui-globals/CustomHead';

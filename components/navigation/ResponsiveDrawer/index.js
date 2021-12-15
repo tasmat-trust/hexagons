@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AppBar from '@mui/material/AppBar';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useLoginLogout } from '../../auth/session';
 import { motion } from 'framer-motion';
 const drawerWidth = 240;
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   settingsTitle: {
-    padding: `${theme.spacing(1)}px 0 0 ${theme.spacing(2)}px`,
+    padding: `${theme.spacing(1)} 0 0 ${theme.spacing(2)}`,
   },
 }));
 
@@ -107,7 +108,7 @@ function ResponsiveDrawer(props) {
               edge="start"
               onClick={handleDrawerToggle}
               className={classes.menuButton}
-            >
+              size="large">
               <MenuIcon />
             </IconButton>
           )}

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { Typography, Box, Button, Fade } from '@material-ui/core';
+import { Typography, Box, Button, Fade } from '@mui/material';
 import createLevel from '../forms/handlers/createLevel';
 import updateLevel from '../forms/handlers/updateLevel';
 import { useEffect, useState, useCallback, useContext } from 'react';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { makeStyles } from '@material-ui/core';
+import LinearProgress from '@mui/material/LinearProgress';
+import makeStyles from '@mui/styles/makeStyles';
 import getPercentComplete from '../../utils/getPercentComplete';
 import LevelStatusTitle from './LevelStatusTitle';
 import DialogButton from '../ui-globals/DialogButton';
@@ -13,7 +13,7 @@ import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 
 const useStyles = makeStyles((theme) => ({
   level: {

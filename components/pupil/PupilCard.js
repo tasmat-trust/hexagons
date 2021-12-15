@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import Link from 'next/link';
 import sortByName from '../../utils/sortByName';
 
-import { Chip, Typography } from '@material-ui/core';
+import { Chip, Typography } from '@mui/material';
 import CoreSubjectsProgress from './CoreSubjectsProgress';
 import CoreSubjectsProgressWithEarlyDevelopment from './CoreSubjectsProgressWithEarlyDevelopment';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';

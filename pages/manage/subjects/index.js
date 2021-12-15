@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 import { withSession } from '../../../components/auth/session'
 import checkSession from '../../../components/auth/checkSession'

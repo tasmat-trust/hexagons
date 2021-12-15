@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Paper, Box, Typography, Grid } from '@material-ui/core';
+import { Paper, Box, Typography, Grid } from '@mui/material';
 import GroupsList from './GroupsList';
 import useAdminPage from '../../styles/useAdminPage';
 import { useContext } from 'react';

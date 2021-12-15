@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelect from '@mui/material/NativeSelect';
+import makeStyles from '@mui/styles/makeStyles';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import WithAllSubjects from '../data-fetching/WithAllSubjects';
