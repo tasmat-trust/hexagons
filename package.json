@@ -31,6 +31,7 @@
     "@mui/lab": "*",
     "@mui/material": "^5.2.4",
     "@mui/styles": "^5.2.3",
+    "@mui/x-data-grid": "^5.2.0",
     "@reach/combobox": "^0.15.1",
     "@reach/skip-nav": "^0.15.0",
     "@reach/slider": "^0.15.0",

@@ -28,6 +28,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
 
   const isSubjectsListing = router.asPath.includes('subjects');
   const isRainbowAwards = router.asPath.includes('rainbow-awards');
+  const isReportListing = router.asPath.includes('reports');
 
   function storeRecentGroup(e, group, linkUrl) {
     e.preventDefault();
@@ -45,6 +46,10 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
         if (isSubjectsListing || isRainbowAwards) {
           const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
           linkUrl = `/${basePath}/${router.query.subject}/${group.slug}`;
+        } else if (isReportListing) {
+          let routerArray = router.asPath.split('/');
+          let reportSlug = routerArray[2];
+          linkUrl = `/reports/${reportSlug}/${group.slug}`;
         } else {
           linkUrl = `/pupils/${group.slug}`;
         }

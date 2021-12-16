@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import PupilsByGroup from "./PupilsByGroup";
 import GroupsMenu from "./GroupsMenu";
 import useAdminPage from "../../styles/useAdminPage";

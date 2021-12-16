@@ -4,29 +4,27 @@ import GroupRootPage from '../../../../components/shared-pages/GroupRootPage';
 import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
 import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables';
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
-import WithSingleSubjectFromSlug from '../../../../components/data-fetching/WithSingleSubjectFromSlug';
 
 function Index(props) {
   return (
     <GroupRootPage
-      shouldShowGroupBySubject={true}
-      titleContent={`${props.subjectName} | ${props.groupName} | Subjects`}
+      titleContent={`${props.groupName} | Pupil overview`}
       breadcrumbs={
-        <BreadCrumbs 
-        firstLabel="Subjects" 
-        firstModel="subject"
-        firstHref="/subjects"
-        secondLabel={props.subjectName}
-        thirdLabel={props.groupName}
-         {...props} />
+        <BreadCrumbs
+          firstLabel="Reports"
+          firstHref="/reports"
+          secondLabel="Pupil Overview"
+          thirdLabel={props.groupName}
+          {...props}
+        />
       }
       {...props}
     />
   );
 }
 
-export default WithUrlVariables(WithSingleSubjectFromSlug(WithGroupFromSlug(Index)));
+export default WithUrlVariables(WithGroupFromSlug(Index));
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Teacher');
+  return checkSession(ctx, 'Leader');
 });

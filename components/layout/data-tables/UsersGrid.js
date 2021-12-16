@@ -1,5 +1,5 @@
 
-import { DataGrid } from '@material-ui/data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import { allTeachers } from '../../../queries/Teachers'
 import { allPupilsWithGroups } from '../../../queries/Pupils'
 import { useEffect } from "react"

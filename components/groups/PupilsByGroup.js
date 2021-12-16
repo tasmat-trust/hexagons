@@ -1,76 +1,51 @@
-import PropTypes from 'prop-types'
-import { getPupilsByGroup } from "../../queries/Pupils"
+import PropTypes from 'prop-types';
+import { Grid } from '@mui/material';
+import { getPupilsByGroup } from '../../queries/Pupils';
 import useSWR from 'swr';
-import { Grid } from "@mui/material";
-import PupilCard from "../pupil/PupilCard";
-import WithCoreSubjects from "../data-fetching/WithCoreSubjects";
 import { useRouter } from 'next/router';
-import SubjectCard from '../pupil/SubjectCard';
-import ErrorBoundary from '../data-fetching/ErrorBoundary';
-import CustomSuspense from '../data-fetching/CustomSuspense';
 import sortByName from '../../utils/sortByName';
+import PupilsWithOverviews from './PupilsWithOverviews';
+import PupilSlimCard from '../pupil/PupilSlimCard';
 
-function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
-  const router = useRouter()
-  const { data: pupilsData } = useSWR([getPupilsByGroup, pupilsByGroupVariables], { suspense: true })
-  const isSubjectsListing = router.asPath.includes('subjects')
-  const isRainbowAwards = router.asPath.includes('rainbow-awards')
-
-  if (pupilsData.pupils.length === 0) return <p>No pupils in {groupName}.</p>
-  const sortedPupils = sortByName(pupilsData.pupils)
-  return (
-    <>
+function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, ...other }) {
+  const router = useRouter();
+  const isReportsPage = router.asPath.includes('reports');
+  const { data: pupilsData } = useSWR([getPupilsByGroup, pupilsByGroupVariables], {
+    suspense: true,
+  });
+  if (pupilsData.pupils.length === 0) return <p>No pupils in {groupName}.</p>;
+  const sortedPupils = sortByName(pupilsData.pupils);
+  if (!isReportsPage) {
+    return (
+      <PupilsWithOverviews
+        activeGroupSlug={activeGroupSlug}
+        groupName={groupName}
+        sortedPupils={sortedPupils}
+        {...other}
+      />
+    );
+  } else {
+    let routerArray = router.asPath.split('/');
+    return (
       <Grid container spacing={2}>
-        {shouldShowGroupBySubject && <Grid item xs={12} md={12}>
-          <ErrorBoundary alert="Error with SubjectCard">
-            <CustomSuspense message="Loading pupils by subject">
-              <SubjectCard
-                {...other}
-                groupName={groupName}
-                activeGroupSlug={activeGroupSlug}
-                pupils={sortedPupils}
-              />
-            </CustomSuspense>
-          </ErrorBoundary>
-        </Grid>}
-
-
-
-        {sortedPupils.map((p, i) => {
-          let linkUrl
-          if (isSubjectsListing || isRainbowAwards) {
-            const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
-            linkUrl = `/${basePath}/${router.query.subject}/${activeGroupSlug}/${p.id}`
-          } else {
-            linkUrl = `/pupils/${activeGroupSlug}/${p.id}`
-          }
+        {sortedPupils.map((pupil, i) => {
           return (
-
-            <Grid key={`pupil-${i}`} item xs={12} md={6} lg={4} sm={6} xl={3}>
-              <ErrorBoundary alert={`Error with ${p.name}`}>
-                <PupilCard
-                  {...other}
-                  groupName={groupName}
-                  key={i}
-                  pupilId={parseInt(p.id)}
-                  pupilName={p.name}
-                  pupilGroups={p.groups}
-                  activeGroupSlug={activeGroupSlug}
-                  onwardHref={linkUrl}
-                />
-              </ErrorBoundary>
-            </Grid>
-          )
+            <PupilSlimCard
+              key={`pupil-${i}`}
+              pupil={pupil}
+              onwardHref={`/${routerArray[1]}/${routerArray[2]}/${activeGroupSlug}/${pupil.id}`}
+              {...other}
+            />
+          );
         })}
       </Grid>
-    </>
-  )
+    );
+  }
 }
 
 PupilsByGroup.propTypes = {
-  shouldShowGroupBySubject: PropTypes.bool,
   pupilsByGroupVariables: PropTypes.object,
-  activeGroupSlug: PropTypes.string
-}
+  activeGroupSlug: PropTypes.string,
+};
 
-export default WithCoreSubjects(PupilsByGroup)
+export default PupilsByGroup;
