@@ -12,6 +12,7 @@ import { purple } from '@mui/material/colors';
 import getCurrentLevel from '../../utils/getCurrentLevel';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import getRainbowLabel from '../../utils/getRainbowLabel';
+
 import SubjectProgressLinks from '../link-management/SubjectProgressLinks';
 
 // Uses styled components to customise Reach Slider component
@@ -30,6 +31,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     listStyle: 'none',
     padding: 0,
+    position: 'relative',
+  },
+  stepLadder: {
+    width: '100%',
+    display: 'flex',
+    position: 'absolute',
+    top: '0',
+    left: '0',
+  },
+  step: {
+    textAlign: 'center',
+    flex: 1,
   },
   li: {
     listStyle: 'none',
@@ -54,6 +67,7 @@ function SubjectProgressDefault({
   isPupilCard,
   getLevelVariables,
   isRainbowAwards,
+  isConstrained,
 }) {
   const classes = useStyles();
   const { data: levelData } = useSWR([getLevelsForOverview, getLevelVariables]);
@@ -71,51 +85,134 @@ function SubjectProgressDefault({
     }
   }
 
+  const labels = [
+    'Step 1',
+    'Step 2',
+    'Step 3',
+    'Step 4',
+    'Step 5',
+    'Step 6',
+    'Stage 1',
+    'Stage 2',
+    'Stage 3',
+    'Stage 4',
+    'Stage 5',
+    'Stage 6',
+  ];
+
+  const steps = [
+    { name: 'Step 1' },
+    { name: 'Step 2' },
+    { name: 'Step 3' },
+    { name: 'Step 4' },
+    { name: 'Step 5' },
+    { name: 'Step 6' },
+    { name: 'Stage 1' },
+    { name: 'Stage 2' },
+    { name: 'Stage 3' },
+    { name: 'Stage 4' },
+    { name: 'Stage 5' },
+    { name: 'Stage 6' },
+  ];
+
+  const completedLevelIndex = labels.indexOf(label);
+
+  const stepsToRender = steps.map((step, i) => {
+    if (completedLevelIndex > -1) {
+      if (i <= completedLevelIndex) {
+        step.completed = true;
+      }
+      if (i === completedLevelIndex) {
+        step.currentLevel = true;
+      }
+    }
+    return step;
+  });
+
+  const totalPercentComplete = (100 / steps.length) * (completedLevelIndex + 1);
+  const levelTooLowToFloat = completedLevelIndex < 3;
+
+  function StepLadder() {
+    return (
+      <div className={classes.stepLadder}>
+        {level &&
+          stepsToRender.map((step, i) => (
+            <span key={`step-${i}`} className={`${classes.step} ${classes.active}`}>
+              {step.currentLevel && (
+                <span>
+                  {level.percentComplete}% - {step.name}
+                  <StyledSlider
+                    className={classes.slider}
+                    disabled={true}
+                    value={level.percentComplete}
+                    min={0}
+                    max={100}
+                  />
+                </span>
+              )}
+            </span>
+          ))}
+      </div>
+    );
+  }
+
+  function RightEdgeLabel() {
+    return (
+      <span className={classes.span}>
+        {label} - {level.percentComplete}%
+      </span>
+    );
+  }
+
   return (
-    <ErrorBoundary alert="Error in SubjectProgress component">
-      {level && (
-        <>
-          <Typography component="h3" variant="h6" className={classes.flexy}>
-            {linkUrl && (
-              <Link href={linkUrl}>
-                <a>{titleName}</a>
-              </Link>
-            )}
-            {!linkUrl && <>{titleName}</>}
-            <Chip color="secondary" size="small" label={label} />
+    <li className={classes.root}>
+      <ErrorBoundary alert="Error in SubjectProgress component">
+        {level && (
+          <>
+            {!isConstrained && !levelTooLowToFloat && <StepLadder />}
+            <Typography component="h3" variant="h6" className={classes.flexy}>
+              {linkUrl && (
+                <Link href={linkUrl}>
+                  <a>{titleName}</a>
+                </Link>
+              )}
+              {!linkUrl && <>{titleName}</>}
 
-            <span className={classes.span}>{level.percentComplete}%</span>
-          </Typography>
+              {isConstrained && <RightEdgeLabel />}
+              {!isConstrained && levelTooLowToFloat && <RightEdgeLabel />}
+            </Typography>
 
-          <StyledSlider
-            className={classes.slider}
-            disabled={true}
-            value={level.percentComplete}
-            min={0}
-            max={100}
-          />
-        </>
-      )}
-      {!level && (
-        <>
-          <Typography component="h3" variant="h6">
-            {linkUrl && (
-              <Link href={linkUrl}>
-                <a>{titleName}</a>
-              </Link>
-            )}
-            {!linkUrl && <>{titleName}</>}
-            <span className={classes.span}>0%</span>
-          </Typography>
+            <StyledSlider
+              className={classes.slider}
+              disabled={true}
+              value={isConstrained ? level.percentComplete : totalPercentComplete}
+              min={0}
+              max={100}
+            />
+          </>
+        )}
 
-          <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
-        </>
-      )}
-    </ErrorBoundary>
+        {!level && (
+          <>
+            <Typography component="h3" variant="h6" className={classes.flexy}>
+              {linkUrl && (
+                <Link href={linkUrl}>
+                  <a>{titleName}</a>
+                </Link>
+              )}
+              {!linkUrl && <>{titleName}</>}
+            </Typography>
+
+            <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
+          </>
+        )}
+      </ErrorBoundary>
+    </li>
   );
 }
 
 SubjectProgressDefault.propTypes = {
+  isConstrained: PropTypes.bool,
   isRainbowAwards: PropTypes.bool,
   linkUrl: PropTypes.string,
   isPupilCard: PropTypes.bool,

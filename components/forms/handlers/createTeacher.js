@@ -49,7 +49,6 @@ async function createTeacher({ formData, gqlClient, orgId, orgs, triggerSharedSt
     if (data) {
       triggerSharedState.update()
       const roleName = roles.filter((role) => role.id === parseInt(formData.role))[0].name
-      console.log(roleName)
       const emailTeacherVariables = {
         email: formData.email,
         role: roleName.toLowerCase(),

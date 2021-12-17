@@ -43,6 +43,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
           <li className={classes.li}>
             <SubjectProgressWithLinks
               {...other} // activeGroupSlug
+              isConstrained={true}
               subjectSlug={subject.slug}
               titleName={subject.name}
               getLevelVariables={{ subjectId: parseInt(subject.id), pupilId: pupilId }}

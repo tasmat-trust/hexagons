@@ -58,6 +58,7 @@ function SubjectCard({
                   <ErrorBoundary fallback={<p>Error rendering {pupil.name}</p>}>
                     <SubjectProgressWithLinks
                       {...other} // activeGroupSlug, isSubjectsListing, isRainbowAwards
+                      isConstrained={false}
                       subjectSlug={subjectSlug}
                       titleName={pupil.name}
                       getLevelVariables={{ subjectId: subjectId, pupilId: pupilId }}

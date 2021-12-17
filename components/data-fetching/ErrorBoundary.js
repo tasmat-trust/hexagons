@@ -9,11 +9,8 @@ import axios from 'axios';
 class ErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
 
-
-
   static getDerivedStateFromError(e) {
-    const response = handleStrapiError(e)
-    
+    const response = handleStrapiError(e)    
     console.log(response)
     return {
       hasError: true,

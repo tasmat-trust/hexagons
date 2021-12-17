@@ -1,10 +1,58 @@
 import PropTypes from 'prop-types';
+import { Typography } from '@mui/material';
 import SubjectsSection from './SubjectsSection';
-function PupilOverview(props) {
+import { makeStyles } from '@mui/styles';
+import { Paper, Grid } from '@mui/material';
+import GroupChips from '../groups/GroupsChips';
+import getTodayDate from '../../utils/getTodayDate'
+
+const styles = makeStyles((theme) => ({
+  heading: {
+    textAlign: 'center',
+  },
+  pupilName: {
+    textAlign: 'left',
+    marginTop: 0,
+  },
+  sectionName: {
+    display: 'block',
+    textAlign: 'center',
+  },
+  subjectsGrid: {},
+}));
+
+function PupilOverview({ pupil, ...other }) {
+  const classes = styles();
+  const todayDate = getTodayDate()
+
   return (
     <>
-      <h1>{props.pupil.name}</h1>
-      <SubjectsSection {...props} />
+      <Typography className={classes.heading} variant="h1">
+        Hexagons Report
+      </Typography>
+      <Typography className={classes.heading} variant="h2">
+        {todayDate}
+      </Typography>
+      <Paper sx={{ mt: 3, p: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item md={3}>
+            <Typography variant="h2" className={classes.pupilName}>
+              {pupil.name}
+            </Typography>
+            <GroupChips shouldLink={false} groups={pupil.groups} pupilId={pupil.id} />
+          </Grid>
+          <Grid item md={9} className={classes.subjectsGrid}>
+            <Typography variant="h2" className={classes.sectionName}>
+              Academic Attainment
+            </Typography>
+            <SubjectsSection pupil={pupil} {...other} />
+            <Typography variant="h2" className={classes.sectionName}>
+              Personal Development Attainment
+            </Typography>
+            <SubjectsSection pupil={pupil} isRainbowAwards={true} {...other} />
+          </Grid>
+        </Grid>
+      </Paper>
     </>
   );
 }

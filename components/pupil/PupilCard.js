@@ -10,22 +10,9 @@ import { Chip, Typography } from '@mui/material';
 import CoreSubjectsProgress from './CoreSubjectsProgress';
 import CoreSubjectsProgressWithEarlyDevelopment from './CoreSubjectsProgressWithEarlyDevelopment';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+import GroupsChips from '../groups/GroupsChips';
 
 const useStyles = makeStyles((theme) => ({
-  groupUl: {
-    listStyle: 'none',
-    padding: '0',
-    margin: '0',
-  },
-  groupLi: {
-    listStyle: 'none',
-    display: 'inline-block',
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    '&:last-child::after': {
-      content: "''",
-    },
-  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -45,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
 function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ...other }) {
   //  coreSubjects, activeGroupSlug
   const styles = useStyles();
-  const baseHref = '/pupils';
-
-  const sortedGroups = pupilGroups ? sortByName(pupilGroups) : null;
 
   return (
     <Card>
@@ -60,23 +44,12 @@ function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ..
               </Link>
             )}
           </Typography>
-          <ul className={styles.groupUl} data-test-id={`groups-list-pupil-${pupilId}`}>
-            {sortedGroups &&
-              sortedGroups.map((group, i) => (
-                <ErrorBoundary
-                  key={`pupil-group-${i}`}
-                  fallback={<p>Error loading {group.name}</p>}
-                >
-                  <li className={styles.groupLi}>
-                    <Link href={`${baseHref}/${group.slug}`}>
-                      <a>
-                        <Chip clickable={true} size="small" label={group.name} />
-                      </a>
-                    </Link>
-                  </li>
-                </ErrorBoundary>
-              ))}
-          </ul>
+          <GroupsChips
+            groups={pupilGroups}
+            shouldLink={true}
+            baseHref="/pupils"
+            pupilId={pupilId}
+          />
           {schoolType === 'secondary' && (
             <CoreSubjectsProgress
               isPupilCard={true}
