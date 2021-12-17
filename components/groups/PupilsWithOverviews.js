@@ -18,6 +18,8 @@ function PupilsWithOverviews({
   const isSubjectsListing = router.asPath.includes('subjects');
   const isRainbowAwards = router.asPath.includes('rainbow-awards');
 
+  console.log(isSubjectsListing, isRainbowAwards)
+
   return (
     <>
       <Grid container spacing={2}>
@@ -27,6 +29,8 @@ function PupilsWithOverviews({
               <CustomSuspense message="Loading pupils by subject">
                 <SubjectCard
                   {...other}
+                  isSubjectsListing={isSubjectsListing}
+                  isRainbowAwards={isRainbowAwards}
                   groupName={groupName}
                   activeGroupSlug={activeGroupSlug}
                   pupils={sortedPupils}
@@ -49,6 +53,8 @@ function PupilsWithOverviews({
               <ErrorBoundary alert={`Error with ${p.name}`}>
                 <PupilCard
                   {...other}
+                  isSubjectsListing={isSubjectsListing}
+                  isRainbowAwards={isRainbowAwards}
                   groupName={groupName}
                   key={i}
                   pupilId={parseInt(p.id)}

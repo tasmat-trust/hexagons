@@ -4,9 +4,12 @@ import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
 import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables';
 import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
 import WithPupilData from '../../../../components/data-fetching/WithPupilData';
+import PupilOverview from '../../../../components/reporting/PupilOverview';
+import CustomHead from '../../../../components/ui-globals/CustomHead';
 function Index(props) {
   return (
     <>
+    <CustomHead titleContent={`${props.pupil.name}`} />
       <BreadCrumbs
         firstLabel="Reports"
         firstHref="/reports"
@@ -15,6 +18,7 @@ function Index(props) {
         fourthLabel={props.pupil.name}
         {...props}
       />
+      <PupilOverview {...props} />
     </>
   );
 }

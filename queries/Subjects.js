@@ -4,6 +4,7 @@ import { gql } from 'graphql-request';
 const allSubjectsQuery = gql`
   query getSubjects {
     subjects {
+      id
       name
       slug
       isCore

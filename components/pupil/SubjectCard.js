@@ -4,9 +4,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Typography } from '@mui/material';
 
-import SubjectProgress from '../subjects/SubjectProgress';
+import { SubjectProgressWithLinks } from '../subjects/SubjectProgress';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
-import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -39,11 +38,6 @@ function SubjectCard({
 }) {
   // pupilId, coreSubjects, activeGroupSlug
   const styles = useStyles();
-  let isRainbowListingPage = false;
-  const { pathname } = useRouter();
-  if (pathname.includes('rainbow-awards')) {
-    isRainbowListingPage = true;
-  }
   return (
     <Card>
       <CardContent role="region" aria-live="polite">
@@ -62,9 +56,8 @@ function SubjectCard({
               return (
                 <li key={`pupil-${i}`} className={styles.li}>
                   <ErrorBoundary fallback={<p>Error rendering {pupil.name}</p>}>
-                    <SubjectProgress
-                      {...other} // activeGroupSlug
-                      isRainbowListingPage={isRainbowListingPage}
+                    <SubjectProgressWithLinks
+                      {...other} // activeGroupSlug, isSubjectsListing, isRainbowAwards
                       subjectSlug={subjectSlug}
                       titleName={pupil.name}
                       getLevelVariables={{ subjectId: subjectId, pupilId: pupilId }}

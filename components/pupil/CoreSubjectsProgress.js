@@ -1,29 +1,38 @@
-import PropTypes from 'prop-types'
-import SubjectProgress from '../subjects/SubjectProgress'
+import PropTypes from 'prop-types';
+import SubjectProgress from '../subjects/SubjectProgress';
 import makeStyles from '@mui/styles/makeStyles';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+
+import { SubjectProgressWithLinks } from '../subjects/SubjectProgress';
+
 const useStyles = makeStyles(() => ({
   root: {
     listStyle: 'none',
-    padding: 0
+    padding: 0,
   },
   li: {
     listStyle: 'none',
     padding: '0',
-    margin: '0'
-  }
+    margin: '0',
+  },
 }));
 
 function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...other }) {
-  const classes = useStyles()
-  let subjects = []
+  const classes = useStyles();
+  let subjects = [];
   if (schoolType === 'secondary') {
-    subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment && subject.slug !== 'primary-science')
+    subjects = coreSubjects.filter(
+      (subject) => !subject.isEarlyDevelopment && subject.slug !== 'primary-science'
+    );
   } else {
     if (edLevel.status === 'incomplete') {
-      subjects = coreSubjects.filter((subject) => subject.isEarlyDevelopment || subject.isExpressiveAndReceptiveLanguage)
+      subjects = coreSubjects.filter(
+        (subject) => subject.isEarlyDevelopment || subject.isExpressiveAndReceptiveLanguage
+      );
     } else {
-      subjects = coreSubjects.filter((subject) => !subject.isEarlyDevelopment && subject.slug !== 'investigation-skills')
+      subjects = coreSubjects.filter(
+        (subject) => !subject.isEarlyDevelopment && subject.slug !== 'investigation-skills'
+      );
     }
   }
 
@@ -32,7 +41,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
       {subjects.map((subject, i) => (
         <ErrorBoundary key={`subject-${i}`} fallback={<p>Error rendering {subject.name}</p>}>
           <li className={classes.li}>
-            <SubjectProgress
+            <SubjectProgressWithLinks
               {...other} // activeGroupSlug
               subjectSlug={subject.slug}
               titleName={subject.name}
@@ -43,15 +52,14 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
         </ErrorBoundary>
       ))}
     </ul>
-
-  )
+  );
 }
 
 CoreSubjectsProgress.propTypes = {
   schoolType: PropTypes.string,
   edLevel: PropTypes.object,
   pupilId: PropTypes.number,
-  coreSubjects: PropTypes.array
-}
+  coreSubjects: PropTypes.array,
+};
 
-export default CoreSubjectsProgress
+export default CoreSubjectsProgress;
