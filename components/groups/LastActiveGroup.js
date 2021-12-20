@@ -4,12 +4,11 @@ import PupilsAndGroups from './PupilsAndGroups';
 import SubjectsAndGroups from './SubjectsAndGroups';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
-function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...other }) {
+function LastActiveGroup({ user, isGroupSubjectPicker, setParentGroupBreadcumbLabel, ...other }) {
   const [activeGroupSlug, setActiveGroupSlug] = useState();
   const [activeGroupName, setActiveGroupName] = useState();
   const [activeGroupId, setActiveGroupId] = useState();
   const { orgId } = useContext(HexagonsContext);
-
   useEffect(() => {
     if (window.localStorage) {
       const savedGroupSlug = window.localStorage.getItem('active-group-slug');
@@ -28,7 +27,7 @@ function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...ot
   }, [setParentGroupBreadcumbLabel, orgId]);
   return (
     <>
-      {isHomepage && (
+      {isGroupSubjectPicker && (
         <SubjectsAndGroups
           {...other}
           userId={user.id}
@@ -38,7 +37,7 @@ function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...ot
           setActiveGroupId={setActiveGroupId}
         />
       )}
-      {!isHomepage && (
+      {!isGroupSubjectPicker && (
         <PupilsAndGroups
           {...other}
           userId={user.id}
@@ -56,8 +55,9 @@ function LastActiveGroup({ user, isHomepage, setParentGroupBreadcumbLabel, ...ot
 }
 
 LastActiveGroup.propTypes = {
+  isReportPage: PropTypes.bool,
   setParentGroupBreadcumbLabel: PropTypes.func,
-  isHomepage: PropTypes.bool,
+  isGroupSubjectPicker: PropTypes.bool,
   user: PropTypes.object,
 };
 

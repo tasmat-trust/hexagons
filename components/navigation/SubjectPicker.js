@@ -26,28 +26,26 @@ function SubjectPicker({
   activeGroupSlug,
   currentPupilId,
   isRainbowAwards,
+  isGroupOverviewReport,
 }) {
   const classes = useStyles();
   const [subjectSlug, setSubjectSlug] = useState(currentSubjectSlug);
   const router = useRouter();
   const handleChange = (event) => {
     const newSubjectSlug = event.target.value;
-
     const isSubjectsListing = router.asPath.includes('subjects');
+    let navigateTo;
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
-      router.push(
-        `/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`,
-        undefined,
-        {
-          shallow: true,
-        }
-      );
+      navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`;
+    } else if (isGroupOverviewReport) {
+      navigateTo = `/reports/group-overview/${activeGroupSlug}/${newSubjectSlug}`;
     } else {
-      router.push(`/pupils/${activeGroupSlug}/${currentPupilId}/${newSubjectSlug}`, undefined, {
-        shallow: true,
-      });
+      navigateTo = `/pupils/${activeGroupSlug}/${currentPupilId}/${newSubjectSlug}`;
     }
+    router.push(navigateTo, undefined, {
+      shallow: true,
+    });
     setSubjectSlug(newSubjectSlug);
   };
 
@@ -92,6 +90,7 @@ SubjectPicker.propTypes = {
   currentSubjectSlug: PropTypes.string,
   subjects: PropTypes.array,
   activeGroupSlug: PropTypes.string,
+  isGroupOverviewReport: PropTypes.string,
   currentPupilId: PropTypes.number,
 };
 

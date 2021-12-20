@@ -8,9 +8,18 @@ export default function Reports(props) {
     <>
       <CustomHead titleContent="Reports" />
       <BreadCrumbs firstLabel="Reports" />
-      <Link href={`/reports/pupil-overview`} passHref={true}>
-        <a data-test-id="pupil-overview-link">Pupil overview</a>
-      </Link>
+      <ul>
+        <li>
+          <Link href={`/reports/pupil-overview`} passHref={true}>
+            <a data-test-id="pupil-overview-link">Pupil overview</a>
+          </Link>
+        </li>
+        <li>
+          <Link href={`/reports/group-overview`} passHref={true}>
+            <a data-test-id="group-overview-link">Group overview</a>
+          </Link>
+        </li>
+      </ul>
     </>
   );
 }

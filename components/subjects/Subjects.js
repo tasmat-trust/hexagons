@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import SubjectTiles from '../subjects/SubjectTiles';
@@ -7,24 +7,30 @@ import WithAllSubjects from '../data-fetching/WithAllSubjects';
 
 const styles = makeStyles((theme) => ({
   box: {
-    marginTop: '-8px'
-  }
-}))
+    marginTop: '-8px',
+  },
+}));
 
-function Subjects({ linkTo, ...other }) {
-  const classes = styles()
+function Subjects({ hasNoGroupSlugInUrl, activeGroupSlug, ...other }) {
+  const classes = styles();
   const router = useRouter();
-  const onwardHref = linkTo ? linkTo : router.asPath;
+
+  let onwardHref = router.asPath === '/' ? '/subjects' : router.asPath;
+
+  if (hasNoGroupSlugInUrl) {
+    onwardHref = `${onwardHref}/${activeGroupSlug}`;
+  }
+
   return (
     <Box className={classes.box} data-test-id="subject-tiles-container">
-      <SubjectTiles {...other} onwardHref={onwardHref} />
+      <SubjectTiles {...other} onwardHref={onwardHref} activeGroupSlug={activeGroupSlug} />
     </Box>
   );
 }
 
-
 Subjects.propTypes = {
-  linkTo: PropTypes.string,
-}
+  activeGroupSlug: PropTypes.string,
+  hasNoGroupSlugInUrl: PropTypes.bool,
+};
 
 export default WithAllSubjects(Subjects);

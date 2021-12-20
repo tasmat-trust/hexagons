@@ -18,8 +18,9 @@ context('Reports', () => {
     beforeEach(() => {
       cy.visit('/reports');
     });
-    it('should display a link to pupil overview', () => {
+    it('should display links to different reports', () => {
       cy.get('[data-test-id=pupil-overview-link]').should('exist');
+      cy.get('[data-test-id=group-overview-link]').should('exist');
     });
   });
 

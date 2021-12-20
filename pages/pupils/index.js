@@ -7,6 +7,7 @@ import CustomHead from '../../components/ui-globals/CustomHead';
 import { useState } from 'react';
 function Index(props) {
   const [groupLabel, setGroupLabel] = useState() 
+
   return (
     <>
       <CustomHead titleContent="Pupils" />

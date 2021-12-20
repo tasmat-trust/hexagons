@@ -34,6 +34,7 @@ function SubjectCard({
   subjectId,
   pupils,
   groupName,
+  isRainbowAwards,
   ...other
 }) {
   // pupilId, coreSubjects, activeGroupSlug
@@ -58,6 +59,8 @@ function SubjectCard({
                   <ErrorBoundary fallback={<p>Error rendering {pupil.name}</p>}>
                     <SubjectProgressWithLinks
                       {...other} // activeGroupSlug, isSubjectsListing, isRainbowAwards
+                      isRainbowAwards={isRainbowAwards}
+                      useSubjectsBaseSlug={isRainbowAwards ? false : true}
                       isConstrained={false}
                       subjectSlug={subjectSlug}
                       titleName={pupil.name}
@@ -78,6 +81,7 @@ SubjectCard.propTypes = {
   subjectName: PropTypes.string,
   subjectSlug: PropTypes.string,
   subjectId: PropTypes.number,
+  isRainbowAwards: PropTypes.bool,
   groupName: PropTypes.string,
   onwardHref: PropTypes.string,
   pupils: PropTypes.array,

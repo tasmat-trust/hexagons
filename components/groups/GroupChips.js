@@ -23,10 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function GroupChips({ pupilId, groups, shouldLink, baseHref }) {
-  console.log(groups);
   const sortedGroups = sortByName(groups);
   const styles = useStyles();
-  console.log(sortedGroups);
   return (
     <ul className={styles.groupUl} data-test-id={`groups-list-pupil-${pupilId}`}>
       {sortedGroups &&

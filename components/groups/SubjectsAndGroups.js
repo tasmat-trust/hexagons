@@ -6,19 +6,19 @@ import useAdminPage from '../../styles/useAdminPage';
 import { useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
-function SubjectsAndGroups({ activeGroupSlug, ...other }) {
+function SubjectsAndGroups({ userId, ...other }) {
   const classes = useAdminPage();
-  const { orgId } = useContext(HexagonsContext)
+  const { orgId } = useContext(HexagonsContext);
 
   return (
     <>
       <div className={classes.root}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} xl={2}>
-            <GroupsMenu orgId={orgId} {...other} />
+            <GroupsMenu orgId={orgId} userId={userId} />
           </Grid>
           <Grid item xs={12} md={9} xl={10}>
-            <Subjects linkTo='/subjects' isNarrow={true} />
+            <Subjects linkTo="/subjects" isNarrow={true} {...other} />
           </Grid>
         </Grid>
       </div>
@@ -27,7 +27,7 @@ function SubjectsAndGroups({ activeGroupSlug, ...other }) {
 }
 
 SubjectsAndGroups.propTypes = {
-  activeGroupSlug: PropTypes.string,
+  userId: PropTypes.number,
 };
 
 export default SubjectsAndGroups;
