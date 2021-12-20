@@ -3,7 +3,6 @@ import useSWR from 'swr';
 import { getLevelsForOverview } from '../../queries/Pupils';
 import { Typography } from '@mui/material';
 import Link from 'next/link';
-import { Chip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import '@reach/slider/styles.css';
 import styled from 'styled-components';
@@ -165,49 +164,47 @@ function SubjectProgressDefault({
   }
 
   return (
-    <li className={classes.root}>
-      <ErrorBoundary alert="Error in SubjectProgress component">
-        {level && (
-          <>
-            {!isConstrained && !levelTooLowToFloat && <StepLadder />}
-            <Typography component="h3" variant="h6" className={classes.flexy}>
-              {linkUrl && (
-                <Link href={linkUrl}>
-                  <a>{titleName}</a>
-                </Link>
-              )}
-              {!linkUrl && <>{titleName}</>}
+    <ErrorBoundary alert="Error in SubjectProgress component">
+      {level && (
+        <>
+          {!isConstrained && !levelTooLowToFloat && <StepLadder />}
+          <Typography component="h3" variant="h6" className={classes.flexy}>
+            {linkUrl && (
+              <Link href={linkUrl}>
+                <a>{titleName}</a>
+              </Link>
+            )}
+            {!linkUrl && <>{titleName}</>}
 
-              {isConstrained && <RightEdgeLabel />}
-              {!isConstrained && levelTooLowToFloat && <RightEdgeLabel />}
-            </Typography>
+            {isConstrained && <RightEdgeLabel />}
+            {!isConstrained && levelTooLowToFloat && <RightEdgeLabel />}
+          </Typography>
 
-            <StyledSlider
-              className={classes.slider}
-              disabled={true}
-              value={isConstrained ? level.percentComplete : totalPercentComplete}
-              min={0}
-              max={100}
-            />
-          </>
-        )}
+          <StyledSlider
+            className={classes.slider}
+            disabled={true}
+            value={isConstrained ? level.percentComplete : totalPercentComplete}
+            min={0}
+            max={100}
+          />
+        </>
+      )}
 
-        {!level && (
-          <>
-            <Typography component="h3" variant="h6" className={classes.flexy}>
-              {linkUrl && (
-                <Link href={linkUrl}>
-                  <a>{titleName}</a>
-                </Link>
-              )}
-              {!linkUrl && <>{titleName}</>}
-            </Typography>
+      {!level && (
+        <>
+          <Typography component="h3" variant="h6" className={classes.flexy}>
+            {linkUrl && (
+              <Link href={linkUrl}>
+                <a>{titleName}</a>
+              </Link>
+            )}
+            {!linkUrl && <>{titleName}</>}
+          </Typography>
 
-            <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
-          </>
-        )}
-      </ErrorBoundary>
-    </li>
+          <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
+        </>
+      )}
+    </ErrorBoundary>
   );
 }
 

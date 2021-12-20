@@ -10,7 +10,8 @@ Cypress.Commands.add('assertSubjectCardIsVisible', () => {
 })
 
 Cypress.Commands.add('navigateToPupilsClass1', () => {
-  cy.get('[data-test-id=class-1-link').click()
+  cy.get('[data-test-id=class-1-link]').click()
+  cy.waitForSpinners()
   cy.location().should((loc) => {
     expect(loc.pathname).to.eq('/pupils/class-1')
     expect(localStorage.getItem('active-group-slug')).to.eq('class-1')

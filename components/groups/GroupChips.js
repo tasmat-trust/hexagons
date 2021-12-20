@@ -22,9 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GroupChips({ pupilId, groups, shouldLink }) {
+function GroupChips({ pupilId, groups, shouldLink, baseHref }) {
+  console.log(groups);
   const sortedGroups = sortByName(groups);
   const styles = useStyles();
+  console.log(sortedGroups);
   return (
     <ul className={styles.groupUl} data-test-id={`groups-list-pupil-${pupilId}`}>
       {sortedGroups &&
@@ -33,7 +35,9 @@ function GroupChips({ pupilId, groups, shouldLink }) {
             <li className={styles.groupLi}>
               {shouldLink && (
                 <Link href={`${baseHref}/${group.slug}`}>
-                  <a></a>
+                  <a>
+                    <Chip clickable={true} size="small" label={group.name} />
+                  </a>
                 </Link>
               )}
               {!shouldLink && <Chip clickable={false} size="small" label={group.name} />}
@@ -45,6 +49,7 @@ function GroupChips({ pupilId, groups, shouldLink }) {
 }
 
 GroupChips.propTypes = {
+  baseHref: PropTypes.string,
   pupilId: PropTypes.number,
   groups: PropTypes.array,
   shouldLink: PropTypes.bool,

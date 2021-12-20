@@ -18,8 +18,6 @@ function PupilsWithOverviews({
   const isSubjectsListing = router.asPath.includes('subjects');
   const isRainbowAwards = router.asPath.includes('rainbow-awards');
 
-  console.log(isSubjectsListing, isRainbowAwards)
-
   return (
     <>
       <Grid container spacing={2}>

@@ -7,13 +7,14 @@ export default function SubjectProgressLinks(WrappedComponent) {
     pupilId,
     isSubjectsListing,
     isRainbowAwards,
+    useSubjectsBaseSlug,
     ...other
   }) {
     //  {router && router.asPath &&
     let linkUrl;
     if (isSubjectsListing || isRainbowAwards) {
       let basePath = 'subjects'; // Is a core subject on a rainbow-awards page
-      if (isRainbowAwards) {
+      if (!useSubjectsBaseSlug) {
         basePath = 'rainbow-awards';
       }
       linkUrl = `/${basePath}/${subjectSlug}/${activeGroupSlug}/${pupilId}`;
@@ -34,6 +35,7 @@ export default function SubjectProgressLinks(WrappedComponent) {
   SubjectProgressLinks.propTypes = {
     isSubjectsListing: PropTypes.bool,
     isRainbowAwards: PropTypes.bool,
+    useSubjectsBaseSlug: PropTypes.bool,
     subjectSlug: PropTypes.string,
     pupilId: PropTypes.number,
     activeGroupSlug: PropTypes.string,

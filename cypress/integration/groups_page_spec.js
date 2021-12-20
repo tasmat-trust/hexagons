@@ -25,22 +25,6 @@ context('Groups pages', () => {
       cy.mockGraphQL([{ query: 'getAllPupilsByGroup', data: getAllPupilsByGroup }]);
     });
 
-    describe('With assigned groups', () => {
-      beforeEach(() => {
-        let getTeacherGroups = {
-          body: { data: { groups: [{ name: 'EFL', slug: 'efl', id: '254' }] } },
-        };
-        cy.mockGraphQL([
-          { query: 'getGroups', data: getTeacherGroups, variable: { key: 'teacherId', value: 76 } },
-        ]);
-      });
-
-      it('Pupils view: Displays a notice to choose pupils when no active group is present', () => {
-        cy.visit('/pupils');
-        cy.get('[data-test-id=please-choose-group]').should('exist');
-      });
-    });
-
     describe('Without assigned groups', () => {
       beforeEach(() => {
         cy.mockGraphQL([
@@ -50,6 +34,19 @@ context('Groups pages', () => {
             variable: { key: 'teacherId', value: 76 },
           },
         ]);
+      });
+
+      it('Displays subject overview card', () => {
+        cy.visit('/subjects/number/class-1');
+        cy.assertSubjectCardIsVisible();
+      });
+
+      it('Displays subject overview card and correct breadcrumb on page without group slug', () => {
+        cy.visit('/pupils');
+        cy.navigateToPupilsClass1(); // Sets group in localStorage
+        cy.visit('/subjects/number');
+        cy.assertSubjectCardIsVisible();
+        cy.get('[data-test-id=third-crumb]').contains('Class 1');
       });
 
       it('Pupils view: Displays a notice to choose pupils when no active group is present', () => {
@@ -69,26 +66,31 @@ context('Groups pages', () => {
 
       it('Lets user choose a group and sets it to localStorage', () => {
         cy.visit('/pupils');
-        cy.get('[data-test-id=class-1-link]').click();
+        cy.get('[data-test-id=d-1-link]').click();
+
+        cy.waitForSpinners();
         cy.location().should((loc) => {
-          expect(loc.pathname).to.eq('/pupils/class-1');
-          expect(localStorage.getItem('active-group-slug')).to.eq('class-1');
-          expect(localStorage.getItem('active-group-id')).to.eq('241');
-          expect(localStorage.getItem('active-group-name')).to.eq('Class 1');
+          expect(loc.pathname).to.eq('/pupils/d-1');
+          expect(localStorage.getItem('active-group-slug')).to.eq('d-1');
+          expect(localStorage.getItem('active-group-id')).to.eq('46');
+          expect(localStorage.getItem('active-group-name')).to.eq('D1');
         });
       });
-
-      it('Displays subject overview card', () => {
-        cy.visit('/subjects/number/class-1');
-        cy.assertSubjectCardIsVisible();
+    });
+    describe('With assigned groups', () => {
+      beforeEach(() => {
+        let getTeacherGroups = {
+          body: { data: { groups: [{ name: 'EFL', slug: 'efl', id: '254' }] } },
+        };
+        cy.mockGraphQL([
+          { query: 'getGroups', data: getTeacherGroups, variable: { key: 'teacherId', value: 76 } },
+        ]);
       });
 
-      it('Displays subject overview card and correct breadcrumb on page without group slug', () => {
+      it('Pupils view: Displays a notice to choose pupils when no active group is present', () => {
         cy.visit('/pupils');
-        cy.navigateToPupilsClass1(); // Sets group in localStorage
-        cy.visit('/subjects/number');
-        cy.assertSubjectCardIsVisible();
-        cy.get('[data-test-id=third-crumb]').contains('Class 1');
+        cy.waitForSpinners();
+        cy.get('[data-test-id=please-choose-group]').should('exist');
       });
     });
   });

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import SubjectProgress from '../subjects/SubjectProgress';
 import makeStyles from '@mui/styles/makeStyles';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 
@@ -43,6 +42,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
           <li className={classes.li}>
             <SubjectProgressWithLinks
               {...other} // activeGroupSlug
+              useSubjectsBaseSlug={true}
               isConstrained={true}
               subjectSlug={subject.slug}
               titleName={subject.name}

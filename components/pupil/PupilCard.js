@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Link from 'next/link';
-import sortByName from '../../utils/sortByName';
 
-import { Chip, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import CoreSubjectsProgress from './CoreSubjectsProgress';
 import CoreSubjectsProgressWithEarlyDevelopment from './CoreSubjectsProgressWithEarlyDevelopment';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
-import GroupsChips from '../groups/GroupsChips';
+import GroupChips from '../groups/GroupChips';
 
 const useStyles = makeStyles((theme) => ({
   bullet: {
@@ -44,12 +42,7 @@ function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ..
               </Link>
             )}
           </Typography>
-          <GroupsChips
-            groups={pupilGroups}
-            shouldLink={true}
-            baseHref="/pupils"
-            pupilId={pupilId}
-          />
+          <GroupChips groups={pupilGroups} shouldLink={true} baseHref="/pupils" pupilId={pupilId} />
           {schoolType === 'secondary' && (
             <CoreSubjectsProgress
               isPupilCard={true}

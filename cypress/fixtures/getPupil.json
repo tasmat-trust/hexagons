@@ -6,6 +6,7 @@
           "name": "Jenny Roebottom",
           "id": "154",
           "groups": [
+            { "name": "Class 1" },
             { "name": "Class 2" },
             { "name": "Class 3" },
             { "name": "Class 5" },
