@@ -21,6 +21,7 @@ context('Reports', () => {
     it('should display links to different reports', () => {
       cy.get('[data-test-id=pupil-overview-link]').should('exist');
       cy.get('[data-test-id=group-overview-link]').should('exist');
+      cy.get('[data-test-id=data-export-link]').should('exist');
     });
   });
 

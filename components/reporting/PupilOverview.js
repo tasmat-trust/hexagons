@@ -4,11 +4,11 @@ import SubjectsSection from './SubjectsSection';
 import { makeStyles } from '@mui/styles';
 import { Paper, Grid } from '@mui/material';
 import GroupChips from '../groups/GroupChips';
-import getTodayDate from '../../utils/getTodayDate'
+import getTodayDate from '../../utils/getTodayDate';
 
 const styles = makeStyles((theme) => ({
-  heading: {
-    textAlign: 'center',
+  date: {
+    textAlign: 'left',
   },
   pupilName: {
     textAlign: 'left',
@@ -16,37 +16,54 @@ const styles = makeStyles((theme) => ({
   },
   sectionName: {
     display: 'block',
-    textAlign: 'center',
+    textAlign: 'left',
   },
   subjectsGrid: {},
 }));
 
 function PupilOverview({ pupil, ...other }) {
   const classes = styles();
-  const todayDate = getTodayDate()
+  const todayDate = getTodayDate();
 
   return (
     <>
-      <Typography className={classes.heading} variant="h1">
-        Hexagons Report
-      </Typography>
-      <Typography data-test-id="report-date" className={classes.heading} variant="h2">
-        {todayDate}
-      </Typography>
       <Paper sx={{ mt: 3, p: 3 }}>
         <Grid container spacing={2}>
           <Grid item md={3}>
-            <Typography data-test-id="pupil-name" variant="h2" className={classes.pupilName}>
+            <Typography
+              sx={{ fontSize: 14 }}
+              data-test-id="report-date"
+              color="text.secondary"
+              gutterBottom
+            >
+              {todayDate}
+            </Typography>
+            <Typography
+              data-test-id="pupil-name"
+              component="h2"
+              variant="h4"
+              className={classes.pupilName}
+            >
               {pupil.name}
             </Typography>
             <GroupChips shouldLink={false} groups={pupil.groups} pupilId={pupil.id} />
           </Grid>
           <Grid item md={9} className={classes.subjectsGrid}>
-            <Typography variant="h2" className={classes.sectionName} data-test-id="academic-attainment"> 
+            <Typography
+              component="h3"
+              variant="h4"
+              className={classes.sectionName}
+              data-test-id="academic-attainment"
+            >
               Academic Attainment
             </Typography>
             <SubjectsSection pupil={pupil} {...other} />
-            <Typography variant="h2" className={classes.sectionName} data-test-id="pd-attainment">
+            <Typography
+              component="h3"
+              variant="h4"
+              className={classes.sectionName}
+              data-test-id="pd-attainment"
+            >
               Personal Development Attainment
             </Typography>
             <SubjectsSection pupil={pupil} isRainbowAwards={true} {...other} />

@@ -6,7 +6,6 @@ const globalStyles = (theme) => ({
     color: theme.palette.text.primary,
     textDecoration: 'none',
     '&:hover': {
-      color: theme.palette.text.primary,
       textDecoration: 'underline',
     },
   },

@@ -1,27 +1,32 @@
 import BreadCrumbs from '../../../components/navigation/Breadcrumbs';
+import CustomHead from '../../../components/ui-globals/CustomHead';
 import { withSession } from '../../../components/auth/session';
 import checkSession from '../../../components/auth/checkSession';
 import LastActiveGroup from '../../../components/groups/LastActiveGroup';
-import CustomHead from '../../../components/ui-globals/CustomHead';
 import { useState } from 'react';
 function Index(props) {
   const [groupLabel, setGroupLabel] = useState();
   return (
     <>
-      <CustomHead titleContent="Reports" />
+      <CustomHead titleContent="Data export" />
       <BreadCrumbs
         {...props}
         firstLabel="Reports"
         firstHref="/reports"
-        secondLabel="Pupil Overview"
+        secondLabel="Data export"
         thirdLabel={groupLabel}
       />
-      <LastActiveGroup {...props} isGroupPupilPicker={true} setParentGroupBreadcumbLabel={setGroupLabel} />
+      <LastActiveGroup
+        {...props}
+        isDataExport={true}
+        setParentGroupBreadcumbLabel={setGroupLabel}
+      />
     </>
   );
 }
 
 export default Index;
+
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Teacher');
+  return checkSession(ctx, 'Leader');
 });

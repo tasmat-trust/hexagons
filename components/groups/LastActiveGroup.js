@@ -3,8 +3,17 @@ import { useState, useEffect, useContext } from 'react';
 import PupilsAndGroups from './PupilsAndGroups';
 import SubjectsAndGroups from './SubjectsAndGroups';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import DataExport from '../reporting/DataExport';
+import DownloadViaGroups from '../groups/DownloadViaGroups';
 
-function LastActiveGroup({ user, isGroupSubjectPicker, setParentGroupBreadcumbLabel, ...other }) {
+function LastActiveGroup({
+  user,
+  isGroupSubjectPicker,
+  isGroupPupilPicker,
+  isDataExport,
+  setParentGroupBreadcumbLabel,
+  ...other
+}) {
   const [activeGroupSlug, setActiveGroupSlug] = useState();
   const [activeGroupName, setActiveGroupName] = useState();
   const [activeGroupId, setActiveGroupId] = useState();
@@ -21,7 +30,7 @@ function LastActiveGroup({ user, isGroupSubjectPicker, setParentGroupBreadcumbLa
         savedGroupName &&
           setParentGroupBreadcumbLabel &&
           setParentGroupBreadcumbLabel(savedGroupName);
-        savedGroupId && setActiveGroupId(savedGroupId);
+        savedGroupId && setActiveGroupId(parseInt(savedGroupId));
       }
     }
   }, [setParentGroupBreadcumbLabel, orgId]);
@@ -37,7 +46,7 @@ function LastActiveGroup({ user, isGroupSubjectPicker, setParentGroupBreadcumbLa
           setActiveGroupId={setActiveGroupId}
         />
       )}
-      {!isGroupSubjectPicker && (
+      {isGroupPupilPicker && (
         <PupilsAndGroups
           {...other}
           userId={user.id}
@@ -50,6 +59,14 @@ function LastActiveGroup({ user, isGroupSubjectPicker, setParentGroupBreadcumbLa
           setActiveGroupId={setActiveGroupId}
         />
       )}
+      {isDataExport && (
+        <DownloadViaGroups
+          user={user}
+          activeGroupSlug={activeGroupSlug}
+          activeGroupId={activeGroupId}
+          groupName={activeGroupName}
+        />
+      )}
     </>
   );
 }
@@ -58,6 +75,7 @@ LastActiveGroup.propTypes = {
   isReportPage: PropTypes.bool,
   setParentGroupBreadcumbLabel: PropTypes.func,
   isGroupSubjectPicker: PropTypes.bool,
+  isGroupPupilPicker: PropTypes.bool,
   user: PropTypes.object,
 };
 
