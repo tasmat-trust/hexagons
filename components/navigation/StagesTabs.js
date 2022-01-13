@@ -30,7 +30,7 @@ function a11yProps(index) {
   };
 }
 
-function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...other }) {
+function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
   const [tabValue, setTabValue] = useState(0);
   const [sortedModules, setSortedModules] = useState(modules);
   const [guidanceActive, setGuidanceActive] = useState(false);
@@ -40,10 +40,10 @@ function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...o
 
   useEffect(() => {
     // ensure levelId resets
-    if (noStartingLevel) {
+    if (!startingLevel) {
       setLevelId(0);
     }
-  }, [noStartingLevel, pupil]);
+  }, [startingLevel, pupil, setLevelId]);
 
   useEffect(() => {
     if (modules) {

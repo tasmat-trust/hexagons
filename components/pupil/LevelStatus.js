@@ -142,7 +142,7 @@ function LevelStatus({
     if (percentComplete === 100) {
       completeStep();
     }
-  }, [thisLevelCompetencies, currentModule, completeStep]);
+  }, [thisLevelCompetencies, currentModule, completeStep, status]);
 
   const triggerCreateLevel = useCallback(
     async (status) => {
