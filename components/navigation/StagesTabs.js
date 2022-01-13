@@ -43,7 +43,7 @@ function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...o
     if (noStartingLevel) {
       setLevelId(0);
     }
-  }, [noStartingLevel]);
+  }, [noStartingLevel, pupil]);
 
   useEffect(() => {
     if (modules) {
@@ -70,7 +70,7 @@ function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...o
     setLevelId(0); // We don't know what the level will be but we don't want it using the old level
   };
 
-  const getLabel = (module,i) => {
+  const getLabel = (module, i) => {
     const standardLabel = `${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`;
     return isRa ? getRainbowLabel(i) : standardLabel;
   };
@@ -86,13 +86,13 @@ function StagesTabs({ isRa, modules, startingLevel, noStartingLevel, pupil, ...o
           aria-label="scrollable auto tabs example"
         >
           {sortedModules.map((module, i) => {
-            const label = getLabel(module,i);
+            const label = getLabel(module, i);
             return <HexagonsTab key={`link-${i}`} label={label} {...a11yProps(i)} />;
           })}
         </HexagonsTabs>
       </CustomSuspense>
       {sortedModules.map((currentModule, i) => {
-        const levelTitle = getLabel(currentModule,i);
+        const levelTitle = getLabel(currentModule, i);
         return (
           <TabPanel key={`panel-${i}`} value={tabValue} index={i}>
             <CustomSuspense message={`Loading ${currentModule.order}`}>

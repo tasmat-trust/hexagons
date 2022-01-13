@@ -104,35 +104,45 @@ function LevelStatus({
   const [status, setStatus] = useState('notstarted');
   const [readyToShow, setReadyToShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
+  const [thisLevelCompetencies, setThisLevelCompetencies] = useState(null);
 
-  const thisLevelCompetencies = calculateCompetenciesForThisLevel(
-    competencies,
-    currentModule.capabilities
-  );
+  useEffect(() => {
+    const thisLevelComps = calculateCompetenciesForThisLevel(
+      competencies,
+      currentModule.capabilities
+    );
+    setThisLevelCompetencies(thisLevelComps);
+  }, [competencies]);
+
+  useEffect(() => {
+    if (levelId === 0) {
+      setStatus('notstarted');
+    }
+  }, [levelId, pupil]);
+
+  useEffect(() => {
+    setVisiblePercentComplete(0);
+    setActualPercentComplete(0);
+  }, [pupil]);
 
   const bubbleGotLevel = useCallback(
     (level) => {
       setLevelId(parseInt(level.id));
       setStatus(level && level.status ? level.status : 'notstarted');
     },
-    [setLevelId, setStatus]
+    [setLevelId, setStatus, levelId]
   );
-
-  useEffect(() => {
-    const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
-    setActualPercentComplete(percentComplete);
-    const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete;
-    setVisiblePercentComplete(percentCompleteWithShortcuts);
-  }, [thisLevelCompetencies, currentModule.capabilities, status]);
 
   useEffect(() => {
     setReadyToShow(true);
     const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
     setActualPercentComplete(percentComplete);
+    const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete;
+    setVisiblePercentComplete(percentCompleteWithShortcuts);
     if (percentComplete === 100) {
       completeStep();
     }
-  }, [completeStep, currentModule, thisLevelCompetencies]);
+  }, [thisLevelCompetencies, currentModule, completeStep]);
 
   const triggerCreateLevel = useCallback(
     async (status) => {
