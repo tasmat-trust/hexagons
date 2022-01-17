@@ -27,17 +27,17 @@ function SubjectsSection({ allSubjects, subjects, pupil, className, ...other }) 
           {subject.slug && (
             <SubjectProgress
               key={`subject-status-${i}`}
-              titleName={<Typography variant="h4">{subject.name}</Typography>}
+              titleName={subject.name}
               getLevelVariables={{ subjectId: subject.id, pupilId: pupil.id }}
               {...other}
             />
           )}
-          {!subject.slug && <Typography variant="h4">{subject.name}</Typography>}
+          {/* {!subject.slug && <Typography variant="h4">{subject.name}</Typography>} */}
           {!subject.slug &&
             subject.subjects.map((s, j) => (
               <SubjectProgress
                 key={`subject-status-${j}`}
-                titleName={s.name}
+                titleName={`${subject.name} - ${s.name}`}
                 getLevelVariables={{ subjectId: s.id, pupilId: pupil.id }}
                 {...other}
               />

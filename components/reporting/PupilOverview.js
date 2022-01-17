@@ -5,6 +5,7 @@ import { makeStyles } from '@mui/styles';
 import { Paper, Grid } from '@mui/material';
 import GroupChips from '../groups/GroupChips';
 import getTodayDate from '../../utils/getTodayDate';
+import useAdminPage from '../../styles/useAdminPage';
 
 const styles = makeStyles((theme) => ({
   date: {
@@ -23,11 +24,12 @@ const styles = makeStyles((theme) => ({
 
 function PupilOverview({ pupil, ...other }) {
   const classes = styles();
+  const css = useAdminPage()
   const todayDate = getTodayDate();
 
   return (
     <>
-      <Paper sx={{ mt: 3, p: 3 }}>
+      <Paper className={css.paper}>
         <Grid container spacing={2}>
           <Grid item md={3}>
             <Typography
@@ -46,26 +48,10 @@ function PupilOverview({ pupil, ...other }) {
             >
               {pupil.name}
             </Typography>
-            <GroupChips shouldLink={false} groups={pupil.groups} pupilId={pupil.id} />
+            <GroupChips shouldLink={false} groups={pupil.groups} pupilId={parseInt(pupil.id)} />
           </Grid>
           <Grid item md={9} className={classes.subjectsGrid}>
-            <Typography
-              component="h3"
-              variant="h4"
-              className={classes.sectionName}
-              data-test-id="academic-attainment"
-            >
-              Academic Attainment
-            </Typography>
             <SubjectsSection pupil={pupil} {...other} />
-            <Typography
-              component="h3"
-              variant="h4"
-              className={classes.sectionName}
-              data-test-id="pd-attainment"
-            >
-              Personal Development Attainment
-            </Typography>
             <SubjectsSection pupil={pupil} isRainbowAwards={true} {...other} />
           </Grid>
         </Grid>

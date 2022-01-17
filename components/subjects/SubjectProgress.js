@@ -74,9 +74,17 @@ function SubjectProgressDefault({
   if (levelData) {
     level = getCurrentLevel(levelData.levels);
   }
+
   let label = '';
+  let normalisedLabel = '';
+  let levelNumber = 1;
 
   if (level) {
+    levelNumber = level.module.order;
+    if (level.module.level === 'stage') {
+      levelNumber = level.module.order + 6; // turn from 1-6,1-6 to 1-12
+    }
+    normalisedLabel = `S${levelNumber}`;
     if (isRainbowAwards && !isPupilCard) {
       label = getRainbowLabel(parseInt(level.module.order) - 1);
     } else {
@@ -84,37 +92,9 @@ function SubjectProgressDefault({
     }
   }
 
-  const labels = [
-    'Step 1',
-    'Step 2',
-    'Step 3',
-    'Step 4',
-    'Step 5',
-    'Step 6',
-    'Stage 1',
-    'Stage 2',
-    'Stage 3',
-    'Stage 4',
-    'Stage 5',
-    'Stage 6',
-  ];
-
-  const steps = [
-    { name: 'Step 1' },
-    { name: 'Step 2' },
-    { name: 'Step 3' },
-    { name: 'Step 4' },
-    { name: 'Step 5' },
-    { name: 'Step 6' },
-    { name: 'Stage 1' },
-    { name: 'Stage 2' },
-    { name: 'Stage 3' },
-    { name: 'Stage 4' },
-    { name: 'Stage 5' },
-    { name: 'Stage 6' },
-  ];
-
-  const completedLevelIndex = labels.indexOf(label);
+  const labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12'];
+  const completedLevelIndex = labels.indexOf(normalisedLabel);
+  const steps = labels.map((label) => ({ name: label }));
 
   const stepsToRender = steps.map((step, i) => {
     if (completedLevelIndex > -1) {
@@ -167,7 +147,8 @@ function SubjectProgressDefault({
     <ErrorBoundary alert="Error in SubjectProgress component">
       {level && (
         <>
-          {!isConstrained && !levelTooLowToFloat && <StepLadder />}
+          {/* {!isConstrained && !levelTooLowToFloat && <StepLadder />} */}
+
           <Typography component="h3" variant="h6" className={classes.flexy}>
             {linkUrl && (
               <Link href={linkUrl}>
@@ -175,15 +156,15 @@ function SubjectProgressDefault({
               </Link>
             )}
             {!linkUrl && <>{titleName}</>}
-
-            {isConstrained && <RightEdgeLabel />}
-            {!isConstrained && levelTooLowToFloat && <RightEdgeLabel />}
+            <RightEdgeLabel />
+            {/* {isConstrained && <RightEdgeLabel />} */}
+            {/* {!isConstrained && levelTooLowToFloat && <RightEdgeLabel />} */}
           </Typography>
 
           <StyledSlider
             className={classes.slider}
             disabled={true}
-            value={isConstrained ? level.percentComplete : totalPercentComplete}
+            value={totalPercentComplete}
             min={0}
             max={100}
           />
@@ -201,7 +182,7 @@ function SubjectProgressDefault({
             {!linkUrl && <>{titleName}</>}
           </Typography>
 
-          <StyledSlider className={classes.slider} disabled={true} value={0} min={0} max={100} />
+          <StyledSlider className={classes.slider} disabled={true} value={1} min={0} max={100} />
         </>
       )}
     </ErrorBoundary>

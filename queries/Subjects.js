@@ -20,6 +20,7 @@ const allRainbowAwardsQuery = gql`
     subjects(where: { isRainbowAwards: true }) {
       name
       slug
+      id
     }
   }
 `;

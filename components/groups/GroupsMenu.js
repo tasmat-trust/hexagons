@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Paper, Box, Typography, Grid } from '@mui/material';
+import {  Box, Typography, Grid, Card } from '@mui/material';
 import GroupsList from './GroupsList';
 import useAdminPage from '../../styles/useAdminPage';
 import { useContext } from 'react';
@@ -12,7 +12,7 @@ function GroupsMenu({ userId, ...other }) {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper role="region" aria-live="polite" variant="outlined" className={classes.paper}>
+          <Card role="region" aria-live="polite" className={classes.paper}>
             <Box className={classes.box} data-test-id="my-groups">
               <Typography
                 data-test-id="title"
@@ -30,10 +30,10 @@ function GroupsMenu({ userId, ...other }) {
                 getGroupsVariables={{ teacherId: userId, orgId: orgId }}
               />
             </CustomSuspense>
-          </Paper>
+          </Card>
         </Grid>
         <Grid item xs={12}>
-          <Paper role="region" aria-live="polite" variant="outlined" className={classes.paper}>
+          <Card role="region" aria-live="polite" className={classes.paper}>
             <Box className={classes.box} data-test-id="all-groups">
               <Typography variant="h4" component="h2" className={classes.title}>
                 All groups
@@ -42,7 +42,7 @@ function GroupsMenu({ userId, ...other }) {
             <CustomSuspense message="Checking groups">
               <GroupsList {...other} getGroupsVariables={{ orgId: orgId }} />
             </CustomSuspense>
-          </Paper>
+          </Card>
         </Grid>
       </Grid>
     </>

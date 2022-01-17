@@ -37,15 +37,15 @@ const useAdminPage = makeStyles((theme) => ({
     width: '100%',
     margin: 0,
     display: 'block',
-    columns: 'auto 2',
-    columnGap: '32px'
+    columns: 'auto 3',
+    columnGap: '20px',
+    columnRule: `1px dotted ${theme.palette.text.primary}`
   },
   listItem: {
-    '&::marker': {
-      content: '"⬡ "'
-    },
+    listStyle: 'none',
     width: '100%',
-    marginLeft: '1rem',
+    textAlign: 'center',
+    lineHeight: '1.2',
     '& a': {
       display: 'block',
       width: '100%',
