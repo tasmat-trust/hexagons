@@ -18,10 +18,10 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-function SubjectsSection({ allSubjects, subjects, pupil, className, ...other }) {
+function SubjectsSection({ allSubjects, subjects, pupil, className, testId, ...other }) {
   const classes = styles();
   return (
-    <ul className={classes.subjectUl} data-test-id="subjects">
+    <ul className={classes.subjectUl} data-test-id={testId ? testId : 'subjects'}>
       {subjects.map((subject, i) => (
         <li className={classes.subjectLi} key={`core-subject-${i}`}>
           {subject.slug && (
@@ -49,6 +49,7 @@ function SubjectsSection({ allSubjects, subjects, pupil, className, ...other }) 
 }
 
 SubjectsSection.propTypes = {
+  testId: PropTypes.string,
   allSubjects: PropTypes.array,
 };
 
