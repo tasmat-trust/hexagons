@@ -78,16 +78,16 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
       .map((positionList, i) => {
         const pupilName = pupilsData.pupils[i].name;
         const subjectPositionList = positionList
-          .map((level) => {
+          .map((level, j) => {
             if (!level) return ', ';
-            let moduleLabel;
-            if (subjectsData.subjects[i].isRainbowAwards) {
-              moduleLabel = getRainbowLabel(level);
-            } else {
-              moduleLabel = `${level.module.level === 'stage' ? 'Stage' : 'Step'} ${
-                level.module.order
-              }`;
-            }
+            // let moduleLabel;
+            // if (subjectsData.subjects[3].isRainbowAwards) {
+            //   moduleLabel = getRainbowLabel(level);
+            // } else {
+            let moduleLabel = `${level.module.level === 'stage' ? 'Stage' : 'Step'} ${
+              level.module.order
+            }`;
+            // }
             return `, ${moduleLabel} - ${level.percentComplete}%`;
           })
           .join('');
