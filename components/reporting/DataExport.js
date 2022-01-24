@@ -14,11 +14,14 @@ import axios from 'axios';
 import { Alert } from '@mui/material';
 import getCurrentLevel from '../../utils/getCurrentLevel';
 import Loading from '../ui-globals/Loading';
-import getRainbowLabel from '../../utils/getRainbowLabel';
 
 function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
   const [loading, setLoading] = useState(true);
   const [reportContent, setReportContent] = useState('');
+
+  useEffect(() => {
+    setReportContent('')
+  }, [groupName])
 
   async function getLevel(getLevelVariables) {
     try {
@@ -71,7 +74,7 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
 
   function createReport(subjectPositionsByPupil) {
     let csv = 'Pupil';
-    csv += subjectsData.subjects.map((subject) => `, ${subject.name}`).join('');
+    csv += subjectsData.subjects.map((subject) => `, ${subject.slug}`).join('');
     csv += '\r\n';
     //csv += 'Pupil Name, result 1, result 2'
     csv += subjectPositionsByPupil
@@ -118,6 +121,10 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
 function DataExport({ user, groupName, activeGroupId }) {
   const { orgId } = useContext(HexagonsContext);
   const [generatingReport, setGeneratingReport] = useState(false);
+
+  useEffect(() => {
+    setGeneratingReport(false)
+  }, [activeGroupId])
 
   function handleDownload() {
     setGeneratingReport(true);
