@@ -17,10 +17,17 @@ context('Assessment page', () => {
     let getSingleSubjectBySlug = {
       body: {
         data: {
-          subjects: [{ id: '68', name: 'Expressive Language', slug: 'expressive-language' }],
+          subjects: [
+            {
+              id: '68',
+              name: 'Expressive Language',
+              slug: 'expressive-language',
+              excludeEarlyDevelopmentStep: true,
+            },
+          ],
         },
       },
-    }; 
+    };
 
     let getModules = {
       body: {

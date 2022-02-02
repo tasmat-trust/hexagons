@@ -16,21 +16,13 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, pupil, ...other }) {
+function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, excludeED, pupil, ...other }) {
   const classes = styles();
   let isRa = false;
 
   const { pathname } = useRouter();
-  const noEarlyDevelopmentSlugs = [
-    'expressive-and-receptive-language',
-    'expressive-language',
-    'receptive-language',
-    'early-development',
-  ];
-  let includeEarlyDevelopment = true;
-  if (noEarlyDevelopmentSlugs.includes(subjectSlug)) {
-    includeEarlyDevelopment = false;
-  }
+ 
+  let includeEarlyDevelopment = !excludeED;
 
   if (pathname.includes('rainbow-awards')) {
     includeEarlyDevelopment = false;

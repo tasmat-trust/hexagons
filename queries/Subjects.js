@@ -11,6 +11,9 @@ const allSubjectsQuery = gql`
       isChildOf
       isEarlyDevelopment
       isRainbowAwards
+      organization {
+        id
+      }
     }
   }
 `;
@@ -43,6 +46,10 @@ const getSingleSubjectBySlug = gql`
       id
       name
       slug
+      excludeEarlyDevelopmentStep
+      organization {
+        id
+      }
     }
   }
 `;
