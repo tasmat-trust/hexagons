@@ -10,17 +10,22 @@ function DeleteModule({ setModulesData, currentStage, testId, moduleTitle, setLo
 
   async function handleForm(event) {
     event.preventDefault();
-    setLoadingMessage(`Deleting ${moduleTitle}`);
-    await deleteModule(gqlClient, currentStage, () => {
-      setModulesData();
-      setLoadingMessage(false);
-    });
+    const shouldDelete = confirm(
+      'All existing capabilities associated with this module will be lost. Are you sure you wish to proceed?'
+    );
+    if (shouldDelete) {
+      setLoadingMessage(`Deleting ${moduleTitle}`);
+      await deleteModule(gqlClient, currentStage, () => {
+        setModulesData();
+        setLoadingMessage(false);
+      });
+    }
   }
 
   return (
     <form id={`new-module`} onSubmit={handleForm}>
       <FormControl margin="normal">
-        <Button data-test-id={testId} fullWidth type="submit" variant="contained" color="primary">
+        <Button variant="outlined" color="error" data-test-id={testId} fullWidth type="submit">
           Delete {moduleTitle}
         </Button>
       </FormControl>

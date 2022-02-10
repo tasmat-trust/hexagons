@@ -11,6 +11,7 @@ import createPupil from '../forms/handlers/createPupil';
 import createTeacher from '../forms/handlers/createTeacher';
 import createGroup from '../forms/handlers/createGroup';
 import createGuidance from '../forms/handlers/createGuidance';
+import createCapability from '../forms/handlers/createCapability';
 import updateCapabilityText from '../forms/handlers/updateCapabilityText';
 import updateSummaryText from '../forms/handlers/updateSummaryText';
 import Alert from '@mui/material/Alert';
@@ -310,6 +311,19 @@ function AddNewCapabilityText(props) {
   );
 }
 
+function AddNewCapability({ moduleId, successCallback }) {
+  return (
+    <AddNew
+      includeText={true}
+      successCallback={successCallback}
+      moduleId={moduleId}
+      actionName="Add new"
+      updateHandler={createCapability}
+      modelname="capability"
+    />
+  );
+}
+
 function AddNewSummaryText({ summaryText, moduleId, successCallback }) {
   return (
     <AddNew
@@ -365,5 +379,6 @@ export {
   AddNewGroup,
   AddNewGuidance,
   AddNewCapabilityText,
+  AddNewCapability,
   AddNewSummaryText,
 };

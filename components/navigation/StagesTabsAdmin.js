@@ -9,7 +9,7 @@ import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlu
 import { sortModules } from '../../utils/sortLevelsAndModules';
 
 import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
-
+import AddSingleCapability from '../manage/AddSingleCapability';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import ManageSummary from '../manage/ManageSummary';
 import Loading from '../ui-globals/Loading';
@@ -90,11 +90,13 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
             currentStage={module}
             subjectId={subjectId}
           />
+          <AddSingleCapability setModulesData={setModulesData} moduleId={parseInt(module.id)} />
           <ManageSummary
             setModulesData={setModulesData}
             summaryText={module.summary}
             moduleId={parseInt(module.id)}
           />
+
           <CustomSuspense message="Loading tiles">
             <CapabilityTilesAdmin
               setModulesData={setModulesData}
