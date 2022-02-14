@@ -4,10 +4,9 @@ import PupilCard from '../pupil/PupilCard';
 import SubjectCard from '../pupil/SubjectCard';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import CustomSuspense from '../data-fetching/CustomSuspense';
-import WithCoreSubjects from '../data-fetching/WithCoreSubjects';
 import { useRouter } from 'next/router';
 
-function PupilsWithOverviews({
+ function PupilsWithOverviews({
   activeGroupSlug,
   groupName,
   shouldShowGroupBySubject,
@@ -77,4 +76,4 @@ PupilsWithOverviews.propTypes = {
   sortedPupils: PropTypes.array,
 };
 
-export default WithCoreSubjects(PupilsWithOverviews);
+export default PupilsWithOverviews;

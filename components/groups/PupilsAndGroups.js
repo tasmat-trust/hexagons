@@ -8,8 +8,9 @@ import { useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import { Alert } from '@mui/material';
+import PupilsByGroupWithEarlyDevelopment from './PupilsByGroupWithEarlyDevelopment';
 
-function PupilsAndGroups({ activeGroupSlug, groupName, ...other }) {
+function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
   const classes = useAdminPage();
   const { orgId } = useContext(HexagonsContext);
 
@@ -23,11 +24,21 @@ function PupilsAndGroups({ activeGroupSlug, groupName, ...other }) {
           <Grid item xs={12} md={9} xl={10}>
             <ErrorBoundary alert="Error rendering PupilsByGroup">
               <CustomSuspense message="Loading group">
-                {groupName && (
+                {groupName && schoolType === 'secondary' && (
                   <PupilsByGroup
                     {...other}
+                    schoolType={schoolType}
                     groupName={groupName}
                     activeGroupSlug={activeGroupSlug}
+                  />
+                )}
+                {groupName && schoolType === 'primary' && (
+                  <PupilsByGroupWithEarlyDevelopment
+                    {...other}
+                    schoolType={schoolType}
+                    groupName={groupName}
+                    activeGroupSlug={activeGroupSlug}
+                    getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
                   />
                 )}
                 {!groupName && (

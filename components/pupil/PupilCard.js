@@ -8,6 +8,7 @@ import { Typography } from '@mui/material';
 import CoreSubjectsProgress from './CoreSubjectsProgress';
 import CoreSubjectsProgressWithEarlyDevelopment from './CoreSubjectsProgressWithEarlyDevelopment';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+import CustomSuspense from '../data-fetching/CustomSuspense';
 import GroupChips from '../groups/GroupChips';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ...other }) {
   //  coreSubjects, activeGroupSlug
   const styles = useStyles();
-
   return (
     <Card>
       <CardContent role="region" aria-live="polite">
@@ -43,6 +43,7 @@ function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ..
             )}
           </Typography>
           <GroupChips groups={pupilGroups} shouldLink={true} baseHref="/pupils" pupilId={pupilId} />
+          <CustomSuspense message="Loading pupil progress">
           {schoolType === 'secondary' && (
             <CoreSubjectsProgress
               isPupilCard={true}
@@ -56,10 +57,10 @@ function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ..
               isPupilCard={true}
               pupilId={pupilId}
               schoolType={schoolType}
-              getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
               {...other}
             />
           )}
+          </CustomSuspense>
         </ErrorBoundary>
       </CardContent>
     </Card>

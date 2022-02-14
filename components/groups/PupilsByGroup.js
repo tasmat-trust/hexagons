@@ -6,8 +6,12 @@ import sortByName from '../../utils/sortByName';
 import PupilsWithOverviews from './PupilsWithOverviews';
 import PupilSlimCard from '../pupil/PupilSlimCard';
 import Alert from '@mui/material/Alert';
-import { Grid, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import useAdminPage from '../../styles/useAdminPage';
+
+import WithCoreSubjects from '../data-fetching/WithCoreSubjects';
+
+
 function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, ...other }) {
   const styles = useAdminPage();
   const router = useRouter();
@@ -55,4 +59,4 @@ PupilsByGroup.propTypes = {
   activeGroupSlug: PropTypes.string,
 };
 
-export default PupilsByGroup;
+export default WithCoreSubjects(PupilsByGroup);
