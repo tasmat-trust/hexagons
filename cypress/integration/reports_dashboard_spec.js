@@ -2,6 +2,7 @@ import getGroups from '../fixtures/getGroups.json';
 import getSingleGroup from '../fixtures/getSingleGroup.json';
 import getAllPupilsByGroup from '../fixtures/getAllPupilsByGroup.json';
 import getPupil from '../fixtures/getPupil.json';
+import getSingleSubjectBySlug from '../fixtures/getSingleSubjectBySlug.json'
 
 context('Reports', () => {
   beforeEach(() => {

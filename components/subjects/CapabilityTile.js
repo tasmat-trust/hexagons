@@ -148,6 +148,13 @@ function CapabilityTile(props) {
   if (competencyStatus === 'target') buttonTitle = 'Set as incomplete';
   if (competencyStatus === 'complete') buttonTitle = 'Set as target';
 
+  if (guidanceActive) {
+    buttonTitle = 'Add Guidance'
+    if (capability.guidance.length > 0) {
+      buttonTitle = 'View/add guidance'
+    }
+  }
+
   return (
     <div
       data-test-id={`${hexId}-${competencyStatus}`}
