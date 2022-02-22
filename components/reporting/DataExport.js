@@ -14,14 +14,15 @@ import axios from 'axios';
 import { Alert } from '@mui/material';
 import getCurrentLevel from '../../utils/getCurrentLevel';
 import Loading from '../ui-globals/Loading';
+import getNormalisedModuleNumber from '../../utils/getNormalisedModuleNumber';
 
 function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
   const [loading, setLoading] = useState(true);
   const [reportContent, setReportContent] = useState('');
 
   useEffect(() => {
-    setReportContent('')
-  }, [groupName])
+    setReportContent('');
+  }, [groupName]);
 
   async function getLevel(getLevelVariables) {
     try {
@@ -72,6 +73,16 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
     });
   }, [pupilsData, subjectsData, queryAllData]);
 
+  function getModuleLabel(level) {
+    // Below returns e.g. 1.45, 7.45
+    let normalisedModuleNumber = getNormalisedModuleNumber(level);
+    let label = `${normalisedModuleNumber}.${level.percentComplete}`;
+    if (parseInt(level.percentComplete) === 100) {
+      label = normalisedModuleNumber + 1; // round up to next level if at 100% complete
+    }
+    return label;
+  }
+
   function createReport(subjectPositionsByPupil) {
     let csv = 'Pupil';
     csv += subjectsData.subjects.map((subject) => `, ${subject.slug}`).join('');
@@ -83,15 +94,7 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables }) {
         const subjectPositionList = positionList
           .map((level, j) => {
             if (!level) return ', ';
-            // let moduleLabel;
-            // if (subjectsData.subjects[3].isRainbowAwards) {
-            //   moduleLabel = getRainbowLabel(level);
-            // } else {
-            let moduleLabel = `${level.module.level === 'stage' ? 'Stage' : 'Step'} ${
-              level.module.order
-            }`;
-            // }
-            return `, ${moduleLabel} - ${level.percentComplete}%`;
+            return `, ${getModuleLabel(level)}`;
           })
           .join('');
         return `${pupilName} ${subjectPositionList} \r\n`;
@@ -123,8 +126,8 @@ function DataExport({ user, groupName, activeGroupId }) {
   const [generatingReport, setGeneratingReport] = useState(false);
 
   useEffect(() => {
-    setGeneratingReport(false)
-  }, [activeGroupId])
+    setGeneratingReport(false);
+  }, [activeGroupId]);
 
   function handleDownload() {
     setGeneratingReport(true);

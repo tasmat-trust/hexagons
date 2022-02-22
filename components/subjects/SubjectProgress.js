@@ -11,7 +11,7 @@ import { purple } from '@mui/material/colors';
 import getCurrentLevel from '../../utils/getCurrentLevel';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import getRainbowLabel from '../../utils/getRainbowLabel';
-
+import getNormalisedModuleNumber from '../../utils/getNormalisedModuleNumber';
 import SubjectProgressLinks from '../link-management/SubjectProgressLinks';
 
 // Uses styled components to customise Reach Slider component
@@ -80,10 +80,7 @@ function SubjectProgressDefault({
   let levelNumber = 1;
 
   if (level) {
-    levelNumber = level.module.order;
-    if (level.module.level === 'stage') {
-      levelNumber = level.module.order + 6; // turn from 1-6,1-6 to 1-12
-    }
+    levelNumber = getNormalisedModuleNumber(level);
     normalisedLabel = `S${levelNumber}`;
     if (isRainbowAwards && !isPupilCard) {
       label = getRainbowLabel(parseInt(level.module.order) - 1);
