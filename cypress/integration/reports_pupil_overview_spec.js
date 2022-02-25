@@ -31,8 +31,7 @@ context('Pupil overview', () => {
     });
 
     it('should show academic attainment with core and all subjects', () => {
-      cy.get('[data-test-id=academic-attainment]').should('exist');
-      cy.get('[data-test-id=pd-attainment]').should('exist');
+      cy.get('[data-test-id=attainment]').should('exist');
     });
   });
 });

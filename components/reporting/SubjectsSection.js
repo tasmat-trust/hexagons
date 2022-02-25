@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { Typography } from '@mui/material';
 import WithAllSubjects from '../data-fetching/WithAllSubjects';
 import { SubjectProgress } from '../subjects/SubjectProgress';
 import { makeStyles } from '@mui/styles';
@@ -32,7 +31,6 @@ function SubjectsSection({ allSubjects, subjects, pupil, className, testId, ...o
               {...other}
             />
           )}
-          {/* {!subject.slug && <Typography variant="h4">{subject.name}</Typography>} */}
           {!subject.slug &&
             subject.subjects.map((s, j) => (
               <SubjectProgress

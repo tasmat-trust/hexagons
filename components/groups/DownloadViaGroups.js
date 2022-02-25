@@ -17,7 +17,7 @@ function DownloadViaGroups({ user, ...other }) {
             <GroupsMenu orgId={orgId} userId={user.id} />
           </Grid>
           <Grid item xs={12} md={9} xl={10}>
-            <DataExport user={user} {...other} />
+            <DataExport getEverythingCombined={true} user={user} {...other} />
           </Grid>
         </Grid>
       </div>

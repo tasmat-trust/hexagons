@@ -90,7 +90,7 @@ SubjectPicker.propTypes = {
   currentSubjectSlug: PropTypes.string,
   subjects: PropTypes.array,
   activeGroupSlug: PropTypes.string,
-  isGroupOverviewReport: PropTypes.string,
+  isGroupOverviewReport: PropTypes.boolean,
   currentPupilId: PropTypes.number,
 };
 
