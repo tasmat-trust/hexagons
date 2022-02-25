@@ -51,8 +51,9 @@ function PupilOverview({ pupil, ...other }) {
             <GroupChips shouldLink={false} groups={pupil.groups} pupilId={parseInt(pupil.id)} />
           </Grid>
           <Grid item md={9} className={classes.subjectsGrid}>
-            <SubjectsSection testId='attainment' getEverythingCombined={true} pupil={pupil} {...other} />
-             
+            <SubjectsSection testId='attainment' pupil={pupil} {...other} />
+            <br/>
+            <SubjectsSection testId='pd-attainment' pupil={pupil} isRainbowAwards={true} {...other} />
           </Grid>
         </Grid>
       </Paper>
