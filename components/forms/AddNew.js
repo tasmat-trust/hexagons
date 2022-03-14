@@ -223,7 +223,8 @@ function AddNew(props) {
               <>
                 <label htmlFor="textarea">Text*</label>
                 <TextareaAutosize
-                  style={{ width: 500 }}
+                  name="textarea"
+                  style={{ width: 500, minHeight: '4rem' }}
                   data-test-id="textarea-field"
                   id="textarea"
                   label="Text"
@@ -293,7 +294,7 @@ function AddNewGroup(props) {
 
 function AddNewGuidance(props) {
   return (
-    <AddNew {...props} includeText={true} updateHandler={createGuidance} modelname="guidance" />
+    <AddNew {...props} includeTextArea={true} updateHandler={createGuidance} modelname="guidance" />
   );
 }
 

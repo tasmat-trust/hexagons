@@ -5,7 +5,7 @@ async function createGuidance({ formData, gqlClient, capabilityId, userId }) {
   const result = {}
 
   const variables = {
-    text: formData.text,
+    text: formData.textarea,
     capability: capabilityId,
     userId: userId
   }

@@ -6,13 +6,16 @@ import {
   Button,
   List,
   ListItem,
-  ListItemText
+  IconButton,
 } from '@mui/material';
-import { AppBar, Tabs, Tab, Typography, Box } from '@mui/material';
-import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { AppBar, Tabs, Tab, Box } from '@mui/material';
+import { useState, useContext } from 'react';
+import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import { AddNewGuidance } from '../forms/AddNew';
 import { withStyles, makeStyles } from '@mui/styles';
 import extractDate from '../../utils/extractDate';
+import deleteGuidance from '../forms/handlers/deleteGuidance';
 
 const TabsDialogContent = withStyles({
   root: {
@@ -32,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  secondary: {
+    color: theme.palette.text.secondary,
+    fontSize: '0.9rem',
+    display: 'block',
+  },
 }));
 
 function CapabilityTileGuidance({
@@ -40,8 +48,10 @@ function CapabilityTileGuidance({
   setGuidanceIsOpen,
   capability,
   setCapability,
+  setModulesData,
   ...other
 }) {
+  const { gqlClient, userId, role } = useContext(HexagonsContext);
   const [value, setValue] = useState(0);
 
   const classes = useStyles();
@@ -57,11 +67,7 @@ function CapabilityTileGuidance({
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box p={3}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
+        {value === index && <>{children}</>}
       </div>
     );
   }
@@ -80,30 +86,42 @@ function CapabilityTileGuidance({
     setValue(newValue);
   };
 
+  const handleDeleteGuidance = async (g) => {
+    const deleteSuccess = await deleteGuidance(g.id, gqlClient);
+    if (deleteSuccess.success) {
+      setModulesData();
+    } else {
+      alert('There has been an error deleting, please refresh the page and try again');
+    }
+  };
+
   const gotGuidance = guidance.length > 0;
 
   return (
     <Dialog open={guidanceIsOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
       <TabsDialogContent>
         <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} textColor="inherit" 
-  indicatorColor="secondary">
-              {gotGuidance && (
-                <Tab
-                  label="View guidance"
-                  aria-label="View existing guidance"
-                  data-test-id="view-guidance-tab"
-                  {...a11yProps(0)}
-                />
-              )}
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="inherit"
+            indicatorColor="secondary"
+          >
+            {gotGuidance && (
               <Tab
-                data-test-id="add-new-guidance-tab"
-                label="Add new guidance"
-                aria-label="Add new guidance"
-                {...a11yProps(gotGuidance ? 1 : 0)}
+                label="View guidance"
+                aria-label="View existing guidance"
+                data-test-id="view-guidance-tab"
+                {...a11yProps(0)}
               />
-            </Tabs>
-      
+            )}
+            <Tab
+              data-test-id="add-new-guidance-tab"
+              label="Add new guidance"
+              aria-label="Add new guidance"
+              {...a11yProps(gotGuidance ? 1 : 0)}
+            />
+          </Tabs>
         </AppBar>
 
         {gotGuidance && (
@@ -111,13 +129,37 @@ function CapabilityTileGuidance({
             <List className={classes.root}>
               {guidance.map((g, i) => {
                 const created_at = extractDate(g.created_at);
+                const shouldShowDelete =
+                  role === 'Leader' || parseInt(g.users_permissions_user.id) === parseInt(userId);
+                let shortenedText = g.text.length > 16 ? g.text.slice(0, 15) : g.text;
                 return (
-                  <ListItem key={`guidance-${i}`} alignItems="flexStart">
-                    <ListItemText
-                      data-test-id={`guidance-${i}`}
-                      primary={g.text}
-                      secondary={`${g.users_permissions_user.username} - ${created_at}`}
-                    />
+                  <ListItem
+                    sx={{
+                      justifyContent: 'space-between',
+                      borderBottom: '1px solid #e8e8e8'
+                    }}
+                    key={`guidance-${i}`}
+                    alignItems="center"
+                  >
+                    <div>
+                      <span data-test-id={`guidance-${i}`} style={{ whiteSpace: 'pre' }}>
+                        {g.text}
+                      </span>
+
+                      <span
+                        className={classes.secondary}
+                      >{`${g.users_permissions_user.username} - ${created_at}`}</span>
+                    </div>
+                    {shouldShowDelete && (
+                      <IconButton
+                        onClick={() => handleDeleteGuidance(g)}
+                        color="error"
+                        size="small"
+                        title={`Delete ${shortenedText}...`}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    )}
                   </ListItem>
                 );
               })}
@@ -125,17 +167,19 @@ function CapabilityTileGuidance({
           </TabPanel>
         )}
         <TabPanel value={value} index={gotGuidance ? 1 : 0}>
-          <AddNewGuidance
-            {...other} // capabilityId, userId
-            successCallback={(formResult) => {
-              // refresh capability
-              const newCap = JSON.parse(JSON.stringify(capability));
-              newCap.guidance.push(formResult.guidance.createGuidance.guidance);
-              setTimeout(() => {
-                setCapability(newCap);
-              }, 1000);
-            }}
-          />
+          <Box p={3}>
+            <AddNewGuidance
+              {...other} // capabilityId, userId
+              successCallback={(formResult) => {
+                // refresh capability
+                const newCap = JSON.parse(JSON.stringify(capability));
+                newCap.guidance.push(formResult.guidance.createGuidance.guidance);
+                setTimeout(() => {
+                  setCapability(newCap);
+                }, 1000);
+              }}
+            />
+          </Box>
         </TabPanel>
       </TabsDialogContent>
       <DialogActions>

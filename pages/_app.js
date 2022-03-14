@@ -80,14 +80,17 @@ function MyApp({ Component, pageProps }) {
   }
 
   let role = 'public';
+  let userId = 0;
   if (pageProps.user) {
     role = pageProps.user.role.name;
+    userId = pageProps.user.id;
   }
 
   const hexagonsGlobals = {
     gqlClient,
     orgId,
     role,
+    userId,
   };
 
   return (

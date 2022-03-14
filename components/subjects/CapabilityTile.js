@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
-import { ButtonBase } from '@mui/material';
+import { ButtonBase, IconButton } from '@mui/material';
 import { useState, useEffect, useContext } from 'react';
 import createCompetency from '../forms/handlers/createCompetency';
 import createLevel from '../forms/handlers/createLevel';
@@ -8,7 +8,8 @@ import useTileStyles from '../../styles/useTileStyles';
 import CapabilityTileContent from './CapabilityTileContent';
 import CapabilityTileGuidance from './CapabilityTileGuidance';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
-import Image from 'next/image';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -59,15 +60,15 @@ function CapabilityTile(props) {
   }, [competency, competencyStatus]);
 
   function handleUpdate() {
-    if (!guidanceActive) {
-      // Disable button and update colour
-      setButtonIsDisabled(true);
-      let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
-      setCompetencyStatus(status); // Optimistic update
-      handleStatus(status);
-    } else {
-      setGuidanceIsOpen(true);
-    }
+    // Disable button and update colour
+    setButtonIsDisabled(true);
+    let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
+    setCompetencyStatus(status); // Optimistic update
+    handleStatus(status);
+  }
+
+  function handleOpenGuidance() {
+    setGuidanceIsOpen(true);
   }
 
   async function handleStatus(status) {
@@ -148,13 +149,6 @@ function CapabilityTile(props) {
   if (competencyStatus === 'target') buttonTitle = 'Set as incomplete';
   if (competencyStatus === 'complete') buttonTitle = 'Set as target';
 
-  if (guidanceActive) {
-    buttonTitle = 'Add Guidance'
-    if (capability.guidance.length > 0) {
-      buttonTitle = 'View/add guidance'
-    }
-  }
-
   return (
     <div
       data-test-id={`${hexId}-${competencyStatus}`}
@@ -179,16 +173,6 @@ function CapabilityTile(props) {
               onClick={() => handleUpdate()}
               title={buttonTitle}
             >
-              {capability.guidance.length > 0 && (
-                <div
-                  data-test-id={`guidance-lightbulb-${hexId}`}
-                  className={`${styles.lightbulb} ${
-                    guidanceActive ? styles.lightbulbOn : styles.lightbulbOff
-                  }`}
-                >
-                  <Image src="/lightbulb.svg" alt="Lightbulb icon" width="40px" height="40px" />
-                </div>
-              )}
               <CapabilityTileContent
                 text={capability.text}
                 className={`${styles.hexContent_inner}`}
@@ -214,6 +198,15 @@ function CapabilityTile(props) {
               </div>
               <div aria-hidden="true" className="buttonFocusVisible"></div>
             </ButtonBase>
+            <IconButton
+              title="Guidance"
+              data-test-id={`guidance-lightbulb-${hexId}`}
+              onClick={handleOpenGuidance}
+              className={styles.lightbulb}
+            >
+              {capability.guidance.length > 0 && <LightbulbIcon data-test-id={`got-guidance-${hexId}`} />}
+              {capability.guidance.length === 0 && <LightbulbOutlinedIcon data-test-id={`not-got-guidance-${hexId}`} />}
+            </IconButton>
             {guidanceIsOpen && (
               <CapabilityTileGuidance
                 {...other}

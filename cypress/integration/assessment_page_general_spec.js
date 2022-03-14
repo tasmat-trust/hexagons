@@ -200,29 +200,27 @@ context('Assessment page', () => {
         cy.mockGraphQL([{ query: 'createGuidance', data: createGuidance }]);
 
         cy.visit('/subjects/art/class-1/154');
-        cy.get('[data-test-id=hex-3]').should('exist');
+        cy.waitForSpinners();
+        cy.waitForSpinners();
+        cy.waitForSpinners();
+        cy.get('[data-test-id=hex-1]').should('exist');
       });
-      it('Lets user put page into guidance mode', () => {
-        cy.get('[data-test-id=view-guidance-button]').contains('Guidance');
-        cy.startGuidanceMode();
-        cy.get('[data-test-id=view-guidance-button]').contains('Go back');
-      });
+
       it('Shows a popup with existing guidance and a form to add new', () => {
-        cy.startGuidanceMode();
-        cy.get('[data-test-id=hex-3]').click();
-        cy.get('[data-test-id=existing-guidance-panel').contains(existingGuidance);
+        cy.get('[data-test-id=guidance-lightbulb-hex-3]').should('exist');
+        cy.get('[data-test-id=guidance-lightbulb-hex-3]').click();
+        cy.get('[data-test-id=existing-guidance-panel]').contains(existingGuidance);
         cy.get('[data-test-id=add-new-guidance-tab]').click();
         cy.get('[data-test-id=add-new-guidance').contains('Add new guidance');
       });
+
       it('Lets teachers add guidance when there is already guidance present', () => {
         cy.get('[data-test-id=guidance-lightbulb-hex-3').should('exist');
-        cy.startGuidanceMode();
-        cy.get('[data-test-id=hex-3]').should('exist');
-        cy.get('[data-test-id=hex-3]').click();
+        cy.get('[data-test-id=guidance-lightbulb-hex-3]').click();
         cy.get('[data-test-id=add-new-guidance-tab]').click();
         cy.waitForSpinners();
-        cy.get('[data-test-id=text-field]').clear();
-        cy.get('[data-test-id=text-field]').type(newGuidanceText);
+        cy.get('[data-test-id=textarea-field]').clear();
+        cy.get('[data-test-id=textarea-field]').type(newGuidanceText);
 
         cy.assertGuidanceFormSubmitSuccess();
 
@@ -232,12 +230,12 @@ context('Assessment page', () => {
       });
 
       it('Lets teachers add guidance when no existing guidance', () => {
-        cy.get('[data-test-id=guidance-lightbulb-hex-2').should('not.exist');
-        cy.startGuidanceMode();
-        cy.get('[data-test-id=hex-2]').click();
+        cy.get('[data-test-id=not-got-guidance-hex-2').should('exist');
+        cy.get('[data-test-id=guidance-lightbulb-hex-2').should('exist');
+        cy.get('[data-test-id=guidance-lightbulb-hex-2]').click();
         cy.waitForSpinners();
-        cy.get('[data-test-id=text-field]').clear();
-        cy.get('[data-test-id=text-field]').type(newGuidanceText);
+        cy.get('[data-test-id=textarea-field]').clear();
+        cy.get('[data-test-id=textarea-field]').type(newGuidanceText);
 
         cy.assertGuidanceFormSubmitSuccess();
 
@@ -246,7 +244,7 @@ context('Assessment page', () => {
         cy.get('[data-test-id=guidance-0]').contains(newGuidanceText);
 
         cy.get('[data-test-id=close-guidance-popup]').click();
-        cy.get('[data-test-id=guidance-lightbulb-hex-2').should('exist');
+        cy.get('[data-test-id=got-guidance-hex-2').should('exist');
       });
     });
   });

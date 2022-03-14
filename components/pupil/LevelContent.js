@@ -13,10 +13,9 @@ function LevelContent({
   levelId,
   setLevelId,
   currentModule,
-  setGuidanceActive,
-  guidanceActive,
   user,
-  levelTitle
+  levelTitle,
+  ...other
 }) {
 
   const [competencies, setCompetencies] = useState(initialCompetencies)
@@ -31,7 +30,6 @@ function LevelContent({
     <>
       <CustomSuspense message="Loading status">
         <LevelStatus
-          setGlobalGuidanceActive={setGuidanceActive}
           levelId={levelId}
           levelTitle={levelTitle}
           setLevelId={setLevelId}
@@ -41,13 +39,11 @@ function LevelContent({
           subjectId={subjectId}
           edSubjectId={edSubjectId}
           getLevelVars={{ pupilId: parseInt(pupil.id), subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: parseInt(currentModule.id) }}
-          setGuidanceActive={setGuidanceActive}
         />
       </CustomSuspense>
       <CustomSuspense message="Loading tiles">
         <CapabilityTiles
           userId={user.id}
-          guidanceActive={guidanceActive}
           pupil={pupil}
           capabilities={currentModule.capabilities}
           competencies={competencies}
@@ -57,6 +53,7 @@ function LevelContent({
           setLevelId={setLevelId}
           subjectId={subjectId}
           edSubjectId={edSubjectId}
+          {...other}
         />
       </CustomSuspense>
     </>
@@ -69,8 +66,6 @@ LevelContent.propTypes = {
   initialCompetencies: PropTypes.array,
   subjectId: PropTypes.number,
   module: PropTypes.object,
-  setGuidanceActive: PropTypes.func,
-  guidanceActive: PropTypes.bool,
   levelId: PropTypes.number,
   levelTitle: PropTypes.string,
   setLevelId: PropTypes.func,

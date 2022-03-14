@@ -8,7 +8,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import getPercentComplete from '../../utils/getPercentComplete';
 import LevelStatusTitle from './LevelStatusTitle';
 import DialogButton from '../ui-globals/DialogButton';
-import LightbulbIcon from '../ui-globals/LightbulbIcon';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
@@ -84,7 +84,6 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
 }
 
 function LevelStatus({
-  setGlobalGuidanceActive,
   currentModule,
   subjectId,
   edSubjectId,
@@ -216,14 +215,6 @@ function LevelStatus({
     }
   }
 
-  // Guidance feature
-
-  const [guidanceActive, setGuidanceActive] = useState(false);
-
-  useEffect(() => {
-    setGlobalGuidanceActive(guidanceActive);
-  }, [guidanceActive, setGlobalGuidanceActive]);
-
   const barValue = parseInt(status === 'complete' ? 100 : visiblePercentComplete);
 
   return (
@@ -255,37 +246,7 @@ function LevelStatus({
         </Box>
         <Box className={classes.header}>
           <Box className={classes.guidanceBox}>
-            <DialogButton
-              title={guidanceActive ? 'Enable assessment mode' : 'Enable guidance mode'}
-              modelname="guidance"
-              startIcon={<LightbulbIcon className={classes.icon} viewBox="0 0 100 125" />}
-              label={guidanceActive ? 'Go back' : 'Guidance'}
-              testId="view-guidance-button"
-              color={guidanceActive ? 'secondary' : 'primary'}
-              onClose={() => {
-                setTimeout(() => {
-                  setGuidanceActive(!guidanceActive);
-                }, 100);
-              }}
-              variant="contained"
-              boxTitle={`${levelTitle} summary`}
-            >
-              <>
-                {guidanceActive && (
-                  <>
-                    <p>You are back in assessment mode for {pupil.name}</p>
-                  </>
-                )}
-                {!guidanceActive && (
-                  <>
-                    <p>
-                      You can now view guidance from colleagues and add your own by tapping the
-                      Hexagons
-                    </p>
-                  </>
-                )}
-              </>
-            </DialogButton>
+
           </Box>
 
           <Box className={classes.actionsBox}>
@@ -345,7 +306,6 @@ function LevelStatus({
 }
 
 LevelStatus.propTypes = {
-  setGlobalGuidanceActive: PropTypes.func,
   currentModule: PropTypes.object,
   subjectId: PropTypes.number,
   pupil: PropTypes.object,

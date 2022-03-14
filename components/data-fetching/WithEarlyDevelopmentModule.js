@@ -4,7 +4,6 @@ import useSWR from 'swr';
 
 export default function WithEarlyDevelopmentModule(WrappedComponent) {
   function WithEarlyDevelopmentModule({ getEdModulesBySubjectIdVariables, pupilId, modules, edSubjectId, ...other }) {
-    console.log(getEdModulesBySubjectIdVariables)
     const { data: edModulesData } = useSWR([getEdModules, getEdModulesBySubjectIdVariables], { suspense: true })
     let module = edModulesData.modules[0]
     module.isEd = true

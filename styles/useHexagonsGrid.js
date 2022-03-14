@@ -125,12 +125,7 @@ const stringStyles = makeStyles((theme) => ({
     position: absolute !important;
     top: 5%;
     right: 25%;
-  `,
-  lightbulbOn: `
-    opacity: 100%;
-  `,
-  lightbulbOff: `
-    opacity: 50%;
+    z-index: 999;
   `,
   hexContent_inner: `
     width: 70%;

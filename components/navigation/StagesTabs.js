@@ -33,7 +33,6 @@ function a11yProps(index) {
 function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
   const [tabValue, setTabValue] = useState(0);
   const [sortedModules, setSortedModules] = useState(modules);
-  const [guidanceActive, setGuidanceActive] = useState(false);
 
   const startingLevelId = startingLevel ? parseInt(startingLevel.id) : 0;
   const [levelId, setLevelId] = useState(startingLevelId);
@@ -102,8 +101,6 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
                 levelId={levelId}
                 setLevelId={setLevelId}
                 currentModule={currentModule}
-                setGuidanceActive={setGuidanceActive}
-                guidanceActive={guidanceActive}
                 competenciesVars={{ pupilId: parseInt(pupil.id), levelId: levelId ? levelId : 0 }}
                 {...other}
               />

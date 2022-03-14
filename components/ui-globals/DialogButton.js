@@ -52,7 +52,6 @@ function DialogButton({
           title={title}
           startIcon={startIcon}
           data-test-id={testId}
-          // startIcon={<AddIcon />}
           onClick={handleOpen}
         >
           {label}

@@ -63,6 +63,7 @@ const getCapability = gql`
         text
         users_permissions_user {
           username
+          id
         }
       }
     }
@@ -82,9 +83,11 @@ const getModules = gql`
         id
         guidance {
           text
+          id
           created_at
           users_permissions_user {
             username
+            id
           }
         }
       }
@@ -105,9 +108,11 @@ const getEdModules = gql`
         id
         guidance {
           text
+          id
           created_at
           users_permissions_user {
             username
+            id
           }
         }
       }
@@ -202,7 +207,18 @@ const createGuidanceQuery = gql`
         created_at
         users_permissions_user {
           username
+          id
         }
+      }
+    }
+  }
+`;
+
+const deleteGuidanceQuery = gql`
+  mutation DeleteGuidance($id: ID!) {
+    deleteGuidance(input: { where: { id: $id } }) {
+      guidance {
+        id
       }
     }
   }
@@ -222,5 +238,6 @@ export {
   getModules,
   getEdModules,
   createGuidanceQuery,
+  deleteGuidanceQuery,
   getCapability,
 };
