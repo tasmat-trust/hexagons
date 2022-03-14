@@ -1,34 +1,43 @@
-import withStyles from '@mui/styles/withStyles';
-import { Tabs, Tab } from "@mui/material";
-import theme from '../styles/theme'
+import { Tabs, Tab } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import theme from '../styles/theme';
 
-export const HexagonsTabs = withStyles({
-  root: {
-    borderBottom: '1px solid #e8e8e8',
-    marginBottom: theme.spacing(2)
+export const HexagonsTabs = styled((props) => (
+  <Tabs {...props} TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }} />
+))({
+  borderBottom: '1px solid #e8e8e8',
+  marginBottom: '6px',
+  '& .MuiTabs-indicator': {
+    height: '4px',
+    display: 'flex',
+    justifyContent: 'center',
+    background: 'none'
   },
-  indicator: {
-    backgroundColor: theme.palette.primary.light,
+  '& .MuiTabs-indicatorSpan': {
+    background: theme.palette.secondary.main,
+    display: 'block',
+    width: '40px',
+    height: '4px'
   },
-})(Tabs);
+});
 
-export const HexagonsTab = withStyles((theme) => ({
-  root: {
-    textTransform: 'none',
-    minWidth: 72,
-    fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing(4),
-    '&:hover': {
-      color: theme.palette.primary.main,
-      opacity: 1,
-    },
-    '&$selected': {
-      color: theme.palette.primary.dark,
-      fontWeight: theme.typography.fontWeightMedium,
-    },
-    '&:focus': {
-      color: theme.palette.primary.main,
-    },
+export const HexagonsTab = styled((props) => <Tab {...props} />)(({ theme }) => ({
+  textTransform: 'none',
+  minWidth: 72,
+  fontWeight: theme.typography.fontWeightRegular,
+  borderRadius: '50px',
+  marginRight: theme.spacing(4),
+  marginLeft: '0',
+  padding: '0',
+  '&:hover': {
+    color: 'inherit',
+    opacity: 1,
   },
-  selected: {},
-}))((props) => <Tab disableRipple {...props} />);
+  '&.Mui-selected': {
+    color: 'inherit',
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  '&.Mui-focusVisible': {
+    color: theme.palette.secondary.main,
+  },
+}));
