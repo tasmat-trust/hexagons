@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '0.9rem',
     display: 'block',
   },
+  para: {
+    maxWidth: '100%'
+  }
 }));
 
 function CapabilityTileGuidance({
@@ -136,13 +139,14 @@ function CapabilityTileGuidance({
                   <ListItem
                     sx={{
                       justifyContent: 'space-between',
-                      borderBottom: '1px solid #e8e8e8'
+                      borderBottom: '1px solid #e8e8e8',
+                      maxWidth: '100%'
                     }}
                     key={`guidance-${i}`}
                     alignItems="center"
                   >
                     <div>
-                      <span data-test-id={`guidance-${i}`} style={{ whiteSpace: 'pre' }}>
+                      <span className={classes.para} data-test-id={`guidance-${i}`} style={{ whiteSpace: 'pre-line' }}>
                         {g.text}
                       </span>
 

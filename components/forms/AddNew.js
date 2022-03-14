@@ -224,7 +224,7 @@ function AddNew(props) {
                 <label htmlFor="textarea">Text*</label>
                 <TextareaAutosize
                   name="textarea"
-                  style={{ width: 500, minHeight: '4rem' }}
+                  style={{ width: 500, maxWidth: '100%', minHeight: '4rem' }}
                   data-test-id="textarea-field"
                   id="textarea"
                   label="Text"
