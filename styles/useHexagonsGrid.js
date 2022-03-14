@@ -123,8 +123,8 @@ const stringStyles = makeStyles((theme) => ({
   `,
   lightbulb: `
     position: absolute !important;
-    top: 5%;
-    right: 25%;
+    top: 2%;
+    right: 22%;
     z-index: 999;
   `,
   hexContent_inner: `

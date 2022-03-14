@@ -12,9 +12,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     marginTop: '-0.95rem',
   },
-  label: {
-    width: '150px',
-  },
+  label: {},
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
@@ -54,7 +52,7 @@ function SubjectPicker({
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="subject-picker" className={classes.label}>
+      <InputLabel htmlFor="subject-picker" className={classes.label} variant="standard">
         Select {isRainbowAwards ? 'award' : 'subject'}
       </InputLabel>
       <NativeSelect

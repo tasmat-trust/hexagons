@@ -10,7 +10,6 @@ export default function Pupils(props) {
   return (
     <>
       <CustomHead titleContent="Subjects" />
-      <BreadCrumbs {...props} firstLabel="Subjects" />
       <CustomSuspense message="Loading subjects">
         <Subjects />
       </CustomSuspense>

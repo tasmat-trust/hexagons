@@ -1,33 +1,41 @@
 import PropTypes from 'prop-types';
 import { Breadcrumbs, Typography, Box } from '@mui/material';
 import Link from 'next/link';
+import Chip from '@mui/material/Chip';
 import { makeStyles } from '@mui/styles';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-const useStyles = makeStyles((theme) => ({
-  bc: {
-    padding: theme.spacing(1),
-    '@media(max-width: 600px)': {
-      padding: 0,
+const useStyles = makeStyles((theme) => {
+  console.log(theme);
+  return {
+    item: {
+      color: theme.palette.text.secondary,
     },
-    '& ol': {
+    bc: {
+      padding: theme.spacing(1),
       '@media(max-width: 600px)': {
-        justifyContent: 'center',
+        padding: 0,
       },
-      justifyContent: 'center',
+      '& ol': {
+        '@media(max-width: 600px)': {
+          justifyContent: 'center',
+        },
+        justifyContent: 'left',
+      },
+      '& li': {
+        marginBottom: '1.4em',
+      },
     },
-    '& li': {
-      marginBottom: '1.4em',
+    clear: {
+      clear: 'left',
     },
-  },
-  clear: {
-    clear: 'left',
-  },
-  MenuButton: {
-    display: 'flex',
-    fontSize: '1rem',
-    fontFamily: theme.typography.fontFamily,
-  },
-}));
+    MenuButton: {
+      display: 'flex',
+      fontSize: '1rem',
+      fontFamily: theme.typography.fontFamily,
+    },
+  };
+});
 
 function BreadCrumbs(props) {
   const classes = useStyles();
@@ -40,11 +48,16 @@ function BreadCrumbs(props) {
     return (
       <Box data-test-id={`${order}-crumb`}>
         {href && (
-          <Link color="inherit" href={href}>
-            <a title={`Change ${model}`}>{label}</a>
-          </Link>
+          <Chip
+            title={`Change ${model}`}
+            label={label}
+            component="a"
+            href={href}
+            color="primary"
+            clickable
+          />
         )}
-        {!href && label && <Typography>{label}</Typography>}
+        {!href && label && <Chip label={label} color="primary" />}
         {picker && <>{picker}</>}
       </Box>
     );
@@ -56,7 +69,11 @@ function BreadCrumbs(props) {
 
   return (
     <>
-      <Breadcrumbs className={classes.bc} aria-label="breadcrumb">
+      <Breadcrumbs
+        className={classes.bc}
+        aria-label="breadcrumb"
+        separator={<ArrowForwardIcon className={classes.item} fontSize="small" />}
+      >
         {(props.firstLabel || props.firstPicker) && <BreadcrumbContent order="first" />}
         {(props.secondLabel || props.secondPicker) && <BreadcrumbContent order="second" />}
         {(props.thirdLabel || props.thirdPicker) && <BreadcrumbContent order="third" />}
