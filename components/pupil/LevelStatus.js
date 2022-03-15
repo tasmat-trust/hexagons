@@ -3,6 +3,7 @@ import { Typography, Box, Button, Fade } from '@mui/material';
 import createLevel from '../forms/handlers/createLevel';
 import updateLevel from '../forms/handlers/updateLevel';
 import { useEffect, useState, useCallback, useContext } from 'react';
+import Popover from '@mui/material/Popover';
 import LinearProgress from '@mui/material/LinearProgress';
 import makeStyles from '@mui/styles/makeStyles';
 import getPercentComplete from '../../utils/getPercentComplete';
@@ -180,7 +181,7 @@ function LevelStatus({
     completeStep();
   }
 
-  function markActiveHandler(e) {
+  function markActiveHandler(e, state) {
     e.preventDefault();
     markActive();
   }
@@ -215,6 +216,18 @@ function LevelStatus({
     }
   }
 
+  // Popover
+  const states = ['emerging', 'developing', 'secure'];
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
+  const popoverOpen = Boolean(popoverAnchorEl);
+  const popoverId = popoverOpen ? 'simple-popover' : undefined;
+  function quickAssessHandler(event) {
+    setPopoverAnchorEl(event.currentTarget);
+  }
+  function handleQuickAssessClose() {
+    setPopoverAnchorEl(null);
+  }
+
   const barValue = parseInt(status === 'complete' ? 100 : visiblePercentComplete);
 
   return (
@@ -245,9 +258,7 @@ function LevelStatus({
           </Box>
         </Box>
         <Box className={classes.header}>
-          <Box className={classes.guidanceBox}>
-
-          </Box>
+          <Box className={classes.guidanceBox}></Box>
 
           <Box className={classes.actionsBox}>
             <DialogButton
@@ -262,7 +273,42 @@ function LevelStatus({
               <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
             </DialogButton>
 
-            {status !== 'complete' && (
+            <Button
+              aria-describedby={popoverId}
+              title={`Quick assess ${levelTitle}`}
+              data-test-id="quick-assess"
+              className={classes.endButton}
+              variant="contained"
+              color="secondary"
+              onClick={quickAssessHandler}
+            >
+              Quick assess
+            </Button>
+            <Popover
+              PaperProps={{ sx: { padding: '1rem' } }}
+              id={popoverId}
+              open={popoverOpen}
+              anchorEl={popoverAnchorEl}
+              onClose={handleQuickAssessClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              {states.map((state, i) => (
+                <Button
+                  key={`status-button-${i}`}
+                  title={`Mark ${levelTitle} ${state}`}
+                  data-test-id={`mark-${state}`}
+                  className={classes.endButton}
+                  variant="contained"
+                  color="secondary"
+                  onClick={(e) => markActiveHandler(e, state)}
+                >
+                  {state}
+                </Button>
+              ))}
+
               <Button
                 title={`Mark ${levelTitle} complete`}
                 data-test-id="mark-complete"
@@ -273,20 +319,23 @@ function LevelStatus({
               >
                 Complete
               </Button>
-            )}
 
-            {status === 'complete' && (
-              <Button
-                title={`Mark ${levelTitle} incomplete`}
-                data-test-id="mark-incomplete"
-                className={classes.endButton}
-                variant="outlined"
-                color="secondary"
-                onClick={markActiveHandler}
-              >
-                Incomplete
-              </Button>
-            )}
+              {/* 
+              
+
+              {status === 'complete' && (
+                <Button
+                  title={`Mark ${levelTitle} incomplete`}
+                  data-test-id="mark-incomplete"
+                  className={classes.endButton}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={markActiveHandler}
+                >
+                  Incomplete
+                </Button>
+              )} */}
+            </Popover>
           </Box>
         </Box>
 

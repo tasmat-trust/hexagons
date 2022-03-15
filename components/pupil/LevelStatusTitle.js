@@ -11,10 +11,10 @@ function LevelTitle({ status, classes, initialVisibleLevel, bubbleGotLevel, leve
   }, [initialVisibleLevel, bubbleGotLevel]);
   return (
     <Typography data-test-id="level-status-title" className={classes.title} variant="h2">
-      {(status === 'complete' || status === 'incomplete') && (
+      {(status === 'complete' || status === 'incomplete' || status === 'developing' || status === 'secure') && (
         <span>
           <span data-test-id="level-status-status" className={`${classes.info} ${classes[status]}`}>
-            {status}
+            {status === 'incomplete' ? 'emerging' : status }
           </span>
         </span>
       )}
