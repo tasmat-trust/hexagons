@@ -6,10 +6,10 @@ import { useEffect, useState, useCallback, useContext } from 'react';
 import Popover from '@mui/material/Popover';
 import LinearProgress from '@mui/material/LinearProgress';
 import makeStyles from '@mui/styles/makeStyles';
-import getPercentComplete from '../../utils/getPercentComplete';
+import { getPercentComplete, getPercentFromStatus } from '../../utils/getPercentComplete';
+
 import LevelStatusTitle from './LevelStatusTitle';
 import DialogButton from '../ui-globals/DialogButton';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
@@ -91,6 +91,7 @@ function LevelStatus({
   pupil,
   competencies,
   levelId,
+  levelWasQuickAssessed,
   levelTitle,
   setLevelId,
   ...other
@@ -100,11 +101,17 @@ function LevelStatus({
   const classes = useStyles();
   const [visiblePercentComplete, setVisiblePercentComplete] = useState(0);
   const [actualPercentComplete, setActualPercentComplete] = useState(0);
+  const [isQuickAssessing, setIsQuickAssessing] = useState(false);
+  const [hasBeenQuickAssessed, setHasBeenQuickAssessed] = useState(levelWasQuickAssessed);
 
   const [status, setStatus] = useState('notstarted');
   const [readyToShow, setReadyToShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
   const [thisLevelCompetencies, setThisLevelCompetencies] = useState(null);
+
+  useEffect(() => {
+    setHasBeenQuickAssessed(levelWasQuickAssessed);
+  }, [levelWasQuickAssessed]);
 
   useEffect(() => {
     const thisLevelComps = calculateCompetenciesForThisLevel(
@@ -127,7 +134,9 @@ function LevelStatus({
 
   const bubbleGotLevel = useCallback(
     (level) => {
-      setLevelId(parseInt(level.id));
+      if (level) {
+        setLevelId(parseInt(level.id));
+      }
       setStatus(level && level.status ? level.status : 'notstarted');
     },
     [setLevelId, setStatus, levelId]
@@ -135,25 +144,36 @@ function LevelStatus({
 
   useEffect(() => {
     setReadyToShow(true);
-    const percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
-    setActualPercentComplete(percentComplete);
-    const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete;
-    setVisiblePercentComplete(percentCompleteWithShortcuts);
+    let percentComplete;
+    if (hasBeenQuickAssessed) {
+      percentComplete = getPercentFromStatus(status);
+    } else {
+      percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
+    }
+
+    if (!isQuickAssessing) {
+      const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete;
+      setVisiblePercentComplete(percentCompleteWithShortcuts);
+      setActualPercentComplete(percentComplete);
+    }
+
     if (percentComplete === 100) {
       completeStep();
     }
   }, [thisLevelCompetencies, currentModule, completeStep, status]);
 
   const triggerCreateLevel = useCallback(
-    async (status) => {
+    async ({ status, wasQuickAssessed }) => {
       if (status && subjectId && pupil && pupil.id && currentModule && currentModule.id) {
         const variables = {
           status: status,
+          wasQuickAssessed: wasQuickAssessed,
           subjectId: currentModule.isEd ? edSubjectId : subjectId,
           pupilId: parseInt(pupil.id),
           moduleId: parseInt(currentModule.id),
         };
         const level = await createLevel(gqlClient, variables);
+        setHasBeenQuickAssessed(level.wasQuickAssessed);
         bubbleGotLevel(level);
       } else {
         console.log(status, subjectId, pupil, currentModule);
@@ -164,13 +184,15 @@ function LevelStatus({
   );
 
   const triggerUpdateLevel = useCallback(
-    async (status) => {
+    async ({ status, wasQuickAssessed }) => {
       const variables = {
         status: status,
         subjectId: subjectId,
         levelId: levelId,
+        wasQuickAssessed: wasQuickAssessed,
       };
       const level = await updateLevel(gqlClient, variables);
+      setHasBeenQuickAssessed(level.wasQuickAssessed);
       bubbleGotLevel(level);
     },
     [bubbleGotLevel, gqlClient, levelId, subjectId]
@@ -181,58 +203,144 @@ function LevelStatus({
     completeStep();
   }
 
-  function markActiveHandler(e, state) {
+  function markActiveHandler(e, manualStatus) {
     e.preventDefault();
-    markActive();
+    markActive(manualStatus);
   }
 
   const completeStep = useCallback(() => {
+    setIsQuickAssessing(false);
     if (status && status !== 'complete') {
+      const args = {
+        status: 'complete',
+        wasQuickAssessed: false,
+      };
+
       if (levelId) {
-        triggerUpdateLevel('complete');
+        console.log('updating from here 1');
+        triggerUpdateLevel(args);
       } else {
         //create level and mark as complete
-        triggerCreateLevel('complete');
+        triggerCreateLevel(args);
       }
+
+      setHasBeenQuickAssessed(false);
     }
   }, [status, levelId, triggerUpdateLevel, triggerCreateLevel]);
 
-  async function markActive() {
+  async function markActive(manualStatus) {
+    setIsQuickAssessing(true);
+
     if (actualPercentComplete === 100) {
       setAlertMessage(
-        `Please remove some individual competencies and then mark this ${currentModule.level} as incomplete.`
+        `Please remove some individual competencies and then mark this ${currentModule.level} as ${manualStatus}.`
       );
       return;
     }
 
-    if (status === 'complete') {
-      if (levelId) {
-        // Mark current level as incomplete
-        triggerUpdateLevel('incomplete');
-      } else {
-        // create level and mark as incomplete
-        triggerCreateLevel('incomplete');
-      }
+    if (actualPercentComplete > 75 && ['emerging', 'developing'].includes(manualStatus)) {
+      setAlertMessage(
+        `Please remove some individual competencies reducing the percentage below 75 and then mark this ${currentModule.level} as ${manualStatus}.`
+      );
+      return;
     }
+
+    if (actualPercentComplete > 50 && manualStatus === 'developing') {
+      setAlertMessage(
+        `Please remove some individual competencies reducing the percentage below 50 and then mark this ${currentModule.level} as ${manualStatus}.`
+      );
+      return;
+    }
+
+    if (actualPercentComplete > 25 && manualStatus === 'emerging') {
+      setAlertMessage(
+        `Please remove some individual competencies reducing the percentage below 25 and then mark this ${currentModule.level} as ${manualStatus}.`
+      );
+      return;
+    }
+
+    const visiblePercent = getPercentFromStatus(manualStatus);
+    setVisiblePercentComplete(visiblePercent);
+    const args = {
+      status: manualStatus,
+      wasQuickAssessed: true,
+    };
+    if (levelId) {
+      // Mark current level as manual status
+      triggerUpdateLevel(args);
+    } else {
+      // create level and mark as manual status
+      triggerCreateLevel(args);
+    }
+    setHasBeenQuickAssessed(true);
   }
 
   // Popover
-  const states = ['emerging', 'developing', 'secure'];
+  const statuses = ['emerging', 'developing', 'secure'];
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
   const popoverOpen = Boolean(popoverAnchorEl);
   const popoverId = popoverOpen ? 'simple-popover' : undefined;
   function quickAssessHandler(event) {
     setPopoverAnchorEl(event.currentTarget);
+    setIsQuickAssessing(true);
   }
   function handleQuickAssessClose() {
+    setIsQuickAssessing(false);
     setPopoverAnchorEl(null);
   }
 
-  const barValue = parseInt(status === 'complete' ? 100 : visiblePercentComplete);
+  useEffect(() => {
+    if (!isQuickAssessing && !hasBeenQuickAssessed) {
+      let args = {
+        wasQuickAssessed: false,
+      };
+      if (actualPercentComplete > 75) {
+        return;
+      }
 
+      if (actualPercentComplete > 50) {
+        if (status !== 'secure') {
+          args.status = 'secure';
+          triggerUpdateLevel(args);
+          return;
+        }
+        return;
+      }
+
+      if (actualPercentComplete > 25) {
+        if (status !== 'developing') {
+          args.status = 'developing';
+          triggerUpdateLevel(args);
+          return;
+        }
+        return;
+      }
+
+      if (actualPercentComplete > 0) {
+        if (status !== 'emerging') {
+          args.status = 'emerging';
+          triggerUpdateLevel(args);
+          return;
+        }
+        return;
+      }
+    }
+  }, [actualPercentComplete]);
+
+  const displayValue = Math.round(visiblePercentComplete);
   return (
     <Fade in={readyToShow}>
       <Box className={classes.level} role="region" aria-live="polite">
+        {alertMessage && (
+          <Alert
+            data-test-id="level-status-alert"
+            onClose={() => {
+              setAlertMessage(false);
+            }}
+          >
+            {alertMessage}
+          </Alert>
+        )}
         <Box className={classes.titleBox}>
           <CustomSuspense message="Loading level" textOnly={true}>
             <ErrorBoundary alert="Failed to load levels">
@@ -245,16 +353,17 @@ function LevelStatus({
               />
             </ErrorBoundary>
           </CustomSuspense>
+
           <Typography
             className={classes.title}
             data-test-id="percent-complete-label"
             variant="h2"
             color="textPrimary"
-          >{`${Math.round(visiblePercentComplete)}%`}</Typography>
+          >{`${displayValue}%`}</Typography>
         </Box>
         <Box display="flex" alignItems="center">
           <Box width="100%">
-            <LinearProgress color="secondary" variant="determinate" value={barValue} />
+            <LinearProgress color="secondary" variant="determinate" value={displayValue} />
           </Box>
         </Box>
         <Box className={classes.header}>
@@ -295,17 +404,17 @@ function LevelStatus({
                 horizontal: 'left',
               }}
             >
-              {states.map((state, i) => (
+              {statuses.map((manualStatus, i) => (
                 <Button
                   key={`status-button-${i}`}
-                  title={`Mark ${levelTitle} ${state}`}
-                  data-test-id={`mark-${state}`}
+                  title={`Mark ${levelTitle} ${manualStatus}`}
+                  data-test-id={`mark-${manualStatus}`}
                   className={classes.endButton}
                   variant="contained"
                   color="secondary"
-                  onClick={(e) => markActiveHandler(e, state)}
+                  onClick={(e) => markActiveHandler(e, manualStatus)}
                 >
-                  {state}
+                  {manualStatus}
                 </Button>
               ))}
 
@@ -319,36 +428,9 @@ function LevelStatus({
               >
                 Complete
               </Button>
-
-              {/* 
-              
-
-              {status === 'complete' && (
-                <Button
-                  title={`Mark ${levelTitle} incomplete`}
-                  data-test-id="mark-incomplete"
-                  className={classes.endButton}
-                  variant="outlined"
-                  color="secondary"
-                  onClick={markActiveHandler}
-                >
-                  Incomplete
-                </Button>
-              )} */}
             </Popover>
           </Box>
         </Box>
-
-        {alertMessage && (
-          <Alert
-            data-test-id="level-status-alert"
-            onClose={() => {
-              setAlertMessage(false);
-            }}
-          >
-            {alertMessage}
-          </Alert>
-        )}
       </Box>
     </Fade>
   );
@@ -360,6 +442,7 @@ LevelStatus.propTypes = {
   pupil: PropTypes.object,
   competencies: PropTypes.array,
   levelId: PropTypes.number,
+  levelWasQuickAssessed: PropTypes.bool,
   levelTitle: PropTypes.string,
   setLevelId: PropTypes.func,
 };

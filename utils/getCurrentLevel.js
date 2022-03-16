@@ -1,4 +1,4 @@
-import getPercentComplete from "./getPercentComplete";
+import { getPercentComplete } from "./getPercentComplete";
 import { sortLevels } from "./sortLevelsAndModules";
 export default function getCurrentLevel(jumbledLevels) {
 

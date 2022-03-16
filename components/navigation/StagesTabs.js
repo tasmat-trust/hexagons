@@ -34,6 +34,7 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
   const [tabValue, setTabValue] = useState(0);
   const [sortedModules, setSortedModules] = useState(modules);
 
+  const levelWasQuickAssessed = startingLevel ? startingLevel.wasQuickAssessed : false;
   const startingLevelId = startingLevel ? parseInt(startingLevel.id) : 0;
   const [levelId, setLevelId] = useState(startingLevelId);
 
@@ -97,6 +98,7 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
             <CustomSuspense message={`Loading ${currentModule.order}`}>
               <LevelContent
                 levelTitle={levelTitle}
+                levelWasQuickAssessed={levelWasQuickAssessed}
                 pupil={pupil}
                 levelId={levelId}
                 setLevelId={setLevelId}

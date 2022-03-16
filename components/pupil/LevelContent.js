@@ -39,7 +39,8 @@ function LevelContent({
           subjectId={subjectId}
           edSubjectId={edSubjectId}
           getLevelVars={{ pupilId: parseInt(pupil.id), subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: parseInt(currentModule.id) }}
-        />
+          {...other}
+       />
       </CustomSuspense>
       <CustomSuspense message="Loading tiles">
         <CapabilityTiles
