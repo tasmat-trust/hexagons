@@ -1,25 +1,11 @@
 import PropTypes from 'prop-types';
 import NativeSelect from '@mui/material/NativeSelect';
-import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import WithPupilsByGroup from '../data-fetching/WithPupilsByGroup';
 import { useRouter } from 'next/router';
-
+import useStyles from '../../styles/usePickerStyles';
 import { useState } from 'react';
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    minWidth: 120,
-    marginTop: '-0.95rem'
-  },
-  label: {
-    width: '150px'
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
 
 function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
   const classes = useStyles();
@@ -28,9 +14,9 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
   const handleChange = (event) => {
     const newPupilId = parseInt(event.target.value);
     const isSubjectsListing = router.asPath.includes('subjects');
-    const isRainbowAwards = router.asPath.includes('rainbow-awards')
+    const isRainbowAwards = router.asPath.includes('rainbow-awards');
     if (isSubjectsListing || isRainbowAwards) {
-      const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards'
+      const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
       router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
         shallow: false,
       });
@@ -43,8 +29,16 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="pupil-picker" className={classes.label} variant="standard">Select pupil</InputLabel>
-      <NativeSelect id="pupil-picker" data-test-id="select-pupil" value={pupilId} onChange={handleChange}>
+      <InputLabel htmlFor="pupil-picker" className={classes.label} variant="standard">
+        Select pupil
+      </InputLabel>
+      <NativeSelect
+        className={classes.title}
+        id="pupil-picker"
+        data-test-id="select-pupil"
+        value={pupilId}
+        onChange={handleChange}
+      >
         {pupils.map((pupil, i) => (
           <option key={`pupil-${i}`} value={pupil.id}>
             {pupil.name}

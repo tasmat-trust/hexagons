@@ -6,7 +6,7 @@ import StagesTabsSingleSubject from '../navigation/StagesTabsSingleSubject';
 import { useRouter } from 'next/router';
 const styles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(3),
+    marginTop: 0,
     clear: 'both',
   },
   title: {

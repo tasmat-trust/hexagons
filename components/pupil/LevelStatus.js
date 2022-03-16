@@ -22,23 +22,22 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   info: {
-    border: 'solid 1px',
-    padding: '0px 6px 2px',
-    borderRadius: '5px',
+    textTransform: 'capitalize',
+    marginLeft: theme.spacing(1),
   },
   complete: {
-    background: theme.palette.success.light,
-    borderColor: theme.palette.success.dark,
+    // background: theme.palette.success.light,
+    // borderColor: theme.palette.success.dark,
   },
   incomplete: {
-    background: theme.palette.secondary.light,
-    borderColor: theme.palette.secondary.main,
+    // background: theme.palette.secondary.light,
+    // borderColor: theme.palette.secondary.main,
   },
   notstarted: {
-    background: theme.palette.secondary.light,
-    borderColor: theme.palette.secondary.main,
+    // background: theme.palette.secondary.light,
+    // borderColor: theme.palette.secondary.main,
   },
-  header: {
+  meta: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
     display: 'flex',
@@ -51,11 +50,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  status: {
+    display: 'flex',
+  },
 
   title: {
     fontFamily: theme.typography.secondaryFamily,
     lineHeight: '1.5',
-    fontSize: 'clamp(1.5rem, 3vw, 3rem)',
+    fontSize: 'clamp(1.5rem, 3vw, 2rem)',
     marginBottom: theme.spacing(1),
   },
   guidanceBox: {
@@ -173,7 +175,9 @@ function LevelStatus({
           moduleId: parseInt(currentModule.id),
         };
         const level = await createLevel(gqlClient, variables);
-        setHasBeenQuickAssessed(level.wasQuickAssessed);
+        if (level && level.hasOwnProperty('wasQuickAssessed')) {
+          setHasBeenQuickAssessed(level.wasQuickAssessed);
+        }
         bubbleGotLevel(level);
       } else {
         console.log(status, subjectId, pupil, currentModule);
@@ -341,94 +345,97 @@ function LevelStatus({
             {alertMessage}
           </Alert>
         )}
-        <Box className={classes.titleBox}>
-          <CustomSuspense message="Loading level" textOnly={true}>
-            <ErrorBoundary alert="Failed to load levels">
-              <LevelStatusTitle
-                levelTitle={levelTitle}
-                bubbleGotLevel={bubbleGotLevel}
-                classes={classes}
-                status={status}
-                {...other}
-              />
-            </ErrorBoundary>
-          </CustomSuspense>
-
-          <Typography
-            className={classes.title}
-            data-test-id="percent-complete-label"
-            variant="h2"
-            color="textPrimary"
-          >{`${displayValue}%`}</Typography>
-        </Box>
         <Box display="flex" alignItems="center">
           <Box width="100%">
             <LinearProgress color="secondary" variant="determinate" value={displayValue} />
           </Box>
         </Box>
-        <Box className={classes.header}>
-          <Box className={classes.guidanceBox}></Box>
+        <Box className={classes.titleBox}>
+          <Box className={classes.status}>
+            <Typography
+              className={classes.title}
+              data-test-id="percent-complete-label"
+              variant="h2"
+              color="textPrimary"
+            >
+              {`${displayValue}%`}
+              {` `}
+            </Typography>
+            <CustomSuspense message="Loading level" textOnly={true}>
+              <ErrorBoundary alert="Failed to load levels">
+                <LevelStatusTitle
+                  levelTitle={levelTitle}
+                  bubbleGotLevel={bubbleGotLevel}
+                  classes={classes}
+                  status={status}
+                  {...other}
+                />
+              </ErrorBoundary>
+            </CustomSuspense>
+          </Box>
 
-          <Box className={classes.actionsBox}>
-            <DialogButton
-              modelname="summary"
-              title={`View ${levelTitle} summary`}
-              label="Summary"
-              testId="view-summary-button"
-              color="primary"
-              variant="contained"
-              boxTitle={`${levelTitle} summary`}
-            >
-              <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
-            </DialogButton>
-
-            <Button
-              aria-describedby={popoverId}
-              title={`Quick assess ${levelTitle}`}
-              data-test-id="quick-assess"
-              className={classes.endButton}
-              variant="contained"
-              color="secondary"
-              onClick={quickAssessHandler}
-            >
-              Quick assess
-            </Button>
-            <Popover
-              PaperProps={{ sx: { padding: '1rem' } }}
-              id={popoverId}
-              open={popoverOpen}
-              anchorEl={popoverAnchorEl}
-              onClose={handleQuickAssessClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-            >
-              {statuses.map((manualStatus, i) => (
-                <Button
-                  key={`status-button-${i}`}
-                  title={`Mark ${levelTitle} ${manualStatus}`}
-                  data-test-id={`mark-${manualStatus}`}
-                  className={classes.endButton}
-                  variant="contained"
-                  color="secondary"
-                  onClick={(e) => markActiveHandler(e, manualStatus)}
-                >
-                  {manualStatus}
-                </Button>
-              ))}
+          <Box className={classes.meta}>
+            <Box className={classes.actionsBox}>
+              <DialogButton
+                modelname="summary"
+                title={`View ${levelTitle} summary`}
+                label="Summary"
+                testId="view-summary-button"
+                color="primary"
+                variant="contained"
+                boxTitle={`${levelTitle} summary`}
+              >
+                <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
+              </DialogButton>
 
               <Button
-                title={`Mark ${levelTitle} complete`}
-                data-test-id="mark-complete"
+                aria-describedby={popoverId}
+                title={`Quick assess ${levelTitle}`}
+                data-test-id="quick-assess"
                 className={classes.endButton}
                 variant="contained"
                 color="secondary"
-                onClick={completeStepHandler}
+                onClick={quickAssessHandler}
               >
-                Complete
+                Quick assess
               </Button>
-            </Popover>
+              <Popover
+                PaperProps={{ sx: { padding: '1rem' } }}
+                id={popoverId}
+                open={popoverOpen}
+                anchorEl={popoverAnchorEl}
+                onClose={handleQuickAssessClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                {statuses.map((manualStatus, i) => (
+                  <Button
+                    key={`status-button-${i}`}
+                    title={`Mark ${levelTitle} ${manualStatus}`}
+                    data-test-id={`mark-${manualStatus}`}
+                    className={classes.endButton}
+                    variant="contained"
+                    color="secondary"
+                    onClick={(e) => markActiveHandler(e, manualStatus)}
+                  >
+                    {manualStatus}
+                  </Button>
+                ))}
+
+                <Button
+                  title={`Mark ${levelTitle} complete`}
+                  data-test-id="mark-complete"
+                  className={classes.endButton}
+                  variant="contained"
+                  color="secondary"
+                  onClick={completeStepHandler}
+                >
+                  Complete
+                </Button>
+              </Popover>
+            </Box>
           </Box>
         </Box>
       </Box>

@@ -15,7 +15,7 @@ function LevelTitle({ status, classes, initialVisibleLevel, bubbleGotLevel }) {
       {(status !== 'notstarted') && (
         <span>
           <span data-test-id="level-status-status" className={`${classes.info} ${classes[statusClass]}`}>
-            {status === 'incomplete' ? 'emerging' : status }
+          – {status === 'incomplete' ? 'emerging' : status } 
           </span>
         </span>
       )}

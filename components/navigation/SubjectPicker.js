@@ -1,22 +1,12 @@
 import PropTypes from 'prop-types';
 import NativeSelect from '@mui/material/NativeSelect';
-import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import WithAllSubjects from '../data-fetching/WithAllSubjects';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    minWidth: 120,
-    marginTop: '-0.95rem',
-  },
-  label: {},
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+import useStyles from '../../styles/usePickerStyles';
 
 function SubjectPicker({
   currentSubjectSlug,
@@ -56,6 +46,7 @@ function SubjectPicker({
         Select {isRainbowAwards ? 'award' : 'subject'}
       </InputLabel>
       <NativeSelect
+        className={classes.title}
         id="subject-picker"
         data-test-id="select-subject"
         value={subjectSlug}

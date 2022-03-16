@@ -5,8 +5,7 @@ import theme from '../styles/theme';
 export const HexagonsTabs = styled((props) => (
   <Tabs {...props} TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }} />
 ))({
-  borderBottom: '1px solid #e8e8e8',
-  marginBottom: '6px',
+  marginBottom: '1px',
   '& .MuiTabs-indicator': {
     height: '4px',
     display: 'flex',
@@ -14,7 +13,7 @@ export const HexagonsTabs = styled((props) => (
     background: 'none'
   },
   '& .MuiTabs-indicatorSpan': {
-    background: theme.palette.secondary.main,
+    background: theme.palette.primary.main,
     display: 'block',
     width: '40px',
     height: '4px'
@@ -35,7 +34,9 @@ export const HexagonsTab = styled((props) => <Tab {...props} />)(({ theme }) => 
   },
   '&.Mui-selected': {
     color: 'inherit',
-    fontWeight: theme.typography.fontWeightMedium,
+    fontFamily: theme.typography.secondaryFamily,
+    fontSize: '1.2rem',
+    letterSpacing: '0.00735em',
   },
   '&.Mui-focusVisible': {
     color: theme.palette.secondary.main,

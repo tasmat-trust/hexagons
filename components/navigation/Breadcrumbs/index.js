@@ -18,12 +18,12 @@ const useStyles = makeStyles((theme) => {
       },
       '& ol': {
         '@media(max-width: 600px)': {
-          justifyContent: 'center',
+          justifyContent: 'left',
         },
         justifyContent: 'left',
       },
       '& li': {
-        marginBottom: '1.4em',
+        marginBottom: '1.4rem',
       },
     },
     clear: {
