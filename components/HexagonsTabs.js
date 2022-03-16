@@ -7,16 +7,18 @@ export const HexagonsTabs = styled((props) => (
 ))({
   marginBottom: '1px',
   '& .MuiTabs-indicator': {
-    height: '4px',
+    height: '44px',
     display: 'flex',
     justifyContent: 'center',
-    background: 'none'
+    background: 'none',
   },
   '& .MuiTabs-indicatorSpan': {
     background: theme.palette.primary.main,
     display: 'block',
-    width: '40px',
-    height: '4px'
+    top: '0',
+    borderRadius: '100%',
+    width: '6px',
+    height: '6px',
   },
 });
 

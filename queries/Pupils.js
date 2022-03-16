@@ -97,6 +97,7 @@ const getLevelsForOverview = gql`
   query getLevelsForOverview($subjectId: ID!, $pupilId: ID!) {
     levels(where: { subject: $subjectId, pupil: $pupilId }) {
       status
+      wasQuickAssessed
       module {
         level
         order
@@ -272,6 +273,7 @@ const createLevelQuery = gql`
       level {
         id
         status
+        wasQuickAssessed
       }
     }
   }

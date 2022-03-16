@@ -1,5 +1,5 @@
 function getPercentComplete(competencies, capabilities) {
-  if (!competencies || !capabilities) return false;
+  if (!competencies || !capabilities) return 0;
   const completeCompetencies = competencies.filter((comp, i) => comp.status === 'complete');
   return parseInt((completeCompetencies.length / capabilities.length) * 100);
 }

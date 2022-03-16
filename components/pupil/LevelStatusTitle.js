@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
-import {  useEffect } from 'react';
+import { useEffect } from 'react';
 import WithLevel from '../data-fetching/WithLevel';
 
 function LevelTitle({ status, classes, initialVisibleLevel, bubbleGotLevel }) {
@@ -9,13 +9,16 @@ function LevelTitle({ status, classes, initialVisibleLevel, bubbleGotLevel }) {
       bubbleGotLevel(initialVisibleLevel);
     }
   }, [initialVisibleLevel, bubbleGotLevel]);
-  const statusClass = status !== 'complete' ? 'incomplete' : 'complete'
+  const statusClass = status !== 'complete' ? 'incomplete' : 'complete';
   return (
     <Typography data-test-id="level-status-title" className={classes.title} variant="h2">
-      {(status !== 'notstarted') && (
+      {status !== 'notstarted' && (
         <span>
-          <span data-test-id="level-status-status" className={`${classes.info} ${classes[statusClass]}`}>
-          – {status === 'incomplete' ? 'emerging' : status } 
+          <span
+            data-test-id="level-status-status"
+            className={`${classes.info} ${classes[statusClass]}`}
+          >
+            – {status === 'incomplete' ? 'emerging' : status}
           </span>
         </span>
       )}

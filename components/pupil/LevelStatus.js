@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Typography, Box, Button, Fade } from '@mui/material';
+import { Typography, Box, Button, Fade, Snackbar, Alert } from '@mui/material';
 import createLevel from '../forms/handlers/createLevel';
 import updateLevel from '../forms/handlers/updateLevel';
 import { useEffect, useState, useCallback, useContext } from 'react';
@@ -14,12 +14,10 @@ import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 
-import Alert from '@mui/material/Alert';
-
 const useStyles = makeStyles((theme) => ({
   level: {
     marginTop: 0,
-    marginBottom: theme.spacing(2),
+    marginBottom: 0,
   },
   info: {
     textTransform: 'capitalize',
@@ -59,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: '1.5',
     fontSize: 'clamp(1.5rem, 3vw, 2rem)',
     marginBottom: theme.spacing(1),
+  },
+  percentage: {
+    width: '5rem',
+    textAlign: 'right',
   },
   guidanceBox: {
     '@media (max-width: 900px)': {},
@@ -101,17 +103,17 @@ function LevelStatus({
   const { gqlClient } = useContext(HexagonsContext);
 
   const classes = useStyles();
-  const [visiblePercentComplete, setVisiblePercentComplete] = useState(0);
-  const [actualPercentComplete, setActualPercentComplete] = useState(0);
-  const [isQuickAssessing, setIsQuickAssessing] = useState(false);
-  const [hasBeenQuickAssessed, setHasBeenQuickAssessed] = useState(levelWasQuickAssessed);
-
-  const [status, setStatus] = useState('notstarted');
-  const [readyToShow, setReadyToShow] = useState(false);
+  const [visiblePercentComplete, setVisiblePercentComplete] = useState(0); // what is displaying currently?
+  const [actualPercentComplete, setActualPercentComplete] = useState(0); // what is the percentage based on competencies/capabilities?
+  const [hasBeenQuickAssessed, setHasBeenQuickAssessed] = useState(levelWasQuickAssessed); // current level wasQuickAssessed
+  const [status, setStatus] = useState('notstarted'); // current level status
+  const [readyToShow, setReadyToShow] = useState(false); // TBD
   const [alertMessage, setAlertMessage] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const [thisLevelCompetencies, setThisLevelCompetencies] = useState(null);
 
   useEffect(() => {
+    // Keep state var in sync with level
     setHasBeenQuickAssessed(levelWasQuickAssessed);
   }, [levelWasQuickAssessed]);
 
@@ -121,6 +123,7 @@ function LevelStatus({
       currentModule.capabilities
     );
     setThisLevelCompetencies(thisLevelComps);
+    setReadyToShow(true); // TBD
   }, [competencies]);
 
   useEffect(() => {
@@ -130,39 +133,43 @@ function LevelStatus({
   }, [levelId, pupil]);
 
   useEffect(() => {
+    // When pupil changes, reset the percentages
     setVisiblePercentComplete(0);
     setActualPercentComplete(0);
   }, [pupil]);
 
   const bubbleGotLevel = useCallback(
+    // whenever the level updates, but only when it's changed
     (level) => {
       if (level) {
         setLevelId(parseInt(level.id));
+        setStatus(level.status ? level.status : 'notstarted');
+        setHasBeenQuickAssessed(level.wasQuickAssessed ? level.wasQuickAssessed : false);
       }
-      setStatus(level && level.status ? level.status : 'notstarted');
     },
     [setLevelId, setStatus, levelId]
   );
 
   useEffect(() => {
-    setReadyToShow(true);
-    let percentComplete;
+    // calculate percentages whenever competencies change
+    let visiblePercentComplete;
+    let actualPercentComplete = getPercentComplete(
+      thisLevelCompetencies,
+      currentModule.capabilities
+    );
+
     if (hasBeenQuickAssessed) {
-      percentComplete = getPercentFromStatus(status);
+      visiblePercentComplete = getPercentFromStatus(status);
     } else {
-      percentComplete = getPercentComplete(thisLevelCompetencies, currentModule.capabilities);
+      visiblePercentComplete = actualPercentComplete;
     }
+    setActualPercentComplete(actualPercentComplete);
+    setVisiblePercentComplete(visiblePercentComplete);
 
-    if (!isQuickAssessing) {
-      const percentCompleteWithShortcuts = status === 'complete' ? 100 : percentComplete;
-      setVisiblePercentComplete(percentCompleteWithShortcuts);
-      setActualPercentComplete(percentComplete);
-    }
-
-    if (percentComplete === 100) {
+    if (actualPercentComplete === 100) {
       completeStep();
     }
-  }, [thisLevelCompetencies, currentModule, completeStep, status]);
+  }, [thisLevelCompetencies]);
 
   const triggerCreateLevel = useCallback(
     async ({ status, wasQuickAssessed }) => {
@@ -175,9 +182,6 @@ function LevelStatus({
           moduleId: parseInt(currentModule.id),
         };
         const level = await createLevel(gqlClient, variables);
-        if (level && level.hasOwnProperty('wasQuickAssessed')) {
-          setHasBeenQuickAssessed(level.wasQuickAssessed);
-        }
         bubbleGotLevel(level);
       } else {
         console.log(status, subjectId, pupil, currentModule);
@@ -197,6 +201,7 @@ function LevelStatus({
       };
       const level = await updateLevel(gqlClient, variables);
       setHasBeenQuickAssessed(level.wasQuickAssessed);
+
       bubbleGotLevel(level);
     },
     [bubbleGotLevel, gqlClient, levelId, subjectId]
@@ -213,39 +218,35 @@ function LevelStatus({
   }
 
   const completeStep = useCallback(() => {
-    setIsQuickAssessing(false);
     if (status && status !== 'complete') {
+      setVisiblePercentComplete(100);
       const args = {
         status: 'complete',
-        wasQuickAssessed: false,
+        wasQuickAssessed: true,
       };
-
       if (levelId) {
-        console.log('updating from here 1');
         triggerUpdateLevel(args);
       } else {
         //create level and mark as complete
         triggerCreateLevel(args);
       }
-
-      setHasBeenQuickAssessed(false);
     }
   }, [status, levelId, triggerUpdateLevel, triggerCreateLevel]);
 
   async function markActive(manualStatus) {
-    setIsQuickAssessing(true);
-
     if (actualPercentComplete === 100) {
       setAlertMessage(
         `Please remove some individual competencies and then mark this ${currentModule.level} as ${manualStatus}.`
       );
+      setAlertOpen(true);
       return;
     }
 
-    if (actualPercentComplete > 75 && ['emerging', 'developing'].includes(manualStatus)) {
+    if (actualPercentComplete > 75 && manualStatus === 'secure') {
       setAlertMessage(
         `Please remove some individual competencies reducing the percentage below 75 and then mark this ${currentModule.level} as ${manualStatus}.`
       );
+      setAlertOpen(true);
       return;
     }
 
@@ -253,6 +254,7 @@ function LevelStatus({
       setAlertMessage(
         `Please remove some individual competencies reducing the percentage below 50 and then mark this ${currentModule.level} as ${manualStatus}.`
       );
+      setAlertOpen(true);
       return;
     }
 
@@ -260,6 +262,7 @@ function LevelStatus({
       setAlertMessage(
         `Please remove some individual competencies reducing the percentage below 25 and then mark this ${currentModule.level} as ${manualStatus}.`
       );
+      setAlertOpen(true);
       return;
     }
 
@@ -286,80 +289,103 @@ function LevelStatus({
   const popoverId = popoverOpen ? 'simple-popover' : undefined;
   function quickAssessHandler(event) {
     setPopoverAnchorEl(event.currentTarget);
-    setIsQuickAssessing(true);
   }
   function handleQuickAssessClose() {
-    setIsQuickAssessing(false);
     setPopoverAnchorEl(null);
   }
 
   useEffect(() => {
-    if (!isQuickAssessing && !hasBeenQuickAssessed) {
-      let args = {
-        wasQuickAssessed: false,
-      };
-      if (actualPercentComplete > 75) {
-        return;
-      }
+    let args = {
+      wasQuickAssessed: false,
+    };
 
-      if (actualPercentComplete > 50) {
-        if (status !== 'secure') {
-          args.status = 'secure';
-          triggerUpdateLevel(args);
-          return;
-        }
+    if (actualPercentComplete === 100) {
+      if (status !== 'complete') {
+        args.status = 'complete';
+        triggerUpdateLevel(args);
+        setVisiblePercentComplete(actualPercentComplete);
+        setHasBeenQuickAssessed(false);
         return;
       }
+      return;
+    }
 
-      if (actualPercentComplete > 25) {
-        if (status !== 'developing') {
-          args.status = 'developing';
-          triggerUpdateLevel(args);
-          return;
-        }
-        return;
-      }
+    if (actualPercentComplete > 75) {
+      setVisiblePercentComplete(actualPercentComplete);
+      setHasBeenQuickAssessed(false);
+      return;
+    }
 
-      if (actualPercentComplete > 0) {
-        if (status !== 'emerging') {
-          args.status = 'emerging';
-          triggerUpdateLevel(args);
-          return;
-        }
+    if (actualPercentComplete > 50) {
+      if (status !== 'secure') {
+        args.status = 'secure';
+        triggerUpdateLevel(args);
+        setVisiblePercentComplete(actualPercentComplete);
+        setHasBeenQuickAssessed(false);
         return;
       }
+      return;
+    }
+
+    if (actualPercentComplete > 25) {
+      if (status !== 'developing') {
+        args.status = 'developing';
+        triggerUpdateLevel(args);
+        setVisiblePercentComplete(actualPercentComplete);
+        setHasBeenQuickAssessed(false);
+        return;
+      }
+      return;
+    }
+
+    if (actualPercentComplete > 0) {
+      if (status !== 'emerging') {
+        args.status = 'emerging';
+        triggerUpdateLevel(args);
+        setVisiblePercentComplete(actualPercentComplete);
+        setHasBeenQuickAssessed(false);
+        return;
+      }
+      return;
     }
   }, [actualPercentComplete]);
 
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAlertOpen(false);
+  };
+
   const displayValue = Math.round(visiblePercentComplete);
   return (
-    <Fade in={readyToShow}>
-      <Box className={classes.level} role="region" aria-live="polite">
-        {alertMessage && (
-          <Alert
-            data-test-id="level-status-alert"
-            onClose={() => {
-              setAlertMessage(false);
-            }}
-          >
-            {alertMessage}
-          </Alert>
-        )}
-        <Box display="flex" alignItems="center">
-          <Box width="100%">
-            <LinearProgress color="secondary" variant="determinate" value={displayValue} />
-          </Box>
+    <Box className={classes.level} role="region" aria-live="polite">
+      <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose}>
+        <Alert
+          severity="error"
+          data-test-id="level-status-alert"
+          sx={{ width: '100%' }}
+          onClose={handleAlertClose}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+
+      <Box display="flex" alignItems="center">
+        <Box width="100%">
+          <LinearProgress color="secondary" variant="determinate" value={displayValue} />
         </Box>
-        <Box className={classes.titleBox}>
+      </Box>
+      <Box className={classes.titleBox}>
+        <Fade in={readyToShow}>
           <Box className={classes.status}>
             <Typography
-              className={classes.title}
+              className={`${classes.title} ${classes.percentage}`}
               data-test-id="percent-complete-label"
               variant="h2"
               color="textPrimary"
             >
               {`${displayValue}%`}
-              {` `}
             </Typography>
             <CustomSuspense message="Loading level" textOnly={true}>
               <ErrorBoundary alert="Failed to load levels">
@@ -373,73 +399,73 @@ function LevelStatus({
               </ErrorBoundary>
             </CustomSuspense>
           </Box>
+        </Fade>
 
-          <Box className={classes.meta}>
-            <Box className={classes.actionsBox}>
-              <DialogButton
-                modelname="summary"
-                title={`View ${levelTitle} summary`}
-                label="Summary"
-                testId="view-summary-button"
-                color="primary"
-                variant="contained"
-                boxTitle={`${levelTitle} summary`}
-              >
-                <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
-              </DialogButton>
+        <Box className={classes.meta}>
+          <Box className={classes.actionsBox}>
+            <DialogButton
+              modelname="summary"
+              title={`View ${levelTitle} summary`}
+              label="Summary"
+              testId="view-summary-button"
+              color="primary"
+              variant="contained"
+              boxTitle={`${levelTitle} summary`}
+            >
+              <div style={{ whiteSpace: 'pre' }}>{currentModule.summary}</div>
+            </DialogButton>
 
-              <Button
-                aria-describedby={popoverId}
-                title={`Quick assess ${levelTitle}`}
-                data-test-id="quick-assess"
-                className={classes.endButton}
-                variant="contained"
-                color="secondary"
-                onClick={quickAssessHandler}
-              >
-                Quick assess
-              </Button>
-              <Popover
-                PaperProps={{ sx: { padding: '1rem' } }}
-                id={popoverId}
-                open={popoverOpen}
-                anchorEl={popoverAnchorEl}
-                onClose={handleQuickAssessClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-              >
-                {statuses.map((manualStatus, i) => (
-                  <Button
-                    key={`status-button-${i}`}
-                    title={`Mark ${levelTitle} ${manualStatus}`}
-                    data-test-id={`mark-${manualStatus}`}
-                    className={classes.endButton}
-                    variant="contained"
-                    color="secondary"
-                    onClick={(e) => markActiveHandler(e, manualStatus)}
-                  >
-                    {manualStatus}
-                  </Button>
-                ))}
-
+            <Button
+              aria-describedby={popoverId}
+              title={`Quick assess ${levelTitle}`}
+              data-test-id="quick-assess"
+              className={classes.endButton}
+              variant="contained"
+              color="secondary"
+              onClick={quickAssessHandler}
+            >
+              Quick assess
+            </Button>
+            <Popover
+              PaperProps={{ sx: { padding: '1rem' } }}
+              id={popoverId}
+              open={popoverOpen}
+              anchorEl={popoverAnchorEl}
+              onClose={handleQuickAssessClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              {statuses.map((manualStatus, i) => (
                 <Button
-                  title={`Mark ${levelTitle} complete`}
-                  data-test-id="mark-complete"
+                  key={`status-button-${i}`}
+                  title={`Mark ${levelTitle} ${manualStatus}`}
+                  data-test-id={`mark-${manualStatus}`}
                   className={classes.endButton}
                   variant="contained"
                   color="secondary"
-                  onClick={completeStepHandler}
+                  onClick={(e) => markActiveHandler(e, manualStatus)}
                 >
-                  Complete
+                  {manualStatus}
                 </Button>
-              </Popover>
-            </Box>
+              ))}
+
+              <Button
+                title={`Mark ${levelTitle} complete`}
+                data-test-id="mark-complete"
+                className={classes.endButton}
+                variant="contained"
+                color="secondary"
+                onClick={completeStepHandler}
+              >
+                Complete
+              </Button>
+            </Popover>
           </Box>
         </Box>
       </Box>
-    </Fade>
+    </Box>
   );
 }
 
