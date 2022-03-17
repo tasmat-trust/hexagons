@@ -9,6 +9,7 @@ import WithAllSubjects from '../data-fetching/WithAllSubjects';
 import useStyles from '../../styles/usePickerStyles';
 
 function SubjectPicker({
+  isOverviewPage,
   currentSubjectSlug,
   subjects,
   activeGroupSlug,
@@ -23,9 +24,13 @@ function SubjectPicker({
     const newSubjectSlug = event.target.value;
     const isSubjectsListing = router.asPath.includes('subjects');
     let navigateTo;
-    if (isSubjectsListing || isRainbowAwards) {
-      const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
+    const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
+    if ((isSubjectsListing || isRainbowAwards) && activeGroupSlug && currentPupilId) {
       navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`;
+    } else if ((isSubjectsListing || isRainbowAwards) && activeGroupSlug) {
+      navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}`;
+    } else if (isOverviewPage) {
+      navigateTo = `/${basePath}/${newSubjectSlug}/`;
     } else if (isGroupOverviewReport) {
       navigateTo = `/reports/group-overview/${activeGroupSlug}/${newSubjectSlug}`;
     } else {
@@ -79,6 +84,7 @@ SubjectPicker.propTypes = {
   currentSubjectSlug: PropTypes.string,
   subjects: PropTypes.array,
   activeGroupSlug: PropTypes.string,
+  isOverviewPage: PropTypes.bool,
   isGroupOverviewReport: PropTypes.bool,
   currentPupilId: PropTypes.number,
 };

@@ -1,12 +1,19 @@
+import { withSession } from '../../../components/auth/session';
+import checkSession from '../../../components/auth/checkSession';
+import SubjectPupilChooserView from '../../../components/shared-pages/SubjectPupilChooserView';
 
-import { withSession } from '../../../components/auth/session'
-import checkSession from '../../../components/auth/checkSession'
-import SubjectPupilChooserView from '../../../components/shared-pages/SubjectPupilChooserView'
+const Subject = (props) => (
+  <SubjectPupilChooserView
+    {...props}
+    isRainbowAwards={false}
+    firstLabel="Subjects"
+    firstModel="subject"
+    firstSlug="subjects"
+  />
+);
 
-const Subject = (props) => <SubjectPupilChooserView {...props} firstLabel="Subjects" firstModel="subject" firstSlug="subjects" />
-
-export default Subject
+export default Subject;
 
 export const getServerSideProps = withSession((ctx) => {
-  return checkSession(ctx, 'Teacher')
-})
+  return checkSession(ctx, 'Teacher');
+});

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import useStyles from '../../styles/usePickerStyles';
 import { useState } from 'react';
 
-function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
+function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, isPupilReport }) {
   const classes = useStyles();
   const [pupilId, setPupilId] = useState(currentPupilId);
   const router = useRouter();
@@ -18,6 +18,10 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug }) {
     if (isSubjectsListing || isRainbowAwards) {
       const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
       router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
+        shallow: false,
+      });
+    } else if (isPupilReport) {
+      router.push(`/reports/pupil-overview/${activeGroupSlug}/${newPupilId}`, undefined, {
         shallow: false,
       });
     } else {
@@ -55,6 +59,7 @@ PupilPicker.propTypes = {
   subjectSlug: PropTypes.string,
   groupName: PropTypes.string,
   activeGroupSlug: PropTypes.string,
+  isPupilReport: PropTypes.bool,
 };
 
 export default WithPupilsByGroup(PupilPicker);

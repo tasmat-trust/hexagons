@@ -60,14 +60,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SubjectProgressDefault({
-  titleName,
-  linkUrl,
-  isPupilCard,
-  getLevelVariables,
-  isRainbowAwards,
-  isConstrained,
-}) {
+function SubjectProgressDefault(props) {
+  console.log(props);
+  const {
+    titleName,
+    linkUrl,
+    isPupilCard,
+    getLevelVariables,
+    isRainbowAwards,
+    isRaLink,
+    isConstrained,
+  } = props;
   const classes = useStyles();
   const { data: levelData } = useSWR([getLevelsForOverview, getLevelVariables]);
   let level = null;
@@ -106,31 +109,6 @@ function SubjectProgressDefault({
   });
 
   const totalPercentComplete = (100 / steps.length) * (completedLevelIndex + 1);
-  const levelTooLowToFloat = completedLevelIndex < 3;
-
-  function StepLadder() {
-    return (
-      <div className={classes.stepLadder}>
-        {level &&
-          stepsToRender.map((step, i) => (
-            <span key={`step-${i}`} className={`${classes.step} ${classes.active}`}>
-              {step.currentLevel && (
-                <span>
-                  {level.percentComplete}% - {step.name}
-                  <StyledSlider
-                    className={classes.slider}
-                    disabled={true}
-                    value={level.percentComplete}
-                    min={0}
-                    max={100}
-                  />
-                </span>
-              )}
-            </span>
-          ))}
-      </div>
-    );
-  }
 
   function RightEdgeLabel() {
     return (
@@ -144,18 +122,21 @@ function SubjectProgressDefault({
     <ErrorBoundary alert="Error in SubjectProgress component">
       {level && (
         <>
-          {/* {!isConstrained && !levelTooLowToFloat && <StepLadder />} */}
-
           <Typography component="h3" variant="h6" className={classes.flexy}>
-            {linkUrl && (
+            {linkUrl && !isRaLink && (
               <Link href={linkUrl}>
                 <a>{titleName}</a>
               </Link>
             )}
-            {!linkUrl && <>{titleName}</>}
+            {!linkUrl && isRaLink && (
+              <Link
+                href={`/rainbow-awards/${props.titleSlug}/${props.activeGroupSlug}/${props.pupilId}`}
+              >
+                <a>{titleName}</a>
+              </Link>
+            )}
+            {!linkUrl && !isRaLink && <>{titleName}</>}
             <RightEdgeLabel />
-            {/* {isConstrained && <RightEdgeLabel />} */}
-            {/* {!isConstrained && levelTooLowToFloat && <RightEdgeLabel />} */}
           </Typography>
 
           <StyledSlider
@@ -189,6 +170,7 @@ function SubjectProgressDefault({
 SubjectProgressDefault.propTypes = {
   isConstrained: PropTypes.bool,
   isRainbowAwards: PropTypes.bool,
+  isRaLink: PropTypes.bool,
   linkUrl: PropTypes.string,
   isPupilCard: PropTypes.bool,
   titleName: PropTypes.string,

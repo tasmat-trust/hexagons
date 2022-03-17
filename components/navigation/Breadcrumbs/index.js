@@ -45,6 +45,7 @@ function BreadCrumbs(props) {
     const model = props[`${order}Model`];
     const label = props[`${order}Label`];
     const picker = props[`${order}Picker`];
+    const title = props[`finalTitle`];
     return (
       <Box data-test-id={`${order}-crumb`}>
         {href && (
@@ -59,6 +60,7 @@ function BreadCrumbs(props) {
         )}
         {!href && label && <Chip label={label} color="primary" />}
         {picker && <>{picker}</>}
+        {!href && !label && !picker && title && <Chip label={title} color="primary" />}
       </Box>
     );
   }
@@ -78,6 +80,7 @@ function BreadCrumbs(props) {
         {(props.secondLabel || props.secondPicker) && <BreadcrumbContent order="second" />}
         {(props.thirdLabel || props.thirdPicker) && <BreadcrumbContent order="third" />}
         {(props.fourthLabel || props.fourthPicker) && <BreadcrumbContent order="fourth" />}
+        {props.finalTitle && <BreadcrumbContent order="final" />}
       </Breadcrumbs>
       <Box className={classes.clear}></Box>
     </>
@@ -97,6 +100,7 @@ BreadCrumbs.propTypes = {
   fourthLabel: PropTypes.string,
   fourthPicker: PropTypes.object,
   fourthHref: PropTypes.string,
+  finalTitle: PropTypes.string,
 };
 
 export default BreadCrumbs;

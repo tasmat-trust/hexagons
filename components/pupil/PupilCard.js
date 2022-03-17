@@ -10,6 +10,7 @@ import CoreSubjectsProgressWithEarlyDevelopment from './CoreSubjectsProgressWith
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import GroupChips from '../groups/GroupChips';
+import SubjectsSection from '../reporting/SubjectsSection';
 
 const useStyles = makeStyles((theme) => ({
   bullet: {
@@ -28,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ...other }) {
+function PupilCard(props) {
+  const { onwardHref, pupilName, pupilGroups, pupilId, schoolType, isRainbowAwards, ...other } =
+    props;
   //  coreSubjects, activeGroupSlug
   const styles = useStyles();
   return (
@@ -44,22 +47,37 @@ function PupilCard({ onwardHref, pupilName, pupilGroups, pupilId, schoolType, ..
           </Typography>
           <GroupChips groups={pupilGroups} shouldLink={true} baseHref="/pupils" pupilId={pupilId} />
           <CustomSuspense message="Loading pupil progress">
-          {schoolType === 'secondary' && (
-            <CoreSubjectsProgress
-              isPupilCard={true}
-              schoolType={schoolType}
-              pupilId={pupilId}
-              {...other}
-            />
-          )}
-          {schoolType === 'primary' && (
-            <CoreSubjectsProgressWithEarlyDevelopment
-              isPupilCard={true}
-              pupilId={pupilId}
-              schoolType={schoolType}
-              {...other}
-            />
-          )}
+            {schoolType === 'secondary' && (
+              <CoreSubjectsProgress
+                isPupilCard={true}
+                schoolType={schoolType}
+                pupilId={pupilId}
+                isRainbowAwards={isRainbowAwards}
+                {...other}
+              />
+            )}
+            {schoolType === 'primary' && (
+              <CoreSubjectsProgressWithEarlyDevelopment
+                isPupilCard={true}
+                pupilId={pupilId}
+                schoolType={schoolType}
+                isRainbowAwards={isRainbowAwards}
+                {...other}
+              />
+            )}
+            {isRainbowAwards && (
+              <SubjectsSection
+                testId="pd-attainment"
+                singleCol={true}
+                isRaLink={true}
+                pupil={{
+                  id: pupilId,
+                  name: pupilName,
+                }}
+                isRainbowAwards={true}
+                {...other}
+              />
+            )}
           </CustomSuspense>
         </ErrorBoundary>
       </CardContent>

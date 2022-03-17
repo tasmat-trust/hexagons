@@ -9,7 +9,7 @@ export default function Pupils(props) {
   return (
     <>
       <CustomHead titleContent="Rainbow Awards" />
-      <BreadCrumbs firstLabel="Rainbow Awards" />
+      <BreadCrumbs  finalTitle="Rainbow Awards" />
       <Subjects isRainbowAwards={true} />
     </>
   )
