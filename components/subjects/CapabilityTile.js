@@ -19,6 +19,7 @@ function CapabilityTile(props) {
   const styles = stringStyles();
   const jStyles = jssStyles();
   const {
+    setIsAssessing,
     guidanceActive,
     hexId,
     initialCapability,
@@ -65,6 +66,7 @@ function CapabilityTile(props) {
     let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
     setCompetencyStatus(status); // Optimistic update
     handleStatus(status);
+    setIsAssessing(true)
   }
 
   function handleOpenGuidance() {

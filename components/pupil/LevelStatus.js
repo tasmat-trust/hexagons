@@ -89,6 +89,8 @@ function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
 }
 
 function LevelStatus({
+  isAssessing,
+  setIsAssessing,
   currentModule,
   subjectId,
   edSubjectId,
@@ -107,7 +109,8 @@ function LevelStatus({
   const [actualPercentComplete, setActualPercentComplete] = useState(0); // what is the percentage based on competencies/capabilities?
   const [hasBeenQuickAssessed, setHasBeenQuickAssessed] = useState(levelWasQuickAssessed); // current level wasQuickAssessed
   const [status, setStatus] = useState('notstarted'); // current level status
-  const [readyToShow, setReadyToShow] = useState(false); // TBD
+  const [readyToShow, setReadyToShow] = useState(false);
+  const [gotPercent, setGotPercent] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [thisLevelCompetencies, setThisLevelCompetencies] = useState(null);
@@ -123,7 +126,6 @@ function LevelStatus({
       currentModule.capabilities
     );
     setThisLevelCompetencies(thisLevelComps);
-    setReadyToShow(true); // TBD
   }, [competencies]);
 
   useEffect(() => {
@@ -138,8 +140,7 @@ function LevelStatus({
     setActualPercentComplete(0);
   }, [pupil]);
 
-  const bubbleGotLevel = useCallback(
-    // whenever the level updates, but only when it's changed
+  const gotLevel = useCallback(
     (level) => {
       if (level) {
         setLevelId(parseInt(level.id));
@@ -150,26 +151,46 @@ function LevelStatus({
     [setLevelId, setStatus, levelId]
   );
 
+  const bubbleGotLevel = useCallback(
+    // whenever the level updates, but only when it's changed
+    (level) => {
+      if (level) {
+        gotLevel(level);
+      }
+      setReadyToShow(true);
+    },
+    [setLevelId, setStatus, levelId]
+  );
+
   useEffect(() => {
-    // calculate percentages whenever competencies change
-    let visiblePercentComplete;
-    let actualPercentComplete = getPercentComplete(
-      thisLevelCompetencies,
-      currentModule.capabilities
-    );
+    if (readyToShow) {
+      // calculate percentages whenever competencies change
+      let visiblePercentComplete;
+      let actualPercentComplete = getPercentComplete(
+        thisLevelCompetencies,
+        currentModule.capabilities
+      );
 
-    if (hasBeenQuickAssessed) {
-      visiblePercentComplete = getPercentFromStatus(status);
+      if (hasBeenQuickAssessed) {
+        visiblePercentComplete = getPercentFromStatus(status);
+      } else {
+        visiblePercentComplete = actualPercentComplete;
+      }
+      setActualPercentComplete(actualPercentComplete);
+      setVisiblePercentComplete(visiblePercentComplete);
+
+      if (isAssessing && hasBeenQuickAssessed) {
+        setHasBeenQuickAssessed(false);
+      }
+
+      if (actualPercentComplete === 100) {
+        completeStep({ wasQuickAssessed: false });
+      }
+      setGotPercent(true);
     } else {
-      visiblePercentComplete = actualPercentComplete;
+      setGotPercent(false);
     }
-    setActualPercentComplete(actualPercentComplete);
-    setVisiblePercentComplete(visiblePercentComplete);
-
-    if (actualPercentComplete === 100) {
-      completeStep();
-    }
-  }, [thisLevelCompetencies]);
+  }, [thisLevelCompetencies, readyToShow]);
 
   const triggerCreateLevel = useCallback(
     async ({ status, wasQuickAssessed }) => {
@@ -182,13 +203,13 @@ function LevelStatus({
           moduleId: parseInt(currentModule.id),
         };
         const level = await createLevel(gqlClient, variables);
-        bubbleGotLevel(level);
+        gotLevel(level);
       } else {
         console.log(status, subjectId, pupil, currentModule);
         throw new Error('Something has gone wrong. Please refresh and try again.');
       }
     },
-    [bubbleGotLevel, pupil, currentModule, gqlClient, subjectId, edSubjectId]
+    [gotLevel, pupil, currentModule, gqlClient, subjectId, edSubjectId]
   );
 
   const triggerUpdateLevel = useCallback(
@@ -200,38 +221,43 @@ function LevelStatus({
         wasQuickAssessed: wasQuickAssessed,
       };
       const level = await updateLevel(gqlClient, variables);
-      setHasBeenQuickAssessed(level.wasQuickAssessed);
+      setHasBeenQuickAssessed(level && level.wasQuickAssessed);
 
-      bubbleGotLevel(level);
+      gotLevel(level);
     },
-    [bubbleGotLevel, gqlClient, levelId, subjectId]
+    [gotLevel, gqlClient, levelId, subjectId]
   );
 
   function completeStepHandler(e) {
     e.preventDefault();
-    completeStep();
+    setIsAssessing(false);
+    completeStep({ wasQuickAssessed: true });
   }
 
   function markActiveHandler(e, manualStatus) {
     e.preventDefault();
+    setIsAssessing(false);
     markActive(manualStatus);
   }
 
-  const completeStep = useCallback(() => {
-    if (status && status !== 'complete') {
-      setVisiblePercentComplete(100);
-      const args = {
-        status: 'complete',
-        wasQuickAssessed: true,
-      };
-      if (levelId) {
-        triggerUpdateLevel(args);
-      } else {
-        //create level and mark as complete
-        triggerCreateLevel(args);
+  const completeStep = useCallback(
+    ({ wasQuickAssessed }) => {
+      if (status && status !== 'complete') {
+        setVisiblePercentComplete(100);
+        const args = {
+          status: 'complete',
+          wasQuickAssessed: wasQuickAssessed,
+        };
+        if (levelId) {
+          triggerUpdateLevel(args);
+        } else {
+          //create level and mark as complete
+          triggerCreateLevel(args);
+        }
       }
-    }
-  }, [status, levelId, triggerUpdateLevel, triggerCreateLevel]);
+    },
+    [status, levelId, triggerUpdateLevel, triggerCreateLevel]
+  );
 
   async function markActive(manualStatus) {
     if (actualPercentComplete === 100) {
@@ -295,60 +321,66 @@ function LevelStatus({
   }
 
   useEffect(() => {
-    let args = {
-      wasQuickAssessed: false,
-    };
+    if (!hasBeenQuickAssessed) {
+      let args = {
+        wasQuickAssessed: false,
+      };
 
-    if (actualPercentComplete === 100) {
-      if (status !== 'complete') {
-        args.status = 'complete';
-        triggerUpdateLevel(args);
+      if (actualPercentComplete === 100) {
+        if (status !== 'complete') {
+          args.status = 'complete';
+          triggerUpdateLevel(args);
+          setVisiblePercentComplete(actualPercentComplete);
+          setHasBeenQuickAssessed(false);
+          setStatus(args.status);
+          return;
+        }
+        return;
+      }
+
+      if (actualPercentComplete > 75) {
         setVisiblePercentComplete(actualPercentComplete);
         setHasBeenQuickAssessed(false);
         return;
       }
-      return;
-    }
 
-    if (actualPercentComplete > 75) {
-      setVisiblePercentComplete(actualPercentComplete);
-      setHasBeenQuickAssessed(false);
-      return;
-    }
-
-    if (actualPercentComplete > 60) {
-      if (status !== 'secure') {
-        args.status = 'secure';
-        triggerUpdateLevel(args);
-        setVisiblePercentComplete(actualPercentComplete);
-        setHasBeenQuickAssessed(false);
+      if (actualPercentComplete > 60) {
+        if (status !== 'secure') {
+          args.status = 'secure';
+          triggerUpdateLevel(args);
+          setVisiblePercentComplete(actualPercentComplete);
+          setHasBeenQuickAssessed(false);
+          setStatus(args.status);
+          return;
+        }
         return;
       }
-      return;
-    }
 
-    if (actualPercentComplete > 25) {
-      if (status !== 'developing') {
-        args.status = 'developing';
-        triggerUpdateLevel(args);
-        setVisiblePercentComplete(actualPercentComplete);
-        setHasBeenQuickAssessed(false);
+      if (actualPercentComplete > 25) {
+        if (status !== 'developing') {
+          args.status = 'developing';
+          triggerUpdateLevel(args);
+          setVisiblePercentComplete(actualPercentComplete);
+          setHasBeenQuickAssessed(false);
+          setStatus(args.status);
+          return;
+        }
         return;
       }
-      return;
-    }
 
-    if (actualPercentComplete > 0) {
-      if (status !== 'emerging') {
-        args.status = 'emerging';
-        triggerUpdateLevel(args);
-        setVisiblePercentComplete(actualPercentComplete);
-        setHasBeenQuickAssessed(false);
+      if (actualPercentComplete > 0) {
+        if (status !== 'emerging') {
+          args.status = 'emerging';
+          triggerUpdateLevel(args);
+          setVisiblePercentComplete(actualPercentComplete);
+          setHasBeenQuickAssessed(false);
+          setStatus(args.status);
+          return;
+        }
         return;
       }
-      return;
     }
-  }, [actualPercentComplete]);
+  }, [actualPercentComplete, hasBeenQuickAssessed]);
 
   const handleAlertClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -377,7 +409,7 @@ function LevelStatus({
         </Box>
       </Box>
       <Box className={classes.titleBox}>
-        <Fade in={readyToShow}>
+        <Fade in={gotPercent}>
           <Box className={classes.status}>
             <Typography
               className={`${classes.title} ${classes.percentage}`}
@@ -387,15 +419,23 @@ function LevelStatus({
             >
               {`${displayValue}%`}
             </Typography>
-            <CustomSuspense message="Loading level" textOnly={true}>
+            <Typography data-test-id="level-status-title" className={classes.title} variant="h2">
+              {status !== 'notstarted' && (
+                <span>
+                  <span
+                    data-test-id="level-status-status"
+                    className={`${classes.info} ${
+                      classes[status !== 'complete' ? 'incomplete' : 'complete']
+                    }`}
+                  >
+                    – {status === 'incomplete' ? 'emerging' : status}
+                  </span>
+                </span>
+              )}
+            </Typography>
+            <CustomSuspense message="" textOnly={true}>
               <ErrorBoundary alert="Failed to load levels">
-                <LevelStatusTitle
-                  levelTitle={levelTitle}
-                  bubbleGotLevel={bubbleGotLevel}
-                  classes={classes}
-                  status={status}
-                  {...other}
-                />
+                <LevelStatusTitle bubbleGotLevel={bubbleGotLevel} {...other} />
               </ErrorBoundary>
             </CustomSuspense>
           </Box>

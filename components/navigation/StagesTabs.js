@@ -87,7 +87,7 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
         >
           {sortedModules.map((module, i) => {
             const label = getLabel(module, i);
-            return <HexagonsTab key={`link-${i}`} label={label} {...a11yProps(i)} />;
+            return <HexagonsTab data-test-id={`tab-${i}`} key={`link-${i}`} label={label} {...a11yProps(i)} />;
           })}
         </HexagonsTabs>
       </CustomSuspense>

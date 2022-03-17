@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
-import WithCompetencies from '../data-fetching/WithCompetencies'
-import CustomSuspense from '../data-fetching/CustomSuspense'
-import LevelStatus from './LevelStatus'
-import CapabilityTiles from '../subjects/CapabilityTiles'
-import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types';
+import WithCompetencies from '../data-fetching/WithCompetencies';
+import CustomSuspense from '../data-fetching/CustomSuspense';
+import LevelStatus from './LevelStatus';
+import CapabilityTiles from '../subjects/CapabilityTiles';
+import { useState, useEffect } from 'react';
 
 function LevelContent({
   pupil,
@@ -17,19 +17,22 @@ function LevelContent({
   levelTitle,
   ...other
 }) {
+  const [competencies, setCompetencies] = useState(initialCompetencies);
+  const [isAssessing, setIsAssessing] = useState(false);
 
-  const [competencies, setCompetencies] = useState(initialCompetencies)
-
-  useEffect(() => { // Set the overlays to appear once loaded
+  useEffect(() => {
+    // Set the overlays to appear once loaded
     if (initialCompetencies) {
-      setCompetencies(initialCompetencies)
+      setCompetencies(initialCompetencies);
     }
-  }, [initialCompetencies])
+  }, [initialCompetencies]);
 
   return (
     <>
       <CustomSuspense message="Loading status">
         <LevelStatus
+          isAssessing={isAssessing}
+          setIsAssessing={setIsAssessing}
           levelId={levelId}
           levelTitle={levelTitle}
           setLevelId={setLevelId}
@@ -38,18 +41,24 @@ function LevelContent({
           competencies={competencies}
           subjectId={subjectId}
           edSubjectId={edSubjectId}
-          getLevelVars={{ pupilId: parseInt(pupil.id), subjectId: currentModule.isEd ? edSubjectId : subjectId, moduleId: parseInt(currentModule.id) }}
+          getLevelVars={{
+            pupilId: parseInt(pupil.id),
+            subjectId: currentModule.isEd ? edSubjectId : subjectId,
+            moduleId: parseInt(currentModule.id),
+          }}
           {...other}
-       />
+        />
       </CustomSuspense>
       <CustomSuspense message="Loading tiles">
         <CapabilityTiles
+          isAssessing={isAssessing}
+          setIsAssessing={setIsAssessing}
           userId={user.id}
           pupil={pupil}
           capabilities={currentModule.capabilities}
           competencies={competencies}
           setCompetencies={setCompetencies}
-          currentModule={currentModule} 
+          currentModule={currentModule}
           levelId={levelId}
           setLevelId={setLevelId}
           subjectId={subjectId}
@@ -58,7 +67,7 @@ function LevelContent({
         />
       </CustomSuspense>
     </>
-  )
+  );
 }
 
 LevelContent.propTypes = {
@@ -70,6 +79,6 @@ LevelContent.propTypes = {
   levelId: PropTypes.number,
   levelTitle: PropTypes.string,
   setLevelId: PropTypes.func,
-}
+};
 
-export default WithCompetencies(LevelContent)
+export default WithCompetencies(LevelContent);

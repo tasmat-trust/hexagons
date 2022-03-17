@@ -11,10 +11,6 @@ describe('Subjects main page ', () => {
     cy.waitForSpinners();
   });
 
-  it('Shows subjects breadcrumb', () => {
-    cy.get('[data-test-id=first-crumb]').contains('Subjects');
-  });
-
   it('Nests Language subjects under Communication', () => {
     cy.get('[data-test-id=parent-subject-button-communication]').click();
     cy.get('[data-test-id=subject-button-expressive-language]').should('be.visible');

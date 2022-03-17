@@ -24,7 +24,7 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
       (subject) => !subject.isEarlyDevelopment && subject.slug !== 'primary-science'
     );
   } else {
-    if (edLevel.status === 'incomplete') {
+    if (edLevel.status !== 'complete') {
       subjects = coreSubjects.filter(
         (subject) => subject.isEarlyDevelopment || subject.isExpressiveAndReceptiveLanguage
       );

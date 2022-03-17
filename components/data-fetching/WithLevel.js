@@ -7,7 +7,7 @@ import { HexagonsContext } from './HexagonsContext';
 export default function WithLevel(WrappedComponent) {
   function WithLevel({ getLevelVars, ...other }) {
     const { gqlClient } = useContext(HexagonsContext);
-    const { data: visibleLevelData } = useSWR([getLevel, getLevelVars]);
+    const { data: visibleLevelData } = useSWR([getLevel, getLevelVars], { suspense: true });
     let correctLevel = visibleLevelData ? visibleLevelData.levels[0] : null;
     if (visibleLevelData && visibleLevelData.levels.length > 1) {
       // Got duplicates - get all competencies out of levels
@@ -30,12 +30,7 @@ export default function WithLevel(WrappedComponent) {
         }
       });
     }
-    return (
-      <>
-        {!correctLevel && <WrappedComponent {...other} />}
-        {correctLevel && <WrappedComponent initialVisibleLevel={correctLevel} {...other} />}
-      </>
-    );
+    return <WrappedComponent initialVisibleLevel={correctLevel} {...other} />;
   }
 
   WithLevel.propTypes = {

@@ -15,10 +15,6 @@ describe('Rainbow Awards main page ', () => {
     cy.waitForSpinners();
   });
 
-  it('Shows Rainbow Awards breadcrumb', () => {
-    cy.get('[data-test-id=first-crumb]').contains('Rainbow Awards');
-  });
-
   it('Lets user visit Rainbow Award category by clicking Hexagon', () => {
     cy.get('[data-test-id=subject-button-being-a-good-communicator]').click();
     cy.location().should((loc) => {
@@ -48,7 +44,7 @@ context('Rainbow Awards subject page', () => {
       cy.waitForSpinners();
     });
     it('Displays colours instead of Step/Stage', () => {
-      cy.get('[data-test-id="level-status-title"]').contains('White');
+      cy.get('[data-test-id=tab-0]').contains('White');
     });
   });
 });

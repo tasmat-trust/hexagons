@@ -43,6 +43,33 @@ context('Assessment page', () => {
                 { text: firstCompText, id: `${firstCompId}`, guidance: [] },
                 { text: 'sfdsdf', id: `${secondCompId}`, guidance: [] },
                 { text: 'sdfsfd', id: `${thirdCompId}`, guidance: [] },
+                { text: 'sdfsfd', id: 4, guidance: [] },
+                { text: 'sdfsfd', id: 5, guidance: [] },
+                { text: 'sdfsfd', id: 6, guidance: [] },
+                { text: 'sdfsfd', id: 7, guidance: [] },
+                { text: 'sdfsfd', id: 8, guidance: [] },
+                { text: 'sdfsfd', id: 9, guidance: [] },
+                { text: 'sdfsfd', id: 410, guidance: [] },
+              ],
+            },{
+              order: 3,
+              id: '4',
+              level: 'step',
+              summary: summaryText,
+              guidance: null,
+              capabilities: [
+                { text: 'sdfsfd', id: 1, guidance: [] },
+                { text: 'sdfsfd', id: 2, guidance: [] },
+                { text: 'sdfsfd', id: 3, guidance: [] },
+                { text: 'sdfsfd', id: 4, guidance: [] },
+                { text: 'sdfsfd', id: 5, guidance: [] },
+                { text: 'sdfsfd', id: 6, guidance: [] },
+                { text: 'sdfsfd', id: 7, guidance: [] },
+                { text: 'sdfsfd', id: 8, guidance: [] },
+                { text: 'sdfsfd', id: 9, guidance: [] },
+                { text: 'sdfsfd', id: 10, guidance: [] },
+                { text: 'sdfsfd', id: 11, guidance: [] },
+                { text: 'sdfsfd', id: 12, guidance: [] },
               ],
             },
           ],
@@ -74,7 +101,11 @@ context('Assessment page', () => {
       },
     };
 
-    let createLevel = { data: { createLevel: { level: { id: '614', status: 'incomplete' } } } };
+    let createLevel = {
+      data: {
+        createLevel: { level: { id: '614', status: 'incomplete', wasQuickAssessed: false } },
+      },
+    };
 
     beforeEach(() => {
       cy.mockGraphQL([
@@ -86,15 +117,14 @@ context('Assessment page', () => {
       cy.waitForSpinners();
       cy.waitForSpinners();
       cy.waitForSpinners();
+      cy.waitForSpinners();
     });
 
     it('lets teacher mark a competency as complete', () => {
       cy.get('[data-test-id=hex-1]').click();
 
       cy.wait('@gqlcreateLevelQuery').its('request.url').should('include', '/graphql');
-    });
 
-    it('displays 0% complete and no level status', () => {
       cy.get('[data-test-id=level-status-status]').should('not.exist');
       cy.get('[data-test-id=percent-complete-label]').contains('0');
     });
@@ -106,7 +136,8 @@ context('Assessment page', () => {
         levels: [
           {
             id: '615',
-            status: 'incomplete',
+            status: 'developing',
+            wasQuickAssessed: false,
             competencies: [{ id: '2863', status: 'complete', capability_fk: firstCompId }],
           },
         ],
@@ -136,29 +167,24 @@ context('Assessment page', () => {
       cy.waitForSpinners();
     });
 
-    it('lets teacher mark a competency as target', () => {
+    it('displays 10% complete and "emerging", lets teacher mark a competency as target, includes accessible SVG icon in hexagon', () => {
+      cy.get('[data-test-id=hex-1] svg').should('contain', 'Is complete');
       cy.get('[data-test-id=hex-1]').click();
-
+      cy.get('[data-test-id=level-status-status]').should('not.contain', 'emerging');
+      cy.get('[data-test-id=level-status-status]').should('contain', 'emerging');
+      cy.get('[data-test-id=percent-complete-label]').should('contain', '10');
       cy.wait('@gqlgetCompetencyQuery').its('request.url').should('include', '/graphql');
     });
-
-    it('displays 33% complete and "incomplete"', () => {
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
-      cy.get('[data-test-id=percent-complete-label]').contains('33');
-    });
   });
 
-  describe('Page with two competencies marked', () => {
+  describe('Page quick assessed as secure with no competencies marked', () => {
     let getLevel = {
       data: {
         levels: [
           {
             id: '615',
-            status: 'incomplete',
-            competencies: [
-              { id: '2863', status: 'complete', capability_fk: firstCompId },
-              { id: '2864', status: 'complete', capability_fk: secondCompId },
-            ],
+            status: 'secure',
+            wasQuickAssessed: true,
           },
         ],
       },
@@ -166,57 +192,13 @@ context('Assessment page', () => {
 
     let getCompetencies = {
       data: {
-        competencies: [
-          { id: '2863', status: 'complete', capability_fk: firstCompId },
-          { id: '2864', status: 'complete', capability_fk: secondCompId },
-        ],
+        competencies: [],
       },
     };
 
-    beforeEach(() => {
-      cy.mockGraphQL([
-        { query: 'getLevel', data: getLevel },
-        { query: 'getCompetencies', data: getCompetencies },
-      ]);
-      cy.visit('/subjects/expressive-language/class-1/154');
-      cy.waitForSpinners();
-      cy.waitForSpinners();
-      cy.waitForSpinners();
-    });
-
-    it('displays 66% complete and completed tile includes icon and text label', () => {
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
-      cy.get('[data-test-id=percent-complete-label]').contains('66');
-      cy.get('[data-test-id=hex-1] svg').contains('Is complete');
-    });
-  });
-
-  describe('Page with two competencies marked as target', () => {
-    let getLevel = {
-      data: {
-        levels: [
-          {
-            id: '615',
-            status: 'incomplete',
-            competencies: [
-              { id: '2863', status: 'target', capability_fk: firstCompId },
-              { id: '2864', status: 'target', capability_fk: secondCompId },
-            ],
-          },
-        ],
-      },
+    let updateLevel = {
+      data: { updateLevel: { level: { id: '615', status: 'complete', wasQuickAssessed: true } } },
     };
-
-    let getCompetencies = {
-      data: {
-        competencies: [
-          { id: '2863', status: 'target', capability_fk: firstCompId },
-          { id: '2864', status: 'target', capability_fk: secondCompId },
-        ],
-      },
-    };
-
-    let updateLevel = { data: { updateLevel: { level: { id: '615', status: 'complete' } } } };
 
     beforeEach(() => {
       cy.mockGraphQL([
@@ -230,33 +212,26 @@ context('Assessment page', () => {
       cy.waitForSpinners();
     });
 
-    it('displays 0% complete and target tile includes icon and text label', () => {
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
-      cy.get('[data-test-id=percent-complete-label]').contains('0');
-      cy.get('[data-test-id=hex-1] svg').contains('Is current target');
-    });
-
-    it('allows a level to be marked as complete without ticking off all competencies', () => {
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
+    it('displays 75% secure and allows quick assessing to 100% complete', () => {
+      cy.get('[data-test-id=level-status-status]').should('contain', 'secure');
+      cy.get('[data-test-id=percent-complete-label]').should('contain', '75');
+      cy.get('[data-test-id="quick-assess"]').click();
+      cy.get('[data-test-id="mark-complete"]').should('exist');
       cy.get('[data-test-id="mark-complete"]').click();
       cy.wait('@gqlupdateLevelQuery').its('request.url').should('include', '/graphql');
-      cy.get('[data-test-id=level-status-status]').contains('complete');
-      cy.get('[data-test-id=percent-complete-label]').contains('100');
-    });
-
-    it('Shows a step/stage summary when you tap the Summary button', () => {
-      cy.get('[data-test-id=view-summary-button]').click();
-      cy.get('[data-test-id=view-summary-button-popup]').contains(summaryText);
+  cy.get('[data-test-id=level-status-status]').contains('complete');
+  cy.get('[data-test-id=percent-complete-label]').contains('100');
     });
   });
 
-  describe('Page with uncompleted competencies set as complete using button', () => {
+  describe('Page quick assessed as secure with competencies marked', () => {
     let getLevel = {
       data: {
         levels: [
           {
             id: '615',
-            status: 'complete',
+            status: 'secure',
+            wasQuickAssessed: true,
             competencies: [
               { id: '2863', status: 'complete', capability_fk: firstCompId },
               { id: '2864', status: 'target', capability_fk: secondCompId },
@@ -275,13 +250,13 @@ context('Assessment page', () => {
       },
     };
 
-    let updateLevel = { data: { updateLevel: { level: { id: '615', status: 'incomplete' } } } };
+    //  let updateLevel = { data: { updateLevel: { level: { id: '615', status: 'incomplete' } } } };
 
     beforeEach(() => {
       cy.mockGraphQL([
         { query: 'getLevel', data: getLevel },
         { query: 'getCompetencies', data: getCompetencies },
-        { query: 'updateLevel', data: updateLevel },
+        //  { query: 'updateLevel', data: updateLevel },
       ]);
       cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
@@ -289,62 +264,64 @@ context('Assessment page', () => {
       cy.waitForSpinners();
     });
 
-    it('allows a level to be marked as incomplete without ticking off all competencies', () => {
-      cy.get('[data-test-id=level-status-status]').contains('complete');
-      cy.get('[data-test-id="mark-incomplete"]').click();
-      cy.wait('@gqlupdateLevelQuery').its('request.url').should('include', '/graphql');
-      cy.get('[data-test-id=level-status-status]').contains('incomplete');
-      cy.get('[data-test-id=percent-complete-label]').contains('33');
+    it('displays as secure 75%, and after clicking away and coming back', () => {
+      cy.get('[data-test-id=level-status-status]').should('contain', 'secure');
+      cy.get('[data-test-id=percent-complete-label]').should('contain', '75');
+      cy.get('[data-test-id=tab-1]').click()
+      cy.get('[data-test-id=hex-11]').should('exist');
+      cy.get('[data-test-id=tab-0]').click()
+      cy.get('[data-test-id=level-status-status]').should('contain', 'secure');
+      cy.get('[data-test-id=percent-complete-label]').should('contain', '75');
     });
   });
 
-  describe('Page with all competencies marked complete', () => {
-    let getLevel = {
-      data: {
-        levels: [
-          {
-            id: '615',
-            status: 'complete',
-            competencies: [
-              { id: '2863', status: 'complete', capability_fk: firstCompId },
-              { id: '2864', status: 'complete', capability_fk: secondCompId },
-              { id: '2865', status: 'complete', capability_fk: thirdCompId },
-            ],
-          },
-        ],
-      },
-    };
+  // describe('Page with all competencies marked complete', () => {
+  //   let getLevel = {
+  //     data: {
+  //       levels: [
+  //         {
+  //           id: '615',
+  //           status: 'complete',
+  //           competencies: [
+  //             { id: '2863', status: 'complete', capability_fk: firstCompId },
+  //             { id: '2864', status: 'complete', capability_fk: secondCompId },
+  //             { id: '2865', status: 'complete', capability_fk: thirdCompId },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   };
 
-    let getCompetencies = {
-      data: {
-        competencies: [
-          { id: '2863', status: 'complete', capability_fk: firstCompId },
-          { id: '2864', status: 'complete', capability_fk: secondCompId },
-          { id: '2865', status: 'complete', capability_fk: thirdCompId },
-        ],
-      },
-    };
+  //   let getCompetencies = {
+  //     data: {
+  //       competencies: [
+  //         { id: '2863', status: 'complete', capability_fk: firstCompId },
+  //         { id: '2864', status: 'complete', capability_fk: secondCompId },
+  //         { id: '2865', status: 'complete', capability_fk: thirdCompId },
+  //       ],
+  //     },
+  //   };
 
-    beforeEach(() => {
-      cy.mockGraphQL([
-        { query: 'getLevel', data: getLevel },
-        { query: 'getCompetencies', data: getCompetencies },
-      ]);
-      cy.visit('/subjects/expressive-language/class-1/154');
-      cy.waitForSpinners();
-      cy.waitForSpinners();
-      cy.waitForSpinners();
-    });
+  //   beforeEach(() => {
+  //     cy.mockGraphQL([
+  //       { query: 'getLevel', data: getLevel },
+  //       { query: 'getCompetencies', data: getCompetencies },
+  //     ]);
+  //     cy.visit('/subjects/expressive-language/class-1/154');
+  //     cy.waitForSpinners();
+  //     cy.waitForSpinners();
+  //     cy.waitForSpinners();
+  //   });
 
-    it('displays 100% complete and status', () => {
-      cy.get('[data-test-id=level-status-status]').contains('complete');
-      cy.get('[data-test-id=percent-complete-label]').contains('100');
-    });
+  //   it('displays 100% complete and status', () => {
+  //     cy.get('[data-test-id=level-status-status]').contains('complete');
+  //     cy.get('[data-test-id=percent-complete-label]').contains('100');
+  //   });
 
-    it('asks the user to untick competencies if they attempt to mark as incomplete a genuinely completed level', () => {
-      cy.get('[data-test-id=level-status-status]').contains('complete');
-      cy.get('[data-test-id="mark-incomplete"]').click();
-      cy.get('[data-test-id="level-status-alert"]').should('exist');
-    });
-  });
+  //   it('asks the user to untick competencies if they attempt to mark as incomplete a genuinely completed level', () => {
+  //     cy.get('[data-test-id=level-status-status]').contains('complete');
+  //     cy.get('[data-test-id="mark-incomplete"]').click();
+  //     cy.get('[data-test-id="level-status-alert"]').should('exist');
+  //   });
+  // });
 });
