@@ -5,7 +5,7 @@ function getPercentComplete(competencies, capabilities) {
 }
 
 function getPercentFromStatus(status) {
-  return status === 'emerging' ? 25 : status === 'developing' ? 50 : status === 'secure' ? 75 : 100;
+  return status === 'emerging' ? 25 : status === 'developing' ? 60 : status === 'secure' ? 75 : 100;
 }
 
 export { getPercentComplete, getPercentFromStatus };

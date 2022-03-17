@@ -250,9 +250,9 @@ function LevelStatus({
       return;
     }
 
-    if (actualPercentComplete > 50 && manualStatus === 'developing') {
+    if (actualPercentComplete > 60 && manualStatus === 'developing') {
       setAlertMessage(
-        `Please remove some individual competencies reducing the percentage below 50 and then mark this ${currentModule.level} as ${manualStatus}.`
+        `Please remove some individual competencies reducing the percentage below 60 and then mark this ${currentModule.level} as ${manualStatus}.`
       );
       setAlertOpen(true);
       return;
@@ -316,7 +316,7 @@ function LevelStatus({
       return;
     }
 
-    if (actualPercentComplete > 50) {
+    if (actualPercentComplete > 60) {
       if (status !== 'secure') {
         args.status = 'secure';
         triggerUpdateLevel(args);
