@@ -148,7 +148,7 @@ function LevelStatus({
         setHasBeenQuickAssessed(level.wasQuickAssessed ? level.wasQuickAssessed : false);
       }
     },
-    [setLevelId, setStatus, levelId]
+    [setLevelId, setStatus, levelId, status]
   );
 
   const bubbleGotLevel = useCallback(
@@ -332,7 +332,7 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-          setStatus(args.status);
+
           return;
         }
         return;
@@ -350,7 +350,7 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-          setStatus(args.status);
+
           return;
         }
         return;
@@ -362,7 +362,7 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-          setStatus(args.status);
+
           return;
         }
         return;
@@ -374,7 +374,7 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-          setStatus(args.status);
+
           return;
         }
         return;
