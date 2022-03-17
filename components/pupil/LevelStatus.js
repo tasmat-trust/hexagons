@@ -368,7 +368,7 @@ function LevelStatus({
         return;
       }
 
-      if (actualPercentComplete > 0) {
+      if (actualPercentComplete > -1) {
         if (status !== 'emerging') {
           args.status = 'emerging';
           triggerUpdateLevel(args);
