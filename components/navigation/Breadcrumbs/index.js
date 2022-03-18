@@ -11,6 +11,20 @@ const useStyles = makeStyles((theme) => {
       color: theme.palette.text.secondary,
     },
     bc: {
+      '& ol li:first-child': {
+        '& + .MuiBreadcrumbs-separator': {
+          '@media (max-width: 600px)': {
+            display: 'none',
+          },
+        },
+        '@media (max-width: 600px)': {
+          display: 'none',
+        },
+      },
+      '& .MuiBreadcrumbs-separator': {
+        '@media (max-width: 600px)': {},
+      },
+
       padding: theme.spacing(1),
       '@media(max-width: 600px)': {
         padding: 0,

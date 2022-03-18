@@ -23,23 +23,15 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     marginLeft: theme.spacing(1),
   },
-  complete: {
-    // background: theme.palette.success.light,
-    // borderColor: theme.palette.success.dark,
-  },
-  incomplete: {
-    // background: theme.palette.secondary.light,
-    // borderColor: theme.palette.secondary.main,
-  },
-  notstarted: {
-    // background: theme.palette.secondary.light,
-    // borderColor: theme.palette.secondary.main,
-  },
   meta: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
     display: 'flex',
     justifyContent: 'space-between',
+    '@media (max-width: 600px)': {
+      width: '100%',
+      justifyContent: 'end',
+    },
   },
   emDash: {
     '@media (max-width: 900px)': {},
@@ -47,16 +39,27 @@ const useStyles = makeStyles((theme) => ({
   titleBox: {
     display: 'flex',
     justifyContent: 'space-between',
+    '@media (max-width: 600px)': {
+      display: 'block',
+      textAlign: 'right',
+    },
   },
   status: {
     display: 'flex',
+    width: '100%',
+    '@media (max-width: 600px)': {
+      justifyContent: 'end',
+    },
   },
-
   title: {
     fontFamily: theme.typography.secondaryFamily,
     lineHeight: '1.5',
     fontSize: 'clamp(1.5rem, 3vw, 2rem)',
     marginBottom: theme.spacing(1),
+    '@media (max-width: 600px)': {
+      display: 'inline',
+      textAlign: 'right',
+    },
   },
   percentage: {
     width: '5rem',
