@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
     display: 'flex',
-    justifyContent: 'space-between',
+    width: '100%',
+    justifyContent: 'end',
     '@media (max-width: 600px)': {
       width: '100%',
       justifyContent: 'end',
