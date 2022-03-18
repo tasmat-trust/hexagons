@@ -137,7 +137,7 @@ context('Assessment page', () => {
         levels: [
           {
             id: '615',
-            status: 'developing',
+            status: 'emerging',
             wasQuickAssessed: false,
             competencies: [{ id: '2863', status: 'complete', capability_fk: firstCompId }],
           },

@@ -125,9 +125,7 @@ context('Assessment page', () => {
       });
 
       it('Lets user choose a different subject from the breadcrumbs', () => {
-        cy.get('[data-test-id=select-subject] select')
-          .select('Number')
-          .should('have.value', 'number');
+        cy.get('[data-test-id=select-subject] select').select('Number');
         cy.location().should((loc) => {
           expect(loc.pathname).to.eq('/subjects/number/class-1/154');
         });
@@ -162,9 +160,7 @@ context('Assessment page', () => {
       });
 
       it('Lets user choose a different subject from the breadcrumbs', () => {
-        cy.get('[data-test-id=select-subject] select')
-          .select('Number')
-          .should('have.value', 'number');
+        cy.get('[data-test-id=select-subject] select').select('Number');
         cy.location().should((loc) => {
           expect(loc.pathname).to.eq('/pupils/class-1/154/number');
         });

@@ -34,17 +34,15 @@ context('Groups pages', () => {
             variable: { key: 'teacherId', value: 76 },
           },
         ]);
-      });
 
-      it('Displays subject overview card', () => {
-        cy.visit('/subjects/number/class-1');
-        cy.assertSubjectCardIsVisible();
       });
 
       it('Displays subject overview card and correct breadcrumb on page without group slug', () => {
         cy.visit('/pupils');
+        cy.waitForSpinners()
         cy.navigateToPupilsClass1(); // Sets group in localStorage
         cy.visit('/subjects/number');
+        cy.waitForSpinners()
         cy.assertSubjectCardIsVisible();
         cy.get('[data-test-id=final-crumb]').contains('Class 1');
       });
