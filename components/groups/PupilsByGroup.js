@@ -6,6 +6,7 @@ import PupilsWithOverviews from './PupilsWithOverviews';
 import PupilsWithSlimCards from './PupilsWithSlimCards';
 import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/router';
+import WithGroupFromSlug from '../data-fetching/WithGroupFromSlug';
 
 function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, ...other }) {
   const router = useRouter();
@@ -42,4 +43,4 @@ PupilsByGroup.propTypes = {
   activeGroupSlug: PropTypes.string,
 };
 
-export default PupilsByGroup;
+export default WithGroupFromSlug(PupilsByGroup);

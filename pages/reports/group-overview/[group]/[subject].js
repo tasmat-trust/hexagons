@@ -9,6 +9,7 @@ import CustomHead from '../../../../components/ui-globals/CustomHead';
 import SubjectPicker from '../../../../components/navigation/SubjectPicker';
 import SubjectCard from '../../../../components/pupil/SubjectCard';
 function Index(props) {
+  console.log(props)
   return (
     <>
       <CustomHead titleContent={`${props.groupName} | `} />
@@ -23,6 +24,8 @@ function Index(props) {
             isGroupOverviewReport={true}
             currentSubjectSlug={props.subjectSlug}
             activeGroupSlug={props.activeGroupSlug}
+            getEverythingCombined={true}
+            {...props}
           />
         }
         {...props}

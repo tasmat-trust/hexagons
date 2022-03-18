@@ -3,7 +3,6 @@ import checkSession from '../../../../components/auth/checkSession';
 import GroupRootPage from '../../../../components/shared-pages/GroupRootPage';
 import BreadCrumbs from '../../../../components/navigation/Breadcrumbs';
 import WithUrlVariables from '../../../../components/data-fetching/WithUrlVariables';
-import WithGroupFromSlug from '../../../../components/data-fetching/WithGroupFromSlug';
 
 function Index(props) {
   return (
@@ -23,7 +22,7 @@ function Index(props) {
   );
 }
 
-export default WithUrlVariables(WithGroupFromSlug(Index));
+export default WithUrlVariables(Index);
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Leader');

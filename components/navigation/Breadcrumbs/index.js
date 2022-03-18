@@ -6,7 +6,6 @@ import { makeStyles } from '@mui/styles';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const useStyles = makeStyles((theme) => {
-  console.log(theme);
   return {
     item: {
       color: theme.palette.text.secondary,

@@ -23,25 +23,23 @@ function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
           </Grid>
           <Grid item xs={12} md={9} xl={10}>
             <ErrorBoundary alert="Error rendering PupilsByGroup">
-              <CustomSuspense message="Loading group">
-                {groupName && schoolType === 'secondary' && (
+              <CustomSuspense message="Loading pupils">
+                {activeGroupSlug && schoolType === 'secondary' && (
                   <PupilsByGroup
                     {...other}
                     schoolType={schoolType}
-                    groupName={groupName}
                     activeGroupSlug={activeGroupSlug}
                   />
                 )}
-                {groupName && schoolType === 'primary' && (
+                {activeGroupSlug && schoolType === 'primary' && (
                   <PupilsByGroupWithEarlyDevelopment
                     {...other}
                     schoolType={schoolType}
-                    groupName={groupName}
                     activeGroupSlug={activeGroupSlug}
                     getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
                   />
                 )}
-                {!groupName && (
+                {!activeGroupSlug && (
                   <Alert data-test-id="please-choose-group">
                     Please choose a group to display pupils.
                   </Alert>

@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 
 import { SubjectProgressWithLinks } from '../subjects/SubjectProgress';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
+import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -87,4 +88,4 @@ SubjectCard.propTypes = {
   pupils: PropTypes.array,
 };
 
-export default SubjectCard;
+export default WithSingleSubjectFromSlug(SubjectCard);

@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import PupilsAndGroups from './PupilsAndGroups';
 import SubjectsAndGroups from './SubjectsAndGroups';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
-import DataExport from '../reporting/DataExport';
 import DownloadViaGroups from '../groups/DownloadViaGroups';
 
 function LastActiveGroup({
@@ -44,6 +43,7 @@ function LastActiveGroup({
           setActiveGroupSlug={setActiveGroupSlug}
           setActiveGroupName={setActiveGroupName}
           setActiveGroupId={setActiveGroupId}
+          groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
         />
       )}
       {isGroupPupilPicker && (
@@ -54,6 +54,7 @@ function LastActiveGroup({
           groupName={activeGroupName}
           activeGroupSlug={activeGroupSlug}
           pupilsByGroupVariables={{ groupId: activeGroupId, orgId: orgId }}
+          groupFromSlugVariables={{ orgId: orgId, slug: activeGroupSlug }}
           setActiveGroupSlug={setActiveGroupSlug}
           setActiveGroupName={setActiveGroupName}
           setActiveGroupId={setActiveGroupId}

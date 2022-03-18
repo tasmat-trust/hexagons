@@ -17,7 +17,7 @@ function Index(props) {
         thirdLabel={props.groupName}
         {...props}
       />
-      <SubjectsAndGroups userId={props.user.id} {...props} />
+      <SubjectsAndGroups getEverythingCombined={true} userId={props.user.id} {...props} />
     </>
   );
 }

@@ -12,10 +12,12 @@ export default function WithSingleSubjectFromSlug(WrappedComponent) {
     });
     const { orgId } = useContext(HexagonsContext);
     const subject = subjectData.subjects[0];
+
     const subjectId = parseInt(subject.id);
     const subjectName = subject.name;
     const subjectSlug = subject.slug;
     const excludeED = subject.excludeEarlyDevelopmentStep;
+    const isRainbowAwardsSubject = subject.isRainbowAwards;
     let shouldShow404 = false;
     if (subject.organization) {
       if (parseInt(subject.organization.id) !== orgId) {
@@ -28,10 +30,12 @@ export default function WithSingleSubjectFromSlug(WrappedComponent) {
         {!shouldShow404 && (
           <WrappedComponent
             {...other}
+            isRainbowAwardsSubject={isRainbowAwardsSubject}
             subjectId={subjectId}
             subjectName={subjectName}
             subjectSlug={subjectSlug}
             excludeED={excludeED}
+            getSubjectBySlugVariables={getSubjectBySlugVariables}
             getModulesBySubjectIdVariables={{ subjectId: subjectId }}
           />
         )}

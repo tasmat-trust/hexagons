@@ -61,13 +61,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SubjectProgressDefault(props) {
-  console.log(props);
   const {
     titleName,
     linkUrl,
     isPupilCard,
     getLevelVariables,
     isRainbowAwards,
+    isRainbowAwardsSubject,
     isRaLink,
     isConstrained,
   } = props;
@@ -85,7 +85,7 @@ function SubjectProgressDefault(props) {
   if (level) {
     levelNumber = getNormalisedModuleNumber(level);
     normalisedLabel = `S${levelNumber}`;
-    if (isRainbowAwards && !isPupilCard) {
+    if ((isRainbowAwards || isRainbowAwardsSubject) && !isPupilCard) {
       label = getRainbowLabel(parseInt(level.module.order) - 1);
     } else {
       label = `${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`;

@@ -47,6 +47,7 @@ const getSingleSubjectBySlug = gql`
       name
       slug
       excludeEarlyDevelopmentStep
+      isRainbowAwards
       organization {
         id
       }

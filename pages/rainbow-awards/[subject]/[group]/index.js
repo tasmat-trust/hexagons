@@ -36,7 +36,7 @@ function Index(props) {
   );
 }
 
-export default WithUrlVariables(WithSingleSubjectFromSlug(WithGroupFromSlug(Index)));
+export default WithUrlVariables(Index);
 
 export const getServerSideProps = withSession((ctx) => {
   return checkSession(ctx, 'Teacher');

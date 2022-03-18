@@ -3,7 +3,7 @@ import NativeSelect from '@mui/material/NativeSelect';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import WithAllSubjects from '../data-fetching/WithAllSubjects';
 
 import useStyles from '../../styles/usePickerStyles';
@@ -19,6 +19,11 @@ function SubjectPicker({
 }) {
   const classes = useStyles();
   const [subjectSlug, setSubjectSlug] = useState(currentSubjectSlug);
+
+  useEffect(() => {
+    setSubjectSlug(currentSubjectSlug);
+  }, [currentSubjectSlug]);
+
   const router = useRouter();
   const handleChange = (event) => {
     const newSubjectSlug = event.target.value;
@@ -39,12 +44,12 @@ function SubjectPicker({
     router.push(navigateTo, undefined, {
       shallow: true,
     });
-    setSubjectSlug(newSubjectSlug);
   };
 
   const subjectsWithSlug = subjects.filter((subject) => subject.slug);
   const subjectsWithoutSlug = subjects.filter((subject) => !subject.slug);
 
+ 
   return (
     <FormControl className={classes.formControl}>
       <InputLabel htmlFor="subject-picker" className={classes.label} variant="standard">
