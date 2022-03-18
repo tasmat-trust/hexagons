@@ -46,7 +46,7 @@ context('Groups pages', () => {
         cy.navigateToPupilsClass1(); // Sets group in localStorage
         cy.visit('/subjects/number');
         cy.assertSubjectCardIsVisible();
-        cy.get('[data-test-id=third-crumb]').contains('Class 1');
+        cy.get('[data-test-id=final-crumb]').contains('Class 1');
       });
 
       it('Pupils view: Displays a notice to choose pupils when no active group is present', () => {

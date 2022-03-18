@@ -321,7 +321,7 @@ function LevelStatus({
   }
 
   useEffect(() => {
-    if (!hasBeenQuickAssessed) {
+    if (!hasBeenQuickAssessed && readyToShow) {
       let args = {
         wasQuickAssessed: false,
       };
@@ -332,7 +332,6 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-
           return;
         }
         return;
@@ -350,7 +349,6 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-
           return;
         }
         return;
@@ -362,7 +360,6 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-
           return;
         }
         return;
@@ -374,7 +371,6 @@ function LevelStatus({
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
-
           return;
         }
         return;

@@ -51,7 +51,8 @@ context('Assessment page', () => {
                 { text: 'sdfsfd', id: 9, guidance: [] },
                 { text: 'sdfsfd', id: 410, guidance: [] },
               ],
-            },{
+            },
+            {
               order: 3,
               id: '4',
               level: 'step',
@@ -169,10 +170,9 @@ context('Assessment page', () => {
 
     it('displays 10% complete and "emerging", lets teacher mark a competency as target, includes accessible SVG icon in hexagon', () => {
       cy.get('[data-test-id=hex-1] svg').should('contain', 'Is complete');
-      cy.get('[data-test-id=hex-1]').click();
-      cy.get('[data-test-id=level-status-status]').should('not.contain', 'emerging');
       cy.get('[data-test-id=level-status-status]').should('contain', 'emerging');
       cy.get('[data-test-id=percent-complete-label]').should('contain', '10');
+      cy.get('[data-test-id=hex-1]').click();
       cy.wait('@gqlgetCompetencyQuery').its('request.url').should('include', '/graphql');
     });
   });
@@ -219,8 +219,8 @@ context('Assessment page', () => {
       cy.get('[data-test-id="mark-complete"]').should('exist');
       cy.get('[data-test-id="mark-complete"]').click();
       cy.wait('@gqlupdateLevelQuery').its('request.url').should('include', '/graphql');
-  cy.get('[data-test-id=level-status-status]').contains('complete');
-  cy.get('[data-test-id=percent-complete-label]').contains('100');
+      cy.get('[data-test-id=level-status-status]').contains('complete');
+      cy.get('[data-test-id=percent-complete-label]').contains('100');
     });
   });
 
@@ -267,9 +267,9 @@ context('Assessment page', () => {
     it('displays as secure 75%, and after clicking away and coming back', () => {
       cy.get('[data-test-id=level-status-status]').should('contain', 'secure');
       cy.get('[data-test-id=percent-complete-label]').should('contain', '75');
-      cy.get('[data-test-id=tab-1]').click()
+      cy.get('[data-test-id=tab-1]').click();
       cy.get('[data-test-id=hex-11]').should('exist');
-      cy.get('[data-test-id=tab-0]').click()
+      cy.get('[data-test-id=tab-0]').click();
       cy.get('[data-test-id=level-status-status]').should('contain', 'secure');
       cy.get('[data-test-id=percent-complete-label]').should('contain', '75');
     });

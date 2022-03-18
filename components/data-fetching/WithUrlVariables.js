@@ -43,6 +43,7 @@ export default function WithUrlVariables(WrappedComponent) {
             subjectSlug={subjectSlug}
             getSubjectBySlugVariables={{ slug: subjectSlug }}
             groupFromSlugVariables={{ orgId: orgId, slug: groupSlug }}
+            pupilVariables={{ id: router.query.pupil, orgId: orgId }}
           />
         )}
       </>
