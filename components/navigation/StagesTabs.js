@@ -71,7 +71,22 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
   };
 
   const getLabel = (module, i) => {
-    const standardLabel = `${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`;
+    let levelLabel
+    switch(module.level) {
+      case 'stage':
+        levelLabel = 'Stage'
+        break;
+      case 'step':
+        levelLabel = 'Step'
+        break;
+      case 'unit':
+        levelLabel = 'Unit'
+        break;
+      default:
+          levelLabel = 'Step'
+    }
+
+    const standardLabel = `${levelLabel} ${module.order}`;
     return isRa ? getRainbowLabel(i) : standardLabel;
   };
 
