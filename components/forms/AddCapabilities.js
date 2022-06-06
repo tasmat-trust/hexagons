@@ -39,7 +39,22 @@ function AddCapabilities({ setModulesData, subjectId, setLoadingMessage }) {
       formData.summary = summaryValue;
     }
     if (levelValue) {
-      let level = levelValue === 'Step' ? 'step' : 'stage';
+
+      let level
+      switch(levelValue) {
+        case 'Stage':
+          level = 'stage'
+          break;
+        case 'Step':
+          level = 'step'
+          break;
+        case 'Unit':
+          level = 'unit'
+          break;
+        default:
+          level = 'step'
+      }
+
       formData.level = level;
     }
 
@@ -76,6 +91,7 @@ function AddCapabilities({ setModulesData, subjectId, setLoadingMessage }) {
         >
           <MenuItem value="Step">Step</MenuItem>
           <MenuItem value="Stage">Stage</MenuItem>
+          <MenuItem value="Unit">Unit</MenuItem>
         </Select>
       </FormControl>
 
