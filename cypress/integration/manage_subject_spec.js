@@ -66,7 +66,6 @@ describe('Manage individual subject with existing content', () => {
   it('lets leader delete module', () => {
     cy.get('[data-test-id=stage-1-tab]').click();
     cy.get('[data-test-id="delete-stage-1"]').click();
-    cy.get('[data-test-id=loading]').should('exist');
     cy.wait('@gqlDeleteCapability1Query').its('request.url').should('include', '/graphql');
     cy.wait('@gqlDeleteCapability2Query').its('request.url').should('include', '/graphql');
     cy.wait('@gqlDeleteCapability3Query').its('request.url').should('include', '/graphql');
