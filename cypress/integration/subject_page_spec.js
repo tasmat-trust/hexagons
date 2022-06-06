@@ -11,12 +11,25 @@ describe('Subjects main page ', () => {
     cy.waitForSpinners();
   });
 
+  afterEach(() => { 
+    cy.visit('/subjects');
+    cy.waitForSpinners();
+  });
+
   it('Nests Language subjects under Communication', () => {
     cy.get('[data-test-id=parent-subject-button-communication]').click();
     cy.get('[data-test-id=subject-button-expressive-language]').should('be.visible');
   });
 
-  it('Nests English subjects under English', () => {
+  it('Lets user visit nested subject by clicking Hexagon and then button', () => {
+    cy.get('[data-test-id=parent-subject-button-computing]').click();
+    cy.wait(200)
+    cy.get('[data-test-id=subject-button-computing-skills]').click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/subjects/computing-skills');
+    });
+  });
+    it('Nests English subjects under English', () => {
     cy.get('[data-test-id=parent-subject-button-english]').click();
     cy.get('[data-test-id=subject-button-reading]').should('be.visible');
     cy.get('[data-test-id=subject-button-writing]').should('be.visible');
@@ -29,12 +42,5 @@ describe('Subjects main page ', () => {
     });
   });
 
-  it('Lets user visit nested subject by clicking Hexagon and then button', () => {
-    cy.get('[data-test-id=parent-subject-button-computing]').click();
-    cy.get('[data-test-id=subject-button-computing-skills]').click();
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq('/subjects/computing-skills');
-    });
-  });
 });
 

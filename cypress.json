@@ -4,6 +4,7 @@
     "chromeWebSecurity": false,
     "experimentalStudio": true,
     "coverage": true,
+    "video": false,
     "component": {
         "componentFolder": "src",
         "testFiles": "**/*spec.{js,jsx,ts,tsx}"
