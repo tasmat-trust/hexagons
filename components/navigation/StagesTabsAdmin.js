@@ -73,7 +73,9 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
             <HexagonsTab
               data-test-id={`${module.level}-${module.order}-tab`}
               key={`link-${i}`}
-              label={`${module.level === 'step' ? 'Step' : 'Stage'} ${module.order}`}
+              label={`${
+                module.level === 'step' ? 'Step' : module.level === 'unit' ? 'Unit' : 'Stage'
+              } ${module.order}`}
               {...a11yProps(0)}
             />
           ))}
