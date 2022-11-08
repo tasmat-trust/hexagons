@@ -76,7 +76,9 @@ function MyApp({ Component, pageProps }) {
   };
   let orgId = 0;
   if (pageProps.user) {
-    orgId = getOrgIdFromSession(pageProps.user);
+    if (pageProps.user.organization) {
+      orgId = getOrgIdFromSession(pageProps.user);
+    }
   }
 
   let role = 'public';
