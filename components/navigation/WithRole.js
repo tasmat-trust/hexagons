@@ -1,5 +1,5 @@
 export default function WithRole(WrappedComponent) {
-  return ({ user }) => {
+  return function WithRole({ user }) {
     if (!user) return '';
     const role = user.role.name ? user.role.name : 'Public';
     if (role === 'Public') return '';
