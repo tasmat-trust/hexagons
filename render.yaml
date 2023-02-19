@@ -6,16 +6,16 @@ services:
   buildCommand: npm install --production; npm run build
   startCommand: npm run start
   region: frankfurt
-  envVarGroups:
-  - name: client
-    envVars:
-    - key: NODE_ENV
-      value: production
-    - key: NEXT_PUBLIC_API_URL
-      value: https://xxx-backend.hexagons.app
-    - key: NEXT_PUBLIC_DISABLE_REGISTRATION
-      value: true
-    - key: NEXT_PUBLIC_SECRET_COOKIE_PASSWORD
-      value: CHANGE-ME
-    - key: NEXT_PUBLIC_SUPPORT_EMAIL
-      value: CHANGE-ME
+envVarGroups:
+- name: client
+  envVars:
+  - key: NODE_ENV
+    value: production
+  - key: NEXT_PUBLIC_API_URL
+    value: https://xxx-backend.hexagons.app
+  - key: NEXT_PUBLIC_DISABLE_REGISTRATION
+    value: true
+  - key: NEXT_PUBLIC_SECRET_COOKIE_PASSWORD
+    generateValue: true
+  - key: NEXT_PUBLIC_SUPPORT_EMAIL
+    value: CHANGE-ME
