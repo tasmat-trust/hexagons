@@ -7,6 +7,7 @@ import CustomSuspense from '../data-fetching/CustomSuspense';
 import getRainbowLabel from '../../utils/getRainbowLabel';
 
 import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
+import getLevelLabel from '../../utils/getLevelLabel';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -71,22 +72,7 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
   };
 
   const getLabel = (module, i) => {
-    let levelLabel
-    switch(module.level) {
-      case 'stage':
-        levelLabel = 'Stage'
-        break;
-      case 'step':
-        levelLabel = 'Step'
-        break;
-      case 'unit':
-        levelLabel = 'Unit'
-        break;
-      default:
-          levelLabel = 'Step'
-    }
-
-    const standardLabel = `${levelLabel} ${module.order}`;
+    const standardLabel = `${getLevelLabel(module.level)} ${module.order}`;
     return isRa ? getRainbowLabel(i) : standardLabel;
   };
 

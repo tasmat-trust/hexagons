@@ -7,12 +7,15 @@ import DeleteModule from '../forms/DeleteModule';
 import WithModulesAdmin from '../data-fetching/WithModulesAdmin';
 import WithSingleSubjectFromSlug from '../data-fetching/WithSingleSubjectFromSlug';
 import { sortModules } from '../../utils/sortLevelsAndModules';
+import getLevelLabel from '../../utils/getLevelLabel';
 
 import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
 import AddSingleCapability from '../manage/AddSingleCapability';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import ManageSummary from '../manage/ManageSummary';
 import Loading from '../ui-globals/Loading';
+
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -73,9 +76,7 @@ function StagesTabsAdmin({ modules, setModulesData, subjectId }) {
             <HexagonsTab
               data-test-id={`${module.level}-${module.order}-tab`}
               key={`link-${i}`}
-              label={`${
-                module.level === 'step' ? 'Step' : module.level === 'unit' ? 'Unit' : 'Stage'
-              } ${module.order}`}
+              label={`${getLevelLabel(module.level)} ${module.order}`}
               {...a11yProps(0)}
             />
           ))}

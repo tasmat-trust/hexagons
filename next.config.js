@@ -12,6 +12,7 @@ module.exports = {
       'backend.hexagons.app',
       'hexagons-backend-znrzh.ondigitalocean.app',
       'stm-backend.hexagons.app',
+      'gp-backend.hexagons.app',
       'tasmat-backend.hexagons.app',
     ],
   },
