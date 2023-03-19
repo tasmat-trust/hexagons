@@ -21,16 +21,16 @@ function CoreSubjectsProgress({ pupilId, coreSubjects, schoolType, edLevel, ...o
   let subjects = [];
   if (schoolType === 'secondary') {
     subjects = coreSubjects.filter(
-      (subject) => !subject.isEarlyDevelopment && subject.slug !== 'primary-science'
+      (subject) => !subject.isTransition && subject.slug !== 'primary-science'
     );
   } else {
     if (edLevel.status !== 'complete') {
       subjects = coreSubjects.filter(
-        (subject) => subject.isEarlyDevelopment || subject.isExpressiveAndReceptiveLanguage
+        (subject) => subject.isTransition || subject.isExpressiveAndReceptiveLanguage
       );
     } else {
       subjects = coreSubjects.filter(
-        (subject) => !subject.isEarlyDevelopment && subject.slug !== 'investigation-skills'
+        (subject) => !subject.isTransition && subject.slug !== 'investigation-skills'
       );
     }
   }

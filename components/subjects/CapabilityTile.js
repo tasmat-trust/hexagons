@@ -82,7 +82,7 @@ function CapabilityTile(props) {
       const variables = {
         status: 'incomplete',
         pupilId: pupilId,
-        subjectId: currentModule.isEd ? edSubjectId : subjectId,
+        subjectId: currentModule.isTransition ? edSubjectId : subjectId,
         moduleId: parseInt(currentModule.id),
       };
       const level = await createLevel(gqlClient, variables);

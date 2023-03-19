@@ -9,7 +9,7 @@ const allSubjectsQuery = gql`
       slug
       isCore
       isChildOf
-      isEarlyDevelopment
+      isTransition
       isRainbowAwards
       organization {
         id
@@ -34,7 +34,7 @@ const getCoreSubjects = gql`
       id
       name
       slug
-      isEarlyDevelopment
+      isTransition
       isExpressiveAndReceptiveLanguage
     }
   }

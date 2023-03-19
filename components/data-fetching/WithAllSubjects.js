@@ -64,7 +64,7 @@ export default function WithAllSubjects(WrappedComponent) {
         };
       });
       const subjectsWithoutRainbowOrEarlyDevelopment = subjects
-        .map((s) => (s.isRainbowAwards | s.isEarlyDevelopment ? null : s))
+        .map((s) => (s.isRainbowAwards | s.isTransition ? null : s))
         .filter((v) => v !== null);
       allSubjects = subjectsWithoutRainbowOrEarlyDevelopment;
       const normalSubjects = subjectsWithoutRainbowOrEarlyDevelopment

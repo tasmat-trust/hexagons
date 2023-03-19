@@ -7,7 +7,7 @@
           "slug": "computing-skills",
           "isCore": true,
           "isChildOf": "Computing",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -15,7 +15,7 @@
           "slug": "music",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -23,7 +23,7 @@
           "slug": "pshe",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -31,7 +31,7 @@
           "slug": "pe",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -39,7 +39,7 @@
           "slug": "re",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -47,7 +47,7 @@
           "slug": "transition",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": true,
+          "isTransition": true,
           "isRainbowAwards": false
         },
         {
@@ -55,7 +55,7 @@
           "slug": "online-safety",
           "isCore": false,
           "isChildOf": "Computing",
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -63,7 +63,7 @@
           "slug": "geography",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -71,7 +71,7 @@
           "slug": "investigation-skills",
           "isCore": false,
           "isChildOf": "Science",
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -79,7 +79,7 @@
           "slug": "dt",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -87,7 +87,7 @@
           "slug": "biology",
           "isCore": false,
           "isChildOf": "Science",
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -95,7 +95,7 @@
           "slug": "art",
           "isCore": null,
           "isChildOf": null,
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -103,7 +103,7 @@
           "slug": "physics",
           "isCore": false,
           "isChildOf": "Science",
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -111,7 +111,7 @@
           "slug": "chemistry",
           "isCore": false,
           "isChildOf": "Science",
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -119,7 +119,7 @@
           "slug": "food-technology",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -127,7 +127,7 @@
           "slug": "being-a-good-communicator",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": true
         },
         {
@@ -135,7 +135,7 @@
           "slug": "being-a-good-friend",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": true
         },
         {
@@ -143,7 +143,7 @@
           "slug": "being-healthy",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": true
         },
         {
@@ -151,7 +151,7 @@
           "slug": "being-independent",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": true
         },
         {
@@ -159,7 +159,7 @@
           "slug": "being-safe",
           "isCore": false,
           "isChildOf": null,
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": true
         },
         {
@@ -167,7 +167,7 @@
           "slug": "expressive-language",
           "isCore": true,
           "isChildOf": "Communication",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -175,7 +175,7 @@
           "slug": "number",
           "isCore": true,
           "isChildOf": "Maths",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -183,7 +183,7 @@
           "slug": "reading",
           "isCore": true,
           "isChildOf": "English",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -191,7 +191,7 @@
           "slug": "receptive-language",
           "isCore": false,
           "isChildOf": "Communication",
-          "isEarlyDevelopment": false,
+          "isTransition": false,
           "isRainbowAwards": false
         },
         {
@@ -199,7 +199,7 @@
           "slug": "primary-science",
           "isCore": true,
           "isChildOf": "Science",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -207,7 +207,7 @@
           "slug": "ssandm",
           "isCore": true,
           "isChildOf": "Maths",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -215,7 +215,7 @@
           "slug": "uanda",
           "isCore": true,
           "isChildOf": "Maths",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         },
         {
@@ -223,7 +223,7 @@
           "slug": "writing",
           "isCore": true,
           "isChildOf": "English",
-          "isEarlyDevelopment": null,
+          "isTransition": null,
           "isRainbowAwards": null
         }
       ]

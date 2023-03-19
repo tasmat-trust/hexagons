@@ -14,6 +14,7 @@ function MainNavItems({ role }) {
       <NavItem href="/pupils" label="Pupils" Icon={PeopleIcon} />
       <NavItem href="/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />
       <NavItem href="/rainbow-awards" label="Rainbow Awards" Icon={LooksIcon} />
+      <NavItem href="/early-development" label="Early development" Icon={LooksIcon} />
       {role === 'Leader' && <NavItem href="/reports" label="Reports" Icon={StackedLineChartIcon} />}
     </List>
   );

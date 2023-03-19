@@ -43,7 +43,7 @@ function LevelContent({
           edSubjectId={edSubjectId}
           getLevelVars={{
             pupilId: parseInt(pupil.id),
-            subjectId: currentModule.isEd ? edSubjectId : subjectId,
+            subjectId: currentModule.isTransition ? edSubjectId : subjectId,
             moduleId: parseInt(currentModule.id),
           }}
           {...other}
@@ -71,7 +71,7 @@ function LevelContent({
 }
 
 LevelContent.propTypes = {
-  isEd: PropTypes.bool,
+  isTransition: PropTypes.bool,
   pupil: PropTypes.object,
   initialCompetencies: PropTypes.array,
   subjectId: PropTypes.number,

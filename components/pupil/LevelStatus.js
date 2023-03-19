@@ -202,7 +202,7 @@ function LevelStatus({
         const variables = {
           status: status,
           wasQuickAssessed: wasQuickAssessed,
-          subjectId: currentModule.isEd ? edSubjectId : subjectId,
+          subjectId: currentModule.isTransition ? edSubjectId : subjectId,
           pupilId: parseInt(pupil.id),
           moduleId: parseInt(currentModule.id),
         };
