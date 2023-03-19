@@ -36,7 +36,7 @@ function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
                     {...other}
                     schoolType={schoolType}
                     activeGroupSlug={activeGroupSlug}
-                    getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
+                    getEarlyDevelopmentBySlugVariables={{ slug: 'transition' }}
                   />
                 )}
                 {!activeGroupSlug && (

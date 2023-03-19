@@ -29,11 +29,11 @@ context('Assessment page', () => {
     ]);
   });
 
-  describe('With Early Development', () => {
+  describe('With Transition', () => {
     beforeEach(() => {
       let getSingleSubjectBySlugEd = {
         body: {
-          data: { subjects: [{ id: '21', name: 'Early Development', slug: 'early-development' }] },
+          data: { subjects: [{ id: '21', name: 'Transition', slug: 'transition' }] },
         },
       };
 
@@ -102,7 +102,7 @@ context('Assessment page', () => {
         {
           query: 'getSingleSubjectBySlug',
           data: getSingleSubjectBySlugEd,
-          variable: { key: 'slug', value: 'early-development' },
+          variable: { key: 'slug', value: 'transition' },
         },
         { query: 'getEdModules', data: getEdModules },
         { query: 'getLevel', data: getLevel },

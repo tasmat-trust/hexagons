@@ -43,8 +43,8 @@
           "isRainbowAwards": null
         },
         {
-          "name": "Early Development",
-          "slug": "early-development",
+          "name": "Transition",
+          "slug": "transition",
           "isCore": false,
           "isChildOf": null,
           "isEarlyDevelopment": true,

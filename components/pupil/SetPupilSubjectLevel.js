@@ -40,7 +40,7 @@ function SetPupilSubjectLevel({ subjectName, subjectSlug, subjectId, excludeED, 
           subjectName={subjectName}
           subjectSlug={subjectSlug}
           isBaseline={true}
-          getEarlyDevelopmentBySlugVariables={{ slug: 'early-development' }}
+          getEarlyDevelopmentBySlugVariables={{ slug: 'transition' }}
           getSubjectBySlugVariables={{ slug: subjectSlug }}
         />
       )}
