@@ -11,6 +11,7 @@ const allSubjectsQuery = gql`
       isChildOf
       isTransition
       isRainbowAwards
+      isEarlyDevelopment
       organization {
         id
       }
@@ -24,6 +25,21 @@ const allRainbowAwardsQuery = gql`
       name
       slug
       id
+    }
+  }
+`;
+
+const allEarlyDevelopmentQuery = gql`
+  query getEarlyDevelopmentSubjects {
+    subjects(where: { isEarlyDevelopment: true }) {
+      id
+      name
+      slug
+      isCore
+      isChildOf
+      organization {
+        id
+      }
     }
   }
 `;
@@ -227,6 +243,7 @@ const deleteGuidanceQuery = gql`
 
 export {
   allRainbowAwardsQuery,
+  allEarlyDevelopmentQuery,
   getCoreSubjects,
   deleteCapabilityQuery,
   createCapabilityQuery,

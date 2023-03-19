@@ -50,6 +50,9 @@ function Subject({ subjectName, subjectSlug, groupName, activeGroupSlug, pupil, 
             currentPupilId={parseInt(pupil.id)}
           />
         }
+        fifthChipTitle={`View ${pupil.name}`}
+        fifthLabel="View pupil overview"
+        fifthHref={`/pupils/${activeGroupSlug}/${pupil.id}`}
       />
       <SubjectMainView
         {...other}

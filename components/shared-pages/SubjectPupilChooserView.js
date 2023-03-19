@@ -13,11 +13,11 @@ function Index({
   firstModel,
   subjectName,
   isRainbowAwards,
+  isEarlyDevelopment,
   subjectSlug,
   ...other
 }) {
   const [groupLabel, setGroupLabel] = useState();
-
   return (
     <>
       <CustomHead titleContent={`${subjectName} | ${firstLabel}`} />
@@ -29,6 +29,7 @@ function Index({
           <CustomSuspense message="Loading subjects" textOnly={true}>
             <SubjectPicker
               isOverviewPage={true}
+              isEarlyDevelopment={isEarlyDevelopment}
               isRainbowAwards={isRainbowAwards}
               currentSubjectSlug={subjectSlug}
             />

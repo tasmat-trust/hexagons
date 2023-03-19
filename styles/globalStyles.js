@@ -1,6 +1,7 @@
 const globalStyles = (theme) => ({
   body: {
     'overflow-x': 'hidden',
+    // 'background-color': '#003339'
   },
   a: {
     color: theme.palette.text.primary,

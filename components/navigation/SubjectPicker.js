@@ -15,11 +15,11 @@ function SubjectPicker({
   activeGroupSlug,
   currentPupilId,
   isRainbowAwards,
+  isEarlyDevelopment,
   isGroupOverviewReport,
 }) {
   const classes = useStyles();
   const [subjectSlug, setSubjectSlug] = useState(currentSubjectSlug);
-
   useEffect(() => {
     setSubjectSlug(currentSubjectSlug);
   }, [currentSubjectSlug]);
@@ -29,10 +29,11 @@ function SubjectPicker({
     const newSubjectSlug = event.target.value;
     const isSubjectsListing = router.asPath.includes('subjects');
     let navigateTo;
-    const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
-    if ((isSubjectsListing || isRainbowAwards) && activeGroupSlug && currentPupilId) {
+
+    const basePath = isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
+    if ((isSubjectsListing || isRainbowAwards || isEarlyDevelopment) && activeGroupSlug && currentPupilId) {
       navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`;
-    } else if ((isSubjectsListing || isRainbowAwards) && activeGroupSlug) {
+    } else if ((isSubjectsListing || isRainbowAwards || isEarlyDevelopment) && activeGroupSlug) {
       navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}`;
     } else if (isOverviewPage) {
       navigateTo = `/${basePath}/${newSubjectSlug}/`;

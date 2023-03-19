@@ -12,7 +12,9 @@ import getCurrentLevel from '../../utils/getCurrentLevel';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import getRainbowLabel from '../../utils/getRainbowLabel';
 import getNormalisedModuleNumber from '../../utils/getNormalisedModuleNumber';
+import getLevelLabel from '../../utils/getLevelLabel';
 import SubjectProgressLinks from '../link-management/SubjectProgressLinks';
+import Loading from '../ui-globals/Loading';
 
 // Uses styled components to customise Reach Slider component
 // https://reach.tech/styling/
@@ -72,11 +74,12 @@ function SubjectProgressDefault(props) {
     isConstrained,
   } = props;
   const classes = useStyles();
-  const { data: levelData } = useSWR([getLevelsForOverview, getLevelVariables]);
+  const { data: levelData, isLoading } = useSWR([getLevelsForOverview, getLevelVariables]);
   let level = null;
+  
   if (levelData) {
     level = getCurrentLevel(levelData.levels);
-  }
+  } 
 
   let label = '';
   let normalisedLabel = '';
@@ -88,7 +91,7 @@ function SubjectProgressDefault(props) {
     if ((isRainbowAwards || isRainbowAwardsSubject) && !isPupilCard) {
       label = getRainbowLabel(parseInt(level.module.order) - 1);
     } else {
-      label = `${level.module.level === 'stage' ? 'Stage' : 'Step'} ${level.module.order}`;
+      label = `${getLevelLabel(level.module.level)} ${level.module.order}`;
     }
   }
 
@@ -120,7 +123,7 @@ function SubjectProgressDefault(props) {
 
   return (
     <ErrorBoundary alert="Error in SubjectProgress component">
-      {level && (
+      
         <>
           <Typography component="h3" variant="h6" className={classes.flexy}>
             {linkUrl && !isRaLink && (
@@ -136,33 +139,22 @@ function SubjectProgressDefault(props) {
               </Link>
             )}
             {!linkUrl && !isRaLink && <>{titleName}</>}
-            <RightEdgeLabel />
+            {level && (<RightEdgeLabel />)}
+            {levelData === undefined && <Loading message="Loading" textOnly />}
           </Typography>
-
+         
           <StyledSlider
-            className={classes.slider}
-            disabled={true}
-            value={totalPercentComplete}
-            min={0}
-            max={100}
-          />
-        </>
-      )}
+          className={classes.slider}
+          disabled={true}
+          value={totalPercentComplete}
+          min={0}
+          max={100}
+        />
+          
 
-      {!level && (
-        <>
-          <Typography component="h3" variant="h6" className={classes.flexy}>
-            {linkUrl && (
-              <Link href={linkUrl}>
-                <a>{titleName}</a>
-              </Link>
-            )}
-            {!linkUrl && <>{titleName}</>}
-          </Typography>
-
-          <StyledSlider className={classes.slider} disabled={true} value={1} min={0} max={100} />
         </>
-      )}
+      
+ 
     </ErrorBoundary>
   );
 }

@@ -8,6 +8,13 @@ const useStyles = makeStyles({
   loading: {
     textAlign: 'center',
   },
+  loadingBig: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   text: {
     fontSize: '13px',
     marginRight: theme.spacing(1)
@@ -23,6 +30,9 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  wrapperBig: {
+    margin: '2rem 0'
   },
   container: {
     display: 'flex',
@@ -195,11 +205,11 @@ function Loading({ message, testId, textOnly }) {
       role="alert"
       aria-busy="true"
       data-test-id={testId ? testId : 'loading'}
-      className={`${classes.loading} loading-spinner`}
+      className={`${classes.loading} loading-spinner ${!textOnly && classes.loadingBig}`}
     >
       {!textOnly && (
         <>
-          <div className={classes.wrapper}>
+          <div className={`${classes.wrapper} ${!textOnly && classes.wrapperBig}`} aria-label={message}>
             <section className={classes.container}>
               <div className={classes.div}>
                 <div className={`${classes.div} ${classes.nestedDiv}`}>
@@ -223,7 +233,6 @@ function Loading({ message, testId, textOnly }) {
               </div>
             </section>
           </div>
-          <Typography className={classes.text}>{message}</Typography>
         </>
       )}
       {textOnly && (

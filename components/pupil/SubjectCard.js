@@ -36,6 +36,7 @@ function SubjectCard({
   pupils,
   groupName,
   isRainbowAwards,
+  isEarlyDevelopment,
   ...other
 }) {
   // pupilId, coreSubjects, activeGroupSlug
@@ -61,7 +62,8 @@ function SubjectCard({
                     <SubjectProgressWithLinks
                       {...other} // activeGroupSlug, isSubjectsListing, isRainbowAwards
                       isRainbowAwards={isRainbowAwards}
-                      useSubjectsBaseSlug={isRainbowAwards ? false : true}
+                      isEarlyDevelopment={isEarlyDevelopment}
+                      useSubjectsBaseSlug={isRainbowAwards || isEarlyDevelopment ? false : true}
                       isConstrained={false}
                       subjectSlug={subjectSlug}
                       titleName={pupil.name}

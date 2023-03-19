@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useContext, useState, useEffect } from 'react';
 import { HexagonsContext } from './HexagonsContext';
-import { allSubjectsQuery, allRainbowAwardsQuery } from '../../queries/Subjects';
+import { allSubjectsQuery, allRainbowAwardsQuery, allEarlyDevelopmentQuery } from '../../queries/Subjects';
 import useSWR from 'swr';
 import makeManualGraphQLRequest from './makeManualGraphQLRequest';
 
@@ -12,10 +12,13 @@ const byCoreSubjects = (a, b) => {
 };
 
 export default function WithAllSubjects(WrappedComponent) {
-  function WithAllSubjects({ isRainbowAwards, getEverythingCombined, user, ...other }) {
-    const subjectsQuery = isRainbowAwards ? allRainbowAwardsQuery : allSubjectsQuery;
+  function WithAllSubjects({ isRainbowAwards, getEverythingCombined, isEarlyDevelopment, user, ...other }) {
+    let subjectsQuery = isRainbowAwards ? allRainbowAwardsQuery : allSubjectsQuery;
+    subjectsQuery = isEarlyDevelopment ? allEarlyDevelopmentQuery : subjectsQuery
 
+ 
     const { data: subjectsData } = useSWR(subjectsQuery, { suspense: true });
+    
     const [rainbowSubjects, setRainbowSubjects] = useState();
     const { orgId } = useContext(HexagonsContext);
 
@@ -63,11 +66,11 @@ export default function WithAllSubjects(WrappedComponent) {
           subjects: childSubjects,
         };
       });
-      const subjectsWithoutRainbowOrEarlyDevelopment = subjects
-        .map((s) => (s.isRainbowAwards | s.isTransition ? null : s))
+      const subjectsWithoutRainbowTransitionOrEarlyDevelopment = subjects
+        .map((s) => (s.isRainbowAwards | s.isTransition | s.isEarlyDevelopment ? null : s))
         .filter((v) => v !== null);
-      allSubjects = subjectsWithoutRainbowOrEarlyDevelopment;
-      const normalSubjects = subjectsWithoutRainbowOrEarlyDevelopment
+      allSubjects = subjectsWithoutRainbowTransitionOrEarlyDevelopment;
+      const normalSubjects = subjectsWithoutRainbowTransitionOrEarlyDevelopment
         .map((s) => (!s.isChildOf ? s : null))
         .filter((v) => v !== null);
       subjects = [...subjectsWithParents, ...normalSubjects];
@@ -86,6 +89,7 @@ export default function WithAllSubjects(WrappedComponent) {
       <WrappedComponent
         subjects={subjects}
         isRainbowAwards={isRainbowAwards}
+        isEarlyDevelopment={isEarlyDevelopment}
         allSubjects={allSubjects}
         user={user}
         {...other}
@@ -94,6 +98,7 @@ export default function WithAllSubjects(WrappedComponent) {
   }
   WithAllSubjects.propTypes = {
     isRainbowAwards: PropTypes.bool,
+    isEarlyDevelopment: PropTypes.bool,
     getEverythingCombined: PropTypes.bool,
   };
   return WithAllSubjects;

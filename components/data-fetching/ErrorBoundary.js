@@ -11,7 +11,6 @@ class ErrorBoundary extends React.Component {
 
   static getDerivedStateFromError(e) {
     const response = handleStrapiError(e)    
-    console.log(response)
     return {
       hasError: true,
       error: response.error,

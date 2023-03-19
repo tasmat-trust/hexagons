@@ -80,12 +80,15 @@ function MyApp({ Component, pageProps }) {
       orgId = getOrgIdFromSession(pageProps.user);
     }
   }
+ 
 
   let role = 'public';
   let userId = 0;
+  let useEarlyDevelopment = false
   if (pageProps.user) {
     role = pageProps.user.role.name;
     userId = pageProps.user.id;
+    useEarlyDevelopment = pageProps.user.organization.use_early_development
   }
 
   const hexagonsGlobals = {
@@ -93,6 +96,7 @@ function MyApp({ Component, pageProps }) {
     orgId,
     role,
     userId,
+    useEarlyDevelopment
   };
 
   return (
@@ -103,11 +107,11 @@ function MyApp({ Component, pageProps }) {
       <NextNprogress color={theme.palette.secondary.light} />
       <AnimateSharedLayout>
         <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            {inputGlobalStyles}
+          <ThemeProvider theme={theme}>            
             <StylesProvider jss={jss}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
+              {inputGlobalStyles}
               <SkipNavLink />
               <SkipNavContent />
               <HexagonsContext.Provider value={hexagonsGlobals}>

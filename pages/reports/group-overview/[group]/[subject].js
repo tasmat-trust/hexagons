@@ -8,8 +8,7 @@ import WithPupilsByGroup from '../../../../components/data-fetching/WithPupilsBy
 import CustomHead from '../../../../components/ui-globals/CustomHead';
 import SubjectPicker from '../../../../components/navigation/SubjectPicker';
 import SubjectCard from '../../../../components/pupil/SubjectCard';
-function Index(props) {
-  console.log(props)
+function Index(props) { 
   return (
     <>
       <CustomHead titleContent={`${props.groupName} | `} />

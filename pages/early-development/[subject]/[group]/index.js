@@ -13,12 +13,13 @@ function Index(props) {
       breadcrumbs={
         <BreadCrumbs
           firstLabel="Early development"
-          firstModel="award"
+          firstModel="subject"
           firstHref="/early-development"
           secondPicker={
             <CustomSuspense message="Loading subjects" textOnly={true}>
               <SubjectPicker
                 isOverviewPage={true}
+                isEarlyDevelopment={true}
                 activeGroupSlug={props.activeGroupSlug}
                 currentSubjectSlug={props.subjectSlug}
               />

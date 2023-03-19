@@ -15,8 +15,9 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, isP
     const newPupilId = parseInt(event.target.value);
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards');
-    if (isSubjectsListing || isRainbowAwards) {
-      const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
+    const isEarlyDevelopment = router.asPath.includes('early-development')
+    if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment) {
+      const basePath = isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
       router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
         shallow: false,
       });

@@ -16,6 +16,7 @@ import WithCoreSubjects from '../data-fetching/WithCoreSubjects';
   const router = useRouter();
   const isSubjectsListing = router.asPath.includes('subjects');
   const isRainbowAwards = router.asPath.includes('rainbow-awards');
+  const isEarlyDevelopment = router.asPath.includes('early-development')
 
   return (
     <>
@@ -28,6 +29,7 @@ import WithCoreSubjects from '../data-fetching/WithCoreSubjects';
                   {...other}
                   isSubjectsListing={isSubjectsListing}
                   isRainbowAwards={isRainbowAwards}
+                  isEarlyDevelopment={isEarlyDevelopment}
                   groupName={groupName}
                   activeGroupSlug={activeGroupSlug}
                   pupils={sortedPupils}
@@ -39,8 +41,8 @@ import WithCoreSubjects from '../data-fetching/WithCoreSubjects';
 
         {sortedPupils.map((p, i) => {
           let linkUrl;
-          if (isSubjectsListing || isRainbowAwards) {
-            const basePath = isSubjectsListing ? 'subjects' : 'rainbow-awards';
+          if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment) {
+            const basePath = isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
             linkUrl = `/${basePath}/${router.query.subject}/${activeGroupSlug}/${p.id}`;
           } else {
             linkUrl = `/pupils/${activeGroupSlug}/${p.id}`;

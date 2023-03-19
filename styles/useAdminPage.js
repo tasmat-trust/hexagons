@@ -25,6 +25,9 @@ const useAdminPage = makeStyles((theme) => ({
     flexGrow: 1,
     'font-family': theme.typography.secondaryFamily
   },
+  paddingBottom: {
+    paddingBottom: '2rem'
+  },
   schoolCard: {
     padding: theme.spacing(1),
     textAlign: 'center'

@@ -27,9 +27,14 @@ function Subject({
 
   const { pathname } = useRouter();
   let isRainbowAwards = false;
+  let isEarlyDevelopment = false;
   if (pathname.includes('rainbow-awards')) {
     isRainbowAwards = true;
   }
+  if (pathname.includes('early-development')) {
+    isEarlyDevelopment = true;
+  }
+
   return (
     <>
       <CustomHead
@@ -43,6 +48,7 @@ function Subject({
         secondPicker={
           <CustomSuspense message="Loading subjects" textOnly={true}>
             <SubjectPicker
+              isEarlyDevelopment={isEarlyDevelopment}
               isRainbowAwards={isRainbowAwards}
               currentSubjectSlug={subjectSlug}
               activeGroupSlug={activeGroupSlug}
@@ -64,6 +70,9 @@ function Subject({
             />
           </CustomSuspense>
         }
+        fifthChipTitle={`View ${pupil.name}`}
+        fifthLabel="View pupil overview"
+        fifthHref={`/pupils/${activeGroupSlug}/${pupil.id}`}
       />
 
       <SubjectMainView

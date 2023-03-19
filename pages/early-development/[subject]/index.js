@@ -5,7 +5,7 @@ import SubjectPupilChooserView from '../../../components/shared-pages/SubjectPup
 const Subject = (props) => (
   <SubjectPupilChooserView
     {...props}
-    isRainbowAwards={true}
+    isEarlyDevelopment={true}
     firstLabel="Early development"
     firstModel="Early development"
     firstSlug="early-development"
