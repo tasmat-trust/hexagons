@@ -6,6 +6,7 @@ import { Button, ButtonGroup, ButtonBase } from '@mui/material';
 function SubjectTile({ subject, onwardHref }) {
   const styles = stringStyles();
   const pseudoStyles = jssStyles();
+  const subjectName = !subject.slug ? subject.name.split(/([A-Z][a-z]+)/).filter(Boolean).join(' ') : subject.name
   return (
     <div
       className={`${styles.hex} ${styles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]} ${
@@ -17,11 +18,11 @@ function SubjectTile({ subject, onwardHref }) {
           <div className={styles.hexContent}>
             <Link href={`${onwardHref}/${subject.slug}`} passHref>
               <ButtonBase
-                title={`Choose ${subject.name}`}
+                title={`Choose ${subjectName}`}
                 data-test-id={`subject-button-${subject.slug}`}
                 className={`${styles.hexLink} ${pseudoStyles.hexLink} hrxLink`}
               >
-                {subject.name}
+                {subjectName}
               </ButtonBase>
             </Link>
           </div>
@@ -29,14 +30,14 @@ function SubjectTile({ subject, onwardHref }) {
         {!subject.slug && (
           <DialogButton
             modelname="subject"
-            title={`Choose ${subject.name} subject`}
-            testId={`parent-subject-button-${subject.name.toLowerCase()}`}
+            title={`Choose ${subjectName} subject`}
+            testId={`parent-subject-button-${subjectName.toLowerCase()}`}
             className={styles.button}
             isHexagon={true}
-            label={subject.name}
+            label={subjectName}
             content={
               <div className={`${styles.hexLink} ${pseudoStyles.hexLink} hrxLink`}>
-                {subject.name}
+                {subjectName}
               </div>
             }
           >
