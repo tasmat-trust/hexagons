@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import WithAllSubjects from '../data-fetching/WithAllSubjects';
-
+import getNameFromCamelCased from '../../utils/getNameFromCamelCased';
 import useStyles from '../../styles/usePickerStyles';
 
 function SubjectPicker({
@@ -71,7 +71,7 @@ function SubjectPicker({
           ))}
         </optgroup>
         {subjectsWithoutSlug.map((subject, i) => (
-          <optgroup key={`optgroup-${i}`} label={subject.name}>
+          <optgroup key={`optgroup-${i}`} label={getNameFromCamelCased(subject.name)}>
             {subject.subjects.map((childSubject, j) => {
               return (
                 <option key={`child-subject-${j}`} value={childSubject.slug}>

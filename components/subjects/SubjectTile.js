@@ -3,10 +3,11 @@ import { stringStyles, jssStyles } from '../../styles/useHexagonsGrid';
 import Link from 'next/link';
 import DialogButton from '../ui-globals/DialogButton';
 import { Button, ButtonGroup, ButtonBase } from '@mui/material';
+import getNameFromCamelCased from '../../utils/getNameFromCamelCased';
 function SubjectTile({ subject, onwardHref }) {
   const styles = stringStyles();
   const pseudoStyles = jssStyles();
-  const subjectName = !subject.slug ? subject.name.split(/([A-Z][a-z]+)/).filter(Boolean).join(' ') : subject.name
+  const subjectName = !subject.slug ? getNameFromCamelCased(subject.name) : subject.name
   return (
     <div
       className={`${styles.hex} ${styles[`hex_${subject.isCore ? 'core' : 'nonCore'}`]} ${
