@@ -1,3 +1,4 @@
+import calculateCompetenciesForThisLevel from './calculateCompetenciesForThisLevel';
 import { getPercentComplete, getPercentFromStatus } from './getPercentComplete';
 import { sortLevels } from './sortLevelsAndModules';
 export default function getCurrentLevel(jumbledLevels) {
@@ -11,7 +12,8 @@ export default function getCurrentLevel(jumbledLevels) {
   }
 
   if (level && level.status && !level.wasQuickAssessed && level.module) {
-    level['percentComplete'] = getPercentComplete(level.competencies, level.module.capabilities);
+    const competencies = calculateCompetenciesForThisLevel(level.competencies, level.module.capabilities)
+    level['percentComplete'] = getPercentComplete(competencies, level.module.capabilities);
   }
 
   return level;

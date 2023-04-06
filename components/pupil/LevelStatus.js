@@ -13,6 +13,7 @@ import DialogButton from '../ui-globals/DialogButton';
 import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
+import calculateCompetenciesForThisLevel from '../../utils/calculateCompetenciesForThisLevel';
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -82,15 +83,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-function calculateCompetenciesForThisLevel(allComps, capabilitiesToMatch) {
-  if (allComps) {
-    const capString = JSON.stringify(capabilitiesToMatch);
-    const competencies = allComps.filter((comp, i) => capString.includes(comp.capability_fk));
-    return competencies;
-  }
-  return null;
-}
 
 function LevelStatus({
   isAssessing,

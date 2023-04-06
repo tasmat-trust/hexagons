@@ -1,1 +1,2 @@
-export default getNameFromCamelCased = (str) => str.split(/([A-Z][a-z]+)/).filter(Boolean).join(' ')
+const getNameFromCamelCased = (str) => str.split(/([A-Z][a-z]+)/).filter(Boolean).join(' ')
+export default getNameFromCamelCased

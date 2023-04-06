@@ -43,7 +43,12 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables, allS
     const pupilsWithLevels = await pupilsWithLevelVars.map(async (pupil, i) => {
       const levels = pupil.map(async (getLevelVariables, j) => {
         const levelData = await getLevel(getLevelVariables);
-        return getCurrentLevel(levelData.data.levels);
+        if (levelData && levelData.data) {
+          return getCurrentLevel(levelData.data.levels);
+        } else {
+          return null
+        }
+        
       });
       const resolvedLevels = await Promise.all(levels);
       return resolvedLevels;

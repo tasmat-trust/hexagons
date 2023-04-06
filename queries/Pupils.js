@@ -107,6 +107,7 @@ const getLevelsForOverview = gql`
       }
       competencies {
         status
+        capability_fk
       }
     }
   }
