@@ -1,14 +1,11 @@
 import { Grid } from '@mui/material';
 import Subjects from './Subjects';
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 
-interface AllSubjectsProps {
-  onwardHref: string;
-  classes: string[];
-}
 
-const AllSubjects: FC<AllSubjectsProps> = (props) => {
+
+const AllSubjects = (props) => {
 
   const { useFunctionalSkills } = useContext(HexagonsContext);
 
