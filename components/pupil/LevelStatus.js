@@ -14,6 +14,8 @@ import ErrorBoundary from '../data-fetching/ErrorBoundary';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import calculateCompetenciesForThisLevel from '../../utils/calculateCompetenciesForThisLevel';
+import { deleteCompetencies } from '../forms/handlers/deleteCompetencies';
+import { deleteLevel } from '../forms/handlers/deleteLevel';
 
 const useStyles = makeStyles((theme) => ({
   level: {
@@ -159,7 +161,7 @@ function LevelStatus({
   );
 
   useEffect(() => {
-    if (readyToShow) {
+    if (readyToShow && levelId !== 0) {
       // calculate percentages whenever competencies change
       let visiblePercentComplete;
       let actualPercentComplete = getPercentComplete(
@@ -288,6 +290,19 @@ function LevelStatus({
       return;
     }
 
+    if (actualPercentComplete > 0 && manualStatus === 'not started') {
+      setAlertMessage(
+        `Please remove all individual competencies (including targets) to delete this level`
+      );
+      setAlertOpen(true);
+      return;
+    }
+
+    if (actualPercentComplete === 0 && manualStatus === 'not started') {
+      void deleteCompetenciesAndLevels()
+      return;
+    }
+
     const visiblePercent = getPercentFromStatus(manualStatus);
     setVisiblePercentComplete(visiblePercent);
     const args = {
@@ -305,7 +320,7 @@ function LevelStatus({
   }
 
   // Popover
-  const statuses = ['emerging', 'developing', 'secure'];
+  const statuses = ['not started', 'emerging', 'developing', 'secure'];
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
   const popoverOpen = Boolean(popoverAnchorEl);
   const popoverId = popoverOpen ? 'simple-popover' : undefined;
@@ -374,6 +389,43 @@ function LevelStatus({
     }
   }, [actualPercentComplete, hasBeenQuickAssessed]);
 
+  const deleteCompetenciesAndLevels = useCallback(async () => {
+    const targetCompetencies = !!thisLevelCompetencies.filter((c) => c.status === 'target').length;
+    const completeCompetencies = !!thisLevelCompetencies.filter((c) => c.status === 'complete')
+      .length;
+    if (!targetCompetencies && !completeCompetencies && levelId !== 0) {
+      await deleteCompetencies(gqlClient, thisLevelCompetencies);
+      await deleteLevel(gqlClient, { id: levelId });
+      setStatus('notstarted');
+      setVisiblePercentComplete(actualPercentComplete);
+      setLevelId(0);
+      setGotPercent(false);
+    }
+  }, [actualPercentComplete, gqlClient, levelId, setLevelId, thisLevelCompetencies]);
+
+  useEffect(() => {
+    // delete ghost levels
+    async function checkAndDeleteGhostLevels() {
+      console.log('Checking ghost levels', thisLevelCompetencies, hasBeenQuickAssessed);
+      if (visiblePercentComplete === 0) {
+        if (thisLevelCompetencies === null) return;
+        if (thisLevelCompetencies.length === 0) return;
+        await deleteCompetenciesAndLevels();
+        return;
+      }
+    }
+    void checkAndDeleteGhostLevels();
+  }, [
+    visiblePercentComplete,
+    hasBeenQuickAssessed,
+    thisLevelCompetencies,
+    levelId,
+    actualPercentComplete,
+    gqlClient,
+    setLevelId,
+    deleteCompetenciesAndLevels
+  ]);
+
   const handleAlertClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -382,6 +434,7 @@ function LevelStatus({
   };
 
   const displayValue = Math.round(visiblePercentComplete);
+
   return (
     <Box className={classes.level} role="region" aria-live="polite">
       <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose}>

@@ -206,7 +206,7 @@ const updateCompetencyQuery = gql`
   }
 `;
 
-const deleteLevel = gql`
+const deleteLevelQuery = gql`
   mutation DeleteLevel($id: ID!) {
     deleteLevel(input: { where: { id: $id } }) {
       level {
@@ -216,7 +216,7 @@ const deleteLevel = gql`
   }
 `;
 
-const deleteCompetency = gql`
+const deleteCompetencyQuery = gql`
   mutation DeleteCompetency($id: ID!) {
     deleteCompetency(input: { where: { id: $id } }) {
       competency {
@@ -287,9 +287,9 @@ export {
   createLevelQuery,
   createCompetencyQuery,
   getLevel,
-  deleteLevel,
+  deleteLevelQuery,
   deletePupil,
-  deleteCompetency,
+  deleteCompetencyQuery,
   getForDeletionCompetencies,
   getForDeletionLevels,
   getLevels,
