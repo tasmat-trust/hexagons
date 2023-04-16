@@ -16,8 +16,9 @@ function PupilPicker({ currentPupilId, pupils, subjectSlug, activeGroupSlug, isP
     const isSubjectsListing = router.asPath.includes('subjects');
     const isRainbowAwards = router.asPath.includes('rainbow-awards');
     const isEarlyDevelopment = router.asPath.includes('early-development')
+    const isFunctionalSkills = router.asPath.includes('functional-skills')
     if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment) {
-      const basePath = isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
+      const basePath = isFunctionalSkills ? 'functional-skills' : isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
       router.push(`/${basePath}/${subjectSlug}/${activeGroupSlug}/${newPupilId}`, undefined, {
         shallow: false,
       });

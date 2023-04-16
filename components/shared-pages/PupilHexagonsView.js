@@ -28,11 +28,15 @@ function Subject({
   const { pathname } = useRouter();
   let isRainbowAwards = false;
   let isEarlyDevelopment = false;
+  let isFunctionalSkills = false
   if (pathname.includes('rainbow-awards')) {
     isRainbowAwards = true;
   }
   if (pathname.includes('early-development')) {
     isEarlyDevelopment = true;
+  }
+  if (pathname.includes('functional-skills')) {
+    isFunctionalSkills = true;
   }
 
   return (
@@ -49,6 +53,7 @@ function Subject({
           <CustomSuspense message="Loading subjects" textOnly={true}>
             <SubjectPicker
               isEarlyDevelopment={isEarlyDevelopment}
+              isFunctionalSkills={isFunctionalSkills}
               isRainbowAwards={isRainbowAwards}
               currentSubjectSlug={subjectSlug}
               activeGroupSlug={activeGroupSlug}

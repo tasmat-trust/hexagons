@@ -14,6 +14,7 @@ function Index({
   subjectName,
   isRainbowAwards,
   isEarlyDevelopment,
+  isFunctionalSkills,
   subjectSlug,
   ...other
 }) {
@@ -30,6 +31,7 @@ function Index({
             <SubjectPicker
               isOverviewPage={true}
               isEarlyDevelopment={isEarlyDevelopment}
+              isFunctionalSkills={isFunctionalSkills}
               isRainbowAwards={isRainbowAwards}
               currentSubjectSlug={subjectSlug}
             />
@@ -52,6 +54,7 @@ function Index({
 
 Index.propTypes = {
   isRainbowAwards: PropTypes.bool,
+  isFunctionalSkills: PropTypes.bool,
   firstLabel: PropTypes.string,
   firstSlug: PropTypes.string,
   subjectName: PropTypes.string,

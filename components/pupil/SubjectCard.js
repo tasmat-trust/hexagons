@@ -37,6 +37,7 @@ function SubjectCard({
   groupName,
   isRainbowAwards,
   isEarlyDevelopment,
+  isFunctionalSkills,
   ...other
 }) {
   // pupilId, coreSubjects, activeGroupSlug
@@ -63,7 +64,8 @@ function SubjectCard({
                       {...other} // activeGroupSlug, isSubjectsListing, isRainbowAwards
                       isRainbowAwards={isRainbowAwards}
                       isEarlyDevelopment={isEarlyDevelopment}
-                      useSubjectsBaseSlug={isRainbowAwards || isEarlyDevelopment ? false : true}
+                      isFunctionalSkills={isFunctionalSkills}
+                      useSubjectsBaseSlug={isRainbowAwards || isEarlyDevelopment || isFunctionalSkills ? false : true}
                       isConstrained={false}
                       subjectSlug={subjectSlug}
                       titleName={pupil.name}

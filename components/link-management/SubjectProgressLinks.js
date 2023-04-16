@@ -7,16 +7,17 @@ export default function SubjectProgressLinks(WrappedComponent) {
     pupilId,
     isSubjectsListing,
     isRainbowAwards,
+    isFunctionalSkills,
     isEarlyDevelopment,
     useSubjectsBaseSlug,
     ...other
   }) {
     //  {router && router.asPath &&
     let linkUrl;
-    if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment) {
+    if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment || isFunctionalSkills) {
       let basePath = 'subjects'; // Is a core subject on a rainbow-awards/ed page
       if (!useSubjectsBaseSlug) {
-        basePath = isRainbowAwards ? 'rainbow-awards' : 'early-development';
+        basePath = isFunctionalSkills ? 'functional-skills' : isRainbowAwards ? 'rainbow-awards' : 'early-development';
       }
       linkUrl = `/${basePath}/${subjectSlug}/${activeGroupSlug}/${pupilId}`;
     } else {
@@ -27,6 +28,8 @@ export default function SubjectProgressLinks(WrappedComponent) {
       <WrappedComponent
         linkUrl={linkUrl}
         isRainbowAwards={isRainbowAwards}
+        isFunctionalSkills={isFunctionalSkills}
+        isEarlyDevelopment={isEarlyDevelopment}
         isSubjectsListing={isSubjectsListing}
         {...other}
       />

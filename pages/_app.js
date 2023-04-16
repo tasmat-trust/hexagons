@@ -85,10 +85,12 @@ function MyApp({ Component, pageProps }) {
   let role = 'public';
   let userId = 0;
   let useEarlyDevelopment = false
+  let useFunctionalSkills = false
   if (pageProps.user) {
     role = pageProps.user.role.name;
     userId = pageProps.user.id;
     useEarlyDevelopment = pageProps.user.organization.use_early_development
+    useFunctionalSkills = pageProps.user.organization.use_functional_skills
   }
 
   const hexagonsGlobals = {
@@ -96,7 +98,8 @@ function MyApp({ Component, pageProps }) {
     orgId,
     role,
     userId,
-    useEarlyDevelopment
+    useEarlyDevelopment,
+    useFunctionalSkills
   };
 
   return (

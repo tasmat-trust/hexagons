@@ -16,6 +16,7 @@ function SubjectPicker({
   currentPupilId,
   isRainbowAwards,
   isEarlyDevelopment,
+  isFunctionalSkills,
   isGroupOverviewReport,
 }) {
   const classes = useStyles();
@@ -30,10 +31,10 @@ function SubjectPicker({
     const isSubjectsListing = router.asPath.includes('subjects');
     let navigateTo;
 
-    const basePath = isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
-    if ((isSubjectsListing || isRainbowAwards || isEarlyDevelopment) && activeGroupSlug && currentPupilId) {
+    const basePath = isFunctionalSkills ? 'functional-skills' : isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
+    if ((isSubjectsListing || isRainbowAwards || isEarlyDevelopment || isFunctionalSkills) && activeGroupSlug && currentPupilId) {
       navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}/${currentPupilId}`;
-    } else if ((isSubjectsListing || isRainbowAwards || isEarlyDevelopment) && activeGroupSlug) {
+    } else if ((isSubjectsListing || isRainbowAwards || isEarlyDevelopment || isFunctionalSkills) && activeGroupSlug) {
       navigateTo = `/${basePath}/${newSubjectSlug}/${activeGroupSlug}`;
     } else if (isOverviewPage) {
       navigateTo = `/${basePath}/${newSubjectSlug}/`;

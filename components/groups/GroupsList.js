@@ -29,6 +29,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
   const isSubjectsListing = router.asPath.includes('subjects');
   const isRainbowAwards = router.asPath.includes('rainbow-awards');
   const isEarlyDevelopment = router.asPath.includes('early-development')
+  const isFunctionalSkills = router.asPath.includes('functional-skills')
   const isReportListing = router.asPath.includes('reports');
 
   function storeRecentGroup(e, group, linkUrl) {
@@ -44,8 +45,8 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
     <ul data-test-id="group-list" className={classes.ul}>
       {sortedGroups.map((group, i) => {
         let linkUrl;
-        if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment) {
-          const basePath = isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
+        if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment || isFunctionalSkills) {
+          const basePath = isFunctionalSkills ? 'functional-skills' : isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
           linkUrl = `/${basePath}/${router.query.subject}/${group.slug}`;
         } else if (isReportListing) {
           let routerArray = router.asPath.split('/');

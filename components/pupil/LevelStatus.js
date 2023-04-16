@@ -257,7 +257,15 @@ function LevelStatus({
     [status, levelId, triggerUpdateLevel, triggerCreateLevel]
   );
 
+  const gotHiddenComps = () => {
+    const targetCompetencies = !!thisLevelCompetencies.filter((c) => c.status === 'target').length;
+    const completeCompetencies = !!thisLevelCompetencies.filter((c) => c.status === 'complete')
+      .length;
+    return {targetCompetencies, completeCompetencies}
+  }
+
   async function markActive(manualStatus) {
+    const {targetCompetencies, completeCompetencies} = gotHiddenComps()
     if (actualPercentComplete === 100) {
       setAlertMessage(
         `Please remove some individual competencies and then mark this ${currentModule.level} as ${manualStatus}.`
@@ -290,7 +298,7 @@ function LevelStatus({
       return;
     }
 
-    if (actualPercentComplete > 0 && manualStatus === 'not started') {
+    if (actualPercentComplete >= 0 && manualStatus === 'not started' && (targetCompetencies || completeCompetencies) ) {
       setAlertMessage(
         `Please remove all individual competencies (including targets) to delete this level`
       );
@@ -298,7 +306,7 @@ function LevelStatus({
       return;
     }
 
-    if (actualPercentComplete === 0 && manualStatus === 'not started') {
+    if (actualPercentComplete === 0 && manualStatus === 'not started' && (!targetCompetencies && !completeCompetencies)) {
       void deleteCompetenciesAndLevels()
       return;
     }
@@ -389,10 +397,10 @@ function LevelStatus({
     }
   }, [actualPercentComplete, hasBeenQuickAssessed]);
 
+
+
   const deleteCompetenciesAndLevels = useCallback(async () => {
-    const targetCompetencies = !!thisLevelCompetencies.filter((c) => c.status === 'target').length;
-    const completeCompetencies = !!thisLevelCompetencies.filter((c) => c.status === 'complete')
-      .length;
+    const {targetCompetencies, completeCompetencies} = gotHiddenComps()
     if (!targetCompetencies && !completeCompetencies && levelId !== 0) {
       await deleteCompetencies(gqlClient, thisLevelCompetencies);
       await deleteLevel(gqlClient, { id: levelId });
@@ -406,7 +414,6 @@ function LevelStatus({
   useEffect(() => {
     // delete ghost levels
     async function checkAndDeleteGhostLevels() {
-      console.log('Checking ghost levels', thisLevelCompetencies, hasBeenQuickAssessed);
       if (visiblePercentComplete === 0) {
         if (thisLevelCompetencies === null) return;
         if (thisLevelCompetencies.length === 0) return;

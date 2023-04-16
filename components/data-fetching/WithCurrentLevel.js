@@ -6,6 +6,7 @@ import getCurrentLevel from '../../utils/getCurrentLevel';
 export default function WithCurrentLevel(WrappedComponent) {
   function WithCurrentLevel({ levelVariables, ...other }) {
     const { data: levelsData } = useSWR([getLevels, levelVariables], { suspense: true });
+
     let startingLevel = getCurrentLevel(levelsData.levels);
     return <WrappedComponent {...other} startingLevel={startingLevel} />;
   }

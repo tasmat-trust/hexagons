@@ -162,6 +162,7 @@ function SubjectProgressDefault(props) {
 SubjectProgressDefault.propTypes = {
   isConstrained: PropTypes.bool,
   isRainbowAwards: PropTypes.bool,
+  isFunctionalSkills: PropTypes.bool,
   isRaLink: PropTypes.bool,
   linkUrl: PropTypes.string,
   isPupilCard: PropTypes.bool,
