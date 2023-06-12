@@ -9,7 +9,7 @@ export default nc()
 
     try {
       const user = await createStrapiAxios()
-        .post(`/auth/local`, {
+        .post(`/api/auth/local`, {
           identifier: email,
           password,
         })
@@ -26,7 +26,18 @@ export default nc()
         });
       }
 
-      req.session.set('user', user);
+      console.log('got user, requesting roles')
+
+      const userWithRolesAndOrg = await createStrapiAxios(user)
+        .get(`/api/users/me?populate=*`)
+        .then(res => res.data)
+        .then(data => data);
+
+    
+
+      const userWithRolesAndOrgAndToken = {...userWithRolesAndOrg, strapiToken: user.strapiToken}
+
+      req.session.set('user', userWithRolesAndOrgAndToken);
       await req.session.save();
       res.json(user);
     } catch (error) {

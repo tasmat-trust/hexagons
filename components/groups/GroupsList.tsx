@@ -3,10 +3,11 @@ import Link from 'next/link';
 import useAdminPage from '../../styles/useAdminPage';
 import { useEffect, useContext } from 'react';
 import { allGroups, myGroups } from '../../queries/Groups';
-import useSWR from 'swr';
+ 
 import { useRouter } from 'next/router';
 import sortByName from '../../utils/sortByName';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import useSWR from '../data-fetching/useSWRWrapped';
 
 function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
   const router = useRouter();

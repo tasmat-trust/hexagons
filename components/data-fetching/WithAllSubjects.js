@@ -7,7 +7,7 @@ import {
   allEarlyDevelopmentQuery,
   allFunctionalSkillsQuery,
 } from '../../queries/Subjects';
-import useSWR from 'swr';
+import useSWR from '../data-fetching/useSWRWrapped';
 import makeManualGraphQLRequest from './makeManualGraphQLRequest';
 
 const byCoreSubjects = (a, b) => {

@@ -4,17 +4,23 @@ import { gql } from 'graphql-request';
 const allSubjectsQuery = gql`
   query getSubjects {
     subjects {
-      id
-      name
-      slug
-      isCore
-      isChildOf
-      isTransition
-      isRainbowAwards
-      isFunctionalSkills
-      isEarlyDevelopment
-      organization {
+      data {
         id
+        attributes {
+          name
+          slug
+          isCore
+          isChildOf
+          isTransition
+          isRainbowAwards
+          isFunctionalSkills
+          isEarlyDevelopment
+          organization {
+            data {
+              id
+            }
+          }
+        }
       }
     }
   }
