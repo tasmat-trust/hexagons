@@ -18,27 +18,39 @@ mutation createNewGroup($name: String!, $orgId: ID!) {
 }`
 
 const getSingleGroup = gql`query getSingleGroup($orgId: Int!, $slug: String!) {  
-  groups (where: {organization: $orgId, slug: $slug}) { 
+  groups (filters: {organization: $orgId, slug: $slug}) { 
     name id
   }
 }`
 
 // Get all groups with name and slug
-const allGroups = gql`query getGroups($orgId: Int!) {  
-    groups (where: {organization: $orgId}) { 
-      name slug id
+const allGroups = gql`query getGroups($orgId: OrganizationFiltersInput) {  
+    groups (filters: {organization: $orgId}) {       
+      data {
+        id
+        attributes {
+          name
+          slug
+        }
+      }
     }
   }`
 
-const myGroups = gql`query getGroups($teacherId: ID!, $orgId: Int!) {  
-  groups (where: {users: $teacherId, organization: $orgId}) { 
-    name slug id
+const myGroups = gql`query getGroups($teacherId: UsersPermissionsUserFiltersInput!, $orgId: OrganizationFiltersInput!) {  
+  groups (filters: {users: $teacherId, organization: $orgId}) {      
+    data {
+      id
+      attributes {
+        name
+        slug
+      }
+    }
   }
 }`
 
 // duplicate of allGroups TODO
 const getGroupsByOrg = gql`query getGroups($orgId: Int!) {  
-  groups (where: {organization: $orgId}) { 
+  groups (filters: {organization: $orgId}) { 
     name id slug
   }
 }`

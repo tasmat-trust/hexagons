@@ -1,4 +1,5 @@
 export default function sortByName(list) {
+ 
   list.sort((a, b) => {
     if (a.name) {
       return a.name.localeCompare(b.name, 'en', { numeric: true });

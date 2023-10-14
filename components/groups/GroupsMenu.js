@@ -27,7 +27,7 @@ function GroupsMenu({ userId, ...other }) {
               <GroupsList
                 {...other}
                 getMyGroups={true}
-                getGroupsVariables={{ teacherId: userId, orgId: orgId }}
+                getGroupsVariables={{ teacherId: {id: {eq:userId}}, orgId: {id: {eq:orgId}} }}
               />
             </CustomSuspense>
           </Card>
@@ -40,7 +40,7 @@ function GroupsMenu({ userId, ...other }) {
               </Typography>
             </Box>
             <CustomSuspense message="Checking groups">
-              <GroupsList {...other} getGroupsVariables={{ orgId: orgId }} />
+              <GroupsList {...other} getGroupsVariables={{ orgId: {id: {eq:orgId}} }} />
             </CustomSuspense>
           </Card>
         </Grid>

@@ -198,7 +198,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Loading({ message, testId, textOnly }) {
+function Loading({ message, testId, textOnly }:{ message: string, testId?: string, textOnly?: boolean }) {
   const classes = useStyles();
   return (
     <div
