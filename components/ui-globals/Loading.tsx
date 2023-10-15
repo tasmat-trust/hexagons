@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { PropTypes } from 'prop-types';
+import * as PropTypes from 'prop-types';
 import CircularProgress from '@mui/material/CircularProgress';
 import theme from '../../styles/theme';
 
@@ -13,16 +13,16 @@ const useStyles = makeStyles({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   text: {
     fontSize: '13px',
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   textContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   wrapper: {
     width: '100%',
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   wrapperBig: {
-    margin: '2rem 0'
+    margin: '2rem 0',
   },
   container: {
     display: 'flex',
@@ -198,7 +198,15 @@ const useStyles = makeStyles({
   },
 });
 
-function Loading({ message, testId, textOnly }:{ message: string, testId?: string, textOnly?: boolean }) {
+function Loading({
+  message,
+  testId,
+  textOnly,
+}: {
+  message: string;
+  testId?: string;
+  textOnly?: boolean;
+}) {
   const classes = useStyles();
   return (
     <div
@@ -209,7 +217,10 @@ function Loading({ message, testId, textOnly }:{ message: string, testId?: strin
     >
       {!textOnly && (
         <>
-          <div className={`${classes.wrapper} ${!textOnly && classes.wrapperBig}`} aria-label={message}>
+          <div
+            className={`${classes.wrapper} ${!textOnly && classes.wrapperBig}`}
+            aria-label={message}
+          >
             <section className={classes.container}>
               <div className={classes.div}>
                 <div className={`${classes.div} ${classes.nestedDiv}`}>

@@ -1,5 +1,6 @@
 import axios from 'axios';
-export default async function makeManualGraphQLRequest({strapiToken, query, variables}) {
+import { flattenDataAttributes } from './useSWRWrapped';
+export default async function makeManualGraphQLRequest({ strapiToken, query, variables }) {
   try {
     const headers = {
       Authorization: `Bearer ${strapiToken}`,
@@ -8,12 +9,12 @@ export default async function makeManualGraphQLRequest({strapiToken, query, vari
       query: query,
     };
     if (variables) {
-      q.variables = variables
+      q.variables = variables;
     }
     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, q, {
       headers: headers,
     });
-    return response.data;
+    return flattenDataAttributes(response.data);
   } catch (e) {
     console.log(e);
     return e;

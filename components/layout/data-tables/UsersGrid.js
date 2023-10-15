@@ -1,37 +1,48 @@
+import { DataGrid } from '@mui/x-data-grid';
+import { allTeachers } from '../../../queries/Teachers';
+import { allPupilsWithGroups } from '../../../queries/Pupils';
+import { useEffect } from 'react';
+import sortByName from '../../../utils/sortByName';
+import useSWR from 'swr';
 
-import { DataGrid } from '@mui/x-data-grid'
-import { allTeachers } from '../../../queries/Teachers'
-import { allPupilsWithGroups } from '../../../queries/Pupils'
-import { useEffect } from "react"
-import sortByName from '../../../utils/sortByName'
-import useSWR from 'swr'
+export default function UsersGrid({
+  variables,
+  showMultiAdd,
+  userType,
+  setSharedState,
+  setSelectedUsers,
+  setAllUsers,
+}) {
+  const query = userType === 'teacher' ? allTeachers : allPupilsWithGroups;
 
-export default function UsersGrid({ variables, showMultiAdd, userType, setSharedState, setSelectedUsers, setAllUsers }) {
+  const { data: state, mutate: setState } = useSWR([query, variables], { suspense: true });
 
-  const query = userType === 'teacher' ? allTeachers : allPupilsWithGroups
-
-  const { data: state, mutate: setState } = useSWR([query, variables], { suspense: true })
-
-  useEffect(() => { // Set page-wide pupil/teacher state
-    if (setState && setSharedState) setSharedState({ update: setState })
-  }, [setSharedState, setState])
+  useEffect(() => {
+    // Set page-wide pupil/teacher state
+    if (setState && setSharedState) setSharedState({ update: setState });
+  }, [setSharedState, setState]);
 
   useEffect(() => {
     if (state) {
-      const users = userType === 'teacher' ? state.users : state.pupils
-      setAllUsers && setAllUsers(users)
+      const users = userType === 'teacher' ? state.usersPermissionsUsers : state.pupils;
+
+      setAllUsers && setAllUsers(users);
     }
-  }, [state, userType, setAllUsers])
+  }, [state, userType, setAllUsers]);
 
   let columns = [];
 
   if (userType === 'teacher') {
-    columns.push({ field: 'username', headerName: 'Teacher', width: 130 })
-    columns.push({ field: 'email', headerName: 'Email', width: 220 })
-    columns.push({ field: 'role', headerName: 'Role', width: 130, valueGetter: params => params.row.role.name })
-
+    columns.push({ field: 'username', headerName: 'Teacher', width: 130 });
+    columns.push({ field: 'email', headerName: 'Email', width: 220 });
+    columns.push({
+      field: 'role',
+      headerName: 'Role',
+      width: 130,
+      valueGetter: (params) => params.row.role.name,
+    });
   } else {
-    columns.push({ field: 'name', headerName: 'Pupil', width: 130 })
+    columns.push({ field: 'name', headerName: 'Pupil', width: 130 });
   }
 
   columns.push({
@@ -41,31 +52,29 @@ export default function UsersGrid({ variables, showMultiAdd, userType, setShared
     sortable: false,
     valueGetter: (params) => {
       if (params.row.groups) {
-        const sortedGroups = sortByName(params.row.groups)
-        return sortedGroups.map((group) => ` ${group.name}`)
+        const sortedGroups = sortByName(params.row.groups);
+        return sortedGroups.map((group) => ` ${group.name}`);
       } else {
-        return ''
+        return '';
       }
-    }
-  })
+    },
+  });
 
   return (
     <div style={{ height: 800, width: '100%' }}>
       <DataGrid
-        rows={sortByName(userType === 'teacher' ? state.users : state.pupils)}
+        rows={sortByName(userType === 'teacher' ? state.usersPermissionsUsers : state.pupils)}
         columns={columns}
         checkboxSelection
         onSelectionModelChange={(newSelection) => {
-          setSelectedUsers(newSelection)
+          setSelectedUsers(newSelection);
           if (newSelection.length > 0) {
-            showMultiAdd(true)
+            showMultiAdd(true);
           } else {
-            showMultiAdd(false)
+            showMultiAdd(false);
           }
         }}
       />
     </div>
-  )
+  );
 }
-
-

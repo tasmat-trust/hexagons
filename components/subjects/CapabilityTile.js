@@ -66,7 +66,7 @@ function CapabilityTile(props) {
     let status = isComplete ? 'target' : isTarget ? 'incomplete' : 'complete';
     setCompetencyStatus(status); // Optimistic update
     handleStatus(status);
-    setIsAssessing(true)
+    setIsAssessing(true);
   }
 
   function handleOpenGuidance() {
@@ -206,8 +206,12 @@ function CapabilityTile(props) {
               onClick={handleOpenGuidance}
               className={styles.lightbulb}
             >
-              {capability.guidance.length > 0 && <LightbulbIcon data-test-id={`got-guidance-${hexId}`} />}
-              {capability.guidance.length === 0 && <LightbulbOutlinedIcon data-test-id={`not-got-guidance-${hexId}`} />}
+              {capability.guidance.length > 0 && (
+                <LightbulbIcon data-test-id={`got-guidance-${hexId}`} />
+              )}
+              {capability.guidance.length === 0 && (
+                <LightbulbOutlinedIcon data-test-id={`not-got-guidance-${hexId}`} />
+              )}
             </IconButton>
             {guidanceIsOpen && (
               <CapabilityTileGuidance

@@ -1,24 +1,25 @@
-import { updateSummaryTextQuery } from '../../../queries/Subjects'
+import { updateSummaryTextQuery } from '../../../queries/Subjects';
+import { flattenDataAttributes } from '../../data-fetching/useSWRWrapped';
 
 async function updateCapabilityText({ gqlClient, moduleId, formData }) {
-
-  const result = {}
+  const result = {};
 
   try {
     const variables = {
       module: moduleId,
-      summary: formData.textarea
-    }
-    const data = await gqlClient.request(updateSummaryTextQuery, variables)
+      summary: formData.textarea,
+    };
+    const lumpyData = await gqlClient.request(updateSummaryTextQuery, variables);
+    const data = flattenDataAttributes(lumpyData);
     if (data) {
-      result.success = true
-      result.capabilityResponse = data
+      result.success = true;
+      result.capabilityResponse = data;
     }
   } catch (e) {
-    result.error = e.message
-    console.error(e)
+    result.error = e.message;
+    console.error(e);
   }
-  return result
+  return result;
 }
 
-export default updateCapabilityText
+export default updateCapabilityText;

@@ -28,14 +28,20 @@ const allSubjectsQuery = gql`
 
 const allRainbowAwardsQuery = gql`
   query getRainbowAwardsSubjects {
-    subjects(where: { isRainbowAwards: true }) {
-      name
-      slug
-      id
-      isCore
-      isChildOf
-      organization {
+    subjects(filters: { isRainbowAwards: { eq: true } }) {
+      data {
         id
+        attributes {
+          name
+          slug
+          isCore
+          isChildOf
+          organization {
+            data {
+              id
+            }
+          }
+        }
       }
     }
   }
@@ -43,14 +49,20 @@ const allRainbowAwardsQuery = gql`
 
 const allFunctionalSkillsQuery = gql`
   query getFunctionalSkillsSubjects {
-    subjects(where: { isFunctionalSkills: true }) {
-      name
-      slug
-      id
-      isCore
-      isChildOf
-      organization {
+    subjects(filters: { isFunctionalSkills: { eq: true } }) {
+      data {
         id
+        attributes {
+          name
+          slug
+          isCore
+          isChildOf
+          organization {
+            data {
+              id
+            }
+          }
+        }
       }
     }
   }
@@ -58,14 +70,20 @@ const allFunctionalSkillsQuery = gql`
 
 const allEarlyDevelopmentQuery = gql`
   query getEarlyDevelopmentSubjects {
-    subjects(where: { isEarlyDevelopment: true }) {
-      id
-      name
-      slug
-      isCore
-      isChildOf
-      organization {
+    subjects(filters: { isEarlyDevelopment: { eq: true } }) {
+      data {
         id
+        attributes {
+          name
+          slug
+          isCore
+          isChildOf
+          organization {
+            data {
+              id
+            }
+          }
+        }
       }
     }
   }
@@ -73,26 +91,39 @@ const allEarlyDevelopmentQuery = gql`
 
 const getCoreSubjects = gql`
   query getCoreSubjects {
-    subjects(where: { isCore: true }) {
-      id
-      name
-      slug
-      isTransition
-      isExpressiveAndReceptiveLanguage
+    subjects(filters: { isCore: { eq: true } }) {
+      data {
+        id
+        attributes {
+          name
+          slug
+          isTransition
+          isExpressiveAndReceptiveLanguage
+        }
+      }
     }
   }
 `;
 
 const getSingleSubjectBySlug = gql`
   query getSingleSubjectBySlug($slug: String!) {
-    subjects(where: { slug: $slug }) {
-      id
-      name
-      slug
-      excludeEarlyDevelopmentStep
-      isRainbowAwards
-      organization {
+    subjects(filters: { slug: { eq: $slug } }) {
+      data {
         id
+        attributes {
+          name
+          slug
+          excludeEarlyDevelopmentStep
+          isRainbowAwards
+          organization {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -100,14 +131,26 @@ const getSingleSubjectBySlug = gql`
 
 const getCapability = gql`
   query getCapability($id: ID!) {
-    capabilities(where: { id: $id }) {
-      text
-      id
-      guidance {
-        text
-        users_permissions_user {
-          username
-          id
+    capabilities(filters: { id: { eq: $id } }) {
+      data {
+        id
+        attributes {
+          text
+          guidance {
+            data {
+              attributes {
+                text
+                users_permissions_user {
+                  data {
+                    id
+                    attributes {
+                      username
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -116,22 +159,38 @@ const getCapability = gql`
 
 const getModules = gql`
   query getModules($subjectId: ID!) {
-    modules(where: { subject: $subjectId }) {
-      order
-      id
-      level
-      summary
-      guidance
-      capabilities {
-        text
+    modules(filters: { subject: { id: { eq: $subjectId } } }) {
+      data {
         id
-        guidance {
-          text
-          id
-          created_at
-          users_permissions_user {
-            username
-            id
+        attributes {
+          order
+          level
+          summary
+          guidance
+          capabilities {
+            data {
+              id
+              attributes {
+                text
+                guidance {
+                  data {
+                    id
+                    attributes {
+                      text
+                      createdAt
+                      users_permissions_user {
+                        data {
+                          id
+                          attributes {
+                            username
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -141,22 +200,38 @@ const getModules = gql`
 
 const getEdModules = gql`
   query getEdModules($subjectId: ID!) {
-    modules(where: { subject: $subjectId }) {
-      order
-      id
-      level
-      summary
-      guidance
-      capabilities {
-        text
+    modules(filters: { subject: { id: { eq: $subjectId } } }) {
+      data {
         id
-        guidance {
-          text
-          id
-          created_at
-          users_permissions_user {
-            username
-            id
+        attributes {
+          order
+          level
+          summary
+          guidance
+          capabilities {
+            data {
+              id
+              attributes {
+                text
+                guidance {
+                  data {
+                    id
+                    attributes {
+                      text
+                      createdAt
+                      users_permissions_user {
+                        data {
+                          id
+                          attributes {
+                            username
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -166,17 +241,21 @@ const getEdModules = gql`
 
 const createModuleQuery = gql`
   mutation createModule($level: ENUM_MODULE_LEVEL!, $order: Int!, $subject: ID!, $summary: String) {
-    createModule(
-      input: { data: { level: $level, order: $order, subject: $subject, summary: $summary } }
-    ) {
-      module {
-        level
-        order
+    createModule(data: { level: $level, order: $order, subject: $subject, summary: $summary }) {
+      data {
         id
-        summary
-        subject {
-          name
-          id
+        attributes {
+          level
+          order
+          summary
+          subject {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -185,10 +264,12 @@ const createModuleQuery = gql`
 
 const updateSummaryTextQuery = gql`
   mutation updateModule($summary: String!, $module: ID!) {
-    updateModule(input: { where: { id: $module }, data: { summary: $summary } }) {
-      module {
-        summary
+    updateModule(id: $module, data: { summary: $summary }) {
+      data {
         id
+        attributes {
+          summary
+        }
       }
     }
   }
@@ -196,13 +277,19 @@ const updateSummaryTextQuery = gql`
 
 const createCapabilityQuery = gql`
   mutation createCapability($text: String!, $order: Int!, $module: ID!) {
-    createCapability(input: { data: { text: $text, order: $order, module: $module } }) {
-      capability {
-        text
-        order
-        module {
-          level
+    createCapability(data: { text: $text, order: $order, module: $module }) {
+      data {
+        attributes {
+          text
           order
+          module {
+            data {
+              attributes {
+                level
+                order
+              }
+            }
+          }
         }
       }
     }
@@ -211,10 +298,12 @@ const createCapabilityQuery = gql`
 
 const updateCapabilityTextQuery = gql`
   mutation updateCapability($text: String!, $capability: ID!) {
-    updateCapability(input: { where: { id: $capability }, data: { text: $text } }) {
-      capability {
-        text
+    updateCapability(id: $capability, data: { text: $text }) {
+      data {
         id
+        attributes {
+          text
+        }
       }
     }
   }
@@ -222,8 +311,8 @@ const updateCapabilityTextQuery = gql`
 
 const deleteCapabilityQuery = gql`
   mutation DeleteCapability($id: ID!) {
-    deleteCapability(input: { where: { id: $id } }) {
-      capability {
+    deleteCapability(id: $id) {
+      data {
         id
       }
     }
@@ -232,8 +321,8 @@ const deleteCapabilityQuery = gql`
 
 const deleteModuleQuery = gql`
   mutation DeleteModule($id: ID!) {
-    deleteModule(input: { where: { id: $id } }) {
-      module {
+    deleteModule(id: $id) {
+      data {
         id
       }
     }
@@ -243,15 +332,21 @@ const deleteModuleQuery = gql`
 const createGuidanceQuery = gql`
   mutation createGuidance($text: String!, $capability: ID!, $userId: ID!) {
     createGuidance(
-      input: { data: { text: $text, capability: $capability, users_permissions_user: $userId } }
+      data: { text: $text, capability: $capability, users_permissions_user: $userId }
     ) {
-      guidance {
-        text
+      data {
         id
-        created_at
-        users_permissions_user {
-          username
-          id
+        attributes {
+          text
+          createdAt
+          users_permissions_user {
+            data {
+              id
+              attributes {
+                username
+              }
+            }
+          }
         }
       }
     }
@@ -260,8 +355,8 @@ const createGuidanceQuery = gql`
 
 const deleteGuidanceQuery = gql`
   mutation DeleteGuidance($id: ID!) {
-    deleteGuidance(input: { where: { id: $id } }) {
-      guidance {
+    deleteGuidance(id: $id) {
+      data {
         id
       }
     }

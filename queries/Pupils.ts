@@ -2,14 +2,24 @@ import { gql } from 'graphql-request';
 
 const createPupilQuery = gql`
   mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!]) {
-    createPupil(input: { data: { name: $name, groups: $groupId, organization: $orgId } }) {
-      pupil {
-        name
-        groups {
+    createPupil(data: { name: $name, groups: $groupId, organization: $orgId }) {
+      data {
+        attributes {
           name
-        }
-        organization {
-          name
+          groups {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+          organization {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -18,12 +28,20 @@ const createPupilQuery = gql`
 
 const allPupilsWithGroups = gql`
   query getPupilsWithGroups($orgId: ID!) {
-    pupils(where: { organization: $orgId }) {
-      id
-      name
-      groups(where: { organization: $orgId }) {
-        name
+    pupils(filters: { organization: { id: { eq: $orgId } } }) {
+      data {
         id
+        attributes {
+          name
+          groups {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -31,11 +49,17 @@ const allPupilsWithGroups = gql`
 
 const updatePupilGroups = gql`
   mutation updatePupil($userId: ID!, $groupIds: [ID]) {
-    updatePupil(input: { where: { id: $userId }, data: { groups: $groupIds } }) {
-      pupil {
-        name
-        groups {
+    updatePupil(id: $userId, data: { groups: $groupIds }) {
+      data {
+        attributes {
           name
+          groups {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -44,14 +68,26 @@ const updatePupilGroups = gql`
 
 const getPupilById = gql`
   query getPupil($id: ID, $orgId: ID!) {
-    pupils(where: { id: $id, organization: $orgId }) {
-      name
-      id
-      groups(where: { organization: $orgId }) {
-        name
-      }
-      organization {
-        school_type
+    pupils(filters: { id: { eq: $id }, organization: { id: { eq: $orgId } } }) {
+      data {
+        id
+        attributes {
+          name
+          groups {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+          organization {
+            data {
+              attributes {
+                school_type
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -59,12 +95,20 @@ const getPupilById = gql`
 
 const getPupilsByGroup = gql`
   query getAllPupilsByGroup($groupId: ID!, $orgId: ID!) {
-    pupils(where: { groups: $groupId, organization: $orgId }) {
-      name
-      id
-      groups(where: { organization: $orgId }) {
-        name
-        slug
+    pupils(filters: { groups: { id: { eq: $groupId } }, organization: { id: { eq: $orgId } } }) {
+      data {
+        id
+        attributes {
+          name
+          groups {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -72,22 +116,38 @@ const getPupilsByGroup = gql`
 
 const getLevels = gql`
   query getAllLevels($subjectId: ID!, $pupilId: ID!) {
-    levels(where: { subject: $subjectId, pupil: $pupilId }) {
-      id
-      status
-      wasQuickAssessed
-      module {
-        level
-        order
-        capabilities {
-          text
-          order
-          id
+    levels(filters: { subject: { id: { eq: $subjectId } }, pupil: { id: { eq: $pupilId } } }) {
+      data {
+        id
+        attributes {
+          status
+          wasQuickAssessed
+          module {
+            data {
+              attributes {
+                level
+                order
+                capabilities {
+                  data {
+                    id
+                    attributes {
+                      text
+                      order
+                    }
+                  }
+                }
+              }
+            }
+          }
+          competencies {
+            data {
+              attributes {
+                status
+                capability_fk
+              }
+            }
+          }
         }
-      }
-      competencies {
-        status
-        capability_fk
       }
     }
   }
@@ -95,19 +155,33 @@ const getLevels = gql`
 
 const getLevelsForOverview = gql`
   query getLevelsForOverview($subjectId: ID!, $pupilId: ID!) {
-    levels(where: { subject: $subjectId, pupil: $pupilId }) {
-      status
-      wasQuickAssessed
-      module {
-        level
-        order
-        capabilities {
-          id
+    levels(filters: { subject: { id: { eq: $subjectId } }, pupil: { id: { eq: $pupilId } } }) {
+      data {
+        attributes {
+          status
+          wasQuickAssessed
+          module {
+            data {
+              attributes {
+                level
+                order
+                capabilities {
+                  data {
+                    id
+                  }
+                }
+              }
+            }
+          }
+          competencies {
+            data {
+              attributes {
+                status
+                capability_fk
+              }
+            }
+          }
         }
-      }
-      competencies {
-        status
-        capability_fk
       }
     }
   }
@@ -115,14 +189,28 @@ const getLevelsForOverview = gql`
 
 const getLevel = gql`
   query getLevel($subjectId: ID!, $pupilId: ID!, $moduleId: ID!) {
-    levels(where: { subject: $subjectId, pupil: $pupilId, module: $moduleId }) {
-      id
-      status
-      wasQuickAssessed
-      competencies {
+    levels(
+      filters: {
+        subject: { id: { eq: $subjectId } }
+        pupil: { id: { eq: $pupilId } }
+        module: { id: { eq: $moduleId } }
+      }
+    ) {
+      data {
         id
-        status
-        capability_fk
+        attributes {
+          status
+          wasQuickAssessed
+          competencies {
+            data {
+              id
+              attributes {
+                status
+                capability_fk
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -130,37 +218,48 @@ const getLevel = gql`
 
 const updateLevelQuery = gql`
   mutation updateLevel($levelId: ID!, $status: ENUM_LEVEL_STATUS!, $wasQuickAssessed: Boolean!) {
-    updateLevel(
-      input: {
-        where: { id: $levelId }
-        data: { status: $status, wasQuickAssessed: $wasQuickAssessed }
-      }
-    ) {
-      level {
+    updateLevel(id: $levelId, data: { status: $status, wasQuickAssessed: $wasQuickAssessed }) {
+      data {
         id
-        status
-        wasQuickAssessed
+        attributes {
+          status
+          wasQuickAssessed
+        }
       }
     }
   }
 `;
 
 const getCompetencies = gql`
-  query getCompetencies($pupilId: ID!, $levelId: [ID!]) {
-    competencies(where: { pupil: $pupilId, level: $levelId }) {
-      id
-      status
-      capability_fk
+  query getCompetencies($pupilId: ID!, $levelId: ID!) {
+    competencies(filters: { pupil: { id: { eq: $pupilId } }, level: { id: { eq: $levelId } } }) {
+      data {
+        id
+        attributes {
+          status
+          capability_fk
+        }
+      }
     }
   }
 `;
 
 const getCompetency = gql`
   query getCompetency($pupilId: ID!, $capability_fk: Int!, $levelId: ID!) {
-    competencies(where: { pupil: $pupilId, capability_fk: $capability_fk, level: $levelId }) {
-      id
-      status
-      capability_fk
+    competencies(
+      filters: {
+        pupil: { id: { eq: $pupilId } }
+        capability_fk: { eq: $capability_fk }
+        level: { id: { eq: $levelId } }
+      }
+    ) {
+      data {
+        id
+        attributes {
+          status
+          capability_fk
+        }
+      }
     }
   }
 `;
@@ -174,21 +273,21 @@ const createCompetencyQuery = gql`
     $capability_text: String!
   ) {
     createCompetency(
-      input: {
-        data: {
-          pupil: $pupilId
-          level: $levelId
-          status: $status
-          capability_fk: $capability_fk
-          capability_text: $capability_text
-        }
+      data: {
+        pupil: $pupilId
+        level: $levelId
+        status: $status
+        capability_fk: $capability_fk
+        capability_text: $capability_text
       }
     ) {
-      competency {
-        capability_text
-        status
-        capability_fk
+      data {
         id
+        attributes {
+          capability_text
+          status
+          capability_fk
+        }
       }
     }
   }
@@ -196,10 +295,8 @@ const createCompetencyQuery = gql`
 
 const updateCompetencyQuery = gql`
   mutation updateCompetency($id: ID!, $status: ENUM_COMPETENCY_STATUS!, $adaptation: String) {
-    updateCompetency(
-      input: { where: { id: $id }, data: { status: $status, adaptation: $adaptation } }
-    ) {
-      competency {
+    updateCompetency(id: $id, data: { status: $status, adaptation: $adaptation }) {
+      data {
         id
       }
     }
@@ -208,8 +305,8 @@ const updateCompetencyQuery = gql`
 
 const deleteLevelQuery = gql`
   mutation DeleteLevel($id: ID!) {
-    deleteLevel(input: { where: { id: $id } }) {
-      level {
+    deleteLevel(id: $id) {
+      data {
         id
       }
     }
@@ -218,8 +315,8 @@ const deleteLevelQuery = gql`
 
 const deleteCompetencyQuery = gql`
   mutation DeleteCompetency($id: ID!) {
-    deleteCompetency(input: { where: { id: $id } }) {
-      competency {
+    deleteCompetency(id: $id) {
+      data {
         id
       }
     }
@@ -228,8 +325,8 @@ const deleteCompetencyQuery = gql`
 
 const deletePupil = gql`
   mutation DeletePupil($id: ID!) {
-    deletePupil(input: { where: { id: $id } }) {
-      pupil {
+    deletePupil(id: $id) {
+      data {
         id
       }
     }
@@ -238,16 +335,20 @@ const deletePupil = gql`
 
 const getForDeletionCompetencies = gql`
   query getCompetencies($pupilId: ID!) {
-    competencies(where: { pupil: $pupilId }) {
-      id
+    competencies(filters: { pupil: { id: { eq: $pupilId } } }) {
+      data {
+        id
+      }
     }
   }
 `;
 
 const getForDeletionLevels = gql`
   query getLevels($pupilId: ID!) {
-    levels(where: { pupil: $pupilId }) {
-      id
+    levels(filters: { pupil: { id: { eq: $pupilId } } }) {
+      data {
+        id
+      }
     }
   }
 `;
@@ -261,20 +362,20 @@ const createLevelQuery = gql`
     $wasQuickAssessed: Boolean
   ) {
     createLevel(
-      input: {
-        data: {
-          pupil: $pupilId
-          module: $moduleId
-          subject: $subjectId
-          status: $status
-          wasQuickAssessed: $wasQuickAssessed
-        }
+      data: {
+        pupil: $pupilId
+        module: $moduleId
+        subject: $subjectId
+        status: $status
+        wasQuickAssessed: $wasQuickAssessed
       }
     ) {
-      level {
+      data {
         id
-        status
-        wasQuickAssessed
+        attributes {
+          status
+          wasQuickAssessed
+        }
       }
     }
   }

@@ -3,6 +3,7 @@ import {
   getForDeletionLevels,
   getForDeletionCompetencies,
 } from '../../../queries/Pupils';
+import { flattenDataAttributes } from '../../data-fetching/useSWRWrapped';
 import { deleteCompetencies } from './deleteCompetencies';
 import { deleteLevels } from './deleteLevels';
 
@@ -20,9 +21,10 @@ async function deletePup(gqlClient, pupilId) {
 
 export default async function deletePupilCompletely(gqlClient, pupilId, triggerSharedState) {
   async function delete100Competencies() {
-    const competenciesData = await gqlClient.request(getForDeletionCompetencies, {
+    const data = await gqlClient.request(getForDeletionCompetencies, {
       pupilId: pupilId,
     });
+    const competenciesData = flattenDataAttributes(data);
     if (competenciesData.competencies && competenciesData.competencies.length > 0) {
       await deleteCompetencies(gqlClient, competenciesData.competencies);
     }
@@ -35,7 +37,9 @@ export default async function deletePupilCompletely(gqlClient, pupilId, triggerS
 
   await delete100Competencies();
 
-  const levelsData = await gqlClient.request(getForDeletionLevels, { pupilId: pupilId });
+  const data = await gqlClient.request(getForDeletionLevels, { pupilId: pupilId });
+  const levelsData = flattenDataAttributes(data);
+
   if (levelsData.levels && levelsData.levels.length > 0) {
     await deleteLevels(gqlClient, levelsData.levels);
   }

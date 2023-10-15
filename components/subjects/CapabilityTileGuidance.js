@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   para: {
-    maxWidth: '100%'
-  }
+    maxWidth: '100%',
+  },
 }));
 
 function CapabilityTileGuidance({
@@ -131,7 +131,7 @@ function CapabilityTileGuidance({
           <TabPanel data-test-id="existing-guidance-panel" value={value} index={0}>
             <List className={classes.root}>
               {guidance.map((g, i) => {
-                const created_at = extractDate(g.created_at);
+                const created_at = extractDate(g.createdAt);
                 const shouldShowDelete =
                   role === 'Leader' || parseInt(g.users_permissions_user.id) === parseInt(userId);
                 let shortenedText = g.text.length > 16 ? g.text.slice(0, 15) : g.text;
@@ -140,13 +140,17 @@ function CapabilityTileGuidance({
                     sx={{
                       justifyContent: 'space-between',
                       borderBottom: '1px solid #e8e8e8',
-                      maxWidth: '100%'
+                      maxWidth: '100%',
                     }}
                     key={`guidance-${i}`}
                     alignItems="center"
                   >
                     <div>
-                      <span className={classes.para} data-test-id={`guidance-${i}`} style={{ whiteSpace: 'pre-line' }}>
+                      <span
+                        className={classes.para}
+                        data-test-id={`guidance-${i}`}
+                        style={{ whiteSpace: 'pre-line' }}
+                      >
                         {g.text}
                       </span>
 
@@ -177,7 +181,7 @@ function CapabilityTileGuidance({
               successCallback={(formResult) => {
                 // refresh capability
                 const newCap = JSON.parse(JSON.stringify(capability));
-                newCap.guidance.push(formResult.guidance.createGuidance.guidance);
+                newCap.guidance.push(formResult.guidance.createGuidance);
                 setTimeout(() => {
                   setCapability(newCap);
                 }, 1000);

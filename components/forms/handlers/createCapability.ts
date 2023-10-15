@@ -1,4 +1,5 @@
 import { createCapabilityQuery } from '../../../queries/Subjects';
+import { flattenDataAttributes } from '../../data-fetching/useSWRWrapped';
 import { HandlerArgs, ResponseObject } from '../types';
 
 type QueryVars = {
@@ -16,7 +17,8 @@ async function createGuidance({ formData, gqlClient, moduleId }: HandlerArgs) {
     order: 1,
   };
   try {
-    const data = await gqlClient.request(createCapabilityQuery, variables);
+    const lumpyData = await gqlClient.request(createCapabilityQuery, variables);
+    const data = flattenDataAttributes(lumpyData);
     if (data) {
       result.success = true;
     }

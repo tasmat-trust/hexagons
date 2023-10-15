@@ -27,10 +27,12 @@ function CapabilityTiles({ capabilities, competencies, ...other }) {
             {capabilities.map((capability, i) => {
               const gotC =
                 competencies &&
+                competencies.length > 0 &&
                 competencies.map((competency) =>
                   parseInt(capability.id) === competency.capability_fk ? competency : null
                 );
-              const capabilities = gotC && gotC.filter((competency) => competency !== null);
+              const capabilities =
+                gotC && gotC.length > 0 && gotC.filter((competency) => competency !== null);
               const competency = capabilities ? capabilities[0] : null;
               return (
                 <CapabilityTile

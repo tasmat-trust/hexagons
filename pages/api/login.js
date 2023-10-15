@@ -22,26 +22,25 @@ export default nc()
       if (!user.confirmed) {
         return res.status(401).json({
           statusCode: 401,
-          message: 'User not confirmed'
+          message: 'User not confirmed',
         });
       }
 
-      console.log('got user, requesting roles')
+      console.log('got user, requesting roles');
 
       const userWithRolesAndOrg = await createStrapiAxios(user)
         .get(`/api/users/me?populate=*`)
-        .then(res => res.data)
-        .then(data => data);
+        .then((res) => res.data)
+        .then((data) => data);
 
-    
-
-      const userWithRolesAndOrgAndToken = {...userWithRolesAndOrg, strapiToken: user.strapiToken}
+      console.log(userWithRolesAndOrg);
+      const userWithRolesAndOrgAndToken = { ...userWithRolesAndOrg, strapiToken: user.strapiToken };
 
       req.session.set('user', userWithRolesAndOrgAndToken);
       await req.session.save();
       res.json(user);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       const { response: fetchResponse } = error;
       if (fetchResponse) {
         return res.status(fetchResponse?.status || 500).json(error.response?.data);

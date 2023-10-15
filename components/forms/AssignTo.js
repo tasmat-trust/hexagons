@@ -145,7 +145,7 @@ function AssignGroupsToUser(props) {
   async function assignToGroups(user) {
     const variables = {
       userId: parseInt(user.id),
-      groupIds: user.groups.map(group => parseInt(group)),
+      groupIds: user.groups.map((group) => parseInt(group)),
     };
     try {
       const data = await gqlClient.request(
