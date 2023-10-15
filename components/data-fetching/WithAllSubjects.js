@@ -26,11 +26,11 @@ export default function WithAllSubjects(WrappedComponent) {
     ...other
   }) {
     let subjectsQuery = isRainbowAwards ? allRainbowAwardsQuery : allSubjectsQuery;
-    subjectsQuery = isFunctionalSkills ? allFunctionalSkillsQuery : subjectsQuery
+    subjectsQuery = isFunctionalSkills ? allFunctionalSkillsQuery : subjectsQuery;
     subjectsQuery = isEarlyDevelopment ? allEarlyDevelopmentQuery : subjectsQuery;
 
     const { data: subjectsData } = useSWR(subjectsQuery, { suspense: true });
- 
+
     const [rainbowSubjects, setRainbowSubjects] = useState();
     const { orgId } = useContext(HexagonsContext);
 
@@ -49,29 +49,28 @@ export default function WithAllSubjects(WrappedComponent) {
     }, [getEverythingCombined]);
 
     let subjectsFilteredByOrg = subjectsData.subjects.filter((subj, i) => {
-      if (!subj.organization) {
+      if (!subj.organization?.id) {
         return subj;
       } else {
-        if (parseInt(subj.organization.id) === orgId) {
+        if (parseInt(subj.organization?.id) === orgId) {
           return subj;
         }
       }
     });
 
-    let subjects = subjectsFilteredByOrg; 
-    let allSubjects = subjectsFilteredByOrg
+    let subjects = subjectsFilteredByOrg;
+    let allSubjects = subjectsFilteredByOrg;
     const mainSubjects = subjects
-    .map((s) => (s.isRainbowAwards | s.isTransition | s.isEarlyDevelopment | s.isFunctionalSkills ? null : s))
-    .filter((v) => v !== null);
-
-    if (!isEarlyDevelopment && !isRainbowAwards && !isFunctionalSkills) {
-      subjects = mainSubjects
-    }
-
-    const normalSubjects = subjects
-      .map((s) => (!s.isChildOf ? s : null))
+      .map((s) =>
+        s.isRainbowAwards | s.isTransition | s.isEarlyDevelopment | s.isFunctionalSkills ? null : s
+      )
       .filter((v) => v !== null);
 
+    if (!isEarlyDevelopment && !isRainbowAwards && !isFunctionalSkills) {
+      subjects = mainSubjects;
+    }
+
+    const normalSubjects = subjects.map((s) => (!s.isChildOf ? s : null)).filter((v) => v !== null);
     // Get all parent subjects (may change in Strapi)
     const parentSubjectsAll = subjects
       .map((subject) => subject.isChildOf)
@@ -96,11 +95,10 @@ export default function WithAllSubjects(WrappedComponent) {
     subjects.sort(byCoreSubjects);
 
     if (getEverythingCombined && rainbowSubjects) {
-      allSubjects = [...allSubjects, ...rainbowSubjects.data.subjects];
-      subjects = [...subjects, ...rainbowSubjects.data.subjects];
+      allSubjects = [...allSubjects, ...rainbowSubjects.subjects];
+      subjects = [...subjects, ...rainbowSubjects.subjects];
     }
 
- 
     return (
       <WrappedComponent
         subjects={subjects}

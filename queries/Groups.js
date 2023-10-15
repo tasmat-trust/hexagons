@@ -1,52 +1,79 @@
-import { gql } from 'graphql-request'
+import { gql } from 'graphql-request';
 
 const createGroupQuery = gql`
-mutation createNewGroup($name: String!, $orgId: ID!) {
-    createGroup(input: {
-      data:{
-        name:$name,
-        organization:$orgId
+  mutation createNewGroup($name: String!, $orgId: ID!) {
+    createGroup(data: { name: $name, organization: $orgId }) {
+      data {
+        attributes {
+          name
+          organization {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
         }
-      }) {
-      group {
-        name
-        organization {
+      }
+    }
+  }
+`;
+
+const getSingleGroup = gql`
+  query getSingleGroup($orgId: ID!, $slug: String!) {
+    groups(filters: { organization: { id: { eq: $orgId } }, slug: { eq: $slug } }) {
+      data {
+        id
+        attributes {
           name
         }
       }
-    }      
-}`
-
-const getSingleGroup = gql`query getSingleGroup($orgId: Int!, $slug: String!) {  
-  groups (where: {organization: $orgId, slug: $slug}) { 
-    name id
+    }
   }
-}`
+`;
 
 // Get all groups with name and slug
-const allGroups = gql`query getGroups($orgId: Int!) {  
-    groups (where: {organization: $orgId}) { 
-      name slug id
+const allGroups = gql`
+  query getGroups($orgId: ID!) {
+    groups(filters: { organization: { id: { eq: $orgId } } }) {
+      data {
+        id
+        attributes {
+          name
+          slug
+        }
+      }
     }
-  }`
-
-const myGroups = gql`query getGroups($teacherId: ID!, $orgId: Int!) {  
-  groups (where: {users: $teacherId, organization: $orgId}) { 
-    name slug id
   }
-}`
+`;
+
+const myGroups = gql`
+  query getGroups($teacherId: ID!, $orgId: ID!) {
+    groups(filters: { users: { id: { eq: $teacherId } }, organization: { id: { eq: $orgId } } }) {
+      data {
+        id
+        attributes {
+          name
+          slug
+        }
+      }
+    }
+  }
+`;
 
 // duplicate of allGroups TODO
-const getGroupsByOrg = gql`query getGroups($orgId: Int!) {  
-  groups (where: {organization: $orgId}) { 
-    name id slug
+const getGroupsByOrg = gql`
+  query getGroups($orgId: ID!) {
+    groups(filters: { organization: { id: { eq: $orgId } } }) {
+      data {
+        id
+        attributes {
+          name
+          slug
+        }
+      }
+    }
   }
-}`
+`;
 
-export {
-  getSingleGroup,
-  createGroupQuery,
-  allGroups,
-  myGroups,
-  getGroupsByOrg
-}
+export { getSingleGroup, createGroupQuery, allGroups, myGroups, getGroupsByOrg };

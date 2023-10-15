@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {  Box, Typography, Grid, Card } from '@mui/material';
+import { Box, Typography, Grid, Card } from '@mui/material';
 import GroupsList from './GroupsList';
 import useAdminPage from '../../styles/useAdminPage';
 import { useContext } from 'react';
@@ -27,7 +27,7 @@ function GroupsMenu({ userId, ...other }) {
               <GroupsList
                 {...other}
                 getMyGroups={true}
-                getGroupsVariables={{ teacherId: userId, orgId: orgId }}
+                getGroupsVariables={{ teacherId: userId, orgId }}
               />
             </CustomSuspense>
           </Card>
@@ -40,7 +40,7 @@ function GroupsMenu({ userId, ...other }) {
               </Typography>
             </Box>
             <CustomSuspense message="Checking groups">
-              <GroupsList {...other} getGroupsVariables={{ orgId: orgId }} />
+              <GroupsList {...other} getGroupsVariables={{ orgId }} />
             </CustomSuspense>
           </Card>
         </Grid>

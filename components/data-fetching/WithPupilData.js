@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import useSWR from 'swr'
+import useSWR from 'swr';
 import { getPupilById } from '../../queries/Pupils';
 
 export default function WithPupilData(WrappedComponent) {

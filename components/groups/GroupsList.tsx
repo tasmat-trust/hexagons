@@ -3,10 +3,11 @@ import Link from 'next/link';
 import useAdminPage from '../../styles/useAdminPage';
 import { useEffect, useContext } from 'react';
 import { allGroups, myGroups } from '../../queries/Groups';
-import useSWR from 'swr';
+
 import { useRouter } from 'next/router';
 import sortByName from '../../utils/sortByName';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
+import useSWR from 'swr';
 
 function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
   const router = useRouter();
@@ -28,8 +29,8 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
 
   const isSubjectsListing = router.asPath.includes('subjects');
   const isRainbowAwards = router.asPath.includes('rainbow-awards');
-  const isEarlyDevelopment = router.asPath.includes('early-development')
-  const isFunctionalSkills = router.asPath.includes('functional-skills')
+  const isEarlyDevelopment = router.asPath.includes('early-development');
+  const isFunctionalSkills = router.asPath.includes('functional-skills');
   const isReportListing = router.asPath.includes('reports');
 
   function storeRecentGroup(e, group, linkUrl) {
@@ -37,7 +38,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
     localStorage.setItem('active-group-slug', group.slug);
     localStorage.setItem('active-group-name', group.name);
     localStorage.setItem('active-group-id', group.id);
-    localStorage.setItem('active-group-org-id', orgId);
+    localStorage.setItem('active-group-org-id', orgId.toString());
     router.push(linkUrl, undefined, { shallow: true });
   }
 
@@ -46,7 +47,13 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
       {sortedGroups.map((group, i) => {
         let linkUrl;
         if (isSubjectsListing || isRainbowAwards || isEarlyDevelopment || isFunctionalSkills) {
-          const basePath = isFunctionalSkills ? 'functional-skills' : isEarlyDevelopment ? 'early-development' : isRainbowAwards ? 'rainbow-awards' : 'subjects'
+          const basePath = isFunctionalSkills
+            ? 'functional-skills'
+            : isEarlyDevelopment
+            ? 'early-development'
+            : isRainbowAwards
+            ? 'rainbow-awards'
+            : 'subjects';
           linkUrl = `/${basePath}/${router.query.subject}/${group.slug}`;
         } else if (isReportListing) {
           let routerArray = router.asPath.split('/');
@@ -57,7 +64,7 @@ function GroupsList({ getGroupsVariables, setSharedState, getMyGroups }) {
         }
         return (
           <li className={classes.listItem} key={`group-${i}`}>
-            <Link href={linkUrl} className={classes.groupBox_link}>
+            <Link href={linkUrl}>
               <a
                 title={`Choose ${group.name} group`}
                 data-test-id={`${group.slug}-link`}

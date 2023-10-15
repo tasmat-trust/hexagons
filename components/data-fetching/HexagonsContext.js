@@ -1,3 +1,3 @@
-import { createContext } from "react"
+import { createContext } from 'react';
 
-export const HexagonsContext = createContext({some: 'thang', useFunctionalSkills: false})
+export const HexagonsContext = createContext({ orgId: 0, useFunctionalSkills: false });

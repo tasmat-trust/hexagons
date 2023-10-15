@@ -1,15 +1,17 @@
-import { updateLevelQuery } from '../../../queries/Pupils'
+import { updateLevelQuery } from '../../../queries/Pupils';
+import { flattenDataAttributes } from '../../data-fetching/useSWRWrapped';
 
 async function updateLevel(gqlClient, variables, triggerSharedState, setError) {
   try {
-    const data = await gqlClient.request(updateLevelQuery, variables)
+    const lumpyData = await gqlClient.request(updateLevelQuery, variables);
+    const data = flattenDataAttributes(lumpyData);
     if (data) {
-       return data.updateLevel.level
+      return data.updateLevel.level;
     }
   } catch (e) {
     //setError(e)
-    console.error(e)
+    console.error(e);
   }
 }
 
-export default updateLevel
+export default updateLevel;

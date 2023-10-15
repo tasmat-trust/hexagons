@@ -36,6 +36,7 @@ import { SWRConfig } from 'swr';
 import { getOrgIdFromSession } from '../utils';
 
 import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
+import { flattenDataAttributes } from '../components/data-fetching/useSWRWrapped';
 
 const inputGlobalStyles = <GlobalStyles styles={() => globalStyles(theme)} />;
 
@@ -72,7 +73,7 @@ function MyApp({ Component, pageProps }) {
 
   const fetcher = async (query, variables) => {
     const data = await gqlClient.request(query, variables);
-    return data;
+    return flattenDataAttributes(data);
   };
   let orgId = 0;
   if (pageProps.user) {
@@ -80,17 +81,16 @@ function MyApp({ Component, pageProps }) {
       orgId = getOrgIdFromSession(pageProps.user);
     }
   }
- 
 
   let role = 'public';
   let userId = 0;
-  let useEarlyDevelopment = false
-  let useFunctionalSkills = false
+  let useEarlyDevelopment = false;
+  let useFunctionalSkills = false;
   if (pageProps.user) {
-    role = pageProps.user.role.name;
-    userId = pageProps.user.id;
-    useEarlyDevelopment = pageProps.user.organization.use_early_development
-    useFunctionalSkills = pageProps.user.organization.use_functional_skills
+    role = pageProps?.user?.role?.name;
+    userId = pageProps?.user?.id;
+    useEarlyDevelopment = pageProps?.user?.organization?.use_early_development;
+    useFunctionalSkills = pageProps?.user?.organization?.use_functional_skills;
   }
 
   const hexagonsGlobals = {
@@ -99,7 +99,7 @@ function MyApp({ Component, pageProps }) {
     role,
     userId,
     useEarlyDevelopment,
-    useFunctionalSkills
+    useFunctionalSkills,
   };
 
   return (
@@ -110,7 +110,7 @@ function MyApp({ Component, pageProps }) {
       <NextNprogress color={theme.palette.secondary.light} />
       <AnimateSharedLayout>
         <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>            
+          <ThemeProvider theme={theme}>
             <StylesProvider jss={jss}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />

@@ -46,9 +46,8 @@ function GetAllPupilsAndSubjects({ user, groupName, pupilsByGroupVariables, allS
         if (levelData && levelData.data) {
           return getCurrentLevel(levelData.data.levels);
         } else {
-          return null
+          return null;
         }
-        
       });
       const resolvedLevels = await Promise.all(levels);
       return resolvedLevels;

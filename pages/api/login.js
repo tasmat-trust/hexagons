@@ -9,7 +9,7 @@ export default nc()
 
     try {
       const user = await createStrapiAxios()
-        .post(`/auth/local`, {
+        .post(`/api/auth/local`, {
           identifier: email,
           password,
         })
@@ -22,15 +22,25 @@ export default nc()
       if (!user.confirmed) {
         return res.status(401).json({
           statusCode: 401,
-          message: 'User not confirmed'
+          message: 'User not confirmed',
         });
       }
 
-      req.session.set('user', user);
+      console.log('got user, requesting roles');
+
+      const userWithRolesAndOrg = await createStrapiAxios(user)
+        .get(`/api/users/me?populate=*`)
+        .then((res) => res.data)
+        .then((data) => data);
+
+      console.log(userWithRolesAndOrg);
+      const userWithRolesAndOrgAndToken = { ...userWithRolesAndOrg, strapiToken: user.strapiToken };
+
+      req.session.set('user', userWithRolesAndOrgAndToken);
       await req.session.save();
       res.json(user);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       const { response: fetchResponse } = error;
       if (fetchResponse) {
         return res.status(fetchResponse?.status || 500).json(error.response?.data);

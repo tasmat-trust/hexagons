@@ -9,7 +9,6 @@ import { HexagonsContext } from '../data-fetching/HexagonsContext';
 function SubjectsAndGroups({ userId, ...other }) {
   const classes = useAdminPage();
   const { orgId } = useContext(HexagonsContext);
-
   return (
     <>
       <div className={classes.root}>
