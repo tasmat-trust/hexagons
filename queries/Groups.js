@@ -76,4 +76,28 @@ const getGroupsByOrg = gql`
   }
 `;
 
-export { getSingleGroup, createGroupQuery, allGroups, myGroups, getGroupsByOrg };
+const getGroupReport = gql`
+  query GetGroupReport($groupId: ID!, $orgId: ID!) {
+    groupReport(groupId: $groupId, orgId: $orgId) {
+      name
+      groupedSubjects {
+        name
+        subjects {
+          slug
+        }
+      }
+      pupils {
+        name
+
+        subjectReports {
+          subject {
+            slug
+          }
+          score
+        }
+      }
+    }
+  }
+`;
+
+export { getSingleGroup, createGroupQuery, allGroups, myGroups, getGroupsByOrg, getGroupReport };
