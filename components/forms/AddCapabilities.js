@@ -57,6 +57,9 @@ function AddCapabilities({ setModulesData, subjectId, setLoadingMessage }) {
         case 'Unit':
           level = 'unit'
           break;
+        case 'Award':
+          level = 'award'
+          break;
         default:
           level = 'step'
       }
@@ -100,6 +103,7 @@ function AddCapabilities({ setModulesData, subjectId, setLoadingMessage }) {
           <MenuItem value="Unit">Unit</MenuItem>
           <MenuItem value="Phase">Phase</MenuItem>
           <MenuItem value="Band">Band</MenuItem>
+          <MenuItem value="Award">Award</MenuItem>
         </Select>
       </FormControl>
 

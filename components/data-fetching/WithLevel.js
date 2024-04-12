@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Suspense, useContext } from 'react';
 import useSWR from 'swr';
-import { getLevel, deleteLevel } from '../../queries/Pupils';
+import { getLevel, deleteLevelQuery } from '../../queries/Pupils';
 import { HexagonsContext } from './HexagonsContext';
 
 export default function WithLevel(WrappedComponent) {
@@ -24,7 +24,7 @@ export default function WithLevel(WrappedComponent) {
       levelNoCompetencies.map(async (level, i) => {
         // safely delete levels
         try {
-          await gqlClient.request(deleteLevel, { id: parseInt(level.id) });
+          await gqlClient.request(deleteLevelQuery, { id: parseInt(level.id) });
         } catch (e) {
           console.error(e);
         }

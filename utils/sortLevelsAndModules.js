@@ -9,6 +9,7 @@ function sortModuleBy(items, level) {
 function sortModules(modules) {
   let sortedModules = modules
   sortedModules = sortedModules.sort((a, b) => a.order - b.order)
+  sortedModules = sortModuleBy(sortedModules, 'award')
   sortedModules = sortModuleBy(sortedModules, 'phase')
   sortedModules = sortModuleBy(sortedModules, 'band')
   sortedModules = sortModuleBy(sortedModules, 'stage')
@@ -27,6 +28,7 @@ function sortLevelBy(items, level) {
 function sortLevels(levels) {
   let sortedLevels = levels
   sortedLevels = sortedLevels.sort((a, b) => a.module.order - b.module.order)
+  sortedLevels = sortLevelBy(sortedLevels, 'award')
   sortedLevels = sortLevelBy(sortedLevels, 'phase')
   sortedLevels = sortLevelBy(sortedLevels, 'band')
   sortedLevels = sortLevelBy(sortedLevels, 'stage')
