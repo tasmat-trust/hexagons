@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { getModules } from '../../queries/Subjects';
 import useSWR from 'swr';
+import { sortByOrder } from '../../utils/sortLevelsAndModules';
 
 export default function WithModules(WrappedComponent) {
   function WithModules({ getModulesBySubjectIdVariables, pupil, subjectId, ...other }) {
@@ -10,8 +11,16 @@ export default function WithModules(WrappedComponent) {
     ]);
     let modules = [];
     if (modulesData) {
+      modulesData.modules.forEach(module => {
+        const capabilities = module.capabilities
+        if (capabilities) {
+          let sortedCapabilities = sortByOrder(capabilities)
+          module.capabilities = sortedCapabilities
+        }
+      });
       modules = modulesData.modules;
     }
+ 
     return (
       <WrappedComponent
         modules={modules}

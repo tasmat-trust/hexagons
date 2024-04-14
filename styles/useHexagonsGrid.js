@@ -129,7 +129,7 @@ const stringStyles = makeStyles((theme) => ({
   `,
   hexContent_inner: `
     width: 70%;
-    font-size: 13px;
+    font-size: 12px;
     margin: 0px auto;
   `,
   tileInfo: `

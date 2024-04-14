@@ -171,6 +171,7 @@ const getModules = gql`
             data {
               id
               attributes {
+                order
                 text
                 guidance {
                   data {

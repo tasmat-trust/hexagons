@@ -17,6 +17,13 @@ function sortModules(modules) {
   return sortedModules
 }
 
+ 
+
+const sortByOrder = (z) => z.sort(
+  (a, b) => parseFloat(a.order) - parseFloat(b.order)
+)
+
+
 function sortLevelBy(items, level) {
   return  items.sort((a, b) => {
     const aLevel = a.module.level === level ? 'a' : 'b'
@@ -37,6 +44,7 @@ function sortLevels(levels) {
 }
 
 export {
+  sortByOrder,
   sortModules,
   sortLevels
 }
