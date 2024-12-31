@@ -348,6 +348,7 @@ function LevelStatus({
       if (actualPercentComplete === 100) {
         if (status !== 'complete') {
           args.status = 'complete';
+          setStatus('complete')
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
@@ -365,6 +366,7 @@ function LevelStatus({
       if (actualPercentComplete > 60) {
         if (status !== 'secure') {
           args.status = 'secure';
+          setStatus('secure')
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
@@ -376,6 +378,7 @@ function LevelStatus({
       if (actualPercentComplete > 25) {
         if (status !== 'developing') {
           args.status = 'developing';
+          setStatus('developing')
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
@@ -387,6 +390,7 @@ function LevelStatus({
       if (actualPercentComplete >= 0) {
         if (status !== 'emerging') {
           args.status = 'emerging';
+          setStatus('emerging')
           triggerUpdateLevel(args);
           setVisiblePercentComplete(actualPercentComplete);
           setHasBeenQuickAssessed(false);
