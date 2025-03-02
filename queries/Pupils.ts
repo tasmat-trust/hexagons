@@ -122,6 +122,7 @@ const getLevels = gql`
         attributes {
           status
           wasQuickAssessed
+          percentComplete
           module {
             data {
               attributes {
@@ -160,6 +161,7 @@ const getLevelsForOverview = gql`
         attributes {
           status
           wasQuickAssessed
+          percentComplete
           module {
             data {
               attributes {

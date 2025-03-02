@@ -18,16 +18,17 @@ function GetGroupReport({ groupReportVariables, groupName, user }) {
 
   useEffect(() => {
     setReportContent('');
-  }, [groupName]);
-
-  makeManualGraphQLRequest({
-    strapiToken: user.strapiToken,
-    query: getGroupReport,
-    variables: groupReportVariables,
-  }).then((data) => {
-    console.log(data);
-    createReport(data);
-  });
+    setLoading(true);
+    
+    makeManualGraphQLRequest({
+      strapiToken: user.strapiToken,
+      query: getGroupReport,
+      variables: groupReportVariables,
+    }).then((data) => {
+      console.log(data);
+      createReport(data);
+    });
+  }, [groupName, groupReportVariables, user.strapiToken]);
 
   function createReport({ groupReport }) {
     if (!groupReport.groupedSubjects) return;

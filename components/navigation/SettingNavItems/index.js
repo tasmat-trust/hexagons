@@ -1,6 +1,7 @@
 import { Typography, Box, List, Divider } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import SchoolIcon from '@mui/icons-material/School';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import EmojiSymbolsIcon from '@mui/icons-material/EmojiSymbols';
 import makeStyles from '@mui/styles/makeStyles';
 import NavItem from '../NavItem';
@@ -28,6 +29,9 @@ function SettingNavItems({ role }) {
         )}
         {role === 'Leader' && (
           <NavItem href="/manage/subjects" label="Subjects" Icon={EmojiSymbolsIcon} />
+        )}
+        {role === 'Leader' && (
+          <NavItem href="/manage/targets" label="Targets" Icon={TrackChangesIcon} />
         )}
         {(role === 'Leader' || role === 'Teacher') && (
           <NavItem href="/manage/pupils" label="Pupils" Icon={PeopleIcon} />

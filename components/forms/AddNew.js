@@ -10,6 +10,7 @@ import { allGroups } from '../../queries/Groups';
 import createPupil from '../forms/handlers/createPupil';
 import createTeacher from '../forms/handlers/createTeacher';
 import createGroup from '../forms/handlers/createGroup';
+import createSnapshot from '../forms/handlers/createSnapshot';
 import createGuidance from '../forms/handlers/createGuidance';
 import createCapability from '../forms/handlers/createCapability';
 import updateCapabilityText from '../forms/handlers/updateCapabilityText';
@@ -292,6 +293,18 @@ function AddNewGroup(props) {
   );
 }
 
+function AddNewSnapshot(props) {
+  return (
+    <AddNew
+      {...props}
+      includeName={true}
+      updateHandler={createSnapshot}
+      modelname={'snapshot'}
+      nameFieldName={'name'}
+    />
+  );
+}
+
 function AddNewGuidance(props) {
   return (
     <AddNew {...props} includeTextArea={true} updateHandler={createGuidance} modelname="guidance" />
@@ -378,6 +391,7 @@ function AddNewUserWithGroups(props) {
 export {
   AddNewUserWithGroups,
   AddNewGroup,
+  AddNewSnapshot,
   AddNewGuidance,
   AddNewCapabilityText,
   AddNewCapability,
