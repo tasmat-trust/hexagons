@@ -5,7 +5,7 @@ import LevelContent from '../pupil/LevelContent';
 import { sortModules } from '../../utils/sortLevelsAndModules';
 import CustomSuspense from '../data-fetching/CustomSuspense';
 import getRainbowLabel from '../../utils/getRainbowLabel';
-
+import ScoreDisplay from '../../components/subjects/ScoreDisplay';
 import { HexagonsTabs, HexagonsTab } from '../HexagonsTabs';
 import getLevelLabel from '../../utils/getLevelLabel';
 
@@ -31,7 +31,14 @@ function a11yProps(index) {
   };
 }
 
-function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
+function StagesTabs({ isRa, modules, startingLevel, pupil, latestTarget, currentScore, ...other }) {
+  const { initialScore, targetScore, scorePublishedAt, isScoreLoading } = latestTarget;
+  const [currentScoreForTargetPanel, setCurrentScoreForTargetPanel] = useState(currentScore);
+
+  useEffect(() => {
+    console.log('CURRENT SCORE', currentScore);
+  }, [currentScore]);
+
   const [tabValue, setTabValue] = useState(0);
   const [sortedModules, setSortedModules] = useState(modules);
 
@@ -78,6 +85,16 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
 
   return (
     <>
+      {' '}
+      <Box mb={3}>
+        <ScoreDisplay
+          initialScore={initialScore}
+          targetScore={targetScore}
+          currentScore={currentScoreForTargetPanel}
+          scorePublishedAt={scorePublishedAt}
+          isScoreLoading={isScoreLoading}
+        />
+      </Box>
       <CustomSuspense message="Loading tabs">
         <HexagonsTabs
           value={tabValue}
@@ -112,6 +129,7 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, ...other }) {
                 setLevelId={setLevelId}
                 currentModule={currentModule}
                 competenciesVars={{ pupilId: parseInt(pupil.id), levelId: levelId ? levelId : 0 }}
+                setCurrentScoreForTargetPanel={setCurrentScoreForTargetPanel}
                 {...other}
               />
             </CustomSuspense>
@@ -127,6 +145,8 @@ StagesTabs.propTypes = {
   modules: PropTypes.array,
   startingLevel: PropTypes.object,
   pupil: PropTypes.object,
+  latestTarget: PropTypes.object,
+  currentScore: PropTypes.object,
 };
 
 export default StagesTabs;

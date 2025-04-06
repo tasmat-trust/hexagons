@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
-import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 import WithLevel from '../data-fetching/WithLevel';
 
-function LevelTitle({ initialVisibleLevel, bubbleGotLevel }) {
+function LevelTitle({ initialVisibleLevel, latestTargetCurrentScore, bubbleGotLevel }) {
   useEffect(() => {
     if (initialVisibleLevel) {
-      bubbleGotLevel(initialVisibleLevel);
+      console.log('LEVEL')
+      console.log({latestTargetCurrentScore})
+      bubbleGotLevel(initialVisibleLevel, latestTargetCurrentScore);
     }
   }, [initialVisibleLevel]);
+
 
   return <></>;
 }
@@ -16,6 +18,7 @@ function LevelTitle({ initialVisibleLevel, bubbleGotLevel }) {
 LevelTitle.propTypes = {
   bubbleGotLevel: PropTypes.func,
   initialVisibleLevel: PropTypes.object,
+  latestTargetCurrentScore: PropTypes.object,
 };
 
 export default WithLevel(LevelTitle);

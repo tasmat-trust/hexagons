@@ -60,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  scoreInfo: {
+    marginLeft: theme.spacing(1),
+    color: theme.palette.secondary.main,
+    fontWeight: 'bold',
+  }
 }));
 
 function SubjectProgressDefault(props) {
@@ -168,6 +173,7 @@ SubjectProgressDefault.propTypes = {
   isPupilCard: PropTypes.bool,
   titleName: PropTypes.string,
   getLevelVariables: PropTypes.object,
+  pupilSubjectScore: PropTypes.number,
 };
 
 export const SubjectProgressWithLinks = SubjectProgressLinks(SubjectProgressDefault);

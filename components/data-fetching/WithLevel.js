@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { Suspense, useContext } from 'react';
 import useSWR from 'swr';
 import { getLevel, deleteLevelQuery } from '../../queries/Pupils';
+import getLatestTarget from '../../utils/getLatestTarget';
+
 import { HexagonsContext } from './HexagonsContext';
 
 export default function WithLevel(WrappedComponent) {
@@ -9,6 +11,7 @@ export default function WithLevel(WrappedComponent) {
     const { gqlClient } = useContext(HexagonsContext);
     const { data: visibleLevelData } = useSWR([getLevel, getLevelVars], { suspense: true });
     let correctLevel = visibleLevelData ? visibleLevelData.levels[0] : null;
+    let latestTarget = getLatestTarget(visibleLevelData?.targets)
     if (visibleLevelData && visibleLevelData.levels.length > 1) {
       // Got duplicates - get all competencies out of levels
       // combine them into the first item
@@ -30,7 +33,7 @@ export default function WithLevel(WrappedComponent) {
         }
       });
     }
-    return <WrappedComponent initialVisibleLevel={correctLevel} {...other} />;
+    return <WrappedComponent initialVisibleLevel={correctLevel} latestTargetCurrentScore={latestTarget.currentScore} {...other} />;
   }
 
   WithLevel.propTypes = {

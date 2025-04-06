@@ -21,6 +21,7 @@ function Subject({
   groupName,
   activeGroupSlug,
   pupil,
+  subjectId,
   ...other
 }) {
   const { orgId } = useContext(HexagonsContext);
@@ -83,6 +84,8 @@ function Subject({
       <SubjectMainView
         {...other}
         pupil={pupil}
+        pupilId={parseInt(pupil.id)}
+        subjectId={parseInt(subjectId)}
         groupName={groupName}
         activeGroupSlug={activeGroupSlug}
         subjectName={subjectName}
@@ -97,6 +100,7 @@ Subject.propTypes = {
   firstSlug: PropTypes.string,
   subjectName: PropTypes.string,
   subjectSlug: PropTypes.string,
+  subjectId: PropTypes.string,
   groupName: PropTypes.string,
   activeGroupSlug: PropTypes.string,
   pupil: PropTypes.object,

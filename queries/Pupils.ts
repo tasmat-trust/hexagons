@@ -151,6 +151,31 @@ const getLevels = gql`
         }
       }
     }
+    targets(
+      filters: {
+        pupil: { id: { eq: $pupilId } },
+        subject: { id: { eq: $subjectId } }
+      },
+      sort: ["createdAt:desc"],
+      pagination: { limit: 1 }
+    ) {
+      data {
+        id
+        attributes {
+          initial_score
+          target_score
+          publishedAt
+          pupilSubjectScore {
+            data {
+              id
+              attributes {
+                current_score
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -186,6 +211,31 @@ const getLevelsForOverview = gql`
         }
       }
     }
+    targets(
+      filters: {
+        pupil: { id: { eq: $pupilId } },
+        subject: { id: { eq: $subjectId } }
+      },
+      sort: ["createdAt:desc"],
+      pagination: { limit: 1 }
+    ) {
+      data {
+        id
+        attributes {
+          initial_score
+          target_score
+          publishedAt
+          pupilSubjectScore {
+            data {
+              id
+              attributes {
+                current_score
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -209,6 +259,31 @@ const getLevel = gql`
               attributes {
                 status
                 capability_fk
+              }
+            }
+          }
+        }
+      }
+    }
+    targets(
+      filters: {
+        pupil: { id: { eq: $pupilId } },
+        subject: { id: { eq: $subjectId } }
+      },
+      sort: ["createdAt:desc"],
+      pagination: { limit: 1 }
+    ) {
+      data {
+        id
+        attributes {
+          initial_score
+          target_score
+          publishedAt
+          pupilSubjectScore {
+            data {
+              id
+              attributes {
+                current_score
               }
             }
           }
@@ -383,6 +458,24 @@ const createLevelQuery = gql`
   }
 `;
 
+/**
+ * Get the most recent snapshot
+ */
+const getCurrentSnapshot = gql`
+  query getCurrentSnapshot {
+    snapshots(sort: ["createdAt:desc"], pagination: { limit: 1 }) {
+      data {
+        id
+        attributes {
+          name
+          targetDate
+          createdAt
+        }
+      }
+    }
+  }
+`;
+
 export {
   updateCompetencyQuery,
   getCompetency,
@@ -403,4 +496,5 @@ export {
   createPupilQuery,
   allPupilsWithGroups,
   updatePupilGroups,
+  getCurrentSnapshot,
 };

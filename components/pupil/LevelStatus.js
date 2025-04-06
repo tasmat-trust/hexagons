@@ -96,8 +96,10 @@ function LevelStatus({
   competencies,
   levelId,
   levelWasQuickAssessed,
+  setCurrentScore,
   levelTitle,
   setLevelId,
+  setCurrentScoreForTargetPanel,
   ...other
 }) {
   const { gqlClient } = useContext(HexagonsContext);
@@ -139,26 +141,32 @@ function LevelStatus({
   }, [pupil]);
 
   const gotLevel = useCallback(
-    (level) => {
+    (level, targetCurrentScore) => {
       if (level) {
         setLevelId(parseInt(level.id));
         setStatus(level.status ? level.status : 'notstarted');
         setHasBeenQuickAssessed(level.wasQuickAssessed ? level.wasQuickAssessed : false);
       }
+      if(targetCurrentScore) {
+        console.log('CURRENT SCORE', targetCurrentScore)
+        setCurrentScoreForTargetPanel(targetCurrentScore);
+      }
     },
-    [setLevelId, setStatus, levelId, status]
+    [setLevelId, setStatus, levelId, status, setCurrentScore]
   );
 
   const bubbleGotLevel = useCallback(
     // whenever the level updates, but only when it's changed
-    (level) => {
+    (level, targetCurrentScore) => {
       if (level) {
-        gotLevel(level);
+        gotLevel(level, targetCurrentScore);
       }
       setReadyToShow(true);
     },
     [setLevelId, setStatus, levelId]
   );
+
+
 
   useEffect(() => {
     if (readyToShow && levelId !== 0) {

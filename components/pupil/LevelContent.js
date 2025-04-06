@@ -15,6 +15,7 @@ function LevelContent({
   currentModule,
   user,
   levelTitle,
+  setCurrentScoreForTargetPanel,
   ...other
 }) {
   const [competencies, setCompetencies] = useState(initialCompetencies);
@@ -41,6 +42,7 @@ function LevelContent({
           competencies={competencies}
           subjectId={subjectId}
           edSubjectId={edSubjectId}
+          setCurrentScoreForTargetPanel={setCurrentScoreForTargetPanel}
           getLevelVars={{
             pupilId: parseInt(pupil.id),
             subjectId: currentModule.isTransition ? edSubjectId : subjectId,
