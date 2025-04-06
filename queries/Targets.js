@@ -28,7 +28,6 @@ const createSnapshotQuery = gql`
               id
               attributes {
                 initial_score
-                current_score
                 target_score
               }
             }
