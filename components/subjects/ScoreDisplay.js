@@ -1,7 +1,23 @@
 import PropTypes from 'prop-types';
 import { Box, Paper, Typography, Grid } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import '@reach/slider/styles.css';
+import styled from 'styled-components';
+import { Slider } from '@reach/slider';
+import { purple } from '@mui/material/colors';
 import Loading from '../ui-globals/Loading';
+
+// Uses styled components to customise Reach Slider component
+// https://reach.tech/styling/
+const StyledSlider = styled(Slider)`
+  [data-reach-slider-range] {
+    background: ${purple['A400']};
+  }
+
+  [data-reach-slider-handle] {
+    display: none;
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,16 +55,17 @@ const useStyles = makeStyles((theme) => ({
   scoreLabel: {
     fontWeight: 'bold',
     marginBottom: theme.spacing(0.5),
-  }
+  },
 }));
 
-function ScoreDisplay({ 
-  initialScore, 
-  currentScore, 
+function ScoreDisplay({
+  initialScore,
+  currentScore,
   targetScore,
-  scorePublishedAt, 
+  scorePublishedAt,
   isScoreLoading,
-  currentSnapshotName 
+  currentSnapshotName,
+  isCompact,
 }) {
   const classes = useStyles();
 
@@ -57,63 +74,62 @@ function ScoreDisplay({
   }
 
   if (!currentScore && !initialScore && !targetScore) {
-    return (
-      <Paper className={classes.root} elevation={1}>
-        <Typography variant="body1">No score data available</Typography>
-      </Paper>
-    );
+    return <Typography variant="body1">No score data available</Typography>;
   }
 
   // Format the date
-  const formattedDate = scorePublishedAt 
+  const formattedDate = scorePublishedAt
     ? new Date(scorePublishedAt).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'short',
-        year: 'numeric'
+        year: 'numeric',
       })
     : 'Unknown date';
 
   return (
-    <Paper className={classes.root} elevation={1}>
-      <Typography variant="h6" gutterBottom>
-        Progress {currentSnapshotName ? `(${currentSnapshotName})` : ''}
-      </Typography>
-      
+    <>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Typography className={classes.scoreLabel} variant="body2">
-            Initial
-          </Typography>
+          {!isCompact && (
+            <Typography className={`${classes.scoreLabel}`} variant="body2">
+              Initial
+            </Typography>
+          )}
           <Typography className={`${classes.scoreValue} ${classes.initialScore}`}>
             {initialScore}
           </Typography>
         </Grid>
-        
+
         <Grid item xs={4}>
-          <Typography className={classes.scoreLabel} variant="body2">
-            Current
-          </Typography>
+          {!isCompact && (
+            <Typography className={`${classes.scoreLabel}`} variant="body2">
+              Current
+            </Typography>
+          )}
           <Typography className={`${classes.scoreValue} ${classes.currentScore}`}>
             {currentScore}
           </Typography>
         </Grid>
-        
+
         <Grid item xs={4}>
-          <Typography className={classes.scoreLabel} variant="body2">
-            Target
-          </Typography>
+          {!isCompact && (
+            <Typography className={`${classes.scoreLabel}`} variant="body2">
+              Target
+            </Typography>
+          )}
           <Typography className={`${classes.scoreValue} ${classes.targetScore}`}>
             {targetScore}
           </Typography>
         </Grid>
       </Grid>
-      
-      {scorePublishedAt && (
-        <Typography className={classes.scoreDate}>
-          Last updated: {formattedDate}
-        </Typography>
-      )}
-    </Paper>
+      <StyledSlider
+        className={classes.slider}
+        disabled={true}
+        value={currentScore}
+        min={initialScore}
+        max={targetScore}
+      />
+    </>
   );
 }
 
@@ -123,7 +139,8 @@ ScoreDisplay.propTypes = {
   targetScore: PropTypes.number,
   scorePublishedAt: PropTypes.string,
   isScoreLoading: PropTypes.bool,
-  currentSnapshotName: PropTypes.string
+  currentSnapshotName: PropTypes.string,
+  isCompact: PropTypes.bool,
 };
 
-export default ScoreDisplay; 
+export default ScoreDisplay;

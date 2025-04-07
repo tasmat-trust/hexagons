@@ -15,6 +15,7 @@ import getNormalisedModuleNumber from '../../utils/getNormalisedModuleNumber';
 import getLevelLabel from '../../utils/getLevelLabel';
 import SubjectProgressLinks from '../link-management/SubjectProgressLinks';
 import Loading from '../ui-globals/Loading';
+import getLatestTarget from '../../utils/getLatestTarget';
 
 // Uses styled components to customise Reach Slider component
 // https://reach.tech/styling/
@@ -64,7 +65,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     color: theme.palette.secondary.main,
     fontWeight: 'bold',
-  }
+  },
+  initialScore: {
+    color: theme.palette.grey[600],
+  },
+  currentScore: {
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+  },
+  targetScore: {
+    color: theme.palette.success.main,
+  },
 }));
 
 function SubjectProgressDefault(props) {
@@ -80,11 +91,19 @@ function SubjectProgressDefault(props) {
   } = props;
   const classes = useStyles();
   const { data: levelData, isLoading } = useSWR([getLevelsForOverview, getLevelVariables]);
-  let level = null;
-  
+  let level,
+    latestTarget = null;
+
   if (levelData) {
     level = getCurrentLevel(levelData.levels);
-  } 
+  }
+
+  if (levelData && levelData?.targets.length !== 0) {
+    const target = getLatestTarget(levelData.targets);
+    if (target.currentScore !== 0) {
+      latestTarget = target;
+    }
+  }
 
   let label = '';
   let normalisedLabel = '';
@@ -126,40 +145,52 @@ function SubjectProgressDefault(props) {
     );
   }
 
+  function RightEdgeLabelTarget({ initial, current, target }) {
+    return (
+      <span className={classes.span}>
+        <span className={classes.initialScore}>📌 {initial}</span> //{' '}
+        <span className={classes.currentScore}>⭐ {current}</span> //{' '}
+        <span className={classes.targetScore}>🎯 {target}</span>
+      </span>
+    );
+  }
+
   return (
     <ErrorBoundary alert="Error in SubjectProgress component">
-      
-        <>
-          <Typography component="h3" variant="h6" className={classes.flexy}>
-            {linkUrl && !isRaLink && (
-              <Link href={linkUrl}>
-                <a>{titleName}</a>
-              </Link>
-            )}
-            {!linkUrl && isRaLink && (
-              <Link
-                href={`/rainbow-awards/${props.titleSlug}/${props.activeGroupSlug}/${props.pupilId}`}
-              >
-                <a>{titleName}</a>
-              </Link>
-            )}
-            {!linkUrl && !isRaLink && <>{titleName}</>}
-            {level && (<RightEdgeLabel />)}
-            {levelData === undefined && <Loading message="Loading" textOnly />}
-          </Typography>
-         
-          <StyledSlider
+      <>
+        <Typography component="h3" variant="h6" className={classes.flexy}>
+          {linkUrl && !isRaLink && (
+            <Link href={linkUrl}>
+              <a>{titleName}</a>
+            </Link>
+          )}
+          {!linkUrl && isRaLink && (
+            <Link
+              href={`/rainbow-awards/${props.titleSlug}/${props.activeGroupSlug}/${props.pupilId}`}
+            >
+              <a>{titleName}</a>
+            </Link>
+          )}
+          {!linkUrl && !isRaLink && <>{titleName}</>}
+          {latestTarget && (
+            <RightEdgeLabelTarget
+              initial={latestTarget.initialScore}
+              current={latestTarget.currentScore}
+              target={latestTarget.targetScore}
+            />
+          )}
+          {level && !latestTarget && <RightEdgeLabel />}
+          {levelData === undefined && <Loading message="Loading" textOnly />}
+        </Typography>
+
+        <StyledSlider
           className={classes.slider}
           disabled={true}
-          value={totalPercentComplete}
-          min={0}
-          max={100}
+          value={latestTarget?.currentScore ?? totalPercentComplete}
+          min={latestTarget?.initialScore ?? 0}
+          max={latestTarget?.targetScore ?? 100}
         />
-          
-
-        </>
-      
- 
+      </>
     </ErrorBoundary>
   );
 }
