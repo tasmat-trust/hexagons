@@ -148,8 +148,8 @@ function SubjectProgressDefault(props) {
   function RightEdgeLabelTarget({ initial, current, target }) {
     return (
       <span className={classes.span}>
-        <span className={classes.initialScore}>📌 {initial}</span> //{' '}
-        <span className={classes.currentScore}>⭐ {current}</span> //{' '}
+        <span className={classes.initialScore}>📌 {initial}</span>  
+        <span className={classes.currentScore}>⭐ {current}</span>  
         <span className={classes.targetScore}>🎯 {target}</span>
       </span>
     );

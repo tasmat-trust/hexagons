@@ -38,7 +38,7 @@ import { getOrgIdFromSession } from '../utils';
 import { HexagonsContext } from '../components/data-fetching/HexagonsContext';
 import { flattenDataAttributes } from '../components/data-fetching/useSWRWrapped';
 
-const inputGlobalStyles = <GlobalStyles styles={() => globalStyles(theme)} />;
+const inputGlobalStyles = <GlobalStyles styles={globalStyles as any} />;
 
 const jss = create({
   plugins: [...jssPreset().plugins, templatePlugin(), nestedPlugin()],
