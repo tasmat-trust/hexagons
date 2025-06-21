@@ -1,13 +1,45 @@
 {
   "body": {
     "data": {
-      "subjects": [
-        { "name": "Being a good communicator", "slug": "being-a-good-communicator" },
-        { "name": "Being a good friend", "slug": "being-a-good-friend" },
-        { "name": "Being healthy", "slug": "being-healthy" },
-        { "name": "Being independent", "slug": "being-independent" },
-        { "name": "Being safe", "slug": "being-safe" }
-      ]
+      "subjects": {
+        "data": [
+          {
+            "id": "1",
+            "attributes": {
+              "name": "Being a good communicator",
+              "slug": "being-a-good-communicator"
+            }
+          },
+          {
+            "id": "2",
+            "attributes": {
+              "name": "Being a good friend",
+              "slug": "being-a-good-friend"
+            }
+          },
+          {
+            "id": "3",
+            "attributes": {
+              "name": "Being healthy",
+              "slug": "being-healthy"
+            }
+          },
+          {
+            "id": "4",
+            "attributes": {
+              "name": "Being independent",
+              "slug": "being-independent"
+            }
+          },
+          {
+            "id": "5",
+            "attributes": {
+              "name": "Being safe",
+              "slug": "being-safe"
+            }
+          }
+        ]
+      }
     }
   }
 }

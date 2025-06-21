@@ -1,1 +1,20 @@
-{ "data": { "subjects": [{ "id": "4", "name": "DT", "slug": "dt" }] } }
+{
+    "data": {
+        "subjects": {
+            "data": [
+                {
+                    "id": "4",
+                    "attributes": {
+                        "name": "DT",
+                        "slug": "dt",
+                        "isCore": false,
+                        "isChildOf": null,
+                        "organization": {
+                            "data": null
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

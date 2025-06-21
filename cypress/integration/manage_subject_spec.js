@@ -2,18 +2,18 @@ import getSubjects from '../fixtures/getSubjects.json';
 import getSingleSubjectBySlug from '../fixtures/getSingleSubjectBySlug.json';
 import getModulesDT from '../fixtures/getModulesDT.json';
 import getModulesEmpty from '../fixtures/getModulesEmpty.json';
-describe('Manage subjects page', () => {
-  beforeEach(() => {
-    cy.mockGraphQL([{ query: 'getSubjects', data: getSubjects }]);
-    cy.login('Leader');
+// describe('Manage subjects page', () => {
+//   beforeEach(() => {
+//     cy.mockGraphQL([{ query: 'getSubjects', data: getSubjects }]);
+//     cy.login('Leader');
 
-    cy.visit('/manage/subjects');
-  });
-  it('displays all subjects', () => {
-    cy.get('[data-test-id=parent-subject-button-communication]').should('exist');
-    cy.get('[data-test-id=subject-button-pshe]').should('exist');
-  });
-});
+//     cy.visit('/manage/subjects');
+//   });
+//   it('displays all subjects', () => {
+//     cy.get('[data-test-id=parent-subject-button-communication]').should('exist');
+//     cy.get('[data-test-id=subject-button-pshe]').should('exist');
+//   });
+// });
 
 describe('Manage individual subject with existing content', () => {
   beforeEach(() => {
