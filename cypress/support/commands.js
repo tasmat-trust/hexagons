@@ -17,6 +17,9 @@ import {
   hasVariable,
 } from '../utils/graphql-test-utils';
 
+// Import the flattenDataAttributes utility
+import { flattenDataAttributes } from '../utils/flattenDataAttributes';
+
 Cypress.Commands.add('mockGraphQL', (mocks) => {
   let counter = 0;
   cy.intercept(
@@ -34,7 +37,9 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
           ) {
             aliasQueryByVariable(req, mock.query, mock.variable.key, mock.variable.value);
             if (mock.data) {
-              req.reply(mock.data);
+              // Flatten the data to match what the application expects
+              const flattenedData = flattenDataAttributes(mock.data);
+              req.reply(flattenedData);
             }
             return;
           }
@@ -43,7 +48,9 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
             counter++;
             aliasQuery(req, mock.query, counter);
             if (mock.data) {
-              req.reply(mock.data);
+              // Flatten the data to match what the application expects
+              const flattenedData = flattenDataAttributes(mock.data);
+              req.reply(flattenedData);
             }
             return;
           }
@@ -51,7 +58,9 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
           if (hasOperationName(req, mock.query)) {
             aliasQuery(req, mock.query);
             if (mock.data) {
-              req.reply(mock.data);
+              // Flatten the data to match what the application expects
+              const flattenedData = flattenDataAttributes(mock.data);
+              req.reply(flattenedData);
             }
             return;
           }
