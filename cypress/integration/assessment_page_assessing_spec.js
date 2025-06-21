@@ -17,14 +17,22 @@ context('Assessment page', () => {
     let getSingleSubjectBySlug = {
       body: {
         data: {
-          subjects: [
-            {
-              id: '68',
-              name: 'Expressive Language',
-              slug: 'expressive-language',
-              excludeEarlyDevelopmentStep: true,
-            },
-          ],
+          subjects: {
+            data: [
+              {
+                id: '68',
+                attributes: {
+                  name: 'Expressive Language',
+                  slug: 'expressive-language',
+                  excludeEarlyDevelopmentStep: true,
+                  isRainbowAwards: false,
+                  organization: {
+                    data: null
+                  },
+                },
+              },
+            ],
+          },
         },
       },
     };
@@ -32,48 +40,58 @@ context('Assessment page', () => {
     let getModules = {
       body: {
         data: {
-          modules: [
-            {
-              order: 2,
-              id: '123',
-              level: 'step',
-              summary: summaryText,
-              guidance: null,
-              capabilities: [
-                { text: firstCompText, id: `${firstCompId}`, guidance: [] },
-                { text: 'sfdsdf', id: `${secondCompId}`, guidance: [] },
-                { text: 'sdfsfd', id: `${thirdCompId}`, guidance: [] },
-                { text: 'sdfsfd', id: 4, guidance: [] },
-                { text: 'sdfsfd', id: 5, guidance: [] },
-                { text: 'sdfsfd', id: 6, guidance: [] },
-                { text: 'sdfsfd', id: 7, guidance: [] },
-                { text: 'sdfsfd', id: 8, guidance: [] },
-                { text: 'sdfsfd', id: 9, guidance: [] },
-                { text: 'sdfsfd', id: 410, guidance: [] },
-              ],
-            },
-            {
-              order: 3,
-              id: '4',
-              level: 'step',
-              summary: summaryText,
-              guidance: null,
-              capabilities: [
-                { text: 'sdfsfd', id: 1, guidance: [] },
-                { text: 'sdfsfd', id: 2, guidance: [] },
-                { text: 'sdfsfd', id: 3, guidance: [] },
-                { text: 'sdfsfd', id: 4, guidance: [] },
-                { text: 'sdfsfd', id: 5, guidance: [] },
-                { text: 'sdfsfd', id: 6, guidance: [] },
-                { text: 'sdfsfd', id: 7, guidance: [] },
-                { text: 'sdfsfd', id: 8, guidance: [] },
-                { text: 'sdfsfd', id: 9, guidance: [] },
-                { text: 'sdfsfd', id: 10, guidance: [] },
-                { text: 'sdfsfd', id: 11, guidance: [] },
-                { text: 'sdfsfd', id: 12, guidance: [] },
-              ],
-            },
-          ],
+          modules: {
+            data: [
+              {
+                id: '123',
+                attributes: {
+                  order: 2,
+                  level: 'step',
+                  summary: summaryText,
+                  guidance: null,
+                  capabilities: {
+                    data: [
+                      { id: `${firstCompId}`, attributes: { text: firstCompText, guidance: { data: [] } } },
+                      { id: `${secondCompId}`, attributes: { text: 'sfdsdf', guidance: { data: [] } } },
+                      { id: `${thirdCompId}`, attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '4', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '5', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '6', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '7', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '8', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '9', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '410', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                    ],
+                  },
+                },
+              },
+              {
+                id: '4',
+                attributes: {
+                  order: 3,
+                  level: 'step',
+                  summary: summaryText,
+                  guidance: null,
+                  capabilities: {
+                    data: [
+                      { id: '1', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '2', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '3', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '4', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '5', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '6', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '7', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '8', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '9', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '10', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '11', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      { id: '12', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
         },
       },
     };
@@ -91,20 +109,36 @@ context('Assessment page', () => {
 
   describe('Page with no competencies marked', () => {
     let getLevelEmpty = {
-      body: { data: { levels: [] } },
+      body: { 
+        data: { 
+          levels: {
+            data: []
+          }
+        } 
+      },
     };
 
     let getCompetenciesEmpty = {
       body: {
         data: {
-          competencies: [],
+          competencies: {
+            data: [],
+          },
         },
       },
     };
 
     let createLevel = {
       data: {
-        createLevel: { level: { id: '614', status: 'incomplete', wasQuickAssessed: false } },
+        createLevel: { 
+          data: {
+            id: '614', 
+            attributes: {
+              status: 'incomplete', 
+              wasQuickAssessed: false
+            }
+          }
+        },
       },
     };
 
@@ -134,26 +168,72 @@ context('Assessment page', () => {
   describe('Page with one competency marked', () => {
     let getLevel = {
       data: {
-        levels: [
-          {
-            id: '615',
-            status: 'emerging',
-            wasQuickAssessed: false,
-            competencies: [{ id: '2863', status: 'complete', capability_fk: firstCompId }],
-          },
-        ],
+        levels: {
+          data: [
+            {
+              id: '615',
+              attributes: {
+                status: 'emerging',
+                wasQuickAssessed: false,
+                competencies: {
+                  data: [
+                    { 
+                      id: '2863', 
+                      attributes: { 
+                        status: 'complete', 
+                        capability_fk: firstCompId 
+                      } 
+                    }
+                  ],
+                },
+              },
+            },
+          ],
+        },
       },
     };
 
     let getCompetencies = {
-      data: { competencies: [{ id: '2863', status: 'complete', capability_fk: firstCompId }] },
+      data: { 
+        competencies: {
+          data: [
+            { 
+              id: '2863', 
+              attributes: { 
+                status: 'complete', 
+                capability_fk: firstCompId 
+              } 
+            }
+          ]
+        }
+      },
     };
 
     let getCompetency = {
-      data: { competencies: [{ id: '2863', status: 'complete', capability_fk: firstCompId }] },
+      data: { 
+        competencies: {
+          data: [
+            { 
+              id: '2863', 
+              attributes: { 
+                status: 'complete', 
+                capability_fk: firstCompId 
+              } 
+            }
+          ]
+        }
+      },
     };
 
-    let updateCompetency = { data: { updateCompetency: { competency: { id: '2863' } } } };
+    let updateCompetency = { 
+      data: { 
+        updateCompetency: { 
+          data: {
+            id: '2863'
+          }
+        } 
+      } 
+    };
 
     beforeEach(() => {
       cy.mockGraphQL([
@@ -180,24 +260,40 @@ context('Assessment page', () => {
   describe('Page quick assessed as secure with no competencies marked', () => {
     let getLevel = {
       data: {
-        levels: [
-          {
-            id: '615',
-            status: 'secure',
-            wasQuickAssessed: true,
-          },
-        ],
+        levels: {
+          data: [
+            {
+              id: '615',
+              attributes: {
+                status: 'secure',
+                wasQuickAssessed: true,
+              },
+            },
+          ],
+        },
       },
     };
 
     let getCompetencies = {
       data: {
-        competencies: [],
+        competencies: {
+          data: [],
+        },
       },
     };
 
     let updateLevel = {
-      data: { updateLevel: { level: { id: '615', status: 'complete', wasQuickAssessed: true } } },
+      data: { 
+        updateLevel: { 
+          data: {
+            id: '615', 
+            attributes: {
+              status: 'complete', 
+              wasQuickAssessed: true
+            }
+          }
+        } 
+      },
     };
 
     beforeEach(() => {
@@ -227,26 +323,58 @@ context('Assessment page', () => {
   describe('Page quick assessed as secure with competencies marked', () => {
     let getLevel = {
       data: {
-        levels: [
-          {
-            id: '615',
-            status: 'secure',
-            wasQuickAssessed: true,
-            competencies: [
-              { id: '2863', status: 'complete', capability_fk: firstCompId },
-              { id: '2864', status: 'target', capability_fk: secondCompId },
-            ],
-          },
-        ],
+        levels: {
+          data: [
+            {
+              id: '615',
+              attributes: {
+                status: 'secure',
+                wasQuickAssessed: true,
+                competencies: {
+                  data: [
+                    { 
+                      id: '2863', 
+                      attributes: { 
+                        status: 'complete', 
+                        capability_fk: firstCompId 
+                      } 
+                    },
+                    { 
+                      id: '2864', 
+                      attributes: { 
+                        status: 'target', 
+                        capability_fk: secondCompId 
+                      } 
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
       },
     };
 
     let getCompetencies = {
       data: {
-        competencies: [
-          { id: '2863', status: 'complete', capability_fk: firstCompId },
-          { id: '2864', status: 'target', capability_fk: secondCompId },
-        ],
+        competencies: {
+          data: [
+            { 
+              id: '2863', 
+              attributes: { 
+                status: 'complete', 
+                capability_fk: firstCompId 
+              } 
+            },
+            { 
+              id: '2864', 
+              attributes: { 
+                status: 'target', 
+                capability_fk: secondCompId 
+              } 
+            },
+          ],
+        },
       },
     };
 

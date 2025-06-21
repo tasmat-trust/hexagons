@@ -1,22 +1,35 @@
 {
   "body": {
     "data": {
-      "pupils": [
-        {
-          "name": "Jenny Roebottom",
-          "id": "154",
-          "groups": [
-            { "name": "Class 1" },
-            { "name": "Class 2" },
-            { "name": "Class 3" },
-            { "name": "Class 5" },
-            { "name": "Form 3" },
-            { "name": "EFL" },
-            { "name": "FSM" }
-          ],
-          "organization": { "school_type": "secondary" }
-        }
-      ]
+      "pupils": {
+        "data": [
+          {
+            "id": "154",
+            "attributes": {
+              "name": "Jenny Roebottom",
+              "groups": {
+                "data": [
+                  { "id": "1", "attributes": { "name": "Class 1" } },
+                  { "id": "2", "attributes": { "name": "Class 2" } },
+                  { "id": "3", "attributes": { "name": "Class 3" } },
+                  { "id": "5", "attributes": { "name": "Class 5" } },
+                  { "id": "10", "attributes": { "name": "Form 3" } },
+                  { "id": "11", "attributes": { "name": "EFL" } },
+                  { "id": "12", "attributes": { "name": "FSM" } }
+                ]
+              },
+              "organization": { 
+                "data": {
+                  "id": "1",
+                  "attributes": {
+                    "school_type": "secondary" 
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   }
 }

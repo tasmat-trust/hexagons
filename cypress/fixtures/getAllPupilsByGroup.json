@@ -1,39 +1,61 @@
 {
   "body": {
     "data": {
-      "pupils": [
-        {
-          "name": "Jenny Roebottom",
-          "id": "154",
-          "groups": [
-            { "name": "Class 2", "slug": "class-2" },
-            { "name": "Class 3", "slug": "class-3" },
-            { "name": "Class 5", "slug": "class-5" },
-            { "name": "Form 3", "slug": "form-3" },
-            { "name": "EFL", "slug": "efl" },
-            { "name": "FSM", "slug": "fsm" }
-          ]
-        },
-        {
-          "name": "Amy Johnson",
-          "id": "165",
-          "groups": [{ "name": "Class 2", "slug": "class-2" }]
-        },
-        {
-          "name": "Imogen Banana",
-          "id": "166",
-          "groups": [{ "name": "Class 2", "slug": "class-2" }]
-        },
-        {
-          "name": "Jamie Jones",
-          "id": "170",
-          "groups": [
-            { "name": "Class 1", "slug": "class-1" },
-            { "name": "Class 2", "slug": "class-2" },
-            { "name": "Class 3", "slug": "class-3" }
-          ]
-        }
-      ]
+      "pupils": {
+        "data": [
+          {
+            "id": "154",
+            "attributes": {
+              "name": "Jenny Roebottom",
+              "groups": {
+                "data": [
+                  { "id": "2", "attributes": { "name": "Class 2", "slug": "class-2" } },
+                  { "id": "3", "attributes": { "name": "Class 3", "slug": "class-3" } },
+                  { "id": "5", "attributes": { "name": "Class 5", "slug": "class-5" } },
+                  { "id": "10", "attributes": { "name": "Form 3", "slug": "form-3" } },
+                  { "id": "11", "attributes": { "name": "EFL", "slug": "efl" } },
+                  { "id": "12", "attributes": { "name": "FSM", "slug": "fsm" } }
+                ]
+              }
+            }
+          },
+          {
+            "id": "165",
+            "attributes": {
+              "name": "Amy Johnson",
+              "groups": {
+                "data": [
+                  { "id": "2", "attributes": { "name": "Class 2", "slug": "class-2" } }
+                ]
+              }
+            }
+          },
+          {
+            "id": "166",
+            "attributes": {
+              "name": "Imogen Banana",
+              "groups": {
+                "data": [
+                  { "id": "2", "attributes": { "name": "Class 2", "slug": "class-2" } }
+                ]
+              }
+            }
+          },
+          {
+            "id": "170",
+            "attributes": {
+              "name": "Jamie Jones",
+              "groups": {
+                "data": [
+                  { "id": "1", "attributes": { "name": "Class 1", "slug": "class-1" } },
+                  { "id": "2", "attributes": { "name": "Class 2", "slug": "class-2" } },
+                  { "id": "3", "attributes": { "name": "Class 3", "slug": "class-3" } }
+                ]
+              }
+            }
+          }
+        ]
+      }
     }
   }
 }

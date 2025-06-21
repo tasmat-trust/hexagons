@@ -37,9 +37,8 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
           ) {
             aliasQueryByVariable(req, mock.query, mock.variable.key, mock.variable.value);
             if (mock.data) {
-              // Flatten the data to match what the application expects
-              const flattenedData = flattenDataAttributes(mock.data);
-              req.reply(flattenedData);
+              // Return the raw data without flattening to match real server response
+              req.reply(mock.data);
             }
             return;
           }
@@ -48,9 +47,8 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
             counter++;
             aliasQuery(req, mock.query, counter);
             if (mock.data) {
-              // Flatten the data to match what the application expects
-              const flattenedData = flattenDataAttributes(mock.data);
-              req.reply(flattenedData);
+              // Return the raw data without flattening to match real server response
+              req.reply(mock.data);
             }
             return;
           }
@@ -58,9 +56,8 @@ Cypress.Commands.add('mockGraphQL', (mocks) => {
           if (hasOperationName(req, mock.query)) {
             aliasQuery(req, mock.query);
             if (mock.data) {
-              // Flatten the data to match what the application expects
-              const flattenedData = flattenDataAttributes(mock.data);
-              req.reply(flattenedData);
+              // Return the raw data without flattening to match real server response
+              req.reply(mock.data);
             }
             return;
           }

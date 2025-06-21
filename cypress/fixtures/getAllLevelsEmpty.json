@@ -1,3 +1,9 @@
 {
-  "body": { "data": { "levels": [] } }
+  "body": { 
+    "data": { 
+      "levels": {
+        "data": []
+      }
+    } 
+  }
 }
