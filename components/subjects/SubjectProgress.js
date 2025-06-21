@@ -174,9 +174,9 @@ function SubjectProgressDefault(props) {
           {!linkUrl && !isRaLink && <>{titleName}</>}
           {latestTarget && (
             <RightEdgeLabelTarget
-              initial={latestTarget.initialScore}
-              current={latestTarget.currentScore}
-              target={latestTarget.targetScore}
+              initial={latestTarget?.initialScore}
+              current={latestTarget?.currentScore}
+              target={latestTarget?.targetScore}
             />
           )}
           {level && !latestTarget && <RightEdgeLabel />}

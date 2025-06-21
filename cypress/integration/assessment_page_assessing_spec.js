@@ -27,7 +27,7 @@ context('Assessment page', () => {
                   excludeEarlyDevelopmentStep: true,
                   isRainbowAwards: false,
                   organization: {
-                    data: null
+                    data: null,
                   },
                 },
               },
@@ -51,9 +51,18 @@ context('Assessment page', () => {
                   guidance: null,
                   capabilities: {
                     data: [
-                      { id: `${firstCompId}`, attributes: { text: firstCompText, guidance: { data: [] } } },
-                      { id: `${secondCompId}`, attributes: { text: 'sfdsdf', guidance: { data: [] } } },
-                      { id: `${thirdCompId}`, attributes: { text: 'sdfsfd', guidance: { data: [] } } },
+                      {
+                        id: `${firstCompId}`,
+                        attributes: { text: firstCompText, guidance: { data: [] } },
+                      },
+                      {
+                        id: `${secondCompId}`,
+                        attributes: { text: 'sfdsdf', guidance: { data: [] } },
+                      },
+                      {
+                        id: `${thirdCompId}`,
+                        attributes: { text: 'sdfsfd', guidance: { data: [] } },
+                      },
                       { id: '4', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
                       { id: '5', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
                       { id: '6', attributes: { text: 'sdfsfd', guidance: { data: [] } } },
@@ -109,12 +118,15 @@ context('Assessment page', () => {
 
   describe('Page with no competencies marked', () => {
     let getLevelEmpty = {
-      body: { 
-        data: { 
+      body: {
+        data: {
           levels: {
-            data: []
-          }
-        } 
+            data: [],
+          },
+          targets: {
+            data: [],
+          },
+        },
       },
     };
 
@@ -130,14 +142,14 @@ context('Assessment page', () => {
 
     let createLevel = {
       data: {
-        createLevel: { 
+        createLevel: {
           data: {
-            id: '614', 
+            id: '614',
             attributes: {
-              status: 'incomplete', 
-              wasQuickAssessed: false
-            }
-          }
+              status: 'incomplete',
+              wasQuickAssessed: false,
+            },
+          },
         },
       },
     };
@@ -177,15 +189,34 @@ context('Assessment page', () => {
                 wasQuickAssessed: false,
                 competencies: {
                   data: [
-                    { 
-                      id: '2863', 
-                      attributes: { 
-                        status: 'complete', 
-                        capability_fk: firstCompId 
-                      } 
-                    }
+                    {
+                      id: '2863',
+                      attributes: {
+                        status: 'complete',
+                        capability_fk: firstCompId,
+                      },
+                    },
                   ],
                 },
+              },
+            },
+          ],
+        },
+        targets: {
+          data: [],
+        },
+      },
+    };
+
+    let getCompetencies = {
+      data: {
+        competencies: {
+          data: [
+            {
+              id: '2863',
+              attributes: {
+                status: 'complete',
+                capability_fk: firstCompId,
               },
             },
           ],
@@ -193,46 +224,30 @@ context('Assessment page', () => {
       },
     };
 
-    let getCompetencies = {
-      data: { 
-        competencies: {
-          data: [
-            { 
-              id: '2863', 
-              attributes: { 
-                status: 'complete', 
-                capability_fk: firstCompId 
-              } 
-            }
-          ]
-        }
-      },
-    };
-
     let getCompetency = {
-      data: { 
+      data: {
         competencies: {
           data: [
-            { 
-              id: '2863', 
-              attributes: { 
-                status: 'complete', 
-                capability_fk: firstCompId 
-              } 
-            }
-          ]
-        }
+            {
+              id: '2863',
+              attributes: {
+                status: 'complete',
+                capability_fk: firstCompId,
+              },
+            },
+          ],
+        },
       },
     };
 
-    let updateCompetency = { 
-      data: { 
-        updateCompetency: { 
+    let updateCompetency = {
+      data: {
+        updateCompetency: {
           data: {
-            id: '2863'
-          }
-        } 
-      } 
+            id: '2863',
+          },
+        },
+      },
     };
 
     beforeEach(() => {
@@ -271,6 +286,26 @@ context('Assessment page', () => {
             },
           ],
         },
+        targets: {
+          data: [
+            {
+              id: '329',
+              attributes: {
+                initial_score: 4.2,
+                target_score: 4.6,
+                publishedAt: '2025-03-14T17:50:03.912Z',
+                pupilSubjectScore: {
+                  data: {
+                    id: '261',
+                    attributes: {
+                      current_score: 4.2,
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
     };
 
@@ -283,16 +318,16 @@ context('Assessment page', () => {
     };
 
     let updateLevel = {
-      data: { 
-        updateLevel: { 
+      data: {
+        updateLevel: {
           data: {
-            id: '615', 
+            id: '615',
             attributes: {
-              status: 'complete', 
-              wasQuickAssessed: true
-            }
-          }
-        } 
+              status: 'complete',
+              wasQuickAssessed: true,
+            },
+          },
+        },
       },
     };
 
@@ -332,21 +367,41 @@ context('Assessment page', () => {
                 wasQuickAssessed: true,
                 competencies: {
                   data: [
-                    { 
-                      id: '2863', 
-                      attributes: { 
-                        status: 'complete', 
-                        capability_fk: firstCompId 
-                      } 
+                    {
+                      id: '2863',
+                      attributes: {
+                        status: 'complete',
+                        capability_fk: firstCompId,
+                      },
                     },
-                    { 
-                      id: '2864', 
-                      attributes: { 
-                        status: 'target', 
-                        capability_fk: secondCompId 
-                      } 
+                    {
+                      id: '2864',
+                      attributes: {
+                        status: 'target',
+                        capability_fk: secondCompId,
+                      },
                     },
                   ],
+                },
+              },
+            },
+          ],
+        },
+        targets: {
+          data: [
+            {
+              id: '329',
+              attributes: {
+                initial_score: 4.2,
+                target_score: 4.6,
+                publishedAt: '2025-03-14T17:50:03.912Z',
+                pupilSubjectScore: {
+                  data: {
+                    id: '261',
+                    attributes: {
+                      current_score: 4.2,
+                    },
+                  },
                 },
               },
             },
@@ -359,32 +414,29 @@ context('Assessment page', () => {
       data: {
         competencies: {
           data: [
-            { 
-              id: '2863', 
-              attributes: { 
-                status: 'complete', 
-                capability_fk: firstCompId 
-              } 
+            {
+              id: '2863',
+              attributes: {
+                status: 'complete',
+                capability_fk: firstCompId,
+              },
             },
-            { 
-              id: '2864', 
-              attributes: { 
-                status: 'target', 
-                capability_fk: secondCompId 
-              } 
+            {
+              id: '2864',
+              attributes: {
+                status: 'target',
+                capability_fk: secondCompId,
+              },
             },
           ],
         },
       },
     };
 
-    //  let updateLevel = { data: { updateLevel: { level: { id: '615', status: 'incomplete' } } } };
-
     beforeEach(() => {
       cy.mockGraphQL([
         { query: 'getLevel', data: getLevel },
         { query: 'getCompetencies', data: getCompetencies },
-        //  { query: 'updateLevel', data: updateLevel },
       ]);
       cy.visit('/subjects/expressive-language/class-1/154');
       cy.waitForSpinners();
@@ -406,27 +458,75 @@ context('Assessment page', () => {
   // describe('Page with all competencies marked complete', () => {
   //   let getLevel = {
   //     data: {
-  //       levels: [
-  //         {
-  //           id: '615',
-  //           status: 'complete',
-  //           competencies: [
-  //             { id: '2863', status: 'complete', capability_fk: firstCompId },
-  //             { id: '2864', status: 'complete', capability_fk: secondCompId },
-  //             { id: '2865', status: 'complete', capability_fk: thirdCompId },
-  //           ],
-  //         },
-  //       ],
+  //       levels: {
+  //         data: [
+  //           {
+  //             id: '615',
+  //             attributes: {
+  //               status: 'complete',
+  //               wasQuickAssessed: false,
+  //               competencies: {
+  //                 data: [
+  //                   {
+  //                     id: '2863',
+  //                     attributes: {
+  //                       status: 'complete',
+  //                       capability_fk: firstCompId,
+  //                     },
+  //                   },
+  //                   {
+  //                     id: '2864',
+  //                     attributes: {
+  //                       status: 'complete',
+  //                       capability_fk: secondCompId,
+  //                     },
+  //                   },
+  //                   {
+  //                     id: '2865',
+  //                     attributes: {
+  //                       status: 'complete',
+  //                       capability_fk: thirdCompId,
+  //                     },
+  //                   },
+  //                 ],
+  //               },
+  //             },
+  //           },
+  //         ],
+  //       },
+  //       targets: {
+  //         data: [],
+  //       },
   //     },
   //   };
 
   //   let getCompetencies = {
   //     data: {
-  //       competencies: [
-  //         { id: '2863', status: 'complete', capability_fk: firstCompId },
-  //         { id: '2864', status: 'complete', capability_fk: secondCompId },
-  //         { id: '2865', status: 'complete', capability_fk: thirdCompId },
-  //       ],
+  //       competencies: {
+  //         data: [
+  //           {
+  //             id: '2863',
+  //             attributes: {
+  //               status: 'complete',
+  //               capability_fk: firstCompId,
+  //             },
+  //           },
+  //           {
+  //             id: '2864',
+  //             attributes: {
+  //               status: 'complete',
+  //               capability_fk: secondCompId,
+  //             },
+  //           },
+  //           {
+  //             id: '2865',
+  //             attributes: {
+  //               status: 'complete',
+  //               capability_fk: thirdCompId,
+  //             },
+  //           },
+  //         ],
+  //       },
   //     },
   //   };
 
@@ -442,6 +542,10 @@ context('Assessment page', () => {
   //   });
 
   //   it('displays 100% complete and status', () => {
+  //     cy.get('[data-test-id=level-status-status]').should('be.visible');
+  //     cy.get('[data-test-id=level-status-status]').invoke('text').then((text) => {
+  //       cy.log('Status text:', text);
+  //     });
   //     cy.get('[data-test-id=level-status-status]').contains('complete');
   //     cy.get('[data-test-id=percent-complete-label]').contains('100');
   //   });

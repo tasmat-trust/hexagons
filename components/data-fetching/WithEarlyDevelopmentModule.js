@@ -13,23 +13,23 @@ export default function WithEarlyDevelopmentModule(WrappedComponent) {
     const { data: edModulesData } = useSWR([getEdModules, getEdModulesBySubjectIdVariables], {
       suspense: true,
     });
-    let module = edModulesData.modules[0];
-    module.isTransition = true;
+    let edModule = edModulesData.modules[0];
+    edModule.isTransition = true;
     let mergedModules = [];
     if (modules && modules.length > 0) {
-      mergedModules = [module, ...modules];
+      mergedModules = [edModule, ...modules];
     } else {
-      mergedModules.push(module);
+      mergedModules.push(edModule);
     }
 
     return (
       <WrappedComponent
-        edModule={module}
+        edModule={edModule}
         edSubjectId={edSubjectId}
         pupilId={pupilId}
         getEdLevelVariables={{
           subjectId: edSubjectId,
-          moduleId: parseInt(module.id),
+          moduleId: parseInt(edModule.id),
           pupilId: pupilId,
         }}
         modules={mergedModules}

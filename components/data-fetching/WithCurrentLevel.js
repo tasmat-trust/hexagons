@@ -13,7 +13,9 @@ export default function WithCurrentLevel(WrappedComponent) {
     let latestTarget = getLatestTarget(levelsData.targets);
     console.log('LATEST TARGET', latestTarget)
     useEffect(() => {
-      setCurrentScore(latestTarget?.currentScore);
+      if (latestTarget) {
+        setCurrentScore(latestTarget?.currentScore);
+      }
     }, [latestTarget]);
     return <WrappedComponent {...other} startingLevel={startingLevel} latestTarget={latestTarget} currentScore={currentScore} setCurrentScore={setCurrentScore} />;
   }

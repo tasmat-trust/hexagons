@@ -32,11 +32,13 @@ function a11yProps(index) {
 }
 
 function StagesTabs({ isRa, modules, startingLevel, pupil, latestTarget, currentScore, ...other }) {
-  const { initialScore, targetScore, scorePublishedAt, isScoreLoading } = latestTarget;
+  console.log('StagesTabs: latestTarget =', latestTarget);
+  const { initialScore, targetScore, scorePublishedAt, isScoreLoading } = latestTarget || {};
+  console.log('StagesTabs: destructured values =', { initialScore, targetScore, scorePublishedAt, isScoreLoading });
   const [currentScoreForTargetPanel, setCurrentScoreForTargetPanel] = useState(currentScore);
 
   useEffect(() => {
-    console.log('CURRENT SCORE', currentScore);
+    console.log('CURRENT SCOR1E', currentScore);
   }, [currentScore]);
 
   const [tabValue, setTabValue] = useState(0);

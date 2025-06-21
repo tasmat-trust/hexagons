@@ -6,7 +6,7 @@ async function updateLevel(gqlClient, variables, triggerSharedState, setError) {
     const lumpyData = await gqlClient.request(updateLevelQuery, variables);
     const data = flattenDataAttributes(lumpyData);
     if (data) {
-      return data.updateLevel.level;
+      return data.updateLevel;
     }
   } catch (e) {
     //setError(e)

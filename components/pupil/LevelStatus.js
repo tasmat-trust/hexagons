@@ -148,7 +148,7 @@ function LevelStatus({
         setHasBeenQuickAssessed(level.wasQuickAssessed ? level.wasQuickAssessed : false);
       }
       if(targetCurrentScore) {
-        console.log('CURRENT SCORE', targetCurrentScore)
+        console.log('CURRENT SCORE1', targetCurrentScore)
         setCurrentScoreForTargetPanel(targetCurrentScore);
       }
     },

@@ -95,8 +95,8 @@ function ScoreDisplay({
               Initial
             </Typography>
           )}
-          <Typography className={`${classes.scoreValue} ${classes.initialScore}`}>
-            {initialScore}
+          <Typography className={`${classes.scoreValue} ${classes?.initialScore}`}>
+            {initialScore ?? 'N/A'}
           </Typography>
         </Grid>
 
@@ -107,7 +107,7 @@ function ScoreDisplay({
             </Typography>
           )}
           <Typography className={`${classes.scoreValue} ${classes.currentScore}`}>
-            {currentScore}
+            {currentScore ?? 'N/A'}
           </Typography>
         </Grid>
 
@@ -118,16 +118,16 @@ function ScoreDisplay({
             </Typography>
           )}
           <Typography className={`${classes.scoreValue} ${classes.targetScore}`}>
-            {targetScore}
+            {targetScore ?? 'N/A'}
           </Typography>
         </Grid>
       </Grid>
       <StyledSlider
         className={classes.slider}
         disabled={true}
-        value={currentScore}
-        min={initialScore}
-        max={targetScore}
+        value={currentScore ?? 0}
+        min={initialScore ?? 0}
+        max={targetScore ?? 100}
       />
     </>
   );

@@ -33,7 +33,7 @@ export default function WithLevel(WrappedComponent) {
         }
       });
     }
-    return <WrappedComponent initialVisibleLevel={correctLevel} latestTargetCurrentScore={latestTarget.currentScore} {...other} />;
+    return <WrappedComponent initialVisibleLevel={correctLevel} latestTargetCurrentScore={latestTarget?.currentScore} {...other} />;
   }
 
   WithLevel.propTypes = {
