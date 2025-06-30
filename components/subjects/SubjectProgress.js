@@ -98,9 +98,9 @@ function SubjectProgressDefault(props) {
     level = getCurrentLevel(levelData.levels);
   }
 
-  if (levelData && levelData?.targets.length !== 0) {
+  if (levelData && levelData.targets && levelData.targets.length !== 0) {
     const target = getLatestTarget(levelData.targets);
-    if (target.currentScore !== 0) {
+    if (target && target.currentScore !== 0) {
       latestTarget = target;
     }
   }

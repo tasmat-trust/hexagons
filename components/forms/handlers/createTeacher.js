@@ -31,8 +31,8 @@ async function createTeacher({ formData, gqlClient, orgId, orgs, triggerSharedSt
 
   const data = await gqlClient.request(singleTeacher, { email: formData.email });
   const flattenedData = flattenDataAttributes(data);
-  if (flattenedData) {
-    if (flattenedData.usersPermissionUser.length > 0) {
+  if (flattenedData && flattenedData.usersPermissionsUsers && flattenedData.usersPermissionsUsers.data) {
+    if (flattenedData.usersPermissionsUsers.data.length > 0) {
       result.error = 'A user with that email address already exists.';
       return result;
     }

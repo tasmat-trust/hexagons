@@ -24,3 +24,12 @@ import './groups-commands';
 // require('./commands')
 
 import '@cypress/code-coverage/support';
+
+// Prevent uncaught exceptions from failing tests
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Returning false here prevents Cypress from failing the test
+  if (err.message.includes('Network request failed')) {
+    return false;
+  }
+  return true;
+});

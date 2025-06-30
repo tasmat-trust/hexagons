@@ -11,6 +11,7 @@ function LastActiveGroup({
   isGroupPupilPicker,
   isDataExport,
   setParentGroupBreadcumbLabel,
+  shouldShowGroupBySubject,
   ...other
 }) {
   const [activeGroupSlug, setActiveGroupSlug] = useState();
@@ -58,6 +59,7 @@ function LastActiveGroup({
           setActiveGroupSlug={setActiveGroupSlug}
           setActiveGroupName={setActiveGroupName}
           setActiveGroupId={setActiveGroupId}
+          shouldShowGroupBySubject={shouldShowGroupBySubject}
         />
       )}
       {isDataExport && (
@@ -77,6 +79,7 @@ LastActiveGroup.propTypes = {
   setParentGroupBreadcumbLabel: PropTypes.func,
   isGroupSubjectPicker: PropTypes.bool,
   isGroupPupilPicker: PropTypes.bool,
+  shouldShowGroupBySubject: PropTypes.bool,
   user: PropTypes.object,
 };
 

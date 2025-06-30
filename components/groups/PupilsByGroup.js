@@ -8,7 +8,7 @@ import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/router';
 import WithGroupFromSlug from '../data-fetching/WithGroupFromSlug';
 
-function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, ...other }) {
+function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, shouldShowGroupBySubject, ...other }) {
   const router = useRouter();
   const isReportsPage = router.asPath.includes('reports');
   const { data: pupilsData } = useSWR([getPupilsByGroup, pupilsByGroupVariables], {
@@ -23,6 +23,7 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, ...
         activeGroupSlug={activeGroupSlug}
         groupName={groupName}
         sortedPupils={sortedPupils}
+        shouldShowGroupBySubject={shouldShowGroupBySubject}
         {...other}
       />
     );
@@ -41,6 +42,8 @@ function PupilsByGroup({ pupilsByGroupVariables, groupName, activeGroupSlug, ...
 PupilsByGroup.propTypes = {
   pupilsByGroupVariables: PropTypes.object,
   activeGroupSlug: PropTypes.string,
+  groupName: PropTypes.string,
+  shouldShowGroupBySubject: PropTypes.bool,
 };
 
 export default WithGroupFromSlug(PupilsByGroup);

@@ -3,11 +3,11 @@
         "subjects": {
             "data": [
                 {
-                    "id": "4",
+                    "id": "29",
                     "attributes": {
-                        "name": "DT",
-                        "slug": "dt",
-                        "isCore": false,
+                        "name": "Number",
+                        "slug": "number",
+                        "isCore": true,
                         "isChildOf": null,
                         "organization": {
                             "data": null

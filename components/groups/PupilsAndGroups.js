@@ -10,7 +10,7 @@ import CustomSuspense from '../data-fetching/CustomSuspense';
 import { Alert } from '@mui/material';
 import PupilsByGroupWithEarlyDevelopment from './PupilsByGroupWithEarlyDevelopment';
 
-function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
+function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, shouldShowGroupBySubject, ...other }) {
   const classes = useAdminPage();
   const { orgId } = useContext(HexagonsContext);
 
@@ -29,6 +29,7 @@ function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
                     {...other}
                     schoolType={schoolType}
                     activeGroupSlug={activeGroupSlug}
+                    shouldShowGroupBySubject={shouldShowGroupBySubject}
                   />
                 )}
                 {activeGroupSlug && schoolType === 'primary' && (
@@ -37,6 +38,7 @@ function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
                     schoolType={schoolType}
                     activeGroupSlug={activeGroupSlug}
                     getEarlyDevelopmentBySlugVariables={{ slug: 'transition' }}
+                    shouldShowGroupBySubject={shouldShowGroupBySubject}
                   />
                 )}
                 {!activeGroupSlug && (
@@ -55,6 +57,9 @@ function PupilsAndGroups({ activeGroupSlug, groupName, schoolType, ...other }) {
 
 PupilsAndGroups.propTypes = {
   activeGroupSlug: PropTypes.string,
+  groupName: PropTypes.string,
+  schoolType: PropTypes.string,
+  shouldShowGroupBySubject: PropTypes.bool,
 };
 
 export default PupilsAndGroups;

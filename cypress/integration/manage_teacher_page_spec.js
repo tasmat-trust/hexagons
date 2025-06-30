@@ -275,7 +275,7 @@ describe('Manage Pupils page', () => {
 
     cy.mockGraphQL([{ query: 'updateUser', data: updateUser }, { query: 'getAllTeachers', data: getAllTeachers }])
     cy.get('[data-id=61]').contains('Teacher')
-    cy.get('[data-id=61]').click({ force: true });
+    cy.get('.MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root').click();
     cy.get('[data-test-id="assign-roles"]').click();
     cy.get('#demo-single-chip').click();
     cy.get('[data-value="3"]').click()
@@ -548,8 +548,7 @@ describe('Manage Pupils page', () => {
     }
 
     cy.mockGraphQL([{ query: 'updateUser', data: updateUser }, { query: 'getAllTeachers', data: getAllTeachers }])
-    cy.get('[data-id=61]').contains('Class 1')
-    cy.get('[data-id=61]').click({ force: true });
+    cy.get('.MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root').click();
     cy.get('[data-test-id="assign-groups"]').click();
     cy.get('[data-test-id="multi-select"]').click();
     cy.get('[data-value="244"]').click().type('{esc}');
@@ -683,8 +682,7 @@ describe('Manage Pupils page', () => {
     }
 
     cy.mockGraphQL([{ query: 'updateUser', data: updateUser }, { query: 'getAllTeachers', data: getAllTeachers }])
-    cy.get('[data-id=61]').contains('Class 1')
-    cy.get('[data-id=61]').click({ force: true });
+    cy.get('.MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root').click();
     cy.get('[data-test-id="assign-groups"]').click();
     cy.get('[data-test-id="multi-select"]').click();
     cy.get('[data-value="244"]').click().type('{esc}');

@@ -1,34 +1,50 @@
 {
   "body": {
     "data": {
-      "levels": [
-        {
-          "id": "751",
-          "status": "incomplete",
-          "module": {
-            "level": "step",
-            "order": 4,
-            "capabilities": [
-              { "id": "1581" },
-              { "id": "1582" },
-              { "id": "1583" },
-              { "id": "1584" },
-              { "id": "1585" },
-              { "id": "1586" },
-              { "id": "1587" },
-              { "id": "1588" },
-              { "id": "1589" },
-              { "id": "1590" },
-              { "id": "1591" },
-              { "id": "1592" },
-              { "id": "1593" },
-              { "id": "1594" },
-              { "id": "1595" }
-            ]
-          },
-          "competencies": [{ "status": "complete" }]
-        }
-      ]
+      "levels": {
+        "data": [
+          {
+            "id": "751",
+            "attributes": {
+              "status": "incomplete",
+              "module": {
+                "data": {
+                  "attributes": {
+                    "level": "step",
+                    "order": 4,
+                    "capabilities": {
+                      "data": [
+                        { "id": "1581" },
+                        { "id": "1582" },
+                        { "id": "1583" },
+                        { "id": "1584" },
+                        { "id": "1585" },
+                        { "id": "1586" },
+                        { "id": "1587" },
+                        { "id": "1588" },
+                        { "id": "1589" },
+                        { "id": "1590" },
+                        { "id": "1591" },
+                        { "id": "1592" },
+                        { "id": "1593" },
+                        { "id": "1594" },
+                        { "id": "1595" }
+                      ]
+                    }
+                  }
+                }
+              },
+              "competencies": {
+                "data": [
+                  {
+                    "attributes": { "status": "complete" }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
     }
   }
 }
