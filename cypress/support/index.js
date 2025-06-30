@@ -28,7 +28,11 @@ import '@cypress/code-coverage/support';
 // Prevent uncaught exceptions from failing tests
 Cypress.on('uncaught:exception', (err, runnable) => {
   // Returning false here prevents Cypress from failing the test
-  if (err.message.includes('Network request failed')) {
+  if (
+    err.message.includes('Network request failed') ||
+    err.message.includes('fetch failed') ||
+    (err.cause && err.cause.code === 'ECONNREFUSED')
+  ) {
     return false;
   }
   return true;

@@ -114,14 +114,12 @@ context('Assessment page', () => {
       beforeEach(() => {
         cy.visit('/subjects/art/class-1/154');
         cy.waitForSpinners();
-        cy.waitForSpinners();
-        cy.waitForSpinners();
-        cy.waitForSpinners();
+        cy.get('[data-test-id=first-crumb]').should('be.visible');
       });
 
       it('Shows breadcrumbs, correct step/stage', () => {
-        cy.get('[data-test-id=first-crumb]').contains('Subjects');
-        cy.get('[data-test-id=third-crumb]').contains('Class 1');
+        cy.get('[data-test-id=first-crumb]').should('be.visible').contains('Subjects');
+        cy.get('[data-test-id=third-crumb]').should('be.visible').contains('Class 1');
       });
 
       it('Lets user choose a different subject from the breadcrumbs', () => {
@@ -151,12 +149,11 @@ context('Assessment page', () => {
       beforeEach(() => {
         cy.visit('/pupils/class-1/art/154');
         cy.waitForSpinners();
-        cy.waitForSpinners();
-        cy.waitForSpinners();
+        cy.get('[data-test-id=first-crumb]').should('be.visible');
       });
       it('Shows page with correct breadcrumbs', () => {
-        cy.get('[data-test-id=first-crumb]').contains('Pupils');
-        cy.get('[data-test-id=second-crumb]').contains('Class 1');
+        cy.get('[data-test-id=first-crumb]').should('be.visible').contains('Pupils');
+        cy.get('[data-test-id=second-crumb]').should('be.visible').contains('Class 1');
       });
 
       it('Lets user choose a different subject from the breadcrumbs', () => {
