@@ -1,97 +1,45 @@
 export default function handleErrors(error, setError, setLoading) {
+  let errorOutput = 'An unknown error has occurred';
+  const notifiedDeveloperMessage = ` If the problem persists, please email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`;
 
-  let errorOutput = 'An unknown error has occurred'
-  let connectionErrorMessage = 'Please check your internet connection and try again.'
-  let unknownError = 'An unknown error has occurred. Please check and try again.'
-  let econnrefused = 'The authentication server is down.'
-  let notifiedDeveloperMessage = ` If the problem persists, please email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`
-
+  // No response - likely network error
   if (!error.response) {
-    console.log(error);
-    console.log('No error.response');
-    errorMessage = connectionErrorMessage;
+    errorOutput = 'Please check your internet connection and try again.';
   }
-
-  if (error.response) {
-
-    if (!error.response.data) {
-      console.log(error.response)
-      errorOutput = connectionErrorMessage
-    }
-
-    if (error.response.data) {
-
-      if (!error.response.data.message) {
-        console.log(error)
-        console.log(error.response)
-        console.log(error.response.data);
-        console.log('No error.response.data.message');
-        errorOutput = connectionErrorMessage
+  // Has response with error data
+  else if (error.response && error.response.data) {
+    const { data } = error.response;
+    
+    // Handle Strapi authentication errors
+    if (data.error) {
+      switch (data.error.message) {
+        case 'Invalid identifier or password':
+          errorOutput = 'Incorrect email or password. Please try again.';
+          break;
+        case 'User not confirmed':
+          errorOutput = 'Please verify your email address before logging in.';
+          break;
+        default:
+          errorOutput = data.error.message;
       }
-
-      if (error.response.data.message) {
-
-        if (!Array.isArray(error.response.data.message)) {
-          console.log(error.response.data.message)
-          console.log("error.response.data.message isn't array")
-          errorOutput = unknownError;
-
-          console.log(error.response.data)
-          if (error.response.data.code === 'ECONNREFUSED') {
-            errorOutput = econnrefused
-          } else {
-            if (typeof error.response.data.message === 'object') {
-              errorOutput = error.response.data.message.code + ' error.'
-            } else { // is string
-              errorOutput = error.response.data.message
-            }
-            
-          }
-          errorOutput += notifiedDeveloperMessage
-        }
-
-        if (Array.isArray(error.response.data.message)) {
-
-          if (!error.response.data.message[0].messages) {
-            console.log(error.response.data.message[0]);
-            console.log('No error.response.data.message[0].messages');
-            errorOutput = unknownError
-          }
-
-          if (!Array.isArray(error.response.data.message[0].messages)) {
-            console.log(error.response.data.message[0].messages);
-            console.log('error.response.data.message[0].messages is not array');
-            errorOutput = unknownError
-          }
-
-          if (Array.isArray(error.response.data.message[0].messages)) {
-            if (error.response.data.message[0].messages.length > 0) {
-              if (error.response.data.message[0].messages[0].messages) {
-                errorOutput = error.response.data.message[0].messages[0].message
-              } else {
-                if (error.response.data.message[0].messages[0].message) {
-
-                  const message = error.response.data.message[0].messages[0].message
-                  errorOutput = error.response.data.message[0].messages[0].message
-                  if (message === "Email already taken") {
-                    errorOutput = "Your username or email is already registered."
-                  }
-                  
-                } else {
-                  errorOutput = unknownError
-                  console.log('!error.response.data.message[0].messages[0].message')
-                }
-              }
-            } else {
-              console.log('!error.response.data.message[0].messages.length > 0')
-              errorOutput = unknownError
-            }
-          }
-        }
+    }
+    // Handle other API errors
+    else if (data.message) {
+      if (typeof data.message === 'string') {
+        errorOutput = data.message;
+      }
+      // Handle Strapi's nested message format
+      else if (Array.isArray(data.message) && data.message[0]?.messages?.[0]?.message) {
+        errorOutput = data.message[0].messages[0].message;
       }
     }
   }
 
-  setError(errorOutput)
+  // Add developer contact message for non-auth errors
+  if (!errorOutput.includes('Incorrect email or password')) {
+    errorOutput += notifiedDeveloperMessage;
+  }
+
+  setError(errorOutput);
   setLoading(false);
 }
