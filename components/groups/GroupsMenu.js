@@ -9,43 +9,36 @@ function GroupsMenu({ userId, ...other }) {
   const classes = useAdminPage();
   const { orgId } = useContext(HexagonsContext);
   return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Card role="region" aria-live="polite" className={classes.paper}>
-            <Box className={classes.box} data-test-id="my-groups">
-              <Typography
-                data-test-id="title"
-                variant="h4"
-                component="h2"
-                className={classes.title}
-              >
-                My groups
-              </Typography>
-            </Box>
-            <CustomSuspense message="Checking groups">
-              <GroupsList
-                {...other}
-                getMyGroups={true}
-                getGroupsVariables={{ teacherId: userId, orgId }}
-              />
-            </CustomSuspense>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Card role="region" aria-live="polite" className={classes.paper}>
-            <Box className={classes.box} data-test-id="all-groups">
-              <Typography variant="h4" component="h2" className={classes.title}>
-                All groups
-              </Typography>
-            </Box>
-            <CustomSuspense message="Checking groups">
-              <GroupsList {...other} getGroupsVariables={{ orgId }} />
-            </CustomSuspense>
-          </Card>
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Card role="region" aria-live="polite" className={classes.paper}>
+          <Box className={classes.box} data-test-id="my-groups">
+            <Typography data-test-id="title" variant="h4" component="h2" className={classes.title}>
+              My groups
+            </Typography>
+          </Box>
+          <CustomSuspense message="Checking groups">
+            <GroupsList
+              {...other}
+              getMyGroups={true}
+              getGroupsVariables={{ teacherId: userId, orgId }}
+            />
+          </CustomSuspense>
+        </Card>
       </Grid>
-    </>
+      <Grid item xs={12}>
+        <Card role="region" aria-live="polite" className={classes.paper}>
+          <Box className={classes.box} data-test-id="all-groups">
+            <Typography variant="h4" component="h2" className={classes.title}>
+              All groups
+            </Typography>
+          </Box>
+          <CustomSuspense message="Checking groups">
+            <GroupsList {...other} getGroupsVariables={{ orgId }} />
+          </CustomSuspense>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 

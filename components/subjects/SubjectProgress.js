@@ -68,10 +68,12 @@ const useStyles = makeStyles((theme) => ({
   },
   initialScore: {
     color: theme.palette.grey[600],
+    marginRight: theme.spacing(2),
   },
   currentScore: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
+    marginRight: theme.spacing(2),
   },
   targetScore: {
     color: theme.palette.success.main,
@@ -99,10 +101,7 @@ function SubjectProgressDefault(props) {
   }
 
   if (levelData && levelData.targets && levelData.targets.length !== 0) {
-    const target = getLatestTarget(levelData.targets);
-    if (target && target.currentScore !== 0) {
-      latestTarget = target;
-    }
+    latestTarget = getLatestTarget(levelData.targets);
   }
 
   let label = '';
@@ -148,9 +147,9 @@ function SubjectProgressDefault(props) {
   function RightEdgeLabelTarget({ initial, current, target }) {
     return (
       <span className={classes.span}>
-        <span className={classes.initialScore}>📌 {initial}</span>  
-        <span className={classes.currentScore}>⭐ {current}</span>  
-        <span className={classes.targetScore}>🎯 {target}</span>
+        <span title="Initial score" className={classes.initialScore}>📌 {initial}</span>  
+        <span title="Current score" className={classes.currentScore}>⭐ {current}</span>  
+        <span title="Target score" className={classes.targetScore}>🎯 {target}</span>
       </span>
     );
   }
@@ -184,6 +183,7 @@ function SubjectProgressDefault(props) {
         </Typography>
 
         <StyledSlider
+          title="Current score"
           className={classes.slider}
           disabled={true}
           value={latestTarget?.currentScore ?? totalPercentComplete}

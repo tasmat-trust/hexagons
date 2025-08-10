@@ -94,7 +94,7 @@ function StagesTabs({ isRa, modules, startingLevel, pupil, latestTarget, current
           targetScore={targetScore}
           currentScore={currentScoreForTargetPanel}
           scorePublishedAt={scorePublishedAt}
-          isScoreLoading={isScoreLoading}
+          isScoreLoading={isScoreLoading} 
         />
       </Box>
       <CustomSuspense message="Loading tabs">

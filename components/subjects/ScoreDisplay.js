@@ -65,7 +65,6 @@ function ScoreDisplay({
   scorePublishedAt,
   isScoreLoading,
   currentSnapshotName,
-  isCompact,
 }) {
   const classes = useStyles();
 
@@ -90,33 +89,30 @@ function ScoreDisplay({
     <>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          {!isCompact && (
-            <Typography className={`${classes.scoreLabel}`} variant="body2">
-              Initial
-            </Typography>
-          )}
+          <Typography className={`${classes.scoreLabel}`} variant="body2">
+            📌 Initial
+          </Typography>
+
           <Typography className={`${classes.scoreValue} ${classes?.initialScore}`}>
             {initialScore ?? 'N/A'}
           </Typography>
         </Grid>
 
         <Grid item xs={4}>
-          {!isCompact && (
-            <Typography className={`${classes.scoreLabel}`} variant="body2">
-              Current
-            </Typography>
-          )}
+          <Typography className={`${classes.scoreLabel}`} variant="body2">
+          ⭐   Current
+          </Typography>
+
           <Typography className={`${classes.scoreValue} ${classes.currentScore}`}>
             {currentScore ?? 'N/A'}
           </Typography>
         </Grid>
 
         <Grid item xs={4}>
-          {!isCompact && (
-            <Typography className={`${classes.scoreLabel}`} variant="body2">
-              Target
-            </Typography>
-          )}
+          <Typography className={`${classes.scoreLabel}`} variant="body2">
+          🎯  Target
+          </Typography>
+
           <Typography className={`${classes.scoreValue} ${classes.targetScore}`}>
             {targetScore ?? 'N/A'}
           </Typography>

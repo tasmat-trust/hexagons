@@ -28,7 +28,7 @@ function Snapshots(props) {
             testId="new-snapshot"
             variant='contained'
             color='secondary'
-            text={`Create a new snapshot - individual pupil targets can then be adjusted.`}
+            text={`Create a new snapshot - please allow some time and don't refresh the page.`}
             modelname="snapshot">
             <AddNewSnapshot
               {...props}
