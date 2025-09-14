@@ -2,16 +2,16 @@
   "body": {
     "data": {
       "pupils": [
-        { "id": "102", "name": "Peter Smith", "groups": [] },
-        { "id": "103", "name": "Damilola Chukwu", "groups": [] },
-        { "id": "104", "name": "Amelia Baker", "groups": [] },
-        { "id": "105", "name": "Amelia Baker", "groups": [] },
-        { "id": "106", "name": "Amelia Baker", "groups": [] },
-        { "id": "107", "name": "Amelia Baker", "groups": [] },
-        { "id": "108", "name": "Amelia Baker", "groups": [] },
-        { "id": "104", "name": "Amelia Baker", "groups": [] },
-        { "id": "109", "name": "Amelia Baker", "groups": [] },
-        { "id": "110", "name": "Amelia Baker", "groups": [] }
+        { "id": "102", "name": "Peter Smith", "groups": [], "targetLevel": "medium" },
+        { "id": "103", "name": "Damilola Chukwu", "groups": [], "targetLevel": "small" },
+        { "id": "104", "name": "Amelia Baker", "groups": [], "targetLevel": "large" },
+        { "id": "105", "name": "Amelia Baker", "groups": [], "targetLevel": "medium" },
+        { "id": "106", "name": "Amelia Baker", "groups": [], "targetLevel": "medium" },
+        { "id": "107", "name": "Amelia Baker", "groups": [], "targetLevel": "small" },
+        { "id": "108", "name": "Amelia Baker", "groups": [], "targetLevel": "large" },
+        { "id": "104", "name": "Amelia Baker", "groups": [], "targetLevel": "medium" },
+        { "id": "109", "name": "Amelia Baker", "groups": [], "targetLevel": "medium" },
+        { "id": "110", "name": "Amelia Baker", "groups": [], "targetLevel": "large" }
       ]
     }
   }

@@ -6,7 +6,7 @@ import { SingleSelect } from './SingleSelect';
 import { useContext, useState } from 'react';
 import useSWR from 'swr';
 import { allGroups } from '../../queries/Groups';
-import { updatePupilGroups } from '../../queries/Pupils';
+import { updatePupilGroups, updatePupilTargetLevels } from '../../queries/Pupils';
 import { updateTeacherGroups, updateTeacherRole } from '../../queries/Teachers';
 import handleStrapiError from '../data-fetching/handleStrapiError';
 import { HexagonsContext } from '../data-fetching/HexagonsContext';
@@ -14,7 +14,7 @@ import { Alert } from '@mui/material';
 import roles from '../../utils/roles';
 import Loading from '../ui-globals/Loading';
 
-function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
+function AssignTo({ selectItems, updateModel, modelname, isGroups, isTargetLevel }) {
   const [loading, setLoading] = useState(false);
   const [selectValue, setSelectValue] = useState([]);
   const [errorValue, setErrorValue] = useState(false);
@@ -32,9 +32,14 @@ function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
       formData.groups = groups;
     }
 
-    if (selectItems && !isGroups) {
+    if (selectItems && !isGroups && !isTargetLevel) {
       const role = event.target['select-single-chip'].value;
       formData.role = role;
+    }
+
+    if (selectItems && isTargetLevel) {
+      const targetLevel = event.target['select-single-chip'].value;
+      formData.targetLevel = targetLevel;
     }
 
     const formResult = await updateModel(formData);
@@ -77,9 +82,17 @@ function AssignTo({ selectItems, updateModel, modelname, isGroups }) {
               setSelectValue={setSelectValue}
             />
           )}
-          {selectItems && !isGroups && (
+          {selectItems && !isGroups && !isTargetLevel && (
             <SingleSelect
               itemLabel="Roles"
+              selectItems={selectItems}
+              selectValue={selectValue}
+              setSelectValue={setSelectValue}
+            />
+          )}
+          {selectItems && isTargetLevel && (
+            <SingleSelect
+              itemLabel="Target Level"
               selectItems={selectItems}
               selectValue={selectValue}
               setSelectValue={setSelectValue}
@@ -217,4 +230,60 @@ function AssignRoleToUser(props) {
   );
 }
 
-export { AssignRoleToUser, AssignGroupsToUser };
+function AssignTargetLevelToUser(props) {
+  const { gqlClient } = useContext(HexagonsContext);
+  const { selectedUsers, allUsers, triggerSharedState } = props;
+
+  async function handleAssignToTargetLevels(formData) {
+    const promises = Promise.all(
+      selectedUsers.map(async (userId) => {
+        const currentUser = allUsers.filter((user) => parseInt(user.id) === parseInt(userId))[0];
+        const newUser = {
+          id: currentUser.id,
+          targetLevel: formData.targetLevel,
+        };
+
+        const res = await assignToTargetLevels(newUser);
+        return res;
+      })
+    );
+    return promises;
+  }
+
+  async function assignToTargetLevels(user) {
+    const variables = {
+      userId: parseInt(user.id),
+      targetLevel: user.targetLevel,
+    };
+    try {
+      const data = await gqlClient.request(updatePupilTargetLevels, variables);
+      if (data) {
+        triggerSharedState.update();
+        const response = {
+          success: true,
+        };
+        return response;
+      }
+    } catch (e) {
+      return handleStrapiError(e);
+    }
+  }
+
+  const targetLevels = [
+    { id: 'small', name: 'Small (0.2)' },
+    { id: 'medium', name: 'Medium (0.4)' },
+    { id: 'large', name: 'Large (0.5)' }
+  ];
+
+  return (
+    <AssignTo
+      {...props}
+      selectItems={targetLevels}
+      updateModel={handleAssignToTargetLevels}
+      isGroups={false}
+      isTargetLevel={true}
+    />
+  );
+}
+
+export { AssignRoleToUser, AssignGroupsToUser, AssignTargetLevelToUser };

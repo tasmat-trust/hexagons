@@ -43,6 +43,17 @@ export default function UsersGrid({
     });
   } else {
     columns.push({ field: 'name', headerName: 'Pupil', width: 130 });
+    columns.push({ 
+      field: 'targetLevel', 
+      headerName: 'Target Level', 
+      width: 120,
+      valueGetter: (params) => {
+        if (params.row.targetLevel) {
+          return params.row.targetLevel.charAt(0).toUpperCase() + params.row.targetLevel.slice(1);
+        }
+        return 'Medium'; // default
+      }
+    });
   }
 
   columns.push({

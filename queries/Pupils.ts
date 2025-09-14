@@ -1,11 +1,12 @@
 import { gql } from 'graphql-request';
 
 const createPupilQuery = gql`
-  mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!]) {
-    createPupil(data: { name: $name, groups: $groupId, organization: $orgId }) {
+  mutation createPupil($name: String!, $orgId: ID!, $groupId: [ID!], $targetLevel: ENUM_PUPIL_TARGETLEVEL) {
+    createPupil(data: { name: $name, groups: $groupId, organization: $orgId, targetLevel: $targetLevel }) {
       data {
         attributes {
           name
+          targetLevel
           groups {
             data {
               attributes {
@@ -33,6 +34,7 @@ const allPupilsWithGroups = gql`
         id
         attributes {
           name
+          targetLevel
           groups {
             data {
               id
@@ -60,6 +62,19 @@ const updatePupilGroups = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+const updatePupilTargetLevels = gql`
+  mutation updatePupilTargetLevel($userId: ID!, $targetLevel: ENUM_PUPIL_TARGETLEVEL!) {
+    updatePupil(id: $userId, data: { targetLevel: $targetLevel }) {
+      data {
+        attributes {
+          name
+          targetLevel
         }
       }
     }
@@ -496,5 +511,6 @@ export {
   createPupilQuery,
   allPupilsWithGroups,
   updatePupilGroups,
+  updatePupilTargetLevels,
   getCurrentSnapshot,
 };

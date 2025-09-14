@@ -1,6 +1,6 @@
 import DialogButton from '../ui-globals/DialogButton';
 import { AddNewUserWithGroups } from '../forms/AddNew';
-import { AssignGroupsToUser, AssignRoleToUser } from '../forms/AssignTo';
+import { AssignGroupsToUser, AssignRoleToUser, AssignTargetLevelToUser } from '../forms/AssignTo';
 import UsersGrid from '../layout/data-tables/UsersGrid';
 import { Box, Typography, Paper } from '@mui/material';
 import useAdminPage from '../../styles/useAdminPage';
@@ -62,6 +62,20 @@ function ManageUsersHeader(props) {
             <CustomSuspense message="Loading groups">
               <AssignGroupsToUser {...props} modelname="group" variables={{ orgId: orgId }} />
             </CustomSuspense>
+          </DialogButton>
+        )}
+        {multiAddVisible && userType === 'pupil' && (
+          <DialogButton
+            title={`Assign target levels to ${userType}s`}
+            variant="contained"
+            color="secondary"
+            testId="assign-target-levels"
+            className={classes.button}
+            label="Assign target levels"
+            text={`Assign target levels to ${userType}s`}
+            modelname="targetLevel"
+          >
+            <AssignTargetLevelToUser {...props} modelname="targetLevel" />
           </DialogButton>
         )}
         <DialogButton

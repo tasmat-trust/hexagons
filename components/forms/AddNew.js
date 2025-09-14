@@ -46,6 +46,7 @@ function AddNew(props) {
   const [loading, setLoading] = useState(false);
   const [selectValue, setSelectValue] = useState([]);
   const [role, setRole] = useState([]);
+  const [targetLevel, setTargetLevel] = useState('medium');
   const [nameValue, setNameValue] = useState('');
   const [textValue, setTextValue] = useState(initialTextValue ? initialTextValue : '');
   const [textAreaValue, setTextAreaValue] = useState(
@@ -141,6 +142,9 @@ function AddNew(props) {
     if (roles && role) {
       formData.role = role;
     }
+    if (modelname === 'pupil' && targetLevel) {
+      formData.targetLevel = targetLevel;
+    }
 
     const formResult = await updateHandler({
       orgs,
@@ -180,6 +184,7 @@ function AddNew(props) {
     setNameValue('');
     setTextValue('');
     setEmailValue('');
+    setTargetLevel('medium');
     setTimeout(() => {
       setSuccessValue('');
     }, 2500);
@@ -254,6 +259,18 @@ function AddNew(props) {
               selectItems={roles}
               selectValue={role}
               setSelectValue={setRole}
+            />
+          )}
+          {modelname === 'pupil' && (
+            <SingleSelect
+              itemLabel="Target Level"
+              selectItems={[
+                { id: 'small', name: 'Small (0.2)' },
+                { id: 'medium', name: 'Medium (0.4)' },
+                { id: 'large', name: 'Large (0.5)' }
+              ]}
+              selectValue={targetLevel}
+              setSelectValue={setTargetLevel}
             />
           )}
           {selectItems && (

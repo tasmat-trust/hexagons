@@ -181,7 +181,6 @@ function SubjectProgressDefault(props) {
           {level && !latestTarget && <RightEdgeLabel />}
           {levelData === undefined && <Loading message="Loading" textOnly />}
         </Typography>
-
         <StyledSlider
           title="Current score"
           className={classes.slider}

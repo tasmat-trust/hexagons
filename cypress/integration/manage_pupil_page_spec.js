@@ -39,6 +39,7 @@ describe('Manage Pupils Page: Teacher', () => {
       { query: 'createPupil' },
       { query: 'createNewGroup' },
       { query: 'updatePupil'},
+      { query: 'updatePupilTargetLevel' },
       { query: 'getGroups', data: getGroups },
       { query: 'getPupilsWithGroups', data: getPupils },
     ]);
@@ -90,6 +91,37 @@ describe('Manage Pupils Page: Teacher', () => {
     cy.get('[data-test-id=assign-to-group]').click();
     cy.wait('@gqlupdatePupilQuery').its('request.url').should('include', '/graphql');
   });
+
+  it('shows assign target levels button when pupils are selected', () => {
+    cy.selectMultipleUsers();
+    cy.get('[data-test-id=assign-target-levels]').should('be.visible');
+  });
+
+  it('Lets Teacher create new pupils with target level', () => {
+    cy.createPupilWithTargetLevel('large');
+  });
+
+  it('Lets Teacher create new pupils with default target level (medium)', () => {
+    cy.createPupilWithTargetLevel();
+  });
+
+  it('Shows target level column in pupils table', () => {
+    cy.get('.MuiDataGrid-root').should('be.visible');
+    cy.get('[data-field="targetLevel"]').should('be.visible');
+    cy.get('.MuiDataGrid-root').contains('Target Level');
+  });
+
+  it('Displays different target levels in the table', () => {
+    // Check that different target levels are displayed
+    cy.get('.MuiDataGrid-root').contains('Small');
+    cy.get('.MuiDataGrid-root').contains('Medium'); 
+    cy.get('.MuiDataGrid-root').contains('Large');
+  });
+
+  it('Lets Teacher assign multiple pupils to target levels', () => {
+    cy.selectMultipleUsers();
+    cy.assignTargetLevelsToSelectedPupils('small');
+  });
 });
 
 describe('Manage Pupils Page: Leader', () => {
@@ -103,6 +135,7 @@ describe('Manage Pupils Page: Leader', () => {
     cy.mockGraphQL([
       { query: 'createPupil' },
       { query: 'updatePupil' },
+      { query: 'updatePupilTargetLevel' },
       { query: 'createNewGroup' },
       { query: 'getGroups', data: getGroups },
       { query: 'getPupilsWithGroups', data: getPupils },
@@ -119,5 +152,11 @@ describe('Manage Pupils Page: Leader', () => {
     cy.get('[data-test-id=delete-pupil]').click();
     cy.get('[data-test-id=definitely-delete-pupil]').click();
     cy.wait('@gqlDeletePupilQuery').its('request.url').should('include', '/graphql');
+  });
+
+  it('Lets Leader assign target levels to multiple pupils', () => {
+    cy.selectMultipleUsers();
+    cy.get('[data-test-id=assign-target-levels]').should('be.visible');
+    cy.assignTargetLevelsToSelectedPupils('large');
   });
 });

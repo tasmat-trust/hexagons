@@ -8,7 +8,8 @@ async function createPupil({ formData, gqlClient, orgId, triggerSharedState }) {
   const variables = {
     name: formData.name,
     orgId: orgId,
-    groupId: formData.groups
+    groupId: formData.groups,
+    targetLevel: formData.targetLevel || 'medium' // default to medium
   }
   try {
     const data = await gqlClient.request(createPupilQuery, variables)
